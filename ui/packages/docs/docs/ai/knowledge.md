@@ -117,8 +117,8 @@ import { aiApi } from '@/api/ai'
 
 const uploadKnowledge = async () => {
   const data = {
-    title: 'Gobee 介绍',
-    content: 'Gobee 是一款高性能、高稳定性、易扩展的内容管理系统...',
+    title: 'Hoshikuzu 介绍',
+    content: 'Hoshikuzu 是一款高性能、高稳定性、易扩展的内容管理系统...',
     category: '产品介绍'
   }
   
@@ -134,7 +134,7 @@ import { aiApi } from '@/api/ai'
 
 const searchKnowledge = async () => {
   const data = {
-    query: 'Gobee 的特性',
+    query: 'Hoshikuzu 的特性',
     limit: 5
   }
   
@@ -150,7 +150,7 @@ import { aiApi } from '@/api/ai'
 
 const askQuestion = async () => {
   const data = {
-    question: 'Gobee 支持哪些数据库？'
+    question: 'Hoshikuzu 支持哪些数据库？'
   }
   
   const result = await aiApi.knowledgeQa(data)

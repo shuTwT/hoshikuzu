@@ -1,4 +1,4 @@
-import { Api, HttpClient, type RequestParams } from '@gobee/api-client'
+import { Api, HttpClient, type RequestParams } from '@hoshikuzu/api-client'
 import type { AxiosResponse } from 'axios'
 import { getToken } from "@/utils/auth"
 

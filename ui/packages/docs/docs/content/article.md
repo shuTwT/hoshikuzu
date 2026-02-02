@@ -1,6 +1,6 @@
 # 内容管理模块 - 文章
 
-内容管理模块是 Gobee 的核心功能之一，提供完整的文章管理能力，包括文章的创建、编辑、发布、分类、标签等功能。
+内容管理模块提供完整的文章管理能力，包括文章的创建、编辑、发布、分类、标签等功能。
 
 ## 功能特性
 
@@ -173,9 +173,9 @@ import { articleApi } from '@/api/content/article'
 
 const createArticle = async () => {
   const data = {
-    title: '如何使用 Gobee',
-    content: '# Gobee 使用指南\n\nGobee 是一款高性能的内容管理系统...',
-    summary: 'Gobee 使用指南',
+    title: '如何使用 Hoshikuzu',
+    content: '# Hoshikuzu 使用指南\n\nHoshikuzu 是一款高性能的内容管理系统...',
+    summary: 'Hoshikuzu 使用指南',
     category_id: 1,
     tag_ids: [1, 2],
     status: 'published'

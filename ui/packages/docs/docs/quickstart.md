@@ -1,6 +1,6 @@
 # 快速开始
 
-本指南将帮助您快速搭建和运行 Gobee 系统。
+本指南将帮助您快速搭建和运行 Hoshikuzu 系统。
 
 ## 环境要求
 
@@ -20,8 +20,8 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/your-org/gobee.git
-cd gobee
+git clone https://github.com/your-org/hoshikuzu.git
+cd hoshikuzu
 ```
 
 ### 2. 后端安装
@@ -41,7 +41,7 @@ database:
   driver: mysql
   host: localhost
   port: 3306
-  name: gobee
+  name: hoshikuzu
   username: root
   password: your_password
 
@@ -104,7 +104,7 @@ npm run dev
 
 ### 访问管理后台
 
-打开浏览器访问 `http://localhost:5732`，您将看到 Gobee 的管理后台界面。
+打开浏览器访问 `http://localhost:5732`，您将看到 Hoshikuzu 的管理后台界面。
 
 ### 测试 API 接口
 
@@ -119,7 +119,7 @@ curl http://localhost:13000/api/v1/health
 ```json
 {
   "status": "ok",
-  "message": "Gobee is running"
+  "message": "Hoshikuzu is running"
 }
 ```
 

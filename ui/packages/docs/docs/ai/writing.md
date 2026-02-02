@@ -102,7 +102,7 @@ import { aiApi } from '@/api/ai'
 
 const generateArticle = async () => {
   const data = {
-    prompt: '写一篇关于 Gobee 的介绍文章',
+    prompt: '写一篇关于 Hoshikuzu 的介绍文章',
     type: 'article',
     length: 1000
   }

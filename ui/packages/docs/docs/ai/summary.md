@@ -32,7 +32,7 @@ POST /api/v1/ai/summary
   "code": 0,
   "message": "success",
   "data": {
-    "summary": "Gobee 是一款高性能、高稳定性、易扩展的内容管理系统，采用现代化的技术栈构建。",
+    "summary": "Hoshikuzu 是一款高性能、高稳定性、易扩展的内容管理系统，采用现代化的技术栈构建。",
     "original_length": 1000,
     "summary_length": 50
   }
@@ -48,7 +48,7 @@ import { aiApi } from '@/api/ai'
 
 const generateSummary = async () => {
   const data = {
-    content: 'Gobee 是一款高性能、高稳定性、易扩展的内容管理系统，采用现代化的技术栈构建，为开发者提供强大的内容管理和业务扩展能力。Gobee 基于 GoFiber 框架构建，提供出色的并发处理能力和响应速度。'
+    content: 'Hoshikuzu 是一款高性能、高稳定性、易扩展的内容管理系统，采用现代化的技术栈构建，为开发者提供强大的内容管理和业务扩展能力。Hoshikuzu 基于 GoFiber 框架构建，提供出色的并发处理能力和响应速度。'
   }
   
   const result = await aiApi.summary(data)

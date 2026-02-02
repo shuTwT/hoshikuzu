@@ -47,7 +47,7 @@ type Theme struct {
 	ConfigMapName string `json:"config_map_name,omitempty"`
 	// 版本号
 	Version string `json:"version,omitempty"`
-	// 要求的gobee版本
+	// 要求的程序版本
 	Require string `json:"require,omitempty"`
 	// 许可证
 	License string `json:"license,omitempty"`

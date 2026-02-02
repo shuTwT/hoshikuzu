@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { Language } from '@vicons/ionicons5'
-import deltaQrcode from '@/assets/imgs/svg/delta-qrcode.svg'
 const currentLanguage = ref('zh-CN')
 const languageOptions = [
   { label: '简体中文', key: 'zh-CN' },
@@ -47,7 +46,7 @@ const handleLanguageChange = (key: string) => {
     </div>
     <!-- 底部信息 -->
     <div class="text-center mt-6 text-gray-500 text-sm absolute bottom-4">
-      <p>© 2024 GoBee. All rights reserved.</p>
+      <p>© 2026 Hoshikuzu. All rights reserved.</p>
     </div>
   </div>
 </template>

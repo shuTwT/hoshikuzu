@@ -69,7 +69,7 @@ ai:
 | driver | string | 数据库驱动类型 (mysql/postgres) | mysql |
 | host | string | 数据库主机地址 | localhost |
 | port | int | 数据库端口 | 3306 |
-| name | string | 数据库名称 | gobee |
+| name | string | 数据库名称 | hoshikuzu |
 | username | string | 数据库用户名 | root |
 | password | string | 数据库密码 | - |
 
@@ -148,12 +148,12 @@ ai:
 
 ## 环境变量
 
-除了配置文件，Gobee 也支持通过环境变量进行配置：
+除了配置文件，Hoshikuzu 也支持通过环境变量进行配置：
 
 ```bash
 export DB_HOST=localhost
 export DB_PORT=3306
-export DB_NAME=gobee
+export DB_NAME=hoshikuzu
 export DB_USERNAME=root
 export DB_PASSWORD=your_password
 export SERVER_PORT=13000
@@ -185,9 +185,9 @@ export JWT_SECRET=your_jwt_secret
 
 ## 配置验证
 
-启动服务时，Gobee 会自动验证配置文件的正确性。如果配置有误，服务将无法启动并显示错误信息。
+启动服务时，Hoshikuzu 会自动验证配置文件的正确性。如果配置有误，服务将无法启动并显示错误信息。
 
 ## 相关文档
 
-- [快速开始](quickstart.md) - 快速搭建 Gobee 系统
+- [快速开始](quickstart.md) - 快速搭建 Hoshikuzu 系统
 - [开发指南](dev/integration.md) - 前台项目接入指南

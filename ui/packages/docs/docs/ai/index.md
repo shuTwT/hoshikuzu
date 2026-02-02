@@ -1,6 +1,6 @@
 # AI 模块
 
-AI 模块是 Gobee 的核心功能之一，提供强大的 AI 能力，包括 AI 摘要、AI 播客、AI 写作、AI 知识库等功能。
+AI 模块是 Hoshikuzu 的核心功能之一，提供强大的 AI 能力，包括 AI 摘要、AI 播客、AI 写作、AI 知识库等功能。
 
 ## 功能特性
 
@@ -166,7 +166,7 @@ import { aiApi } from '@/api/ai'
 
 const generateSummary = async () => {
   const data = {
-    content: 'Gobee 是一款高性能、高稳定性、易扩展的内容管理系统...',
+    content: 'Hoshikuzu 是一款高性能、高稳定性、易扩展的内容管理系统...',
     max_length: 100
   }
   
@@ -182,7 +182,7 @@ import { aiApi } from '@/api/ai'
 
 const generatePodcast = async () => {
   const data = {
-    content: 'Gobee 是一款高性能、高稳定性、易扩展的内容管理系统...',
+    content: 'Hoshikuzu 是一款高性能、高稳定性、易扩展的内容管理系统...',
     voice: 'male'
   }
   
@@ -198,7 +198,7 @@ import { aiApi } from '@/api/ai'
 
 const aiWriting = async () => {
   const data = {
-    prompt: '写一篇关于 Gobee 的介绍文章',
+    prompt: '写一篇关于 Hoshikuzu 的介绍文章',
     type: 'article'
   }
   
@@ -214,7 +214,7 @@ import { aiApi } from '@/api/ai'
 
 const knowledgeQuery = async () => {
   const data = {
-    question: 'Gobee 支持哪些数据库？'
+    question: 'Hoshikuzu 支持哪些数据库？'
   }
   
   const result = await aiApi.knowledge(data)

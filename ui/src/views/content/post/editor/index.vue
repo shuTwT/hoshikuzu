@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import * as postApi from '@/api/content/post'
 import { usePostHook } from '../utils/hook'
 import { MdCatalog, MdPreview } from 'md-editor-v3'
-import {register} from "@gobee/md-kit/src/index"
+import {register} from "@hoshikuzu/md-kit/src/index"
 
 const { settingPost, savePost, publishPost, unpublishPost, importPost } = usePostHook()
 
@@ -120,7 +120,7 @@ onMounted(() => {
     <n-modal v-model:show="showPreview" preset="card" style="height: 100vh">
       <div class="w-full h-full"  tabindex="1">
         <n-scrollbar style="height: calc(100vh - 80px);">
-          <MdPreview  v-html="valueHtml"/>
+          <MdPreview  :model-value="valueHtml"/>
       </n-scrollbar>
       </div>
     </n-modal>

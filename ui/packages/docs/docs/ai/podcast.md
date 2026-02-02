@@ -49,7 +49,7 @@ import { aiApi } from '@/api/ai'
 
 const generatePodcast = async () => {
   const data = {
-    content: 'Gobee 是一款高性能、高稳定性、易扩展的内容管理系统。'
+    content: 'Hoshikuzu 是一款高性能、高稳定性、易扩展的内容管理系统。'
   }
   
   const result = await aiApi.podcast(data)

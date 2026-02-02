@@ -8,10 +8,10 @@ importers:
 
   .:
     dependencies:
-      '@gobee/api-client':
+      '@hoshikuzu/api-client':
         specifier: workspace:*
         version: link:packages/api-client
-      '@gobee/md-kit':
+      '@hoshikuzu/md-kit':
         specifier: workspace:*
         version: link:packages/md-kit
       '@types/js-cookie':

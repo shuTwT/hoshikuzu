@@ -80,7 +80,7 @@ func initFrontendRoutes(app *fiber.App, serviceMap pkg.ServiceMap) {
 			return serviceMap.ThemeService.GetEnabledTheme(ctx)
 		}
 
-		themeName := "gobee-theme-" + previewName
+		themeName := "hoshikuzu-theme-" + previewName
 		theme, err := serviceMap.ThemeService.QueryThemeByName(ctx, themeName)
 		if err != nil {
 			log.Printf("获取预览主题失败: %v", err)

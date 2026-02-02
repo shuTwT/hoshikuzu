@@ -429,7 +429,7 @@ func validateThemeConfig(config *model.ThemeConfig) error {
 }
 
 func (s *ThemeServiceImpl) RegisterDefaultTheme(ctx context.Context) error {
-	themeDir := "./data/themes/gobee-theme-ace"
+	themeDir := "./data/themes/hoshikuzu-theme-ace"
 	themeConfigPath := filepath.Join(themeDir, "theme.yaml")
 
 	// Check if theme.yaml exists
