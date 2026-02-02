@@ -1,6 +1,6 @@
 # 配置
 
-Gobee 的配置文件采用 YAML 格式，位于项目根目录的 `config.yaml` 文件中。
+Hoshikuzu 的配置文件采用 YAML 格式，位于项目根目录的 `config.yaml` 文件中。
 
 ## 配置文件结构
 
@@ -9,7 +9,7 @@ database:
   driver: mysql
   host: localhost
   port: 3306
-  name: gobee
+  name: hoshikuzu
   username: root
   password: your_password
 

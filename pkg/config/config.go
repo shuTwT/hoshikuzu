@@ -63,7 +63,7 @@ func Init() {
 	viper.SetConfigType("toml")
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("./data")
-	viper.AddConfigPath("$HOME/.gobee")
+	viper.AddConfigPath("$HOME/.hoshikuzu")
 	viper.AutomaticEnv()
 
 	for _, key := range configKeys {

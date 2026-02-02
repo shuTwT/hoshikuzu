@@ -2,17 +2,17 @@ name = "Setting"
 description = "系统设置"
 
 [[meta.permissions]]
-scope = "gobee:setting:view"
+scope = "hoshikuzu:setting:view"
 title = "系统设置查看"
 
 [[meta.permissions]]
-scope = "gobee:setting:create"
+scope = "hoshikuzu:setting:create"
 title = "系统设置创建"
 
 [[meta.permissions]]
-scope = "gobee:setting:update"
+scope = "hoshikuzu:setting:update"
 title = "系统设置更新"
 
 [[meta.permissions]]
-scope = "gobee:setting:delete"
+scope = "hoshikuzu:setting:delete"
 title = "系统设置删除"

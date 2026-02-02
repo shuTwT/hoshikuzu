@@ -2,17 +2,17 @@ name = "Album"
 description = "相册"
 
 [[meta.permissions]]
-scope = "gobee:album:view"
+scope = "hoshikuzu:album:view"
 title = "相册查看"
 
 [[meta.permissions]]
-scope = "gobee:album:create"
+scope = "hoshikuzu:album:create"
 title = "相册创建"
 
 [[meta.permissions]]
-scope = "gobee:album:update"
+scope = "hoshikuzu:album:update"
 title = "相册更新"
 
 [[meta.permissions]]
-scope = "gobee:album:delete"
+scope = "hoshikuzu:album:delete"
 title = "相册删除"

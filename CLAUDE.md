@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-GoBee is a modern Content Management System (CMS) built with Go 1.25+ and Fiber web framework. It features a clean, modular architecture with comprehensive content management capabilities, user management, payment integration, and a Vue.js 3 frontend.
+Hoshikuzu is a modern Content Management System (CMS) built with Go 1.25+ and Fiber web framework. It features a clean, modular architecture with comprehensive content management capabilities, user management, payment integration, and a Vue.js 3 frontend.
 
 ## Development Commands
 
@@ -55,7 +55,7 @@ go run main.go
 ### Project Structure
 
 ```
-gobee/
+hoshikuzu/
 ├── cmd/              # Application entry point
 │   └── server.go     # Fiber server initialization
 ├── internal/         # Private application code

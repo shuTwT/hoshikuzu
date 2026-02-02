@@ -5,7 +5,7 @@
 ## 📝 贡献方式
 
 ### 🐛 报告问题
-- 在 [Issues](https://github.com/shuTwT/gobee/issues) 页面搜索是否已存在相关问题
+- 在 [Issues](https://github.com/shuTwT/hoshikuzu/issues) 页面搜索是否已存在相关问题
 - 创建新 Issue 时，请使用我们提供的模板
 - 详细描述问题复现步骤和环境信息
 
@@ -20,7 +20,7 @@
    ```bash
    # 点击 GitHub 上的 Fork 按钮
    # 然后克隆你 Fork 的仓库
-   git clone https://github.com/shuTwT/gobee.git
+   git clone https://github.com/shuTwT/hoshikuzu.git
    ```
 
 2. **创建特性分支**

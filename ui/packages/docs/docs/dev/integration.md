@@ -1,10 +1,10 @@
 # 开发指南 - 前台项目接入
 
-本指南将帮助您将 Gobee 的功能接入到前台项目中。
+本指南将帮助您将 Hoshikuzu 的功能接入到前台项目中。
 
 ## 概述
 
-Gobee 提供了完整的 RESTful API，可以轻松接入到各种前台项目中，包括 Web 应用、移动应用等。
+Hoshikuzu 提供了完整的 RESTful API，可以轻松接入到各种前台项目中，包括 Web 应用、移动应用等。
 
 ## API 基础
 
@@ -19,7 +19,7 @@ Gobee 提供了完整的 RESTful API，可以轻松接入到各种前台项目�
 
 ### 认证方式
 
-Gobee 使用 JWT 进行身份认证。
+Hoshikuzu 使用 JWT 进行身份认证。
 
 #### 获取 Token
 

@@ -76,6 +76,6 @@
 
 **让我们共同维护一个友好、包容和专业的社区环境！**
 
-Made with ❤️ by the GoBee Community
+Made with ❤️ by the Hoshikuzu Community
 
 </div>

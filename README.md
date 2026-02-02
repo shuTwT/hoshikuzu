@@ -1,10 +1,10 @@
-# 🐝 GoBee - 现代化内容管理系统
+# 🐝 Hoshikuzu - 现代化内容管理系统
 
 > 🌟 一个基于 Go 语言开发的超现代化 CMS 系统，让你的内容管理变得轻松愉快！
 
 ## 📋 项目概述
 
-GoBee 是一个基于 **Go 1.25+** 和 **Fiber v2.52.9 框架** 开发的现代化内容管理系统（CMS），专为开发者打造的高效、灵活、易扩展的内容管理解决方案。支持内容模型管理、用户系统、支付集成、AI助手等丰富功能，前后端分离架构让你的开发体验飞起来！🚀
+Hoshikuzu 是一个基于 **Go 1.25+** 和 **Fiber v2.52.9 框架** 开发的现代化内容管理系统（CMS），专为开发者打造的高效、灵活、易扩展的内容管理解决方案。支持内容模型管理、用户系统、支付集成、AI助手等丰富功能，前后端分离架构让你的开发体验飞起来！🚀
 
 ### ✨ 核心亮点
 
@@ -39,7 +39,7 @@ GoBee 是一个基于 **Go 1.25+** 和 **Fiber v2.52.9 框架** 开发的现代�
 
 ```bash
 git clone https://github.com/shuTwT/hoshikuzu.git
-cd gobee
+cd hoshikuzu
 ```
 
 #### 2. 安装后端依赖
@@ -135,8 +135,8 @@ SECRET=your-super-secret-jwt-key-here
 | 数据库类型 | 连接字符串示例 |
 |------------|----------------|
 | SQLite | `file:ent?mode=memory&cache=shared&_fk=1` |
-| MySQL | `mysql://user:password@localhost:3306/gobee` |
-| PostgreSQL | `postgres://user:password@localhost:5432/gobee` |
+| MySQL | `mysql://user:password@localhost:3306/hoshikuzu` |
+| PostgreSQL | `postgres://user:password@localhost:5432/hoshikuzu` |
 
 ### 🎯 功能模块详解
 
@@ -182,7 +182,7 @@ SECRET=your-super-secret-jwt-key-here
 
 #### 后端架构
 ```
-gobee/
+hoshikuzu/
 ├── cmd/                    # 命令行工具
 │   ├── server/            # 服务器启动入口
 │   └── plugindemo/        # 插件示例
@@ -265,7 +265,7 @@ ui/
 ```
 MIT License
 
-Copyright (c) 2024 GoBee Contributors
+Copyright (c) 2024 Hoshikuzu Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -290,7 +290,7 @@ SOFTWARE.
 
 ## 🤝 参与贡献
 
-我们欢迎所有形式的贡献！如果你想为 GoBee 项目做出贡献，请查看我们的 [贡献指南](CONTRIBUTING.md) 了解详情。
+我们欢迎所有形式的贡献！如果你想为 Hoshikuzu 项目做出贡献，请查看我们的 [贡献指南](CONTRIBUTING.md) 了解详情。
 
 ## 📋 行为准则
 
@@ -298,7 +298,7 @@ SOFTWARE.
 
 ## 🙏 致谢
 
-GoBee 项目的成功离不开以下优秀开源项目的支持，在此表示衷心感谢！
+Hoshikuzu 项目的成功离不开以下优秀开源项目的支持，在此表示衷心感谢！
 
 | 项目名称 | 用途 | 许可证 |
 |----------|------|--------|
@@ -319,7 +319,7 @@ GoBee 项目的成功离不开以下优秀开源项目的支持，在此表示�
 
 ## 📞 支持与联系
 
-如果你在使用 GoBee 过程中遇到问题，或者有任何建议，欢迎通过以下方式联系我们：
+如果你在使用 Hoshikuzu 过程中遇到问题，或者有任何建议，欢迎通过以下方式联系我们：
 
 - 🐛 **问题反馈**: [提交 Issue](https://github.com/shuTwT/hoshikuzu/issues)
 - 💬 **讨论交流**: [加入 Discussions](https://github.com/shuTwT/hoshikuzu/discussions)
@@ -330,8 +330,8 @@ GoBee 项目的成功离不开以下优秀开源项目的支持，在此表示�
 
 <div align="center">
 
-**🎉 让 GoBee 成为你内容管理的最佳伙伴！**
+**🎉 让 Hoshikuzu 成为你内容管理的最佳伙伴！**
 
-<!-- Made with ❤️ by the GoBee Community -->
+<!-- Made with ❤️ by the Hoshikuzu Community -->
 
 </div>

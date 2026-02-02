@@ -16,7 +16,7 @@ import (
 var handshakeConfig = plugin.HandshakeConfig{
 	ProtocolVersion:  1,
 	MagicCookieKey:   "GO_PLUGIN",
-	MagicCookieValue: "gobee",
+	MagicCookieValue: "hoshikuzu",
 }
 
 var pluginMap = map[string]plugin.Plugin{

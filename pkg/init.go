@@ -49,8 +49,8 @@ import (
 
 func ExtractDefaultTheme(assetsRes embed.FS) {
 	themeDir := "./data/themes"
-	defaultThemePath := "./data/themes/gobee-theme-ace"
-	sourceThemePath := "assets/themes/gobee-theme-ace"
+	defaultThemePath := "./data/themes/hoshikuzu-theme-ace"
+	sourceThemePath := "assets/themes/hoshikuzu-theme-ace"
 
 	if _, err := os.Stat(defaultThemePath); err == nil {
 		slog.Info("Default theme already exists", "path", defaultThemePath)

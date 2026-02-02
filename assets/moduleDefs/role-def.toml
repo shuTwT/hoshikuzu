@@ -2,17 +2,17 @@ name = "Role"
 description = "角色"
 
 [[meta.permissions]]
-scope = "gobee:role:view"
+scope = "hoshikuzu:role:view"
 title = "角色查看"
 
 [[meta.permissions]]
-scope = "gobee:role:create"
+scope = "hoshikuzu:role:create"
 title = "角色创建"
 
 [[meta.permissions]]
-scope = "gobee:role:update"
+scope = "hoshikuzu:role:update"
 title = "角色更新"
 
 [[meta.permissions]]
-scope = "gobee:role:delete"
+scope = "hoshikuzu:role:delete"
 title = "角色删除"

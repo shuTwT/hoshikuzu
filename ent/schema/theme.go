@@ -30,7 +30,7 @@ func (Theme) Fields() []ent.Field {
 		field.String("setting_name").MaxLen(100).Optional().Comment("设置名称"),
 		field.String("config_map_name").MaxLen(100).Optional().Comment("配置映射名称"),
 		field.String("version").NotEmpty().MaxLen(20).Comment("版本号"),
-		field.String("require").MaxLen(50).Default("*").Comment("要求的gobee版本"),
+		field.String("require").MaxLen(50).Default("*").Comment("要求的程序版本"),
 		field.String("license").MaxLen(50).Optional().Comment("许可证"),
 		field.String("path").MaxLen(255).Optional().Comment("主题文件路径(内部主题)"),
 		field.String("external_url").MaxLen(500).Optional().Comment("外部主题URL地址"),

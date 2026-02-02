@@ -10,7 +10,7 @@
  - [ ] ssr支持
  - [ ] 多主题
         ``` 
-        gobee-theme-xxx
+        hoshikuzu-theme-xxx
         |---templates
         |   |---assets/ 静态资源
         |       |---css/

@@ -72,7 +72,7 @@ version: "1.0.0"
 description: "这是一个示例插件"
 protocol_version: "1"
 magic_cookie_key: "GO_PLUGIN"
-magic_cookie_value: "gobee"
+magic_cookie_value: "Hoshikuzu"
 dependencies:
   - "storage-plugin"
 config: '{"timeout": 30}'

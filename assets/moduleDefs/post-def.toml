@@ -2,17 +2,17 @@ name = "Post"
 description = "文章"
 
 [[meta.permissions]]
-scope = "gobee:post:view"
+scope = "hoshikuzu:post:view"
 title = "文章阅读"
 
 [[meta.permissions]]
-scope = "gobee:post:create"
+scope = "hoshikuzu:post:create"
 title = "文章创建"
 
 [[meta.permissions]]
-scope = "gobee:post:update"
+scope = "hoshikuzu:post:update"
 title = "文章更新"
 
 [[meta.permissions]]
-scope = "gobee:post:delete"
+scope = "hoshikuzu:post:delete"
 title = "文章删除"

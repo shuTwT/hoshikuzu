@@ -7,7 +7,7 @@ node_modules
 
 /data/*
 !/data/.gitkeep
-/gobee
+/hoshikuzu
 /main
 /dist
 /.env
