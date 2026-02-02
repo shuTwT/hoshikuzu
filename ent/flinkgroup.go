@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/flinkgroup"
+	"github.com/shuTwT/hoshikuzu/ent/flinkgroup"
 )
 
 // FLinkGroup is the model entity for the FLinkGroup schema.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/visitlog"
+	"github.com/shuTwT/hoshikuzu/ent/visitlog"
 )
 
 // VisitLogCreate is the builder for creating a VisitLog entity.

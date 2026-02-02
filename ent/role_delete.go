@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/predicate"
-	"github.com/shuTwT/gobee/ent/role"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/role"
 )
 
 // RoleDelete is the builder for deleting a Role entity.

@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"time"
 
-	comment_service "github.com/shuTwT/gobee/internal/services/content/comment"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	comment_service "github.com/shuTwT/hoshikuzu/internal/services/content/comment"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

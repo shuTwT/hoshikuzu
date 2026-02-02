@@ -10,9 +10,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/post"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/post"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/yuin/goldmark"

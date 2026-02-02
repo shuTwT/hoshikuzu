@@ -3,8 +3,8 @@ package setting
 import (
 	"context"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/setting"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/setting"
 )
 
 var SettingKeys = struct {

@@ -3,9 +3,9 @@ package essay
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/internal/middleware"
-	"github.com/shuTwT/gobee/internal/services/content/essay"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/internal/middleware"
+	"github.com/shuTwT/hoshikuzu/internal/services/content/essay"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

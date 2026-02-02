@@ -6,7 +6,7 @@ package model
 import (
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
+	"github.com/shuTwT/hoshikuzu/ent"
 )
 
 // UserCreateReq represents the request body for creating a user.

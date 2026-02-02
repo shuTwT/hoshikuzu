@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/category"
+	"github.com/shuTwT/hoshikuzu/ent/category"
 )
 
 // Category is the model entity for the Category schema.

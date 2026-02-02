@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/shuTwT/gobee/ent"
+	"github.com/shuTwT/hoshikuzu/ent"
 )
 
 // The AlbumFunc type is an adapter to allow the use of ordinary

@@ -3,10 +3,10 @@ package member
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	member_service "github.com/shuTwT/gobee/internal/services/mall/member"
-	user_service "github.com/shuTwT/gobee/internal/services/system/user"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	member_service "github.com/shuTwT/hoshikuzu/internal/services/mall/member"
+	user_service "github.com/shuTwT/hoshikuzu/internal/services/system/user"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

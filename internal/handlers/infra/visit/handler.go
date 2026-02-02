@@ -3,9 +3,9 @@ package visit
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/internal/services/infra/visit"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/internal/services/infra/visit"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

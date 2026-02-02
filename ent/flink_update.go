@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/flink"
-	"github.com/shuTwT/gobee/ent/flinkgroup"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/flink"
+	"github.com/shuTwT/hoshikuzu/ent/flinkgroup"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // FLinkUpdate is the builder for updating FLink entities.

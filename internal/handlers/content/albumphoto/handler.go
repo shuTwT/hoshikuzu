@@ -3,9 +3,9 @@ package albumphoto
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	albumphotoservice "github.com/shuTwT/gobee/internal/services/content/albumphoto"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	albumphotoservice "github.com/shuTwT/hoshikuzu/internal/services/content/albumphoto"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

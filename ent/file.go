@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/file"
-	"github.com/shuTwT/gobee/ent/storagestrategy"
+	"github.com/shuTwT/hoshikuzu/ent/file"
+	"github.com/shuTwT/hoshikuzu/ent/storagestrategy"
 )
 
 // File is the model entity for the File schema.

@@ -5,10 +5,10 @@ import (
 	"errors"
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/user"
-	"github.com/shuTwT/gobee/pkg/config"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/user"
+	"github.com/shuTwT/hoshikuzu/pkg/config"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"

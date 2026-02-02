@@ -12,9 +12,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/doclibrary"
-	"github.com/shuTwT/gobee/ent/doclibrarydetail"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/doclibrary"
+	"github.com/shuTwT/hoshikuzu/ent/doclibrarydetail"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // DocLibraryQuery is the builder for querying DocLibrary entities.

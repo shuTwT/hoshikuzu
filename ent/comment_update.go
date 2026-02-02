@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/comment"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/comment"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // CommentUpdate is the builder for updating Comment entities.

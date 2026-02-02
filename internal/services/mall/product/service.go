@@ -7,10 +7,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/product"
-	"github.com/shuTwT/gobee/pkg/cache"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/product"
+	"github.com/shuTwT/hoshikuzu/pkg/cache"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type ProductService interface {

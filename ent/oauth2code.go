@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/oauth2code"
+	"github.com/shuTwT/hoshikuzu/ent/oauth2code"
 )
 
 // Oauth2Code is the model entity for the Oauth2Code schema.

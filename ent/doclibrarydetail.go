@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/doclibrary"
-	"github.com/shuTwT/gobee/ent/doclibrarydetail"
+	"github.com/shuTwT/hoshikuzu/ent/doclibrary"
+	"github.com/shuTwT/hoshikuzu/ent/doclibrarydetail"
 )
 
 // DocLibraryDetail is the model entity for the DocLibraryDetail schema.

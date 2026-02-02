@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/post"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/post"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // PostDelete is the builder for deleting a Post entity.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/coupon"
+	"github.com/shuTwT/hoshikuzu/ent/coupon"
 )
 
 // Coupon is the model entity for the Coupon schema.

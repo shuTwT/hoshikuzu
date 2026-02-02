@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/notification"
+	"github.com/shuTwT/hoshikuzu/ent/notification"
 )
 
 // Notification is the model entity for the Notification schema.

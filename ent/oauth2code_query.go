@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/oauth2code"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/oauth2code"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // Oauth2CodeQuery is the builder for querying Oauth2Code entities.

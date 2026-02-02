@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/coupon"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/coupon"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // CouponUpdate is the builder for updating Coupon entities.

@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/shuTwT/gobee/internal/infra/logger"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/internal/infra/logger"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
-	post_service "github.com/shuTwT/gobee/internal/services/content/post"
+	post_service "github.com/shuTwT/hoshikuzu/internal/services/content/post"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/valyala/fasthttp"

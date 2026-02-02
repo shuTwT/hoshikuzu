@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/predicate"
-	"github.com/shuTwT/gobee/ent/role"
-	"github.com/shuTwT/gobee/ent/user"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/role"
+	"github.com/shuTwT/hoshikuzu/ent/user"
 )
 
 // RoleUpdate is the builder for updating Role entities.

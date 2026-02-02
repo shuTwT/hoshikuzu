@@ -3,10 +3,10 @@ package tag
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
-	tag_service "github.com/shuTwT/gobee/internal/services/content/tag"
+	tag_service "github.com/shuTwT/hoshikuzu/internal/services/content/tag"
 
 	"github.com/gofiber/fiber/v2"
 )

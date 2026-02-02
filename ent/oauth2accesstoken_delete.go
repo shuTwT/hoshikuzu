@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/oauth2accesstoken"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/oauth2accesstoken"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // Oauth2AccessTokenDelete is the builder for deleting a Oauth2AccessToken entity.

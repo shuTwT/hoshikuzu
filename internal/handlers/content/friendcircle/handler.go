@@ -3,8 +3,8 @@ package friendcircle
 import (
 	"strconv"
 
-	friendcircle "github.com/shuTwT/gobee/internal/services/content/friendcircle"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	friendcircle "github.com/shuTwT/hoshikuzu/internal/services/content/friendcircle"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

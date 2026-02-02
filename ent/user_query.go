@@ -12,11 +12,11 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/member"
-	"github.com/shuTwT/gobee/ent/predicate"
-	"github.com/shuTwT/gobee/ent/role"
-	"github.com/shuTwT/gobee/ent/user"
-	"github.com/shuTwT/gobee/ent/wallet"
+	"github.com/shuTwT/hoshikuzu/ent/member"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/role"
+	"github.com/shuTwT/hoshikuzu/ent/user"
+	"github.com/shuTwT/hoshikuzu/ent/wallet"
 )
 
 // UserQuery is the builder for querying User entities.

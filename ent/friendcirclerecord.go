@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/friendcirclerecord"
+	"github.com/shuTwT/hoshikuzu/ent/friendcirclerecord"
 )
 
 // FriendCircleRecord is the model entity for the FriendCircleRecord schema.

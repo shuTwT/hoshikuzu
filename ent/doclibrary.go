@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/doclibrary"
+	"github.com/shuTwT/hoshikuzu/ent/doclibrary"
 )
 
 // DocLibrary is the model entity for the DocLibrary schema.

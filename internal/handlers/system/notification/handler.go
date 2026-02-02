@@ -3,9 +3,9 @@ package notification
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	notification_service "github.com/shuTwT/gobee/internal/services/system/notification"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	notification_service "github.com/shuTwT/hoshikuzu/internal/services/system/notification"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

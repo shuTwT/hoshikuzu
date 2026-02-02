@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
-	license_ent "github.com/shuTwT/gobee/ent/license"
+	"github.com/shuTwT/hoshikuzu/ent"
+	license_ent "github.com/shuTwT/hoshikuzu/ent/license"
 )
 
 type LicenseService interface {

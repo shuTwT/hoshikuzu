@@ -6,12 +6,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/personalaccesstoken"
-	"github.com/shuTwT/gobee/ent/user"
-	"github.com/shuTwT/gobee/pkg/cache"
-	"github.com/shuTwT/gobee/pkg/config"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/personalaccesstoken"
+	"github.com/shuTwT/hoshikuzu/ent/user"
+	"github.com/shuTwT/hoshikuzu/pkg/cache"
+	"github.com/shuTwT/hoshikuzu/pkg/config"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"

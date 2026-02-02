@@ -3,10 +3,10 @@ package product
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
-	product_service "github.com/shuTwT/gobee/internal/services/mall/product"
+	product_service "github.com/shuTwT/hoshikuzu/internal/services/mall/product"
 
 	"github.com/gofiber/fiber/v2"
 )

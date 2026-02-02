@@ -2,7 +2,7 @@
 package plugin
 
 import (
-	shared "github.com/shuTwT/gobee/pkg/plugin/shared"
+	shared "github.com/shuTwT/hoshikuzu/pkg/plugin/shared"
 
 	"github.com/hashicorp/go-plugin"
 )

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/memberlevel"
+	"github.com/shuTwT/hoshikuzu/ent/memberlevel"
 )
 
 // MemberLevel is the model entity for the MemberLevel schema.

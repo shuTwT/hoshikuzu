@@ -3,8 +3,8 @@ package storagestrategy
 import (
 	"context"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/storagestrategy"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/storagestrategy"
 )
 
 type StorageStrategyService interface {

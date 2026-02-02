@@ -3,9 +3,9 @@ package storagestrategy
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/internal/infra/storage"
-	storagestrategy_service "github.com/shuTwT/gobee/internal/services/infra/storagestrategy"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/internal/infra/storage"
+	storagestrategy_service "github.com/shuTwT/hoshikuzu/internal/services/infra/storagestrategy"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

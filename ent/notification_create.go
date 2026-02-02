@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/notification"
+	"github.com/shuTwT/hoshikuzu/ent/notification"
 )
 
 // NotificationCreate is the builder for creating a Notification entity.

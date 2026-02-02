@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/role"
+	"github.com/shuTwT/hoshikuzu/ent/role"
 )
 
 // Role is the model entity for the Role schema.

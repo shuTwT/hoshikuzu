@@ -3,10 +3,10 @@ package couponusage
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
-	couponusage_service "github.com/shuTwT/gobee/internal/services/mall/couponusage"
+	couponusage_service "github.com/shuTwT/hoshikuzu/internal/services/mall/couponusage"
 
 	"github.com/gofiber/fiber/v2"
 )

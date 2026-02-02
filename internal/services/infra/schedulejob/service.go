@@ -5,10 +5,10 @@ import (
 	"errors"
 	"log"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/schedulejob"
-	schedule_manager "github.com/shuTwT/gobee/internal/infra/schedule/manager"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
+	schedule_manager "github.com/shuTwT/hoshikuzu/internal/infra/schedule/manager"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type ScheduleJobService interface {

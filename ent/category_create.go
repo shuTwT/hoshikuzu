@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/category"
-	"github.com/shuTwT/gobee/ent/post"
+	"github.com/shuTwT/hoshikuzu/ent/category"
+	"github.com/shuTwT/hoshikuzu/ent/post"
 )
 
 // CategoryCreate is the builder for creating a Category entity.

@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/user"
-	"github.com/shuTwT/gobee/ent/wallet"
+	"github.com/shuTwT/hoshikuzu/ent/user"
+	"github.com/shuTwT/hoshikuzu/ent/wallet"
 )
 
 // Wallet is the model entity for the Wallet schema.

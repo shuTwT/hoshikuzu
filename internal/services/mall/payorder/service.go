@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/payorder"
-	"github.com/shuTwT/gobee/internal/infra/pay/epay"
-	"github.com/shuTwT/gobee/pkg/config"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/payorder"
+	"github.com/shuTwT/hoshikuzu/internal/infra/pay/epay"
+	"github.com/shuTwT/hoshikuzu/pkg/config"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type PayOrderService interface {

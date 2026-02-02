@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/visitlog"
+	"github.com/shuTwT/hoshikuzu/ent/visitlog"
 )
 
 // VisitLog is the model entity for the VisitLog schema.

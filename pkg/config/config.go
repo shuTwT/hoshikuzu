@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/shuTwT/gobee/internal/infra/logger"
+	"github.com/shuTwT/hoshikuzu/internal/infra/logger"
 
 	"github.com/spf13/viper"
 )

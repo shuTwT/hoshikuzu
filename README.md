@@ -38,7 +38,7 @@ GoBee 是一个基于 **Go 1.25+** 和 **Fiber v2.52.9 框架** 开发的现代�
 #### 1. 克隆项目代码
 
 ```bash
-git clone https://github.com/shuTwT/gobee.git
+git clone https://github.com/shuTwT/hoshikuzu.git
 cd gobee
 ```
 
@@ -321,9 +321,9 @@ GoBee 项目的成功离不开以下优秀开源项目的支持，在此表示�
 
 如果你在使用 GoBee 过程中遇到问题，或者有任何建议，欢迎通过以下方式联系我们：
 
-- 🐛 **问题反馈**: [提交 Issue](https://github.com/shuTwT/gobee/issues)
-- 💬 **讨论交流**: [加入 Discussions](https://github.com/shuTwT/gobee/discussions)
-- 📧 **邮件联系**: gobee@example.com
+- 🐛 **问题反馈**: [提交 Issue](https://github.com/shuTwT/hoshikuzu/issues)
+- 💬 **讨论交流**: [加入 Discussions](https://github.com/shuTwT/hoshikuzu/discussions)
+- 📧 **邮件联系**: admin@hoshikuzu.moe
 - 🌟 **给项目点星**: 如果项目对你有帮助，欢迎点亮 Star！
 
 ---

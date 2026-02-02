@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/flinkapplication"
+	"github.com/shuTwT/hoshikuzu/ent/flinkapplication"
 )
 
 // FLinkApplicationCreate is the builder for creating a FLinkApplication entity.

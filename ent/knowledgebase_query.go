@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/knowledgebase"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/knowledgebase"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // KnowledgeBaseQuery is the builder for querying KnowledgeBase entities.

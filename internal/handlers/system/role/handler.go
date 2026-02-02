@@ -3,9 +3,9 @@ package role
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	role_service "github.com/shuTwT/gobee/internal/services/system/role"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	role_service "github.com/shuTwT/hoshikuzu/internal/services/system/role"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

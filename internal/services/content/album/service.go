@@ -3,9 +3,9 @@ package album
 import (
 	"context"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/album"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/album"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type AlbumService interface {

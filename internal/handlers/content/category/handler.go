@@ -3,9 +3,9 @@ package category
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	category_service "github.com/shuTwT/gobee/internal/services/content/category"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	category_service "github.com/shuTwT/hoshikuzu/internal/services/content/category"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

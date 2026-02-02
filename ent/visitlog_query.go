@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/predicate"
-	"github.com/shuTwT/gobee/ent/visitlog"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/visitlog"
 )
 
 // VisitLogQuery is the builder for querying VisitLog entities.

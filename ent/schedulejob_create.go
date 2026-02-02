@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/schedulejob"
+	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
 )
 
 // ScheduleJobCreate is the builder for creating a ScheduleJob entity.

@@ -6,8 +6,8 @@ import (
 	"io/fs"
 	"log"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/pelletier/go-toml/v2"
 )

@@ -1,9 +1,9 @@
 package migration
 
 import (
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
-	migration_service "github.com/shuTwT/gobee/internal/services/infra/migration"
+	migration_service "github.com/shuTwT/hoshikuzu/internal/services/infra/migration"
 
 	"github.com/gofiber/fiber/v2"
 )

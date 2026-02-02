@@ -3,9 +3,9 @@ package memberlevel
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	memberlevel_service "github.com/shuTwT/gobee/internal/services/mall/memberlevel"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	memberlevel_service "github.com/shuTwT/hoshikuzu/internal/services/mall/memberlevel"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

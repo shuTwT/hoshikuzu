@@ -4,9 +4,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/shuTwT/gobee/internal/services/infra/license"
-	"github.com/shuTwT/gobee/pkg/domain/model"
-	"github.com/shuTwT/gobee/pkg/utils"
+	"github.com/shuTwT/hoshikuzu/internal/services/infra/license"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/plugin"
+	"github.com/shuTwT/hoshikuzu/ent/plugin"
 )
 
 // Plugin is the model entity for the Plugin schema.

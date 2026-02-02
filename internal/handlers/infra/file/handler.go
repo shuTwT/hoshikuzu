@@ -3,11 +3,11 @@ package file
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/internal/infra/storage"
-	"github.com/shuTwT/gobee/internal/services/infra/file"
-	"github.com/shuTwT/gobee/internal/services/infra/storagestrategy"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/internal/infra/storage"
+	"github.com/shuTwT/hoshikuzu/internal/services/infra/file"
+	"github.com/shuTwT/hoshikuzu/internal/services/infra/storagestrategy"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

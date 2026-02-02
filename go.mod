@@ -1,4 +1,4 @@
-module github.com/shuTwT/gobee
+module github.com/shuTwT/hoshikuzu
 
 go 1.25.0
 

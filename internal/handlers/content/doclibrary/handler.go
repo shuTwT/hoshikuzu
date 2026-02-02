@@ -3,8 +3,8 @@ package doclibrary
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/internal/services/content/doclibrary"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/internal/services/content/doclibrary"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

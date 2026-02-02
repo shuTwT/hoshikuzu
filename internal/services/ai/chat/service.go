@@ -1,7 +1,7 @@
 package ai
 
 import (
-	setting_service "github.com/shuTwT/gobee/internal/services/system/setting"
+	setting_service "github.com/shuTwT/hoshikuzu/internal/services/system/setting"
 
 	openai "github.com/sashabaranov/go-openai"
 )

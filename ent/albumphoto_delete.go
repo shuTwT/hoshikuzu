@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/albumphoto"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/albumphoto"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // AlbumPhotoDelete is the builder for deleting a AlbumPhoto entity.

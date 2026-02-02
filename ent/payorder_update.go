@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/payorder"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/payorder"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // PayOrderUpdate is the builder for updating PayOrder entities.

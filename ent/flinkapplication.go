@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/flinkapplication"
+	"github.com/shuTwT/hoshikuzu/ent/flinkapplication"
 )
 
 // FLinkApplication is the model entity for the FLinkApplication schema.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/payorder"
+	"github.com/shuTwT/hoshikuzu/ent/payorder"
 )
 
 // PayOrderCreate is the builder for creating a PayOrder entity.

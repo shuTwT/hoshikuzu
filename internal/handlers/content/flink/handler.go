@@ -4,10 +4,10 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/flink"
-	flink_service "github.com/shuTwT/gobee/internal/services/content/flink"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/flink"
+	flink_service "github.com/shuTwT/hoshikuzu/internal/services/content/flink"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/gofiber/fiber/v2"

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/webhook"
+	"github.com/shuTwT/hoshikuzu/ent/webhook"
 )
 
 // WebHookCreate is the builder for creating a WebHook entity.

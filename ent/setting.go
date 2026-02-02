@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/setting"
+	"github.com/shuTwT/hoshikuzu/ent/setting"
 )
 
 // Setting is the model entity for the Setting schema.

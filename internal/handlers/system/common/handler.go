@@ -1,9 +1,9 @@
 package common
 
 import (
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
-	common_service "github.com/shuTwT/gobee/internal/services/system/common"
+	common_service "github.com/shuTwT/hoshikuzu/internal/services/system/common"
 
 	"github.com/gofiber/fiber/v2"
 )

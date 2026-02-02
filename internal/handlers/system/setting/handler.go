@@ -3,8 +3,8 @@ package setting_handler
 import (
 	"encoding/json"
 
-	setting_service "github.com/shuTwT/gobee/internal/services/system/setting"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	setting_service "github.com/shuTwT/hoshikuzu/internal/services/system/setting"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"

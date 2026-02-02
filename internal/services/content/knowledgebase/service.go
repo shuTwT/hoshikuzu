@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/knowledgebase"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/knowledgebase"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type KnowledgeBaseService interface {

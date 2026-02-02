@@ -12,9 +12,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/file"
-	"github.com/shuTwT/gobee/ent/predicate"
-	"github.com/shuTwT/gobee/ent/storagestrategy"
+	"github.com/shuTwT/hoshikuzu/ent/file"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/storagestrategy"
 )
 
 // StorageStrategyQuery is the builder for querying StorageStrategy entities.

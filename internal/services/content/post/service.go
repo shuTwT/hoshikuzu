@@ -9,13 +9,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/category"
-	"github.com/shuTwT/gobee/ent/post"
-	"github.com/shuTwT/gobee/ent/tag"
-	"github.com/shuTwT/gobee/pkg/cache"
-	"github.com/shuTwT/gobee/pkg/domain/model"
-	"github.com/shuTwT/gobee/pkg/utils"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/category"
+	"github.com/shuTwT/hoshikuzu/ent/post"
+	"github.com/shuTwT/hoshikuzu/ent/tag"
+	"github.com/shuTwT/hoshikuzu/pkg/cache"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/pkg/utils"
 )
 
 type PostService interface {

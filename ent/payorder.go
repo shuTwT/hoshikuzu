@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/payorder"
+	"github.com/shuTwT/hoshikuzu/ent/payorder"
 )
 
 // PayOrder is the model entity for the PayOrder schema.

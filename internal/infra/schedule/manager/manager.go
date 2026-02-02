@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/go-co-op/gocron/v2"
-	"github.com/shuTwT/gobee/ent"
-	schedule_model "github.com/shuTwT/gobee/pkg/domain/model/schedule"
+	"github.com/shuTwT/hoshikuzu/ent"
+	schedule_model "github.com/shuTwT/hoshikuzu/pkg/domain/model/schedule"
 )
 
 type ScheduleManager struct {

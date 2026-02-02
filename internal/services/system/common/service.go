@@ -3,12 +3,12 @@ package common
 import (
 	"context"
 
-	comment_service "github.com/shuTwT/gobee/internal/services/content/comment"
-	post_service "github.com/shuTwT/gobee/internal/services/content/post"
-	user_service "github.com/shuTwT/gobee/internal/services/system/user"
+	comment_service "github.com/shuTwT/hoshikuzu/internal/services/content/comment"
+	post_service "github.com/shuTwT/hoshikuzu/internal/services/content/post"
+	user_service "github.com/shuTwT/hoshikuzu/internal/services/system/user"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type CommonService interface {

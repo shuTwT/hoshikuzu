@@ -5,7 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/redis/go-redis/v9"
-	"github.com/shuTwT/gobee/pkg/config"
+	"github.com/shuTwT/hoshikuzu/pkg/config"
 )
 
 func NewRedisClient(ctx context.Context) (*redis.Client, error) {

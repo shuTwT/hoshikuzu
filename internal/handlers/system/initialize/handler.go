@@ -3,11 +3,11 @@ package initialize
 import (
 	"fmt"
 
-	"github.com/shuTwT/gobee/ent"
-	setting_service "github.com/shuTwT/gobee/internal/services/system/setting"
-	user_service "github.com/shuTwT/gobee/internal/services/system/user"
-	"github.com/shuTwT/gobee/pkg/config"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	setting_service "github.com/shuTwT/hoshikuzu/internal/services/system/setting"
+	user_service "github.com/shuTwT/hoshikuzu/internal/services/system/user"
+	"github.com/shuTwT/hoshikuzu/pkg/config"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/personalaccesstoken"
+	"github.com/shuTwT/hoshikuzu/ent/personalaccesstoken"
 )
 
 // PersonalAccessToken is the model entity for the PersonalAccessToken schema.

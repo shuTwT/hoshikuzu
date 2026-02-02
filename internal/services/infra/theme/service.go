@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
-	theme_ent "github.com/shuTwT/gobee/ent/theme"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	theme_ent "github.com/shuTwT/hoshikuzu/ent/theme"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"gopkg.in/yaml.v3"
 )

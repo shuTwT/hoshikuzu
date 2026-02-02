@@ -3,8 +3,8 @@ package albumphoto
 import (
 	"context"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/albumphoto"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/albumphoto"
 )
 
 type AlbumPhotoService interface {

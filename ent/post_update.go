@@ -11,10 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/category"
-	"github.com/shuTwT/gobee/ent/post"
-	"github.com/shuTwT/gobee/ent/predicate"
-	"github.com/shuTwT/gobee/ent/tag"
+	"github.com/shuTwT/hoshikuzu/ent/category"
+	"github.com/shuTwT/hoshikuzu/ent/post"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/tag"
 )
 
 // PostUpdate is the builder for updating Post entities.

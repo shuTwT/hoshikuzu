@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/personalaccesstoken"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/personalaccesstoken"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // PersonalAccessTokenUpdate is the builder for updating PersonalAccessToken entities.

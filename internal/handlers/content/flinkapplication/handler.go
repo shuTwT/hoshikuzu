@@ -3,9 +3,9 @@ package flinkapplication
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/ent"
-	flinkapplication_service "github.com/shuTwT/gobee/internal/services/content/flinkapplication"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	flinkapplication_service "github.com/shuTwT/hoshikuzu/internal/services/content/flinkapplication"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -18,13 +18,13 @@ type FlinkApplicationHandler interface {
 }
 
 type FlinkApplicationHandlerImpl struct {
-	client                *ent.Client
+	client                  *ent.Client
 	flinkApplicationService flinkapplication_service.FlinkApplicationService
 }
 
 func NewFlinkApplicationHandlerImpl(client *ent.Client, flinkApplicationService flinkapplication_service.FlinkApplicationService) *FlinkApplicationHandlerImpl {
 	return &FlinkApplicationHandlerImpl{
-		client:                client,
+		client:                  client,
 		flinkApplicationService: flinkApplicationService,
 	}
 }

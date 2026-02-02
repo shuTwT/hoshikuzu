@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/member"
-	"github.com/shuTwT/gobee/ent/user"
+	"github.com/shuTwT/hoshikuzu/ent/member"
+	"github.com/shuTwT/hoshikuzu/ent/user"
 )
 
 // Member is the model entity for the Member schema.

@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/oauth2refreshtoken"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/oauth2refreshtoken"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // Oauth2RefreshTokenDelete is the builder for deleting a Oauth2RefreshToken entity.

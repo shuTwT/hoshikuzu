@@ -13,8 +13,8 @@ import (
 	"path/filepath"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/pkg"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/pkg"
 )
 
 func InitFrontendRes(app *fiber.App, frontendRes embed.FS, serviceMap pkg.ServiceMap) {

@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/role"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/role"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type RoleService interface {

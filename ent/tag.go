@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/tag"
+	"github.com/shuTwT/hoshikuzu/ent/tag"
 )
 
 // Tag is the model entity for the Tag schema.

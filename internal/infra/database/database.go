@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/shuTwT/gobee/ent"
+	"github.com/shuTwT/hoshikuzu/ent"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"

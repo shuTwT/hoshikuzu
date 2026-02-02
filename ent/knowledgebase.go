@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/knowledgebase"
+	"github.com/shuTwT/hoshikuzu/ent/knowledgebase"
 )
 
 // KnowledgeBase is the model entity for the KnowledgeBase schema.

@@ -3,7 +3,7 @@ package model
 import (
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
+	"github.com/shuTwT/hoshikuzu/ent"
 )
 
 type PostPageReq struct {

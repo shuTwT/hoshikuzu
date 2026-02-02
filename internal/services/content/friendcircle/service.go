@@ -3,8 +3,8 @@ package friendcircle
 import (
 	"context"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/friendcirclerecord"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/friendcirclerecord"
 )
 
 type FriendCircleService interface {

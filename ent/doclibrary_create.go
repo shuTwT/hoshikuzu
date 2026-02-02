@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/doclibrary"
-	"github.com/shuTwT/gobee/ent/doclibrarydetail"
+	"github.com/shuTwT/hoshikuzu/ent/doclibrary"
+	"github.com/shuTwT/hoshikuzu/ent/doclibrarydetail"
 )
 
 // DocLibraryCreate is the builder for creating a DocLibrary entity.

@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/webhook"
+	"github.com/shuTwT/hoshikuzu/ent/webhook"
 )
 
 // WebHook is the model entity for the WebHook schema.

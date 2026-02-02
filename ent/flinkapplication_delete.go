@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/flinkapplication"
-	"github.com/shuTwT/gobee/ent/predicate"
+	"github.com/shuTwT/hoshikuzu/ent/flinkapplication"
+	"github.com/shuTwT/hoshikuzu/ent/predicate"
 )
 
 // FLinkApplicationDelete is the builder for deleting a FLinkApplication entity.

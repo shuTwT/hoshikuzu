@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/shuTwT/gobee/ent/theme"
+	"github.com/shuTwT/hoshikuzu/ent/theme"
 )
 
 // ThemeCreate is the builder for creating a Theme entity.

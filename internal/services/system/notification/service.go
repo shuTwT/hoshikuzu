@@ -1,9 +1,9 @@
 package notification
 
 import (
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/notification"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/notification"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

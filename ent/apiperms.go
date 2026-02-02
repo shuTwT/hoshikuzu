@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/apiperms"
+	"github.com/shuTwT/hoshikuzu/ent/apiperms"
 )
 
 // ApiPerms is the model entity for the ApiPerms schema.

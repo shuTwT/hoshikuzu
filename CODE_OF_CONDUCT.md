@@ -36,8 +36,8 @@
 
 如果您遇到任何违反本行为准则的行为，或需要其他帮助，请联系项目团队：
 
-- 📧 邮箱: gobee@example.com
-- 🐛 GitHub Issues: [提交问题](https://github.com/shuTwT/gobee/issues)
+- 📧 邮箱: admin@hoshikuzu.moe
+- 🐛 GitHub Issues: [提交问题](https://github.com/shuTwT/hoshikuzu/issues)
 
 所有投诉都将被审查和调查，并将产生被认为必要且适合情况的回应。项目团队有义务对事件的举报者保密。具体执行政策的进一步细节可能会单独发布。
 

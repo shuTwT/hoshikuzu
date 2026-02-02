@@ -6,16 +6,16 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/flink"
-	friend_circle_service "github.com/shuTwT/gobee/internal/services/content/friendcircle"
-	schedule_model "github.com/shuTwT/gobee/pkg/domain/model/schedule"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/flink"
+	friend_circle_service "github.com/shuTwT/hoshikuzu/internal/services/content/friendcircle"
+	schedule_model "github.com/shuTwT/hoshikuzu/pkg/domain/model/schedule"
 
 	"io"
 	"log"
 	"net/http"
 
-	"github.com/shuTwT/gobee/pkg/domain/model/rss"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model/rss"
 )
 
 type FriendCircleJob struct {

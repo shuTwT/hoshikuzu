@@ -3,10 +3,10 @@ package middleware
 import (
 	"strings"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/personalaccesstoken"
-	"github.com/shuTwT/gobee/pkg/config"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/personalaccesstoken"
+	"github.com/shuTwT/hoshikuzu/pkg/config"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"

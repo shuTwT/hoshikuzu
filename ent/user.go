@@ -9,10 +9,10 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/shuTwT/gobee/ent/member"
-	"github.com/shuTwT/gobee/ent/role"
-	"github.com/shuTwT/gobee/ent/user"
-	"github.com/shuTwT/gobee/ent/wallet"
+	"github.com/shuTwT/hoshikuzu/ent/member"
+	"github.com/shuTwT/hoshikuzu/ent/role"
+	"github.com/shuTwT/hoshikuzu/ent/user"
+	"github.com/shuTwT/hoshikuzu/ent/wallet"
 )
 
 // User is the model entity for the User schema.

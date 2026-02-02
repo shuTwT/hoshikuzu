@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/shuTwT/gobee/ent"
-	"github.com/shuTwT/gobee/ent/schedulejob"
-	"github.com/shuTwT/gobee/internal/infra/schedule/manager"
-	friendcircle_job "github.com/shuTwT/gobee/internal/job/friendcircle"
-	friend_circle_service "github.com/shuTwT/gobee/internal/services/content/friendcircle"
+	"github.com/shuTwT/hoshikuzu/ent"
+	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
+	"github.com/shuTwT/hoshikuzu/internal/infra/schedule/manager"
+	friendcircle_job "github.com/shuTwT/hoshikuzu/internal/job/friendcircle"
+	friend_circle_service "github.com/shuTwT/hoshikuzu/internal/services/content/friendcircle"
 )
 
 func InitializeSchedule(db *ent.Client, scheduleManager *manager.ScheduleManager, friendCircleService friend_circle_service.FriendCircleService) error {

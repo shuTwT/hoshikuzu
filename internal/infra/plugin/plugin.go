@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	plugin_shared "github.com/shuTwT/gobee/pkg/plugin/shared"
+	plugin_shared "github.com/shuTwT/hoshikuzu/pkg/plugin/shared"
 
 	hclog "github.com/hashicorp/go-hclog"
 	"github.com/hashicorp/go-plugin"

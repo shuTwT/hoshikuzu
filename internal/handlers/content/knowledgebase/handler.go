@@ -3,8 +3,8 @@ package knowledgebase
 import (
 	"strconv"
 
-	"github.com/shuTwT/gobee/internal/services/content/knowledgebase"
-	"github.com/shuTwT/gobee/pkg/domain/model"
+	"github.com/shuTwT/hoshikuzu/internal/services/content/knowledgebase"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )
