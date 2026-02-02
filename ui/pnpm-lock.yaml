@@ -176,6 +176,12 @@ importers:
         specifier: ^13.2.16
         version: 13.2.16
 
+  packages/devtools:
+    dependencies:
+      vite:
+        specifier: ^6.2.1
+        version: 6.3.6(@types/node@22.18.10)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2)
+
   packages/docs:
     devDependencies:
       typescript:
