@@ -16,7 +16,9 @@ require (
 	github.com/philippgille/chromem-go v0.7.0
 	github.com/sashabaranov/go-openai v1.41.2
 	github.com/yuin/goldmark v1.7.16
-	golang.org/x/crypto v0.43.0
+	golang.org/x/crypto v0.44.0
+	google.golang.org/grpc v1.78.0
+	google.golang.org/protobuf v1.36.10
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -72,12 +74,10 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/swaggo/files/v2 v2.0.2 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/net v0.46.0 // indirect
-	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/tools v0.37.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20231106174013-bbf56f31fb17 // indirect
-	google.golang.org/grpc v1.61.0 // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
+	golang.org/x/tools v0.38.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251029180050-ab9386a59fda // indirect
 )
 
 require (
@@ -93,11 +93,12 @@ require (
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/gofiber/contrib/jwt v1.1.2
 	github.com/gofiber/swagger v1.1.1
-	github.com/google/go-cmp v0.6.0 // indirect
+	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/hashicorp/go-version v1.8.0
 	github.com/hashicorp/hcl/v2 v2.18.1 // indirect
 	github.com/jlaffaye/ftp v0.2.0
-	github.com/klauspost/compress v1.18.1 // indirect
+	github.com/klauspost/compress v1.18.1
 	github.com/lib/pq v1.10.9
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
@@ -113,7 +114,7 @@ require (
 	github.com/valyala/fasthttp v1.68.0
 	github.com/zclconf/go-cty v1.14.4 // indirect
 	github.com/zclconf/go-cty-yaml v1.1.0 // indirect
-	golang.org/x/mod v0.28.0 // indirect
-	golang.org/x/sys v0.37.0 // indirect
-	golang.org/x/text v0.30.0 // indirect
+	golang.org/x/mod v0.29.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 )

@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+// 包名：生成Go代码后的包名（可自定义，建议与公共包保持一致风格）
+package plugin_store;
+
+// 选项：指定生成Go代码的路径和包名
+// 格式：option go_package = "生成的Go代码存放路径;生成的Go包名";
+option go_package = "../pb;plugin_store_pb";
+
+// --------------------------
+// 1. 空消息（用于无参数的请求/响应）
+// 对应接口中无业务参数的方法（如 Info()、Version()、Health()）
+// --------------------------
+message EmptyMsg {}
+
+// --------------------------
+// 2. 插件基础信息消息（核心数据载体）
+// 对应公共包中的 PluginBasicInfo 结构体
+// --------------------------
+message PluginBasicInfoMsg {
+  string name = 1;                // 插件唯一标识（如 demo-plugin）
+  string display_name = 2;        // 插件展示名称
+  string description = 3;         // 插件详细描述（可选）
+  string author = 4;              // 插件作者
+}
+
+// --------------------------
+// 3. 版本消息（返回插件版本）
+// 对应接口中的 Version() 方法返回值
+// --------------------------
+message VersionMsg {
+  string version = 1;             // 语义化版本号（如 v1.0.0）
+}
+
+// --------------------------
+// 4. 初始化消息（宿主向插件注入配置）
+// 对应接口中的 Init() 方法参数
+// --------------------------
+message InitMsg {
+  map<string, string> config = 1; // 配置键值对（如 plugin_name、version）
+}
+
+// --------------------------
+// 5. 健康检查消息（返回插件健康状态）
+// 对应接口中的 Health() 方法返回值
+// --------------------------
+message HealthMsg {
+  bool is_healthy = 1;            // 插件是否健康（true：健康，false：异常）
+}
+
+// --------------------------
+// 6. 核心 gRPC 服务定义（对应公共包中的 PluginStore 接口）
+// 所有方法与 PluginStore 接口一一对应，保持签名一致
+// --------------------------
+service PluginStoreService {
+  // 获取插件基础信息（无参数，返回插件信息）
+  rpc Info(EmptyMsg) returns (PluginBasicInfoMsg);
+  
+  // 获取插件当前版本（无参数，返回版本号）
+  rpc Version(EmptyMsg) returns (VersionMsg);
+  
+  // 插件初始化（传入配置，无返回值）
+  rpc Init(InitMsg) returns (EmptyMsg);
+  
+  // 插件销毁（无参数，无返回值）
+  rpc Destroy(EmptyMsg) returns (EmptyMsg);
+  
+  // 插件健康检查（无参数，返回健康状态）
+  rpc Health(EmptyMsg) returns (HealthMsg);
+}

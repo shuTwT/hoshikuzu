@@ -17,6 +17,11 @@ TARGET_PLATFORMS := \
 	darwin/arm64/clang \
 	windows/amd64/x86_64-w64-mingw32-gcc
 
+proto:
+	@echo "Generating protobuf code..."
+	@protoc --go_out=. --go_opt=paths=source_relative \
+    	--go-grpc_out=. --go-grpc_opt=paths=source_relative \
+		pkg/plugin/proto/*.proto
 # ===================== 原有功能（完全保留） =====================
 build-frontend:
 	@echo "Building frontend..."
