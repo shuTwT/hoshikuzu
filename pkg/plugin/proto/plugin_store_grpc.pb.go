@@ -21,11 +21,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PluginStoreService_Info_FullMethodName    = "/plugin_store.PluginStoreService/Info"
-	PluginStoreService_Version_FullMethodName = "/plugin_store.PluginStoreService/Version"
-	PluginStoreService_Init_FullMethodName    = "/plugin_store.PluginStoreService/Init"
-	PluginStoreService_Destroy_FullMethodName = "/plugin_store.PluginStoreService/Destroy"
-	PluginStoreService_Health_FullMethodName  = "/plugin_store.PluginStoreService/Health"
+	PluginStoreService_Info_FullMethodName              = "/plugin_store.PluginStoreService/Info"
+	PluginStoreService_Version_FullMethodName           = "/plugin_store.PluginStoreService/Version"
+	PluginStoreService_Init_FullMethodName              = "/plugin_store.PluginStoreService/Init"
+	PluginStoreService_Destroy_FullMethodName           = "/plugin_store.PluginStoreService/Destroy"
+	PluginStoreService_Health_FullMethodName            = "/plugin_store.PluginStoreService/Health"
+	PluginStoreService_GetStaticResource_FullMethodName = "/plugin_store.PluginStoreService/GetStaticResource"
 )
 
 // PluginStoreServiceClient is the client API for PluginStoreService service.
@@ -33,7 +34,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // --------------------------
-// 6. 核心 gRPC 服务定义（对应公共包中的 PluginStore 接口）
+// 8. 核心 gRPC 服务定义（对应公共包中的 PluginStore 接口）
 // 所有方法与 PluginStore 接口一一对应，保持签名一致
 // --------------------------
 type PluginStoreServiceClient interface {
@@ -47,6 +48,8 @@ type PluginStoreServiceClient interface {
 	Destroy(ctx context.Context, in *EmptyMsg, opts ...grpc.CallOption) (*EmptyMsg, error)
 	// 插件健康检查（无参数，返回健康状态）
 	Health(ctx context.Context, in *EmptyMsg, opts ...grpc.CallOption) (*HealthMsg, error)
+	// 读取静态资源（传入资源路径，返回资源内容和类型）
+	GetStaticResource(ctx context.Context, in *StaticResourceRequestMsg, opts ...grpc.CallOption) (*StaticResourceResponseMsg, error)
 }
 
 type pluginStoreServiceClient struct {
@@ -107,12 +110,22 @@ func (c *pluginStoreServiceClient) Health(ctx context.Context, in *EmptyMsg, opt
 	return out, nil
 }
 
+func (c *pluginStoreServiceClient) GetStaticResource(ctx context.Context, in *StaticResourceRequestMsg, opts ...grpc.CallOption) (*StaticResourceResponseMsg, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StaticResourceResponseMsg)
+	err := c.cc.Invoke(ctx, PluginStoreService_GetStaticResource_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PluginStoreServiceServer is the server API for PluginStoreService service.
 // All implementations must embed UnimplementedPluginStoreServiceServer
 // for forward compatibility.
 //
 // --------------------------
-// 6. 核心 gRPC 服务定义（对应公共包中的 PluginStore 接口）
+// 8. 核心 gRPC 服务定义（对应公共包中的 PluginStore 接口）
 // 所有方法与 PluginStore 接口一一对应，保持签名一致
 // --------------------------
 type PluginStoreServiceServer interface {
@@ -126,6 +139,8 @@ type PluginStoreServiceServer interface {
 	Destroy(context.Context, *EmptyMsg) (*EmptyMsg, error)
 	// 插件健康检查（无参数，返回健康状态）
 	Health(context.Context, *EmptyMsg) (*HealthMsg, error)
+	// 读取静态资源（传入资源路径，返回资源内容和类型）
+	GetStaticResource(context.Context, *StaticResourceRequestMsg) (*StaticResourceResponseMsg, error)
 	mustEmbedUnimplementedPluginStoreServiceServer()
 }
 
@@ -150,6 +165,9 @@ func (UnimplementedPluginStoreServiceServer) Destroy(context.Context, *EmptyMsg)
 }
 func (UnimplementedPluginStoreServiceServer) Health(context.Context, *EmptyMsg) (*HealthMsg, error) {
 	return nil, status.Error(codes.Unimplemented, "method Health not implemented")
+}
+func (UnimplementedPluginStoreServiceServer) GetStaticResource(context.Context, *StaticResourceRequestMsg) (*StaticResourceResponseMsg, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetStaticResource not implemented")
 }
 func (UnimplementedPluginStoreServiceServer) mustEmbedUnimplementedPluginStoreServiceServer() {}
 func (UnimplementedPluginStoreServiceServer) testEmbeddedByValue()                            {}
@@ -262,6 +280,24 @@ func _PluginStoreService_Health_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PluginStoreService_GetStaticResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StaticResourceRequestMsg)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PluginStoreServiceServer).GetStaticResource(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PluginStoreService_GetStaticResource_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PluginStoreServiceServer).GetStaticResource(ctx, req.(*StaticResourceRequestMsg))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PluginStoreService_ServiceDesc is the grpc.ServiceDesc for PluginStoreService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -288,6 +324,10 @@ var PluginStoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Health",
 			Handler:    _PluginStoreService_Health_Handler,
+		},
+		{
+			MethodName: "GetStaticResource",
+			Handler:    _PluginStoreService_GetStaticResource_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

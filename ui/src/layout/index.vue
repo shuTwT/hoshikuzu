@@ -8,6 +8,9 @@ import { usePermissionStore } from '@/stores/modules/permission'
 import { useUserStore } from '@/stores/modules/user'
 import { remainingPaths } from '@/router'
 import { findRouteByPath, getParentPaths } from '@/router/utils'
+import LaySidebar from './components/lay-sidebar/NavDouble.vue'
+import LayHeader from './components/lay-header/index.vue'
+import LayContent from './components/lay-content/index.vue'
 
 defineOptions({
   name: "AdminLayout"
@@ -198,6 +201,14 @@ onMounted(() => {
 </script>
 <template>
   <div class="app-wrapper h-dvh w-dvw">
+    <lay-sidebar></lay-sidebar>
+    
+     <div class="main-container">
+      <!-- 头部 -->
+      <lay-header></lay-header>
+      <!-- 主体内容 -->
+       <lay-content></lay-content>
+     </div>
     <pro-layout v-model:collapsed="collapsed" :mode="layoutMode" :show-nav="showNav" :show-logo="showLogo"
       :is-mobile="isMobile" :nav-fixed="navFixed" :nav-height="navHeight" :show-footer="showFooter"
       :show-tabbar="showTabbar" :show-sidebar="showSidebar" :footer-fixed="footerFixed" :footer-height="footerHeight"
@@ -294,5 +305,13 @@ onMounted(() => {
 .app-main--vertical {
   display: flex;
   flex-direction: column;
+}
+
+.main-container{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 280px;
+  right: 0;
 }
 </style>

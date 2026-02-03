@@ -49,7 +49,24 @@ message HealthMsg {
 }
 
 // --------------------------
-// 6. 核心 gRPC 服务定义（对应公共包中的 PluginStore 接口）
+// 6. 静态资源读取请求消息
+// 对应接口中的 GetStaticResource() 方法参数
+// --------------------------
+message StaticResourceRequestMsg {
+  string path = 1;                // 资源路径（如 /static/js/main.js）
+}
+
+// --------------------------
+// 7. 静态资源读取响应消息
+// 对应接口中的 GetStaticResource() 方法返回值
+// --------------------------
+message StaticResourceResponseMsg {
+  bytes content = 1;              // 资源内容
+  string content_type = 2;        // 资源类型（如 application/javascript, text/css）
+}
+
+// --------------------------
+// 8. 核心 gRPC 服务定义（对应公共包中的 PluginStore 接口）
 // 所有方法与 PluginStore 接口一一对应，保持签名一致
 // --------------------------
 service PluginStoreService {
@@ -67,4 +84,7 @@ service PluginStoreService {
   
   // 插件健康检查（无参数，返回健康状态）
   rpc Health(EmptyMsg) returns (HealthMsg);
+  
+  // 读取静态资源（传入资源路径，返回资源内容和类型）
+  rpc GetStaticResource(StaticResourceRequestMsg) returns (StaticResourceResponseMsg);
 }

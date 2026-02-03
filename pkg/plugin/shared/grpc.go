@@ -53,3 +53,12 @@ func (c *GRPCClient) Health(ctx context.Context) (bool, error) {
 	}
 	return resp.IsHealthy, nil
 }
+
+// GetStaticResource：实现业务接口 PluginStore 的 GetStaticResource 方法
+func (c *GRPCClient) GetStaticResource(ctx context.Context, path string) ([]byte, string, error) {
+	resp, err := c.client.GetStaticResource(ctx, &pb.StaticResourceRequestMsg{Path: path})
+	if err != nil {
+		return nil, "", err
+	}
+	return resp.Content, resp.ContentType, nil
+}

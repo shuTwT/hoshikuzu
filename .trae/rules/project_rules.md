@@ -52,3 +52,5 @@ if err := c.QueryParser(&pageQuery); err != nil {
 17.在操作项目模块时，需要先将项目模块结构列成一个表格，表格中包含一级模块、二级模块、路由、handler、service、vue组件、api接口、路由文件等信息。
 
 18. `n-date-picker`组件只能接受`number`类型的时间戳作为值，不能接受`string`类型的时间字符串。
+
+19.使用`make proto`命令来为protobuf文件生成代码

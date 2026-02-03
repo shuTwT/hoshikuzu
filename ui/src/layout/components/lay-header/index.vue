@@ -57,3 +57,9 @@ const getBreadcrumb = () => {
         
     </div>
 </template>
+<style scoped>
+.header-nav {
+  height: 50px;
+  background-color: #f5f7fa;
+}
+</style>

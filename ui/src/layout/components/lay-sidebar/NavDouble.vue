@@ -29,8 +29,8 @@ const {
 } = storeToRefs(appStore)
 
 const curActive = ref(0);
-const childMenu = ref()
-const subMenuData =ref([])
+const childMenu = ref<RouteRecordRaw[]>([])
+const subMenuData = ref([])
 
 const menuOptions = computed<MenuOption[]>(() =>
   childMenu.value.map((item: any) => {
@@ -76,7 +76,8 @@ const menuOptions = computed<MenuOption[]>(() =>
 )
 
 const handleChildMenu = (menu: RouteRecordRaw, index: number) => {
-  childMenu.value = menu.children
+  childMenu.value = menu.children ?? []
+  console.log(childMenu.value)
   router.push(menu.path);
   curActive.value = index;
 }
@@ -87,24 +88,30 @@ const handleChildMenu = (menu: RouteRecordRaw, index: number) => {
 <template>
   <div class="sidebar" style="--sidebar-width:280px;">
     <div class="sidebar-left">
-      <div class="logo"></div>
-      <n-scrollbar>
-        <ul>
-          <li class="menu-item" v-for="(menu, index) in menuData" :key="index" @click="handleChildMenu(menu, index)">
-            <div>
-              <n-text>{{ menu.meta?.title || menu.name }}</n-text>
-            </div>
-          </li>
-        </ul>
-      </n-scrollbar>
+      <div class="logo w-[64px] h-[64px]">
+        <n-image src="/console/logo.png" :preview-disabled="true" width="64" />
+      </div>
+      <div class="h-calc(100%_-_64px)">
+        <n-scrollbar>
+          <ul>
+            <li class="menu-item cursor-pointer select-none py-2 px-0.5" v-for="(menu, index) in menuData" :key="index"
+              @click="handleChildMenu(menu, index)">
+              <div class="w-full flex justify-center">
+                <div class="text-xl mb-2">
+                  <div></div>
+                </div>
+                <n-text class="text-xs">{{ menu.meta?.title || menu.name }}</n-text>
+              </div>
+            </li>
+          </ul>
+        </n-scrollbar>
+      </div>
+
     </div>
     <div class="sidebar-right">
       <div class="logo-text"></div>
       <n-scrollbar>
-        <n-menu>
-          <div v-for="(menu, index) in childMenu" :key="index">
-            <n-text>{{ menu.meta?.title || menu.name }}</n-text>
-          </div>
+        <n-menu :options="menuOptions">
         </n-menu>
       </n-scrollbar>
     </div>
@@ -112,8 +119,32 @@ const handleChildMenu = (menu: RouteRecordRaw, index: number) => {
 </template>
 <style scoped>
 .sidebar {
+  position: relative;
   width: var(--sidebar-width);
   height: 100%;
   background-color: #f5f5f5;
+}
+
+.sidebar-left {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  border-right: 1px solid #e5e5e5;
+  background: #fff;
+  overflow-x: hidden;
+  width: 64px;
+}
+
+.sidebar-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 64px;
+  right: 0;
+  z-index: 1000;
+  border-right: 1px solid #e5e5e5;
+  background: #fff;
 }
 </style>

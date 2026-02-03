@@ -279,6 +279,110 @@ func (x *HealthMsg) GetIsHealthy() bool {
 	return false
 }
 
+// --------------------------
+// 6. 静态资源读取请求消息
+// 对应接口中的 GetStaticResource() 方法参数
+// --------------------------
+type StaticResourceRequestMsg struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"` // 资源路径（如 /static/js/main.js）
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StaticResourceRequestMsg) Reset() {
+	*x = StaticResourceRequestMsg{}
+	mi := &file_pkg_plugin_proto_plugin_store_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StaticResourceRequestMsg) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StaticResourceRequestMsg) ProtoMessage() {}
+
+func (x *StaticResourceRequestMsg) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_plugin_proto_plugin_store_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StaticResourceRequestMsg.ProtoReflect.Descriptor instead.
+func (*StaticResourceRequestMsg) Descriptor() ([]byte, []int) {
+	return file_pkg_plugin_proto_plugin_store_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *StaticResourceRequestMsg) GetPath() string {
+	if x != nil {
+		return x.Path
+	}
+	return ""
+}
+
+// --------------------------
+// 7. 静态资源读取响应消息
+// 对应接口中的 GetStaticResource() 方法返回值
+// --------------------------
+type StaticResourceResponseMsg struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Content       []byte                 `protobuf:"bytes,1,opt,name=content,proto3" json:"content,omitempty"`                            // 资源内容
+	ContentType   string                 `protobuf:"bytes,2,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"` // 资源类型（如 application/javascript, text/css）
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StaticResourceResponseMsg) Reset() {
+	*x = StaticResourceResponseMsg{}
+	mi := &file_pkg_plugin_proto_plugin_store_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StaticResourceResponseMsg) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StaticResourceResponseMsg) ProtoMessage() {}
+
+func (x *StaticResourceResponseMsg) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_plugin_proto_plugin_store_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StaticResourceResponseMsg.ProtoReflect.Descriptor instead.
+func (*StaticResourceResponseMsg) Descriptor() ([]byte, []int) {
+	return file_pkg_plugin_proto_plugin_store_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *StaticResourceResponseMsg) GetContent() []byte {
+	if x != nil {
+		return x.Content
+	}
+	return nil
+}
+
+func (x *StaticResourceResponseMsg) GetContentType() string {
+	if x != nil {
+		return x.ContentType
+	}
+	return ""
+}
+
 var File_pkg_plugin_proto_plugin_store_proto protoreflect.FileDescriptor
 
 const file_pkg_plugin_proto_plugin_store_proto_rawDesc = "" +
@@ -301,13 +405,19 @@ const file_pkg_plugin_proto_plugin_store_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"*\n" +
 	"\tHealthMsg\x12\x1d\n" +
 	"\n" +
-	"is_healthy\x18\x01 \x01(\bR\tisHealthy2\xc0\x02\n" +
+	"is_healthy\x18\x01 \x01(\bR\tisHealthy\".\n" +
+	"\x18StaticResourceRequestMsg\x12\x12\n" +
+	"\x04path\x18\x01 \x01(\tR\x04path\"X\n" +
+	"\x19StaticResourceResponseMsg\x12\x18\n" +
+	"\acontent\x18\x01 \x01(\fR\acontent\x12!\n" +
+	"\fcontent_type\x18\x02 \x01(\tR\vcontentType2\xa6\x03\n" +
 	"\x12PluginStoreService\x12@\n" +
 	"\x04Info\x12\x16.plugin_store.EmptyMsg\x1a .plugin_store.PluginBasicInfoMsg\x12;\n" +
 	"\aVersion\x12\x16.plugin_store.EmptyMsg\x1a\x18.plugin_store.VersionMsg\x125\n" +
 	"\x04Init\x12\x15.plugin_store.InitMsg\x1a\x16.plugin_store.EmptyMsg\x129\n" +
 	"\aDestroy\x12\x16.plugin_store.EmptyMsg\x1a\x16.plugin_store.EmptyMsg\x129\n" +
-	"\x06Health\x12\x16.plugin_store.EmptyMsg\x1a\x17.plugin_store.HealthMsgB\x17Z\x15../pb;plugin_store_pbb\x06proto3"
+	"\x06Health\x12\x16.plugin_store.EmptyMsg\x1a\x17.plugin_store.HealthMsg\x12d\n" +
+	"\x11GetStaticResource\x12&.plugin_store.StaticResourceRequestMsg\x1a'.plugin_store.StaticResourceResponseMsgB\x17Z\x15../pb;plugin_store_pbb\x06proto3"
 
 var (
 	file_pkg_plugin_proto_plugin_store_proto_rawDescOnce sync.Once
@@ -321,29 +431,33 @@ func file_pkg_plugin_proto_plugin_store_proto_rawDescGZIP() []byte {
 	return file_pkg_plugin_proto_plugin_store_proto_rawDescData
 }
 
-var file_pkg_plugin_proto_plugin_store_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_pkg_plugin_proto_plugin_store_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_pkg_plugin_proto_plugin_store_proto_goTypes = []any{
-	(*EmptyMsg)(nil),           // 0: plugin_store.EmptyMsg
-	(*PluginBasicInfoMsg)(nil), // 1: plugin_store.PluginBasicInfoMsg
-	(*VersionMsg)(nil),         // 2: plugin_store.VersionMsg
-	(*InitMsg)(nil),            // 3: plugin_store.InitMsg
-	(*HealthMsg)(nil),          // 4: plugin_store.HealthMsg
-	nil,                        // 5: plugin_store.InitMsg.ConfigEntry
+	(*EmptyMsg)(nil),                  // 0: plugin_store.EmptyMsg
+	(*PluginBasicInfoMsg)(nil),        // 1: plugin_store.PluginBasicInfoMsg
+	(*VersionMsg)(nil),                // 2: plugin_store.VersionMsg
+	(*InitMsg)(nil),                   // 3: plugin_store.InitMsg
+	(*HealthMsg)(nil),                 // 4: plugin_store.HealthMsg
+	(*StaticResourceRequestMsg)(nil),  // 5: plugin_store.StaticResourceRequestMsg
+	(*StaticResourceResponseMsg)(nil), // 6: plugin_store.StaticResourceResponseMsg
+	nil,                               // 7: plugin_store.InitMsg.ConfigEntry
 }
 var file_pkg_plugin_proto_plugin_store_proto_depIdxs = []int32{
-	5, // 0: plugin_store.InitMsg.config:type_name -> plugin_store.InitMsg.ConfigEntry
+	7, // 0: plugin_store.InitMsg.config:type_name -> plugin_store.InitMsg.ConfigEntry
 	0, // 1: plugin_store.PluginStoreService.Info:input_type -> plugin_store.EmptyMsg
 	0, // 2: plugin_store.PluginStoreService.Version:input_type -> plugin_store.EmptyMsg
 	3, // 3: plugin_store.PluginStoreService.Init:input_type -> plugin_store.InitMsg
 	0, // 4: plugin_store.PluginStoreService.Destroy:input_type -> plugin_store.EmptyMsg
 	0, // 5: plugin_store.PluginStoreService.Health:input_type -> plugin_store.EmptyMsg
-	1, // 6: plugin_store.PluginStoreService.Info:output_type -> plugin_store.PluginBasicInfoMsg
-	2, // 7: plugin_store.PluginStoreService.Version:output_type -> plugin_store.VersionMsg
-	0, // 8: plugin_store.PluginStoreService.Init:output_type -> plugin_store.EmptyMsg
-	0, // 9: plugin_store.PluginStoreService.Destroy:output_type -> plugin_store.EmptyMsg
-	4, // 10: plugin_store.PluginStoreService.Health:output_type -> plugin_store.HealthMsg
-	6, // [6:11] is the sub-list for method output_type
-	1, // [1:6] is the sub-list for method input_type
+	5, // 6: plugin_store.PluginStoreService.GetStaticResource:input_type -> plugin_store.StaticResourceRequestMsg
+	1, // 7: plugin_store.PluginStoreService.Info:output_type -> plugin_store.PluginBasicInfoMsg
+	2, // 8: plugin_store.PluginStoreService.Version:output_type -> plugin_store.VersionMsg
+	0, // 9: plugin_store.PluginStoreService.Init:output_type -> plugin_store.EmptyMsg
+	0, // 10: plugin_store.PluginStoreService.Destroy:output_type -> plugin_store.EmptyMsg
+	4, // 11: plugin_store.PluginStoreService.Health:output_type -> plugin_store.HealthMsg
+	6, // 12: plugin_store.PluginStoreService.GetStaticResource:output_type -> plugin_store.StaticResourceResponseMsg
+	7, // [7:13] is the sub-list for method output_type
+	1, // [1:7] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
@@ -360,7 +474,7 @@ func file_pkg_plugin_proto_plugin_store_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pkg_plugin_proto_plugin_store_proto_rawDesc), len(file_pkg_plugin_proto_plugin_store_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

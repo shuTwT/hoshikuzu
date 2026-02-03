@@ -35,6 +35,9 @@ type PluginStore interface {
 
 	// Health 插件健康检查
 	Health(ctx context.Context) (bool, error)
+
+	// GetStaticResource 读取静态资源
+	GetStaticResource(ctx context.Context, path string) ([]byte, string, error)
 }
 
 // --------------------------
@@ -114,6 +117,20 @@ type GRPCServer struct {
 	pb.UnimplementedPluginStoreServiceServer
 	// 持有 PluginStore 业务接口的具体实现（插件侧运行时，会注入实际的插件实例）
 	impl PluginStore
+}
+
+// GetStaticResource：实现 gRPC 服务端的 GetStaticResource 方法，处理宿主的静态资源读取请求
+func (s *GRPCServer) GetStaticResource(ctx context.Context, req *pb.StaticResourceRequestMsg) (*pb.StaticResourceResponseMsg, error) {
+	// 调用插件实现的 GetStaticResource 方法
+	content, contentType, err := s.impl.GetStaticResource(ctx, req.Path)
+	if err != nil {
+		return nil, err
+	}
+	// 转换为 gRPC 响应
+	return &pb.StaticResourceResponseMsg{
+		Content:     content,
+		ContentType: contentType,
+	}, nil
 }
 
 // 确保 GRPCClient 完全实现 PluginStore 接口（编译期校验）
