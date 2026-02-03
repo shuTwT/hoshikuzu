@@ -43,3 +43,25 @@ type PluginResp struct {
 	LastStartedAt    *time.Time `json:"last_started_at"`
 	LastStoppedAt    *time.Time `json:"last_stopped_at"`
 }
+
+// PluginRegisterReq 插件注册请求结构体
+type PluginRegisterReq struct {
+	Name        string            `json:"name" validate:"required"`
+	Version     string            `json:"version" validate:"required"`
+	GrpcAddress string            `json:"grpc_address" validate:"required"`
+	Status      string            `json:"status" validate:"required"`
+	StartTime   *time.Time        `json:"start_time"`
+	Metadata    map[string]string `json:"metadata"`
+}
+
+// PluginHeartbeatReq 插件心跳请求结构体
+type PluginHeartbeatReq struct {
+	Name   string `json:"name" validate:"required"`
+	Status string `json:"status,omitempty"`
+}
+
+// PluginHeartbeatResp 插件心跳响应结构体
+type PluginHeartbeatResp struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+}

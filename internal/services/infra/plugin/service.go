@@ -33,12 +33,17 @@ type PluginService interface {
 	StopPlugin(ctx context.Context, id int) error
 	RestartPlugin(ctx context.Context, id int) error
 	AutoStartPlugins(ctx context.Context) error
+	RegisterPlugin(ctx context.Context, pluginInfo *model.PluginRegisterReq) error
+	HeartbeatPlugin(ctx context.Context, heartbeatInfo *model.PluginHeartbeatReq) error
+	CheckPluginTimeout(ctx context.Context) error
 }
 
 type PluginServiceImpl struct {
-	client        *ent.Client
-	pluginClients map[int]*plugin_lib.Client
-	mu            sync.RWMutex
+	client           *ent.Client
+	pluginClients    map[int]*plugin_lib.Client
+	pluginCache      map[string]map[string]interface{}
+	pluginHeartbeats map[string]time.Time
+	mu               sync.RWMutex
 }
 
 type emptyPlugin struct {
@@ -79,8 +84,10 @@ func (c *emptyPluginRPCClient) Close() error {
 
 func NewPluginServiceImpl(client *ent.Client) *PluginServiceImpl {
 	return &PluginServiceImpl{
-		client:        client,
-		pluginClients: make(map[int]*plugin_lib.Client),
+		client:           client,
+		pluginClients:    make(map[int]*plugin_lib.Client),
+		pluginCache:      make(map[string]map[string]interface{}),
+		pluginHeartbeats: make(map[string]time.Time),
 	}
 }
 
@@ -238,7 +245,7 @@ func (s *PluginServiceImpl) CreatePlugin(ctx context.Context, fileHeader *multip
 		}
 	}
 
-	binPath := ""
+	var binPath string
 	if binaryFile != nil {
 		binPath = filepath.Join(targetDir, binaryFile.Name)
 		if _, err := os.Stat(binPath); os.IsNotExist(err) {
@@ -481,6 +488,68 @@ func (s *PluginServiceImpl) AutoStartPlugins(ctx context.Context) error {
 					fmt.Printf("自动启动插件 %d 失败: %v\n", pluginID, err)
 				}
 			}(p.ID)
+		}
+	}
+
+	return nil
+}
+
+func (s *PluginServiceImpl) RegisterPlugin(ctx context.Context, pluginInfo *model.PluginRegisterReq) error {
+	// 使用插件名称作为key
+	pluginKey := pluginInfo.Name
+
+	s.mu.Lock()
+	s.pluginCache[pluginKey] = map[string]interface{}{
+		"name":         pluginInfo.Name,
+		"version":      pluginInfo.Version,
+		"grpc_address": pluginInfo.GrpcAddress,
+		"status":       pluginInfo.Status,
+		"start_time":   pluginInfo.StartTime,
+		"metadata":     pluginInfo.Metadata,
+	}
+	// 初始化心跳时间
+	s.pluginHeartbeats[pluginKey] = time.Now()
+	s.mu.Unlock()
+
+	return nil
+}
+
+func (s *PluginServiceImpl) HeartbeatPlugin(ctx context.Context, heartbeatInfo *model.PluginHeartbeatReq) error {
+	// 使用插件名称作为key
+	pluginKey := heartbeatInfo.Name
+
+	s.mu.Lock()
+	// 更新心跳时间
+	s.pluginHeartbeats[pluginKey] = time.Now()
+	// 如果插件状态不为空，则更新插件缓存中的状态
+	if heartbeatInfo.Status != "" {
+		if pluginInfo, exists := s.pluginCache[pluginKey]; exists {
+			pluginInfo["status"] = heartbeatInfo.Status
+			s.pluginCache[pluginKey] = pluginInfo
+		}
+	}
+	s.mu.Unlock()
+
+	return nil
+}
+
+func (s *PluginServiceImpl) CheckPluginTimeout(ctx context.Context) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	// 超时时间设置为30秒
+	timeout := 30 * time.Second
+	now := time.Now()
+
+	// 遍历所有插件的心跳时间
+	for pluginKey, heartbeatTime := range s.pluginHeartbeats {
+		// 检查心跳时间是否超过了超时时间
+		if now.Sub(heartbeatTime) > timeout {
+			// 如果超过了超时时间，则将插件状态置为停止(stopped)
+			if pluginInfo, exists := s.pluginCache[pluginKey]; exists {
+				pluginInfo["status"] = "stopped"
+				s.pluginCache[pluginKey] = pluginInfo
+			}
 		}
 	}
 

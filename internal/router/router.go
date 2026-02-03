@@ -339,6 +339,11 @@ func Initialize(router *fiber.App, handlerMap handlers.HandlerMap, dbClient *ent
 
 			apiV1.Post("/flink-application/create", handlerMap.FlinkApplicationHandler.CreateFlinkApplication).Name("flinkApplicationCreate")
 
+			// 插件注册接口，仅在debug模式下生效，不需要认证
+			apiV1.Post("/plugin/register", handlerMap.PluginHandler.RegisterPlugin).Name("pluginRegister")
+			// 插件心跳接口，仅在debug模式下生效，不需要认证
+			apiV1.Post("/plugin/heartbeat", handlerMap.PluginHandler.HeartbeatPlugin).Name("pluginHeartbeat")
+
 			apiV1.Use(middleware.FlexibleAuth(dbClient))
 
 			// 首页统计信息接口
