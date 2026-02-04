@@ -29,7 +29,7 @@ func NewNotificationHandlerImpl(notificationService notification_service.Notific
 
 // @Summary 查询通知分页列表
 // @Description 查询通知的分页列表，支持按已读/未读状态过滤
-// @Tags 通知
+// @Tags 后台管理接口/通知
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -64,7 +64,7 @@ func (h *NotificationHandlerImpl) ListNotificationPage(c *fiber.Ctx) error {
 
 // @Summary 查询通知详情
 // @Description 查询指定通知的详细信息
-// @Tags 通知
+// @Tags 后台管理接口/通知
 // @Accept json
 // @Produce json
 // @Param id path int true "通知ID"
@@ -90,7 +90,7 @@ func (h *NotificationHandlerImpl) QueryNotification(c *fiber.Ctx) error {
 
 // @Summary 删除通知
 // @Description 删除指定通知
-// @Tags 通知
+// @Tags 后台管理接口/通知
 // @Accept json
 // @Produce json
 // @Param id path int true "通知ID"
@@ -116,7 +116,7 @@ func (h *NotificationHandlerImpl) DeleteNotification(c *fiber.Ctx) error {
 
 // @Summary 批量标记为已读
 // @Description 批量将通知标记为已读
-// @Tags 通知
+// @Tags 后台管理接口/通知
 // @Accept json
 // @Produce json
 // @Param request body model.NotificationBatchReadReq true "批量已读请求"

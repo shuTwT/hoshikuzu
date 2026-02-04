@@ -35,7 +35,7 @@ func NewCouponUsageHandlerImpl(couponUsageService couponusage_service.CouponUsag
 
 // @Summary 获取所有优惠券使用记录
 // @Description 获取所有优惠券使用记录列表
-// @Tags 优惠券使用记录
+// @Tags 后台管理接口/优惠券使用记录
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.CouponUsage}
@@ -53,7 +53,7 @@ func (h *CouponUsageHandlerImpl) ListCouponUsages(c *fiber.Ctx) error {
 
 // @Summary 获取优惠券使用记录列表分页
 // @Description 获取优惠券使用记录列表分页
-// @Tags 优惠券使用记录
+// @Tags 后台管理接口/优惠券使用记录
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -90,7 +90,7 @@ func (h *CouponUsageHandlerImpl) ListCouponUsagesPage(c *fiber.Ctx) error {
 
 // @Summary 创建优惠券使用记录
 // @Description 创建优惠券使用记录
-// @Tags 优惠券使用记录
+// @Tags 后台管理接口/优惠券使用记录
 // @Accept json
 // @Produce json
 // @Param req body model.CouponUsageCreateReq true "优惠券使用记录创建请求"
@@ -114,7 +114,7 @@ func (h *CouponUsageHandlerImpl) CreateCouponUsage(c *fiber.Ctx) error {
 
 // @Summary 更新优惠券使用记录
 // @Description 更新优惠券使用记录
-// @Tags 优惠券使用记录
+// @Tags 后台管理接口/优惠券使用记录
 // @Accept json
 // @Produce json
 // @Param id path int true "优惠券使用记录 ID"
@@ -144,7 +144,7 @@ func (h *CouponUsageHandlerImpl) UpdateCouponUsage(c *fiber.Ctx) error {
 
 // @Summary 查询优惠券使用记录
 // @Description 查询优惠券使用记录
-// @Tags 优惠券使用记录
+// @Tags 后台管理接口/优惠券使用记录
 // @Accept json
 // @Produce json
 // @Param id path int true "优惠券使用记录 ID"
@@ -168,7 +168,7 @@ func (h *CouponUsageHandlerImpl) QueryCouponUsage(c *fiber.Ctx) error {
 
 // @Summary 删除优惠券使用记录
 // @Description 删除优惠券使用记录
-// @Tags 优惠券使用记录
+// @Tags 后台管理接口/优惠券使用记录
 // @Accept json
 // @Produce json
 // @Param id path int true "优惠券使用记录 ID"
@@ -191,7 +191,7 @@ func (h *CouponUsageHandlerImpl) DeleteCouponUsage(c *fiber.Ctx) error {
 
 // @Summary 批量更新优惠券使用记录
 // @Description 批量更新优惠券使用记录
-// @Tags 优惠券使用记录
+// @Tags 后台管理接口/优惠券使用记录
 // @Accept json
 // @Produce json
 // @Param req body model.CouponUsageBatchUpdateReq true "优惠券使用记录批量更新请求"
@@ -214,7 +214,7 @@ func (h *CouponUsageHandlerImpl) BatchUpdateCouponUsages(c *fiber.Ctx) error {
 
 // @Summary 批量删除优惠券使用记录
 // @Description 批量删除优惠券使用记录
-// @Tags 优惠券使用记录
+// @Tags 后台管理接口/优惠券使用记录
 // @Accept json
 // @Produce json
 // @Param req body model.CouponUsageBatchDeleteReq true "优惠券使用记录批量删除请求"
@@ -237,7 +237,7 @@ func (h *CouponUsageHandlerImpl) BatchDeleteCouponUsages(c *fiber.Ctx) error {
 
 // @Summary 搜索优惠券使用记录
 // @Description 搜索优惠券使用记录
-// @Tags 优惠券使用记录
+// @Tags 后台管理接口/优惠券使用记录
 // @Accept json
 // @Produce json
 // @Param req query model.CouponUsageSearchReq true "优惠券使用记录搜索请求"

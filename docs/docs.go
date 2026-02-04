@@ -33,7 +33,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "认证"
+                    "公开接口/认证"
                 ],
                 "summary": "用户登录",
                 "parameters": [
@@ -85,7 +85,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "初始化"
+                    "公开接口/初始化"
                 ],
                 "summary": "系统初始化",
                 "parameters": [
@@ -140,7 +140,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册照片"
+                    "后台管理接口/相册照片"
                 ],
                 "summary": "创建相册照片",
                 "parameters": [
@@ -198,7 +198,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册照片"
+                    "后台管理接口/相册照片"
                 ],
                 "summary": "删除相册照片",
                 "parameters": [
@@ -254,7 +254,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册照片"
+                    "后台管理接口/相册照片"
                 ],
                 "summary": "查询相册照片列表",
                 "responses": {
@@ -304,7 +304,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册照片"
+                    "后台管理接口/相册照片"
                 ],
                 "summary": "查询相册照片分页列表",
                 "parameters": [
@@ -367,7 +367,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册照片"
+                    "后台管理接口/相册照片"
                 ],
                 "summary": "查询相册照片",
                 "parameters": [
@@ -423,7 +423,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册照片"
+                    "后台管理接口/相册照片"
                 ],
                 "summary": "更新相册照片",
                 "parameters": [
@@ -488,7 +488,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册"
+                    "后台管理接口/相册"
                 ],
                 "summary": "创建相册",
                 "parameters": [
@@ -546,7 +546,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册"
+                    "后台管理接口/相册"
                 ],
                 "summary": "删除相册",
                 "parameters": [
@@ -602,7 +602,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册"
+                    "后台管理接口/相册"
                 ],
                 "summary": "查询相册列表",
                 "responses": {
@@ -652,7 +652,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册"
+                    "后台管理接口/相册"
                 ],
                 "summary": "查询相册列表分页",
                 "parameters": [
@@ -715,7 +715,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册"
+                    "后台管理接口/相册"
                 ],
                 "summary": "查询相册",
                 "parameters": [
@@ -771,7 +771,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "相册"
+                    "后台管理接口/相册"
                 ],
                 "summary": "更新相册",
                 "parameters": [
@@ -836,7 +836,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "api路由"
+                    "后台管理接口/api路由"
                 ],
                 "summary": "查询API路由分页列表",
                 "parameters": [
@@ -899,7 +899,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "分类"
+                    "后台管理接口/分类"
                 ],
                 "summary": "创建分类",
                 "parameters": [
@@ -957,7 +957,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "分类"
+                    "后台管理接口/分类"
                 ],
                 "summary": "删除分类",
                 "parameters": [
@@ -1019,7 +1019,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "分类"
+                    "后台管理接口/分类"
                 ],
                 "summary": "查询分类列表",
                 "responses": {
@@ -1063,7 +1063,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "分类"
+                    "后台管理接口/分类"
                 ],
                 "summary": "查询分类分页列表",
                 "parameters": [
@@ -1126,7 +1126,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "分类"
+                    "后台管理接口/分类"
                 ],
                 "summary": "查询分类",
                 "parameters": [
@@ -1188,7 +1188,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "分类"
+                    "后台管理接口/分类"
                 ],
                 "summary": "更新分类",
                 "parameters": [
@@ -1259,7 +1259,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "评论"
+                    "后台管理接口/评论"
                 ],
                 "summary": "获取评论列表",
                 "parameters": [
@@ -1322,7 +1322,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "评论"
+                    "后台管理接口/评论"
                 ],
                 "summary": "获取评论",
                 "parameters": [
@@ -1378,7 +1378,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "评论"
+                    "公开接口/评论"
                 ],
                 "summary": "获取最近评论",
                 "responses": {
@@ -1426,7 +1426,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "公共"
+                    "后台管理接口/统计"
                 ],
                 "summary": "获取首页统计信息",
                 "responses": {
@@ -1473,7 +1473,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券"
+                    "后台管理接口/优惠券"
                 ],
                 "summary": "批量删除优惠券",
                 "parameters": [
@@ -1531,7 +1531,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券"
+                    "后台管理接口/优惠券"
                 ],
                 "summary": "批量更新优惠券",
                 "parameters": [
@@ -1589,7 +1589,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券"
+                    "后台管理接口/优惠券"
                 ],
                 "summary": "创建优惠券",
                 "parameters": [
@@ -1647,7 +1647,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券"
+                    "后台管理接口/优惠券"
                 ],
                 "summary": "删除优惠券",
                 "parameters": [
@@ -1703,7 +1703,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券"
+                    "后台管理接口/优惠券"
                 ],
                 "summary": "获取所有优惠券",
                 "responses": {
@@ -1753,7 +1753,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券"
+                    "后台管理接口/优惠券"
                 ],
                 "summary": "获取优惠券分页列表",
                 "parameters": [
@@ -1814,7 +1814,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券"
+                    "后台管理接口/优惠券"
                 ],
                 "summary": "查询优惠券",
                 "parameters": [
@@ -1870,7 +1870,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券"
+                    "后台管理接口/优惠券"
                 ],
                 "summary": "搜索优惠券",
                 "parameters": [
@@ -1945,7 +1945,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券"
+                    "后台管理接口/优惠券"
                 ],
                 "summary": "更新优惠券",
                 "parameters": [
@@ -2010,7 +2010,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券使用记录"
+                    "后台管理接口/优惠券使用记录"
                 ],
                 "summary": "批量删除优惠券使用记录",
                 "parameters": [
@@ -2068,7 +2068,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券使用记录"
+                    "后台管理接口/优惠券使用记录"
                 ],
                 "summary": "批量更新优惠券使用记录",
                 "parameters": [
@@ -2126,7 +2126,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券使用记录"
+                    "后台管理接口/优惠券使用记录"
                 ],
                 "summary": "创建优惠券使用记录",
                 "parameters": [
@@ -2184,7 +2184,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券使用记录"
+                    "后台管理接口/优惠券使用记录"
                 ],
                 "summary": "删除优惠券使用记录",
                 "parameters": [
@@ -2240,7 +2240,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券使用记录"
+                    "后台管理接口/优惠券使用记录"
                 ],
                 "summary": "获取所有优惠券使用记录",
                 "responses": {
@@ -2290,7 +2290,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券使用记录"
+                    "后台管理接口/优惠券使用记录"
                 ],
                 "summary": "获取优惠券使用记录列表分页",
                 "parameters": [
@@ -2353,7 +2353,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券使用记录"
+                    "后台管理接口/优惠券使用记录"
                 ],
                 "summary": "查询优惠券使用记录",
                 "parameters": [
@@ -2409,7 +2409,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券使用记录"
+                    "后台管理接口/优惠券使用记录"
                 ],
                 "summary": "搜索优惠券使用记录",
                 "parameters": [
@@ -2488,7 +2488,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "优惠券使用记录"
+                    "后台管理接口/优惠券使用记录"
                 ],
                 "summary": "更新优惠券使用记录",
                 "parameters": [
@@ -2553,7 +2553,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库详情"
+                    "后台管理接口/文档库详情"
                 ],
                 "summary": "创建文档库详情",
                 "parameters": [
@@ -2611,7 +2611,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库详情"
+                    "后台管理接口/文档库详情"
                 ],
                 "summary": "删除文档库详情",
                 "parameters": [
@@ -2667,7 +2667,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库详情"
+                    "后台管理接口/文档库详情"
                 ],
                 "summary": "获取文档库详情分页列表",
                 "parameters": [
@@ -2737,7 +2737,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库详情"
+                    "后台管理接口/文档库详情"
                 ],
                 "summary": "获取文档库详情",
                 "parameters": [
@@ -2793,7 +2793,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库详情"
+                    "后台管理接口/文档库详情"
                 ],
                 "summary": "获取文档库详情树",
                 "parameters": [
@@ -2852,7 +2852,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库详情"
+                    "后台管理接口/文档库详情"
                 ],
                 "summary": "更新文档库详情",
                 "parameters": [
@@ -2917,7 +2917,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库"
+                    "后台管理接口/文档库"
                 ],
                 "summary": "创建文档库",
                 "parameters": [
@@ -2975,7 +2975,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库"
+                    "后台管理接口/文档库"
                 ],
                 "summary": "删除文档库",
                 "parameters": [
@@ -3031,7 +3031,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库"
+                    "后台管理接口/文档库"
                 ],
                 "summary": "获取文档库列表",
                 "responses": {
@@ -3081,7 +3081,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库"
+                    "后台管理接口/文档库"
                 ],
                 "summary": "获取文档库分页列表",
                 "parameters": [
@@ -3144,7 +3144,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库"
+                    "后台管理接口/文档库"
                 ],
                 "summary": "获取文档库",
                 "parameters": [
@@ -3200,7 +3200,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文档库"
+                    "后台管理接口/文档库"
                 ],
                 "summary": "更新文档库",
                 "parameters": [
@@ -3265,7 +3265,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "说说"
+                    "后台管理接口/说说"
                 ],
                 "summary": "创建说说",
                 "parameters": [
@@ -3323,7 +3323,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "说说"
+                    "后台管理接口/说说"
                 ],
                 "summary": "删除说说",
                 "parameters": [
@@ -3379,7 +3379,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "说说"
+                    "后台管理接口/说说"
                 ],
                 "summary": "获取说说列表",
                 "parameters": [
@@ -3438,7 +3438,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "说说"
+                    "后台管理接口/说说"
                 ],
                 "summary": "获取说说分页列表",
                 "parameters": [
@@ -3501,7 +3501,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "说说"
+                    "后台管理接口/说说"
                 ],
                 "summary": "更新说说",
                 "parameters": [
@@ -3566,7 +3566,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文件"
+                    "后台管理接口/文件"
                 ],
                 "summary": "删除文件",
                 "parameters": [
@@ -3622,7 +3622,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文件"
+                    "后台管理接口/文件"
                 ],
                 "summary": "获取文件列表",
                 "responses": {
@@ -3666,7 +3666,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文件"
+                    "后台管理接口/文件"
                 ],
                 "summary": "获取文件分页列表",
                 "parameters": [
@@ -3729,7 +3729,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文件"
+                    "后台管理接口/文件"
                 ],
                 "summary": "查询文件",
                 "parameters": [
@@ -3791,7 +3791,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文件"
+                    "后台管理接口/文件"
                 ],
                 "summary": "上传文件",
                 "parameters": [
@@ -3857,7 +3857,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链申请"
+                    "后台管理接口/友链申请"
                 ],
                 "summary": "审核友链申请",
                 "parameters": [
@@ -3916,7 +3916,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链申请"
+                    "公开接口/友链申请"
                 ],
                 "summary": "创建友链申请",
                 "parameters": [
@@ -3968,7 +3968,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链申请"
+                    "后台管理接口/友链申请"
                 ],
                 "summary": "获取友链申请分页列表",
                 "parameters": [
@@ -4025,7 +4025,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链申请"
+                    "后台管理接口/友链申请"
                 ],
                 "summary": "查询友链申请",
                 "parameters": [
@@ -4075,7 +4075,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链组"
+                    "后台管理接口/友链组"
                 ],
                 "summary": "创建友链组",
                 "parameters": [
@@ -4133,7 +4133,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链组"
+                    "后台管理接口/友链组"
                 ],
                 "summary": "删除友链组",
                 "parameters": [
@@ -4189,7 +4189,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链组"
+                    "后台管理接口/友链组"
                 ],
                 "summary": "查询友链组列表",
                 "responses": {
@@ -4239,7 +4239,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链组"
+                    "后台管理接口/友链组"
                 ],
                 "summary": "更新友链组",
                 "parameters": [
@@ -4304,7 +4304,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链"
+                    "后台管理接口/友链"
                 ],
                 "summary": "创建Flink",
                 "parameters": [
@@ -4362,7 +4362,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链"
+                    "后台管理接口/友链"
                 ],
                 "summary": "获取所有Flink",
                 "responses": {
@@ -4412,7 +4412,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链"
+                    "后台管理接口/友链"
                 ],
                 "summary": "获取Flink分页列表",
                 "parameters": [
@@ -4475,7 +4475,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链"
+                    "后台管理接口/友链"
                 ],
                 "summary": "查询Flink",
                 "parameters": [
@@ -4531,7 +4531,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链"
+                    "公开接口/友链"
                 ],
                 "summary": "随机查询Flink",
                 "responses": {
@@ -4578,7 +4578,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链"
+                    "后台管理接口/友链"
                 ],
                 "summary": "更新Flink",
                 "parameters": [
@@ -4643,7 +4643,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链"
+                    "后台管理接口/友链"
                 ],
                 "summary": "删除Flink",
                 "parameters": [
@@ -4699,7 +4699,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链朋友圈"
+                    "后台管理接口/友链朋友圈"
                 ],
                 "summary": "创建朋友圈记录",
                 "responses": {
@@ -4746,7 +4746,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链朋友圈"
+                    "后台管理接口/友链朋友圈"
                 ],
                 "summary": "获取朋友圈记录分页列表",
                 "parameters": [
@@ -4809,7 +4809,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链朋友圈"
+                    "后台管理接口/友链朋友圈"
                 ],
                 "summary": "更新朋友圈记录",
                 "parameters": [
@@ -4863,7 +4863,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "友链朋友圈"
+                    "后台管理接口/友链朋友圈"
                 ],
                 "summary": "删除朋友圈记录",
                 "parameters": [
@@ -4919,7 +4919,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "知识库"
+                    "后台管理接口/知识库"
                 ],
                 "summary": "创建知识库",
                 "parameters": [
@@ -4977,7 +4977,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "知识库"
+                    "后台管理接口/知识库"
                 ],
                 "summary": "删除知识库",
                 "parameters": [
@@ -5033,7 +5033,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "知识库"
+                    "后台管理接口/知识库"
                 ],
                 "summary": "获取知识库列表",
                 "responses": {
@@ -5083,7 +5083,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "知识库"
+                    "后台管理接口/知识库"
                 ],
                 "summary": "获取知识库分页列表",
                 "parameters": [
@@ -5149,7 +5149,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "知识库"
+                    "后台管理接口/知识库"
                 ],
                 "summary": "更新知识库",
                 "parameters": [
@@ -5214,7 +5214,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "知识库"
+                    "后台管理接口/知识库"
                 ],
                 "summary": "获取知识库",
                 "parameters": [
@@ -5270,7 +5270,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "授权"
+                    "后台管理接口/授权"
                 ],
                 "summary": "创建授权",
                 "parameters": [
@@ -5328,7 +5328,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "授权"
+                    "后台管理接口/授权"
                 ],
                 "summary": "删除授权",
                 "parameters": [
@@ -5384,7 +5384,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "授权"
+                    "后台管理接口/授权"
                 ],
                 "summary": "获取授权分页列表",
                 "parameters": [
@@ -5447,7 +5447,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "授权"
+                    "后台管理接口/授权"
                 ],
                 "summary": "查询授权",
                 "parameters": [
@@ -5509,7 +5509,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "授权"
+                    "后台管理接口/授权"
                 ],
                 "summary": "更新授权",
                 "parameters": [
@@ -5574,7 +5574,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "授权"
+                    "公开接口/授权"
                 ],
                 "summary": "验证授权",
                 "parameters": [
@@ -5632,7 +5632,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员等级"
+                    "后台管理接口/会员等级"
                 ],
                 "summary": "创建会员等级",
                 "parameters": [
@@ -5690,7 +5690,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员等级"
+                    "后台管理接口/会员等级"
                 ],
                 "summary": "删除会员等级",
                 "parameters": [
@@ -5752,7 +5752,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员等级"
+                    "后台管理接口/会员等级"
                 ],
                 "summary": "查询会员等级列表",
                 "responses": {
@@ -5796,7 +5796,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员等级"
+                    "后台管理接口/会员等级"
                 ],
                 "summary": "查询会员等级分页",
                 "parameters": [
@@ -5859,7 +5859,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员等级"
+                    "后台管理接口/会员等级"
                 ],
                 "summary": "查询会员等级",
                 "parameters": [
@@ -5921,7 +5921,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员等级"
+                    "后台管理接口/会员等级"
                 ],
                 "summary": "更新会员等级",
                 "parameters": [
@@ -5992,7 +5992,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员"
+                    "后台管理接口/会员"
                 ],
                 "summary": "创建会员",
                 "parameters": [
@@ -6050,7 +6050,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员"
+                    "后台管理接口/会员"
                 ],
                 "summary": "删除会员",
                 "parameters": [
@@ -6112,7 +6112,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员"
+                    "后台管理接口/会员"
                 ],
                 "summary": "查询会员列表分页",
                 "parameters": [
@@ -6175,7 +6175,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员"
+                    "后台管理接口/会员"
                 ],
                 "summary": "查询会员",
                 "parameters": [
@@ -6237,7 +6237,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "会员"
+                    "后台管理接口/会员"
                 ],
                 "summary": "更新会员",
                 "parameters": [
@@ -6308,7 +6308,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "迁移"
+                    "后台管理接口/迁移"
                 ],
                 "summary": "检查重复文件",
                 "parameters": [
@@ -6364,7 +6364,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "迁移"
+                    "后台管理接口/迁移"
                 ],
                 "summary": "导入Markdown文件",
                 "parameters": [
@@ -6420,7 +6420,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "通知"
+                    "后台管理接口/通知"
                 ],
                 "summary": "批量标记为已读",
                 "parameters": [
@@ -6478,7 +6478,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "通知"
+                    "后台管理接口/通知"
                 ],
                 "summary": "删除通知",
                 "parameters": [
@@ -6534,7 +6534,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "通知"
+                    "后台管理接口/通知"
                 ],
                 "summary": "查询通知分页列表",
                 "parameters": [
@@ -6604,7 +6604,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "通知"
+                    "后台管理接口/通知"
                 ],
                 "summary": "查询通知详情",
                 "parameters": [
@@ -6660,7 +6660,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "支付订单"
+                    "后台管理接口/支付订单"
                 ],
                 "summary": "删除支付订单",
                 "parameters": [
@@ -6710,7 +6710,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "支付订单"
+                    "后台管理接口/支付订单"
                 ],
                 "summary": "获取支付订单列表",
                 "responses": {
@@ -6754,7 +6754,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "支付订单"
+                    "后台管理接口/支付订单"
                 ],
                 "summary": "查询支付订单",
                 "parameters": [
@@ -6804,7 +6804,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "支付订单"
+                    "后台管理接口/支付订单"
                 ],
                 "summary": "提交支付订单",
                 "parameters": [
@@ -6850,7 +6850,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "支付订单"
+                    "后台管理接口/支付订单"
                 ],
                 "summary": "更新支付订单",
                 "parameters": [
@@ -6903,7 +6903,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "插件"
+                    "后台管理接口/插件"
                 ],
                 "summary": "创建插件",
                 "parameters": [
@@ -6959,7 +6959,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "插件"
+                    "后台管理接口/插件"
                 ],
                 "summary": "删除插件",
                 "parameters": [
@@ -7015,7 +7015,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "插件"
+                    "公开接口/插件"
                 ],
                 "summary": "插件心跳",
                 "parameters": [
@@ -7073,7 +7073,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "插件"
+                    "后台管理接口/插件"
                 ],
                 "summary": "获取插件列表",
                 "parameters": [
@@ -7136,7 +7136,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "插件"
+                    "后台管理接口/插件"
                 ],
                 "summary": "查询插件",
                 "parameters": [
@@ -7192,7 +7192,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "插件"
+                    "公开接口/插件"
                 ],
                 "summary": "注册插件",
                 "parameters": [
@@ -7250,7 +7250,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "插件"
+                    "后台管理接口/插件"
                 ],
                 "summary": "重启插件",
                 "parameters": [
@@ -7306,7 +7306,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "插件"
+                    "后台管理接口/插件"
                 ],
                 "summary": "启动插件",
                 "parameters": [
@@ -7362,7 +7362,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "插件"
+                    "后台管理接口/插件"
                 ],
                 "summary": "停止插件",
                 "parameters": [
@@ -7418,7 +7418,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "后台管理接口/文章"
                 ],
                 "summary": "创建文章",
                 "parameters": [
@@ -7476,7 +7476,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "后台管理接口/文章"
                 ],
                 "summary": "删除文章",
                 "parameters": [
@@ -7532,7 +7532,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "后台管理接口/文章"
                 ],
                 "summary": "查询所有文章",
                 "responses": {
@@ -7576,7 +7576,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "公开接口/文章"
                 ],
                 "summary": "获取文章月份统计",
                 "parameters": [
@@ -7618,6 +7618,69 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/post/page": {
+            "get": {
+                "description": "查询文章分页列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "后台管理接口/文章"
+                ],
+                "summary": "查询文章分页列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-model_PostResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/post/publish/{id}": {
             "put": {
                 "description": "发布指定文章",
@@ -7628,7 +7691,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "后台管理接口/文章"
                 ],
                 "summary": "发布文章",
                 "parameters": [
@@ -7684,7 +7747,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "后台管理接口/文章"
                 ],
                 "summary": "查询文章",
                 "parameters": [
@@ -7740,7 +7803,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "公开接口/文章"
                 ],
                 "summary": "随机获取一篇文章",
                 "responses": {
@@ -7787,7 +7850,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "公开接口/文章"
                 ],
                 "summary": "搜索文章",
                 "parameters": [
@@ -7854,7 +7917,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "公开接口/文章"
                 ],
                 "summary": "获取文章摘要流",
                 "parameters": [
@@ -7910,7 +7973,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "后台管理接口/文章"
                 ],
                 "summary": "取消发布文章",
                 "parameters": [
@@ -7966,7 +8029,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "后台管理接口/文章"
                 ],
                 "summary": "更新文章设置",
                 "parameters": [
@@ -8031,7 +8094,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "后台管理接口/文章"
                 ],
                 "summary": "更新文章内容",
                 "parameters": [
@@ -8096,7 +8159,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文章"
+                    "公开接口/文章"
                 ],
                 "summary": "根据Slug查询文章",
                 "parameters": [
@@ -8158,7 +8221,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "商品"
+                    "后台管理接口/商品"
                 ],
                 "summary": "批量删除商品",
                 "parameters": [
@@ -8216,7 +8279,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "商品"
+                    "后台管理接口/商品"
                 ],
                 "summary": "批量更新商品",
                 "parameters": [
@@ -8274,7 +8337,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "商品"
+                    "后台管理接口/商品"
                 ],
                 "summary": "创建商品",
                 "parameters": [
@@ -8332,7 +8395,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "商品"
+                    "后台管理接口/商品"
                 ],
                 "summary": "删除商品",
                 "parameters": [
@@ -8388,7 +8451,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "商品"
+                    "后台管理接口/商品"
                 ],
                 "summary": "查询所有商品",
                 "responses": {
@@ -8432,7 +8495,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "商品"
+                    "后台管理接口/商品"
                 ],
                 "summary": "分页查询商品",
                 "parameters": [
@@ -8487,7 +8550,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "商品"
+                    "后台管理接口/商品"
                 ],
                 "summary": "查询商品",
                 "parameters": [
@@ -8543,7 +8606,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "商品"
+                    "后台管理接口/商品"
                 ],
                 "summary": "搜索商品",
                 "parameters": [
@@ -8618,7 +8681,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "商品"
+                    "后台管理接口/商品"
                 ],
                 "summary": "更新商品",
                 "parameters": [
@@ -8683,7 +8746,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "角色"
+                    "后台管理接口/角色"
                 ],
                 "summary": "创建角色",
                 "parameters": [
@@ -8741,7 +8804,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "角色"
+                    "后台管理接口/角色"
                 ],
                 "summary": "删除角色",
                 "parameters": [
@@ -8797,7 +8860,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "角色"
+                    "后台管理接口/角色"
                 ],
                 "summary": "查询所有角色",
                 "responses": {
@@ -8841,7 +8904,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "角色"
+                    "后台管理接口/角色"
                 ],
                 "summary": "查询角色分页列表",
                 "parameters": [
@@ -8904,7 +8967,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "角色"
+                    "后台管理接口/角色"
                 ],
                 "summary": "查询角色",
                 "parameters": [
@@ -8960,7 +9023,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "角色"
+                    "后台管理接口/角色"
                 ],
                 "summary": "更新角色",
                 "parameters": [
@@ -9025,7 +9088,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "路由"
+                    "后台管理接口/路由"
                 ],
                 "summary": "获取路由",
                 "responses": {
@@ -9069,7 +9132,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "定时任务"
+                    "后台管理接口/定时任务"
                 ],
                 "summary": "创建定时任务",
                 "parameters": [
@@ -9127,7 +9190,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "定时任务"
+                    "后台管理接口/定时任务"
                 ],
                 "summary": "删除定时任务",
                 "parameters": [
@@ -9183,7 +9246,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "定时任务"
+                    "后台管理接口/定时任务"
                 ],
                 "summary": "立即执行定时任务",
                 "parameters": [
@@ -9239,7 +9302,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "定时任务"
+                    "后台管理接口/定时任务"
                 ],
                 "summary": "获取定时任务分页列表",
                 "parameters": [
@@ -9302,7 +9365,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "定时任务"
+                    "后台管理接口/定时任务"
                 ],
                 "summary": "查询定时任务",
                 "parameters": [
@@ -9358,7 +9421,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "定时任务"
+                    "后台管理接口/定时任务"
                 ],
                 "summary": "更新定时任务",
                 "parameters": [
@@ -9423,7 +9486,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "设置"
+                    "后台管理接口/设置"
                 ],
                 "summary": "获取系统设置",
                 "responses": {
@@ -9467,7 +9530,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "设置"
+                    "后台管理接口/设置"
                 ],
                 "summary": "获取系统设置JSON值",
                 "parameters": [
@@ -9524,7 +9587,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "设置"
+                    "后台管理接口/设置"
                 ],
                 "summary": "保存系统设置",
                 "parameters": [
@@ -9590,7 +9653,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "存储策略"
+                    "后台管理接口/存储策略"
                 ],
                 "summary": "创建存储策略",
                 "parameters": [
@@ -9648,7 +9711,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "存储策略"
+                    "后台管理接口/存储策略"
                 ],
                 "summary": "设置默认存储策略",
                 "parameters": [
@@ -9704,7 +9767,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "存储策略"
+                    "后台管理接口/存储策略"
                 ],
                 "summary": "删除存储策略",
                 "parameters": [
@@ -9760,7 +9823,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "存储策略"
+                    "后台管理接口/存储策略"
                 ],
                 "summary": "获取存储策略列表",
                 "responses": {
@@ -9804,7 +9867,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "存储策略"
+                    "后台管理接口/存储策略"
                 ],
                 "summary": "获取所有存储策略列表",
                 "responses": {
@@ -9848,7 +9911,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "存储策略"
+                    "后台管理接口/存储策略"
                 ],
                 "summary": "查询存储策略",
                 "parameters": [
@@ -9904,7 +9967,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "存储策略"
+                    "后台管理接口/存储策略"
                 ],
                 "summary": "更新存储策略",
                 "parameters": [
@@ -9969,7 +10032,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "标签"
+                    "后台管理接口/标签"
                 ],
                 "summary": "更新标签",
                 "parameters": [
@@ -10040,7 +10103,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "标签"
+                    "后台管理接口/标签"
                 ],
                 "summary": "创建标签",
                 "parameters": [
@@ -10098,7 +10161,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "标签"
+                    "后台管理接口/标签"
                 ],
                 "summary": "删除标签",
                 "parameters": [
@@ -10160,7 +10223,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "标签"
+                    "后台管理接口/标签"
                 ],
                 "summary": "查询标签列表",
                 "responses": {
@@ -10204,7 +10267,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "标签"
+                    "后台管理接口/标签"
                 ],
                 "summary": "查询标签分页",
                 "parameters": [
@@ -10265,7 +10328,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "标签"
+                    "后台管理接口/标签"
                 ],
                 "summary": "查询标签",
                 "parameters": [
@@ -10327,7 +10390,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "主题"
+                    "后台管理接口/主题"
                 ],
                 "summary": "创建主题",
                 "parameters": [
@@ -10385,7 +10448,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "主题"
+                    "后台管理接口/主题"
                 ],
                 "summary": "删除主题",
                 "parameters": [
@@ -10447,7 +10510,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "主题"
+                    "后台管理接口/主题"
                 ],
                 "summary": "禁用主题",
                 "parameters": [
@@ -10509,7 +10572,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "主题"
+                    "后台管理接口/主题"
                 ],
                 "summary": "启用主题",
                 "parameters": [
@@ -10571,7 +10634,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "主题"
+                    "后台管理接口/主题"
                 ],
                 "summary": "查询主题列表",
                 "parameters": [
@@ -10634,7 +10697,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "主题"
+                    "后台管理接口/主题"
                 ],
                 "summary": "查询主题",
                 "parameters": [
@@ -10696,7 +10759,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "主题"
+                    "后台管理接口/主题"
                 ],
                 "summary": "上传主题文件",
                 "parameters": [
@@ -10755,7 +10818,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "评论"
+                    "公开接口/评论"
                 ],
                 "summary": "处理Twikoo评论事件",
                 "parameters": [
@@ -10809,7 +10872,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "评论"
+                    "公开接口/评论"
                 ],
                 "summary": "处理Twikoo评论事件",
                 "parameters": [
@@ -10863,7 +10926,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "评论"
+                    "公开接口/评论"
                 ],
                 "summary": "处理Twikoo评论事件",
                 "parameters": [
@@ -10917,7 +10980,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "评论"
+                    "公开接口/评论"
                 ],
                 "summary": "处理Twikoo评论事件",
                 "parameters": [
@@ -10973,7 +11036,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "创建用户",
                 "parameters": [
@@ -11019,7 +11082,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "删除用户",
                 "parameters": [
@@ -11069,7 +11132,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "获取用户列表",
                 "responses": {
@@ -11101,7 +11164,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "获取用户分页列表",
                 "parameters": [
@@ -11164,7 +11227,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "创建 personalAccessToken 个人令牌",
                 "parameters": [
@@ -11210,7 +11273,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "查询个人令牌列表",
                 "responses": {
@@ -11248,7 +11311,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "查询个人令牌",
                 "parameters": [
@@ -11298,7 +11361,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "查询用户个人信息",
                 "parameters": [
@@ -11348,7 +11411,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "查询用户",
                 "parameters": [
@@ -11398,7 +11461,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "查询用户分页列表",
                 "parameters": [
@@ -11461,7 +11524,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户"
+                    "后台管理接口/用户"
                 ],
                 "summary": "更新用户",
                 "parameters": [
@@ -11514,7 +11577,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "访客访问"
+                    "后台管理接口/访客访问"
                 ],
                 "summary": "批量删除访客访问日志",
                 "parameters": [
@@ -11572,7 +11635,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "访客访问"
+                    "后台管理接口/访客访问"
                 ],
                 "summary": "删除访客访问日志",
                 "parameters": [
@@ -11634,7 +11697,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "访客访问"
+                    "公开接口/访客访问"
                 ],
                 "summary": "处理访客访问",
                 "parameters": [
@@ -11692,7 +11755,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "访客访问"
+                    "后台管理接口/访客访问"
                 ],
                 "summary": "查询访客访问日志分页",
                 "parameters": [
@@ -11755,7 +11818,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "访客访问"
+                    "后台管理接口/访客访问"
                 ],
                 "summary": "查询访客访问日志",
                 "parameters": [
@@ -11817,7 +11880,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "钱包"
+                    "后台管理接口/钱包"
                 ],
                 "summary": "查询钱包分页列表",
                 "parameters": [
@@ -11880,7 +11943,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "钱包"
+                    "后台管理接口/钱包"
                 ],
                 "summary": "查询钱包",
                 "parameters": [
@@ -11930,7 +11993,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "钱包"
+                    "后台管理接口/钱包"
                 ],
                 "summary": "更新钱包",
                 "parameters": [
@@ -15485,6 +15548,20 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/model.PluginResp"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.PageResult-model_PostResp": {
+            "type": "object",
+            "properties": {
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.PostResp"
                     }
                 },
                 "total": {

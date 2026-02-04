@@ -31,7 +31,7 @@ func NewCategoryHandlerImpl(categoryService category_service.CategoryService) *C
 
 // @Summary 查询分类
 // @Description 查询指定分类的信息
-// @Tags 分类
+// @Tags 后台管理接口/分类
 // @Accept json
 // @Produce json
 // @Param id path int true "分类 ID"
@@ -65,7 +65,7 @@ func (h *CategoryHandlerImpl) QueryCategory(c *fiber.Ctx) error {
 
 // @Summary 查询分类列表
 // @Description 查询所有分类的列表
-// @Tags 分类
+// @Tags 后台管理接口/分类
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Category}
@@ -84,7 +84,7 @@ func (h *CategoryHandlerImpl) QueryCategoryList(c *fiber.Ctx) error {
 
 // @Summary 查询分类分页列表
 // @Description 查询所有分类的分页列表
-// @Tags 分类
+// @Tags 后台管理接口/分类
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -118,7 +118,7 @@ func (h *CategoryHandlerImpl) QueryCategoryPage(c *fiber.Ctx) error {
 
 // @Summary 创建分类
 // @Description 创建一个新的分类
-// @Tags 分类
+// @Tags 后台管理接口/分类
 // @Accept json
 // @Produce json
 // @Param category body model.CategoryCreateReq true "分类创建请求"
@@ -146,7 +146,7 @@ func (h *CategoryHandlerImpl) CreateCategory(c *fiber.Ctx) error {
 
 // @Summary 更新分类
 // @Description 更新指定分类的信息
-// @Tags 分类
+// @Tags 后台管理接口/分类
 // @Accept json
 // @Produce json
 // @Param id path int true "分类 ID"
@@ -188,7 +188,7 @@ func (h *CategoryHandlerImpl) UpdateCategory(c *fiber.Ctx) error {
 
 // @Summary 删除分类
 // @Description 删除指定分类
-// @Tags 分类
+// @Tags 后台管理接口/分类
 // @Accept json
 // @Produce json
 // @Param id path int true "分类 ID"

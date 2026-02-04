@@ -28,7 +28,7 @@ func NewVisitHandlerImpl(visitService visit.VisitService) VisitHandler {
 
 // @Summary 处理访客访问
 // @Description 处理访客访问请求，记录访问日志
-// @Tags 访客访问
+// @Tags 公开接口/访客访问
 // @Accept json
 // @Produce json
 // @Param req body model.VisitLogReq true "访客访问请求"
@@ -46,7 +46,7 @@ func (h *VisitHandlerImpl) HandleVisitor(c *fiber.Ctx) error {
 
 // @Summary 查询访客访问日志分页
 // @Description 查询访客访问日志的分页列表
-// @Tags 访客访问
+// @Tags 后台管理接口/访客访问
 // @Accept json
 // @Produce json
 // @Param page query int false "Page number" default(1)
@@ -80,7 +80,7 @@ func (h *VisitHandlerImpl) ListVisitLogPage(c *fiber.Ctx) error {
 
 // @Summary 查询访客访问日志
 // @Description 查询指定ID的访客访问日志
-// @Tags 访客访问
+// @Tags 后台管理接口/访客访问
 // @Accept json
 // @Produce json
 // @Param id path int true "Visit Log ID"
@@ -107,7 +107,7 @@ func (h *VisitHandlerImpl) QueryVisitLog(c *fiber.Ctx) error {
 
 // @Summary 删除访客访问日志
 // @Description 删除指定ID的访客访问日志
-// @Tags 访客访问
+// @Tags 后台管理接口/访客访问
 // @Accept json
 // @Produce json
 // @Param id path int true "Visit Log ID"
@@ -134,7 +134,7 @@ func (h *VisitHandlerImpl) DeleteVisitLog(c *fiber.Ctx) error {
 
 // @Summary 批量删除访客访问日志
 // @Description 批量删除指定ID的访客访问日志
-// @Tags 访客访问
+// @Tags 后台管理接口/访客访问
 // @Accept json
 // @Produce json
 // @Param req body model.VisitLogBatchDeleteReq true "批量删除访客访问日志请求"

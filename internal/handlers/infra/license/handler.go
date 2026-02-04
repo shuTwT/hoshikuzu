@@ -30,7 +30,7 @@ func NewLicenseHandlerImpl(licenseService license.LicenseService) *LicenseHandle
 
 // @Summary 获取授权分页列表
 // @Description 获取所有授权的分页列表
-// @Tags 授权
+// @Tags 后台管理接口/授权
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -73,7 +73,7 @@ func (h *LicenseHandlerImpl) ListLicensePage(c *fiber.Ctx) error {
 
 // @Summary 查询授权
 // @Description 查询指定授权的信息
-// @Tags 授权
+// @Tags 后台管理接口/授权
 // @Accept json
 // @Produce json
 // @Param id path int true "授权ID"
@@ -108,7 +108,7 @@ func (h *LicenseHandlerImpl) QueryLicense(c *fiber.Ctx) error {
 
 // @Summary 创建授权
 // @Description 创建一个新的授权
-// @Tags 授权
+// @Tags 后台管理接口/授权
 // @Accept json
 // @Produce json
 // @Param req body model.LicenseCreateReq true "授权创建请求"
@@ -147,7 +147,7 @@ func (h *LicenseHandlerImpl) CreateLicense(c *fiber.Ctx) error {
 
 // @Summary 更新授权
 // @Description 更新指定授权的信息
-// @Tags 授权
+// @Tags 后台管理接口/授权
 // @Accept json
 // @Produce json
 // @Param id path int true "授权ID"
@@ -187,7 +187,7 @@ func (h *LicenseHandlerImpl) UpdateLicense(c *fiber.Ctx) error {
 
 // @Summary 删除授权
 // @Description 删除指定授权
-// @Tags 授权
+// @Tags 后台管理接口/授权
 // @Accept json
 // @Produce json
 // @Param id path int true "授权ID"
@@ -210,7 +210,7 @@ func (h *LicenseHandlerImpl) DeleteLicense(c *fiber.Ctx) error {
 
 // @Summary 验证授权
 // @Description 验证指定域名的授权是否有效
-// @Tags 授权
+// @Tags 公开接口/授权
 // @Accept json
 // @Produce json
 // @Param req body model.LicenseVerifyReq true "授权验证请求"

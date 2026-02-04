@@ -30,7 +30,7 @@ func NewPayOrderHandlerImpl(client *ent.Client, service payorder_service.PayOrde
 
 // @Summary 获取支付订单列表
 // @Description 获取所有支付订单的列表
-// @Tags 支付订单
+// @Tags 后台管理接口/支付订单
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.PayOrder}
@@ -54,7 +54,7 @@ func (h *PayOrderHandlerImpl) ListPayOrderPage(c *fiber.Ctx) error {
 
 // @Summary 更新支付订单
 // @Description 更新指定支付订单的信息
-// @Tags 支付订单
+// @Tags 后台管理接口/支付订单
 // @Accept json
 // @Produce json
 // @Param id path string true "支付订单ID"
@@ -98,7 +98,7 @@ func (h *PayOrderHandlerImpl) UpdatePayOrder(c *fiber.Ctx) error {
 
 // @Summary 查询支付订单
 // @Description 查询指定支付订单的详细信息
-// @Tags 支付订单
+// @Tags 后台管理接口/支付订单
 // @Accept json
 // @Produce json
 // @Param id path string true "支付订单ID"
@@ -130,7 +130,7 @@ func (h *PayOrderHandlerImpl) QueryPayOrder(c *fiber.Ctx) error {
 
 // @Summary 删除支付订单
 // @Description 删除指定支付订单
-// @Tags 支付订单
+// @Tags 后台管理接口/支付订单
 // @Accept json
 // @Produce json
 // @Param id path string true "支付订单ID"
@@ -163,7 +163,7 @@ func (h *PayOrderHandlerImpl) DeletePayOrder(c *fiber.Ctx) error {
 
 // @Summary 提交支付订单
 // @Description 提交一个新的支付订单
-// @Tags 支付订单
+// @Tags 后台管理接口/支付订单
 // @Accept json
 // @Produce json
 // @Param payorder body model.PayOrderSubmitReq true "支付订单提交请求"

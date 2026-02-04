@@ -35,7 +35,7 @@ func NewCouponHandlerImpl(couponService coupon_service.CouponService) *CouponHan
 
 // @Summary 获取所有优惠券
 // @Description 获取所有优惠券列表
-// @Tags 优惠券
+// @Tags 后台管理接口/优惠券
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Coupon}
@@ -53,7 +53,7 @@ func (h *CouponHandlerImpl) ListCoupons(c *fiber.Ctx) error {
 
 // @Summary 获取优惠券分页列表
 // @Description 获取优惠券分页列表
-// @Tags 优惠券
+// @Tags 后台管理接口/优惠券
 // @Accept json
 // @Produce json
 // @Param page query int false "页码"
@@ -90,7 +90,7 @@ func (h *CouponHandlerImpl) ListCouponsPage(c *fiber.Ctx) error {
 
 // @Summary 创建优惠券
 // @Description 创建优惠券
-// @Tags 优惠券
+// @Tags 后台管理接口/优惠券
 // @Accept json
 // @Produce json
 // @Param coupon_create_req body model.CouponCreateReq true "优惠券创建请求体"
@@ -114,7 +114,7 @@ func (h *CouponHandlerImpl) CreateCoupon(c *fiber.Ctx) error {
 
 // @Summary 更新优惠券
 // @Description 更新优惠券
-// @Tags 优惠券
+// @Tags 后台管理接口/优惠券
 // @Accept json
 // @Produce json
 // @Param id path int true "优惠券 ID"
@@ -144,7 +144,7 @@ func (h *CouponHandlerImpl) UpdateCoupon(c *fiber.Ctx) error {
 
 // @Summary 查询优惠券
 // @Description 查询优惠券详情
-// @Tags 优惠券
+// @Tags 后台管理接口/优惠券
 // @Accept json
 // @Produce json
 // @Param id path int true "优惠券 ID"
@@ -168,7 +168,7 @@ func (h *CouponHandlerImpl) QueryCoupon(c *fiber.Ctx) error {
 
 // @Summary 删除优惠券
 // @Description 删除优惠券
-// @Tags 优惠券
+// @Tags 后台管理接口/优惠券
 // @Accept json
 // @Produce json
 // @Param id path int true "优惠券 ID"
@@ -191,7 +191,7 @@ func (h *CouponHandlerImpl) DeleteCoupon(c *fiber.Ctx) error {
 
 // @Summary 批量更新优惠券
 // @Description 批量更新优惠券
-// @Tags 优惠券
+// @Tags 后台管理接口/优惠券
 // @Accept json
 // @Produce json
 // @Param coupon_batch_update_req body model.CouponBatchUpdateReq true "优惠券批量更新请求体"
@@ -214,7 +214,7 @@ func (h *CouponHandlerImpl) BatchUpdateCoupons(c *fiber.Ctx) error {
 
 // @Summary 批量删除优惠券
 // @Description 批量删除优惠券
-// @Tags 优惠券
+// @Tags 后台管理接口/优惠券
 // @Accept json
 // @Produce json
 // @Param coupon_batch_delete_req body model.CouponBatchDeleteReq true "优惠券批量删除请求体"
@@ -237,7 +237,7 @@ func (h *CouponHandlerImpl) BatchDeleteCoupons(c *fiber.Ctx) error {
 
 // @Summary 搜索优惠券
 // @Description 搜索优惠券
-// @Tags 优惠券
+// @Tags 后台管理接口/优惠券
 // @Accept json
 // @Produce json
 // @Param name query string false "优惠券名称"

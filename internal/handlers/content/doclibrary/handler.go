@@ -28,7 +28,7 @@ func NewDocLibraryHandlerImpl(service doclibrary.DocLibraryService) DocLibraryHa
 
 // @Summary 创建文档库
 // @Description 创建新的文档库
-// @Tags 文档库
+// @Tags 后台管理接口/文档库
 // @Accept json
 // @Produce json
 // @Param doc_library_create_req body model.DocLibraryCreateReq true "文档库创建请求"
@@ -50,7 +50,7 @@ func (h *DocLibraryHandlerImpl) CreateDocLibrary(c *fiber.Ctx) error {
 
 // @Summary 更新文档库
 // @Description 更新指定文档库的信息
-// @Tags 文档库
+// @Tags 后台管理接口/文档库
 // @Accept json
 // @Produce json
 // @Param id path int true "文档库 ID"
@@ -77,7 +77,7 @@ func (h *DocLibraryHandlerImpl) UpdateDocLibrary(c *fiber.Ctx) error {
 
 // @Summary 获取文档库分页列表
 // @Description 获取文档库的分页列表
-// @Tags 文档库
+// @Tags 后台管理接口/文档库
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -116,7 +116,7 @@ func (h *DocLibraryHandlerImpl) GetDocLibraryPage(c *fiber.Ctx) error {
 
 // @Summary 获取文档库
 // @Description 获取指定文档库的信息
-// @Tags 文档库
+// @Tags 后台管理接口/文档库
 // @Accept json
 // @Produce json
 // @Param id path int true "文档库 ID"
@@ -148,7 +148,7 @@ func (h *DocLibraryHandlerImpl) GetDocLibrary(c *fiber.Ctx) error {
 
 // @Summary 删除文档库
 // @Description 删除指定文档库
-// @Tags 文档库
+// @Tags 后台管理接口/文档库
 // @Accept json
 // @Produce json
 // @Param id path int true "文档库 ID"
@@ -170,7 +170,7 @@ func (h *DocLibraryHandlerImpl) DeleteDocLibrary(c *fiber.Ctx) error {
 
 // @Summary 获取文档库列表
 // @Description 获取所有文档库的列表
-// @Tags 文档库
+// @Tags 后台管理接口/文档库
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.DocLibraryResp}

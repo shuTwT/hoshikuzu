@@ -31,7 +31,7 @@ func NewFlinkApplicationHandlerImpl(client *ent.Client, flinkApplicationService 
 
 // @Summary 创建友链申请
 // @Description 创建一个新的友链申请
-// @Tags 友链申请
+// @Tags 公开接口/友链申请
 // @Accept json
 // @Produce json
 // @Param req body model.FlinkApplicationCreateReq true "友链申请创建请求"
@@ -52,7 +52,7 @@ func (h *FlinkApplicationHandlerImpl) CreateFlinkApplication(c *fiber.Ctx) error
 
 // @Summary 获取友链申请分页列表
 // @Description 获取友链申请分页列表
-// @Tags 友链申请
+// @Tags 后台管理接口/友链申请
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -97,7 +97,7 @@ func (h *FlinkApplicationHandlerImpl) ListFlinkApplicationPage(c *fiber.Ctx) err
 
 // @Summary 查询友链申请
 // @Description 查询指定ID的友链申请
-// @Tags 友链申请
+// @Tags 后台管理接口/友链申请
 // @Accept json
 // @Produce json
 // @Param id path int true "友链申请ID"
@@ -118,7 +118,7 @@ func (h *FlinkApplicationHandlerImpl) QueryFlinkApplication(c *fiber.Ctx) error 
 
 // @Summary 审核友链申请
 // @Description 审核指定ID的友链申请
-// @Tags 友链申请
+// @Tags 后台管理接口/友链申请
 // @Accept json
 // @Produce json
 // @Param id path int true "友链申请ID"

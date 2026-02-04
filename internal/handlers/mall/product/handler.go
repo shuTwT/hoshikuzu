@@ -35,7 +35,7 @@ func NewProductHandlerImpl(productService product_service.ProductService) *Produ
 
 // @Summary 查询所有商品
 // @Description 查询所有商品
-// @Tags 商品
+// @Tags 后台管理接口/商品
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Product}
@@ -52,7 +52,7 @@ func (h *ProductHandlerImpl) ListProducts(c *fiber.Ctx) error {
 
 // @Summary 分页查询商品
 // @Description 分页查询商品
-// @Tags 商品
+// @Tags 后台管理接口/商品
 // @Accept json
 // @Produce json
 // @Param page query int false "页码"
@@ -88,7 +88,7 @@ func (h *ProductHandlerImpl) ListProductsPage(c *fiber.Ctx) error {
 
 // @Summary 创建商品
 // @Description 创建一个新商品
-// @Tags 商品
+// @Tags 后台管理接口/商品
 // @Accept json
 // @Produce json
 // @Param product body model.ProductCreateReq true "商品创建请求"
@@ -112,7 +112,7 @@ func (h *ProductHandlerImpl) CreateProduct(c *fiber.Ctx) error {
 
 // @Summary 更新商品
 // @Description 更新指定商品
-// @Tags 商品
+// @Tags 后台管理接口/商品
 // @Accept json
 // @Produce json
 // @Param id path int true "商品ID"
@@ -142,7 +142,7 @@ func (h *ProductHandlerImpl) UpdateProduct(c *fiber.Ctx) error {
 
 // @Summary 查询商品
 // @Description 查询指定商品
-// @Tags 商品
+// @Tags 后台管理接口/商品
 // @Accept json
 // @Produce json
 // @Param id path int true "商品ID"
@@ -166,7 +166,7 @@ func (h *ProductHandlerImpl) QueryProduct(c *fiber.Ctx) error {
 
 // @Summary 删除商品
 // @Description 删除指定商品
-// @Tags 商品
+// @Tags 后台管理接口/商品
 // @Accept json
 // @Produce json
 // @Param id path int true "商品ID"
@@ -189,7 +189,7 @@ func (h *ProductHandlerImpl) DeleteProduct(c *fiber.Ctx) error {
 
 // @Summary 批量更新商品
 // @Description 批量更新指定商品的信息
-// @Tags 商品
+// @Tags 后台管理接口/商品
 // @Accept json
 // @Produce json
 // @Param products body model.ProductBatchUpdateReq true "商品批量更新请求"
@@ -212,7 +212,7 @@ func (h *ProductHandlerImpl) BatchUpdateProducts(c *fiber.Ctx) error {
 
 // @Summary 批量删除商品
 // @Description 批量删除指定商品
-// @Tags 商品
+// @Tags 后台管理接口/商品
 // @Accept json
 // @Produce json
 // @Param products body model.ProductBatchDeleteReq true "商品批量删除请求"
@@ -235,7 +235,7 @@ func (h *ProductHandlerImpl) BatchDeleteProducts(c *fiber.Ctx) error {
 
 // @Summary 搜索商品
 // @Description 根据搜索条件查询商品
-// @Tags 商品
+// @Tags 后台管理接口/商品
 // @Accept json
 // @Produce json
 // @Param name query string false "商品名称"

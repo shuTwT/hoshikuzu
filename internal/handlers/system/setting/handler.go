@@ -28,7 +28,7 @@ func NewSettingHandlerImpl(settingService setting_service.SettingService) *Setti
 
 // @Summary 获取系统设置
 // @Description 获取所有系统设置和系统初始化状态
-// @Tags 设置
+// @Tags 后台管理接口/设置
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=map[string]string}
@@ -62,7 +62,7 @@ func (h *SettingHandlerImpl) GetSettings(c *fiber.Ctx) error {
 
 // @Summary 获取系统设置JSON值
 // @Description 获取指定键的系统设置JSON值
-// @Tags 设置
+// @Tags 后台管理接口/设置
 // @Accept json
 // @Produce json
 // @Param key path string true "设置键"
@@ -102,7 +102,7 @@ func (h *SettingHandlerImpl) GetJsonSettingsMap(c *fiber.Ctx) error {
 
 // @Summary 保存系统设置
 // @Description 保存系统设置
-// @Tags 设置
+// @Tags 后台管理接口/设置
 // @Accept json
 // @Produce json
 // @Param key path string true "设置键"

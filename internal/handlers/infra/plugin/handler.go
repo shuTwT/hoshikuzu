@@ -36,7 +36,7 @@ func NewPluginHandlerImpl(pluginService plugin.PluginService) *PluginHandlerImpl
 
 // @Summary 创建插件
 // @Description 创建一个新的插件
-// @Tags 插件
+// @Tags 后台管理接口/插件
 // @Accept multipart/form-data
 // @Produce json
 // @Param file formData file true "插件文件"
@@ -64,7 +64,7 @@ func (h *PluginHandlerImpl) CreatePlugin(c *fiber.Ctx) error {
 
 // @Summary 获取插件列表
 // @Description 获取所有插件的分页列表
-// @Tags 插件
+// @Tags 后台管理接口/插件
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -100,7 +100,7 @@ func (h *PluginHandlerImpl) ListPluginPage(c *fiber.Ctx) error {
 
 // @Summary 查询插件
 // @Description 查询指定ID的插件详情
-// @Tags 插件
+// @Tags 后台管理接口/插件
 // @Accept json
 // @Produce json
 // @Param id path int true "插件ID"
@@ -127,7 +127,7 @@ func (h *PluginHandlerImpl) QueryPlugin(c *fiber.Ctx) error {
 
 // @Summary 删除插件
 // @Description 删除指定插件
-// @Tags 插件
+// @Tags 后台管理接口/插件
 // @Accept json
 // @Produce json
 // @Param id path int true "插件ID"
@@ -154,7 +154,7 @@ func (h *PluginHandlerImpl) DeletePlugin(c *fiber.Ctx) error {
 
 // @Summary 启动插件
 // @Description 启动指定插件
-// @Tags 插件
+// @Tags 后台管理接口/插件
 // @Accept json
 // @Produce json
 // @Param id path int true "插件ID"
@@ -181,7 +181,7 @@ func (h *PluginHandlerImpl) StartPlugin(c *fiber.Ctx) error {
 
 // @Summary 停止插件
 // @Description 停止指定插件
-// @Tags 插件
+// @Tags 后台管理接口/插件
 // @Accept json
 // @Produce json
 // @Param id path int true "插件ID"
@@ -208,7 +208,7 @@ func (h *PluginHandlerImpl) StopPlugin(c *fiber.Ctx) error {
 
 // @Summary 重启插件
 // @Description 重启指定插件
-// @Tags 插件
+// @Tags 后台管理接口/插件
 // @Accept json
 // @Produce json
 // @Param id path int true "插件ID"
@@ -235,7 +235,7 @@ func (h *PluginHandlerImpl) RestartPlugin(c *fiber.Ctx) error {
 
 // @Summary 注册插件
 // @Description 注册新插件到系统
-// @Tags 插件
+// @Tags 公开接口/插件
 // @Accept json
 // @Produce json
 // @Param pluginInfo body model.PluginRegisterReq true "插件注册信息"
@@ -270,7 +270,7 @@ func (h *PluginHandlerImpl) RegisterPlugin(c *fiber.Ctx) error {
 
 // @Summary 插件心跳
 // @Description 更新插件的心跳时间
-// @Tags 插件
+// @Tags 公开接口/插件
 // @Accept json
 // @Produce json
 // @Param heartbeatInfo body model.PluginHeartbeatReq true "插件心跳信息"

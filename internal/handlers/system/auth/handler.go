@@ -21,7 +21,7 @@ func NewAuthHandlerImpl(authService auth.AuthService) *AuthHandlerImpl {
 
 // @Summary 用户登录
 // @Description 验证用户凭据并返回JWT令牌
-// @Tags 认证
+// @Tags 公开接口/认证
 // @Accept json
 // @Produce json
 // @Param login body model.LoginRequest true "登录请求"

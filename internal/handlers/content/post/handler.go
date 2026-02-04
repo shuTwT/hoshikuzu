@@ -45,7 +45,7 @@ func NewPostHandlerImpl(postService post_service.PostService) *PostHandlerImpl {
 
 // @Summary 查询所有文章
 // @Description 查询所有文章
-// @Tags 文章
+// @Tags 后台管理接口/文章
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.PostResp}
@@ -109,6 +109,17 @@ func (h *PostHandlerImpl) ListPost(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", postResps))
 }
 
+// @Summary 查询文章分页列表
+// @Description 查询文章分页列表
+// @Tags 后台管理接口/文章
+// @Accept json
+// @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.PostResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/post/page [get]
 func (h *PostHandlerImpl) ListPostPage(c *fiber.Ctx) error {
 	var req model.PostPageReq
 	if err := c.QueryParser(&req); err != nil {
@@ -171,7 +182,7 @@ func (h *PostHandlerImpl) ListPostPage(c *fiber.Ctx) error {
 
 // @Summary 创建文章
 // @Description 创建一篇新文章
-// @Tags 文章
+// @Tags 后台管理接口/文章
 // @Accept json
 // @Produce json
 // @Param post body model.PostCreateReq true "文章创建请求"
@@ -193,7 +204,7 @@ func (h *PostHandlerImpl) CreatePost(c *fiber.Ctx) error {
 
 // @Summary 更新文章内容
 // @Description 更新指定文章的内容
-// @Tags 文章
+// @Tags 后台管理接口/文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
@@ -221,7 +232,7 @@ func (h *PostHandlerImpl) UpdatePostContent(c *fiber.Ctx) error {
 
 // @Summary 更新文章设置
 // @Description 更新指定文章的设置
-// @Tags 文章
+// @Tags 后台管理接口/文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
@@ -249,7 +260,7 @@ func (h *PostHandlerImpl) UpdatePostSetting(c *fiber.Ctx) error {
 
 // @Summary 发布文章
 // @Description 发布指定文章
-// @Tags 文章
+// @Tags 后台管理接口/文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
@@ -272,7 +283,7 @@ func (h *PostHandlerImpl) PublishPost(c *fiber.Ctx) error {
 
 // @Summary 取消发布文章
 // @Description 取消发布指定文章
-// @Tags 文章
+// @Tags 后台管理接口/文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
@@ -295,7 +306,7 @@ func (h *PostHandlerImpl) UnpublishPost(c *fiber.Ctx) error {
 
 // @Summary 查询文章
 // @Description 查询指定文章
-// @Tags 文章
+// @Tags 后台管理接口/文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
@@ -360,7 +371,7 @@ func (h *PostHandlerImpl) QueryPost(c *fiber.Ctx) error {
 
 // @Summary 根据Slug查询文章
 // @Description 根据Slug查询指定文章
-// @Tags 文章
+// @Tags 公开接口/文章
 // @Accept json
 // @Produce json
 // @Param slug path string true "文章Slug"
@@ -430,7 +441,7 @@ func (h *PostHandlerImpl) QueryPostBySlug(c *fiber.Ctx) error {
 
 // @Summary 删除文章
 // @Description 删除指定文章
-// @Tags 文章
+// @Tags 后台管理接口/文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
@@ -465,7 +476,7 @@ func simulateAIProcessing(targetText string, ch chan model.AIResponse) {
 
 // @Summary 获取文章摘要流
 // @Description 获取指定文章的摘要流
-// @Tags 文章
+// @Tags 公开接口/文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
@@ -521,7 +532,7 @@ func (h *PostHandlerImpl) GetSummaryForStream(c *fiber.Ctx) error {
 
 // @Summary 获取文章月份统计
 // @Description 获取每个月份的文章数量统计
-// @Tags 文章
+// @Tags 公开接口/文章
 // @Accept json
 // @Produce json
 // @Param limit query int false "返回数据条数限制"
@@ -543,7 +554,7 @@ func (h *PostHandlerImpl) GetPostMonthStats(c *fiber.Ctx) error {
 
 // @Summary 随机获取一篇文章
 // @Description 随机获取一篇文章
-// @Tags 文章
+// @Tags 公开接口/文章
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=ent.Post}
@@ -563,7 +574,7 @@ func (h *PostHandlerImpl) GetRandomPost(c *fiber.Ctx) error {
 
 // @Summary 搜索文章
 // @Description 根据查询参数搜索文章
-// @Tags 文章
+// @Tags 公开接口/文章
 // @Accept json
 // @Produce json
 // @Param query query string false "搜索查询"

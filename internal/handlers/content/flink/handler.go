@@ -37,7 +37,7 @@ func NewFlinkHandlerImpl(client *ent.Client, flinkService flink_service.FlinkSer
 
 // @Summary 获取所有Flink
 // @Description 获取所有Flink
-// @Tags 友链
+// @Tags 后台管理接口/友链
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.FlinkResp}
@@ -84,7 +84,7 @@ func (h *FlinkHandlerImpl) ListFlink(c *fiber.Ctx) error {
 
 // @Summary 获取Flink分页列表
 // @Description 获取Flink分页列表
-// @Tags 友链
+// @Tags 后台管理接口/友链
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -130,7 +130,7 @@ func (h *FlinkHandlerImpl) ListFlinkPage(c *fiber.Ctx) error {
 
 // @Summary 创建Flink
 // @Description 创建Flink
-// @Tags 友链
+// @Tags 后台管理接口/友链
 // @Accept json
 // @Produce json
 // @Param flink_create_req body model.FlinkCreateReq true "Flink创建请求体"
@@ -163,7 +163,7 @@ func (h *FlinkHandlerImpl) CreateFlink(c *fiber.Ctx) error {
 
 // @Summary 更新Flink
 // @Description 更新Flink
-// @Tags 友链
+// @Tags 后台管理接口/友链
 // @Accept json
 // @Produce json
 // @Param id path int true "Flink ID"
@@ -201,7 +201,7 @@ func (h *FlinkHandlerImpl) UpdateFlink(c *fiber.Ctx) error {
 
 // @Summary 查询Flink
 // @Description 查询Flink
-// @Tags 友链
+// @Tags 后台管理接口/友链
 // @Accept json
 // @Produce json
 // @Param id path int true "Flink ID"
@@ -226,7 +226,7 @@ func (h *FlinkHandlerImpl) QueryFlink(c *fiber.Ctx) error {
 
 // @Summary 删除Flink
 // @Description 删除Flink
-// @Tags 友链
+// @Tags 后台管理接口/友链
 // @Accept json
 // @Produce json
 // @Param id path int true "Flink ID"
@@ -248,7 +248,7 @@ func (h *FlinkHandlerImpl) DeleteFlink(c *fiber.Ctx) error {
 
 // @Summary 随机查询Flink
 // @Description 随机查询Flink
-// @Tags 友链
+// @Tags 公开接口/友链
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=ent.FLink}

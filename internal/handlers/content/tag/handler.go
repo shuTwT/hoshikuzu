@@ -32,7 +32,7 @@ func NewTagHandlerImpl(tagService tag_service.TagService) *TagHandlerImpl {
 
 // @Summary 查询标签
 // @Description 查询指定标签
-// @Tags 标签
+// @Tags 后台管理接口/标签
 // @Accept json
 // @Produce json
 // @Param id path int true "标签 ID"
@@ -66,7 +66,7 @@ func (h *TagHandlerImpl) QueryTag(c *fiber.Ctx) error {
 
 // @Summary 查询标签列表
 // @Description 查询所有标签
-// @Tags 标签
+// @Tags 后台管理接口/标签
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Tag}
@@ -85,7 +85,7 @@ func (h *TagHandlerImpl) QueryTagList(c *fiber.Ctx) error {
 
 // @Summary 查询标签分页
 // @Description 查询标签分页列表
-// @Tags 标签
+// @Tags 后台管理接口/标签
 // @Accept json
 // @Produce json
 // @Param limit query int false "返回数据条数限制"
@@ -119,7 +119,7 @@ func (h *TagHandlerImpl) QueryTagPage(c *fiber.Ctx) error {
 
 // @Summary 创建标签
 // @Description 创建新标签
-// @Tags 标签
+// @Tags 后台管理接口/标签
 // @Accept json
 // @Produce json
 // @Param tag body model.TagCreateReq true "标签创建请求"
@@ -147,7 +147,7 @@ func (h *TagHandlerImpl) CreateTag(c *fiber.Ctx) error {
 
 // @Summary 更新标签
 // @Description 更新指定标签
-// @Tags 标签
+// @Tags 后台管理接口/标签
 // @Accept json
 // @Produce json
 // @Param id path int true "标签 ID"
@@ -189,7 +189,7 @@ func (h *TagHandlerImpl) UpdateTag(c *fiber.Ctx) error {
 
 // @Summary 删除标签
 // @Description 删除指定标签
-// @Tags 标签
+// @Tags 后台管理接口/标签
 // @Accept json
 // @Produce json
 // @Param id path int true "标签 ID"

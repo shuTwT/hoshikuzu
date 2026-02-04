@@ -15,7 +15,7 @@ type RouteHandlerImpl struct {
 
 // @Summary 获取路由
 // @Description 获取系统中所有路由的列表
-// @Tags 路由
+// @Tags 后台管理接口/路由
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]string}

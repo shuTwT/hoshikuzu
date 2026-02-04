@@ -35,7 +35,7 @@ func (h *InitializeHandlerImpl) PreInit(c *fiber.Ctx) error {
 // Initialize 处理系统初始化请求
 // @Summary 系统初始化
 // @Description 首次运行系统时进行初始化设置，包括数据库配置和创建管理员账户
-// @Tags 初始化
+// @Tags 公开接口/初始化
 // @Accept json
 // @Produce json
 // @Param request body model.InitializeRequest true "初始化请求"

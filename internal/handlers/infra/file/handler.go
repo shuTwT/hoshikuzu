@@ -31,7 +31,7 @@ func NewFileHandlerImpl(fileService file.FileService, storageService storagestra
 
 // @Summary 获取文件列表
 // @Description 获取所有文件的列表
-// @Tags 文件
+// @Tags 后台管理接口/文件
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.FileResp}
@@ -67,7 +67,7 @@ func (h *FileHandlerImpl) ListFile(c *fiber.Ctx) error {
 
 // @Summary 获取文件分页列表
 // @Description 获取所有文件的分页列表
-// @Tags 文件
+// @Tags 后台管理接口/文件
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -116,7 +116,7 @@ func (h *FileHandlerImpl) ListFilePage(c *fiber.Ctx) error {
 
 // @Summary 查询文件
 // @Description 查询指定文件的信息
-// @Tags 文件
+// @Tags 后台管理接口/文件
 // @Accept json
 // @Produce json
 // @Param id path int true "文件ID"
@@ -157,7 +157,7 @@ func (h *FileHandlerImpl) QueryFile(c *fiber.Ctx) error {
 
 // @Summary 删除文件
 // @Description 删除指定文件
-// @Tags 文件
+// @Tags 后台管理接口/文件
 // @Accept json
 // @Produce json
 // @Param id path int true "文件ID"
@@ -180,7 +180,7 @@ func (h *FileHandlerImpl) DeleteFile(c *fiber.Ctx) error {
 
 // @Summary 上传文件
 // @Description 上传文件到指定的存储策略
-// @Tags 文件
+// @Tags 后台管理接口/文件
 // @Accept multipart/form-data
 // @Produce json
 // @Param file formData file true "要上传的文件"

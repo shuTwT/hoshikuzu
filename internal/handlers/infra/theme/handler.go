@@ -31,7 +31,7 @@ func NewThemeHandlerImpl(themeService theme.ThemeService) *ThemeHandlerImpl {
 
 // @Summary 上传主题文件
 // @Description 上传一个新的主题文件
-// @Tags 主题
+// @Tags 后台管理接口/主题
 // @Accept json
 // @Produce json
 // @Param file formData file true "主题文件"
@@ -58,7 +58,7 @@ func (h *ThemeHandlerImpl) UploadThemeFile(c *fiber.Ctx) error {
 
 // @Summary 创建主题
 // @Description 创建一个新的主题
-// @Tags 主题
+// @Tags 后台管理接口/主题
 // @Accept json
 // @Produce json
 // @Param req body model.CreateThemeReq true "主题创建请求"
@@ -86,7 +86,7 @@ func (h *ThemeHandlerImpl) CreateTheme(c *fiber.Ctx) error {
 
 // @Summary 查询主题列表
 // @Description 查询所有主题的分页列表
-// @Tags 主题
+// @Tags 后台管理接口/主题
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -122,7 +122,7 @@ func (h *ThemeHandlerImpl) ListThemePage(c *fiber.Ctx) error {
 
 // @Summary 查询主题
 // @Description 查询指定主题的信息
-// @Tags 主题
+// @Tags 后台管理接口/主题
 // @Accept json
 // @Produce json
 // @Param id path int true "主题ID"
@@ -150,7 +150,7 @@ func (h *ThemeHandlerImpl) QueryTheme(c *fiber.Ctx) error {
 
 // @Summary 删除主题
 // @Description 删除指定主题
-// @Tags 主题
+// @Tags 后台管理接口/主题
 // @Accept json
 // @Produce json
 // @Param id path int true "主题ID"
@@ -178,7 +178,7 @@ func (h *ThemeHandlerImpl) DeleteTheme(c *fiber.Ctx) error {
 
 // @Summary 启用主题
 // @Description 启用指定主题
-// @Tags 主题
+// @Tags 后台管理接口/主题
 // @Accept json
 // @Produce json
 // @Param id path int true "主题ID"
@@ -206,7 +206,7 @@ func (h *ThemeHandlerImpl) EnableTheme(c *fiber.Ctx) error {
 
 // @Summary 禁用主题
 // @Description 禁用指定主题
-// @Tags 主题
+// @Tags 后台管理接口/主题
 // @Accept json
 // @Produce json
 // @Param id path int true "主题ID"

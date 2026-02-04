@@ -31,7 +31,7 @@ func NewMemberLevelHandlerImpl(memberLevelService memberlevel_service.MemberLeve
 
 // @Summary 查询会员等级
 // @Description 查询会员等级
-// @Tags 会员等级
+// @Tags 后台管理接口/会员等级
 // @Accept json
 // @Produce json
 // @Param id path int true "会员等级 ID"
@@ -65,7 +65,7 @@ func (h *MemberLevelHandlerImpl) QueryMemberLevel(c *fiber.Ctx) error {
 
 // @Summary 查询会员等级列表
 // @Description 查询会员等级列表
-// @Tags 会员等级
+// @Tags 后台管理接口/会员等级
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.MemberLevelResp}
@@ -84,7 +84,7 @@ func (h *MemberLevelHandlerImpl) QueryMemberLevelList(c *fiber.Ctx) error {
 
 // @Summary 查询会员等级分页
 // @Description 查询会员等级分页
-// @Tags 会员等级
+// @Tags 后台管理接口/会员等级
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -118,7 +118,7 @@ func (h *MemberLevelHandlerImpl) QueryMemberLevelPage(c *fiber.Ctx) error {
 
 // @Summary 创建会员等级
 // @Description 创建会员等级
-// @Tags 会员等级
+// @Tags 后台管理接口/会员等级
 // @Accept json
 // @Produce json
 // @Param member_level_create_req body model.MemberLevelCreateReq true "会员等级创建请求体"
@@ -146,7 +146,7 @@ func (h *MemberLevelHandlerImpl) CreateMemberLevel(c *fiber.Ctx) error {
 
 // @Summary 更新会员等级
 // @Description 更新会员等级
-// @Tags 会员等级
+// @Tags 后台管理接口/会员等级
 // @Accept json
 // @Produce json
 // @Param id path int true "会员等级 ID"
@@ -188,7 +188,7 @@ func (h *MemberLevelHandlerImpl) UpdateMemberLevel(c *fiber.Ctx) error {
 
 // @Summary 删除会员等级
 // @Description 删除会员等级
-// @Tags 会员等级
+// @Tags 后台管理接口/会员等级
 // @Accept json
 // @Produce json
 // @Param id path int true "会员等级 ID"

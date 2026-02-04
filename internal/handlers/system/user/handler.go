@@ -40,7 +40,7 @@ func NewUserHandlerImpl(userService user_service.UserService, roleService role_s
 
 // @Summary 获取用户列表
 // @Description 获取所有用户的列表
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Success 200 {array} ent.User
@@ -65,7 +65,7 @@ func (h *UserHandlerImpl) ListUser(c *fiber.Ctx) error {
 
 // @Summary 获取用户分页列表
 // @Description 获取所有用户的分页列表
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -110,7 +110,7 @@ func (h *UserHandlerImpl) ListUserPage(c *fiber.Ctx) error {
 
 // @Summary 创建用户
 // @Description 创建一个新用户
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Param user body ent.User true "用户信息"
@@ -138,7 +138,7 @@ func (h *UserHandlerImpl) CreateUser(c *fiber.Ctx) error {
 
 // @Summary 更新用户
 // @Description 更新指定用户的信息
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Param id path string true "用户ID"
@@ -175,7 +175,7 @@ func (h *UserHandlerImpl) UpdateUser(c *fiber.Ctx) error {
 
 // @Summary 查询用户
 // @Description 查询指定用户的详细信息
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Param id path string true "用户ID"
@@ -212,7 +212,7 @@ func (h *UserHandlerImpl) QueryUser(c *fiber.Ctx) error {
 
 // @Summary 删除用户
 // @Description 删除指定用户
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Param id path string true "用户ID"
@@ -241,7 +241,7 @@ func (h *UserHandlerImpl) DeleteUser(c *fiber.Ctx) error {
 
 // @Summary 查询个人令牌列表
 // @Description 查询当前用户的所有个人令牌
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Success 200 {object} []model.PersonalAccessTokenListResp
@@ -278,7 +278,7 @@ func (h *UserHandlerImpl) GetPersonalAccessTokenList(c *fiber.Ctx) error {
 
 // @Summary 查询个人令牌
 // @Description 查询指定个人令牌的详细信息
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Param id path string true "个人令牌ID"
@@ -319,7 +319,7 @@ func (h *UserHandlerImpl) GetPersonalAccessToken(c *fiber.Ctx) error {
 
 // @Summary 创建 personalAccessToken 个人令牌
 // @Description 创建一个新的个人令牌
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Param createReq body model.PersonalAccessTokenCreateReq true "个人令牌创建请求"
@@ -355,7 +355,7 @@ func (h *UserHandlerImpl) CreatePat(c *fiber.Ctx) error {
 
 // @Summary 查询用户个人信息
 // @Description 查询指定用户的个人信息
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Param id path string true "用户ID"
@@ -406,7 +406,7 @@ func (h *UserHandlerImpl) GetUserProfile(c *fiber.Ctx) error {
 
 // @Summary 查询用户分页列表
 // @Description 查询所有用户的分页列表
-// @Tags 用户
+// @Tags 后台管理接口/用户
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)

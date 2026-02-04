@@ -33,7 +33,7 @@ func NewMemberHandlerImpl(userService user_service.UserService, memberService me
 
 // @Summary 查询会员
 // @Description 查询会员
-// @Tags 会员
+// @Tags 后台管理接口/会员
 // @Accept json
 // @Produce json
 // @Param user_id path int true "用户 ID"
@@ -67,7 +67,7 @@ func (h *MemberHandlerImpl) QueryMember(c *fiber.Ctx) error {
 
 // @Summary 查询会员列表分页
 // @Description 查询会员列表分页
-// @Tags 会员
+// @Tags 后台管理接口/会员
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -124,7 +124,7 @@ func (h *MemberHandlerImpl) QueryMemberPage(c *fiber.Ctx) error {
 
 // @Summary 创建会员
 // @Description 创建会员
-// @Tags 会员
+// @Tags 后台管理接口/会员
 // @Accept json
 // @Produce json
 // @Param member_create_req body model.MemberCreateReq true "会员创建请求体"
@@ -152,7 +152,7 @@ func (h *MemberHandlerImpl) CreateMember(c *fiber.Ctx) error {
 
 // @Summary 更新会员
 // @Description 更新会员
-// @Tags 会员
+// @Tags 后台管理接口/会员
 // @Accept json
 // @Produce json
 // @Param id path int true "会员 ID"
@@ -194,7 +194,7 @@ func (h *MemberHandlerImpl) UpdateMember(c *fiber.Ctx) error {
 
 // @Summary 删除会员
 // @Description 删除会员
-// @Tags 会员
+// @Tags 后台管理接口/会员
 // @Accept json
 // @Produce json
 // @Param id path int true "会员 ID"

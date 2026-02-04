@@ -28,7 +28,7 @@ func NewKnowledgeBaseHandlerImpl(service knowledgebase.KnowledgeBaseService) Kno
 
 // @Summary 创建知识库
 // @Description 创建知识库
-// @Tags 知识库
+// @Tags 后台管理接口/知识库
 // @Accept json
 // @Produce json
 // @Param knowledge_base_create_req body model.KnowledgeBaseCreateReq true "知识库创建请求体"
@@ -50,7 +50,7 @@ func (h *KnowledgeBaseHandlerImpl) CreateKnowledgeBase(c *fiber.Ctx) error {
 
 // @Summary 更新知识库
 // @Description 更新知识库
-// @Tags 知识库
+// @Tags 后台管理接口/知识库
 // @Accept json
 // @Produce json
 // @Param id path int true "知识库 ID"
@@ -77,7 +77,7 @@ func (h *KnowledgeBaseHandlerImpl) UpdateKnowledgeBase(c *fiber.Ctx) error {
 
 // @Summary 获取知识库分页列表
 // @Description 获取知识库分页列表
-// @Tags 知识库
+// @Tags 后台管理接口/知识库
 // @Accept json
 // @Produce json
 // @Param limit query int false "数量限制" default(10)
@@ -116,7 +116,7 @@ func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBasePage(c *fiber.Ctx) error {
 
 // @Summary 获取知识库
 // @Description 获取指定知识库
-// @Tags 知识库
+// @Tags 后台管理接口/知识库
 // @Accept json
 // @Produce json
 // @Param id path int true "知识库 ID"
@@ -148,7 +148,7 @@ func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBase(c *fiber.Ctx) error {
 
 // @Summary 删除知识库
 // @Description 删除指定知识库
-// @Tags 知识库
+// @Tags 后台管理接口/知识库
 // @Accept json
 // @Produce json
 // @Param id path int true "知识库 ID"
@@ -170,7 +170,7 @@ func (h *KnowledgeBaseHandlerImpl) DeleteKnowledgeBase(c *fiber.Ctx) error {
 
 // @Summary 获取知识库列表
 // @Description 获取所有知识库
-// @Tags 知识库
+// @Tags 后台管理接口/知识库
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.KnowledgeBaseResp}

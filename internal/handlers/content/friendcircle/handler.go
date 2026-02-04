@@ -28,7 +28,7 @@ func NewFriendCircleHandlerImpl(friendCircleService friendcircle.FriendCircleSer
 
 // @Summary 获取朋友圈记录分页列表
 // @Description 获取朋友圈记录分页列表
-// @Tags 友链朋友圈
+// @Tags 后台管理接口/友链朋友圈
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -69,7 +69,7 @@ func (h *FriendCircleHandlerImpl) ListFriendCircleRecordPage(c *fiber.Ctx) error
 
 // @Summary 创建朋友圈记录
 // @Description 创建朋友圈记录
-// @Tags 友链朋友圈
+// @Tags 后台管理接口/友链朋友圈
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=ent.FriendCircleRecord}
@@ -92,7 +92,7 @@ func (h *FriendCircleHandlerImpl) CreateFriendCircleRecord(c *fiber.Ctx) error {
 
 // @Summary 更新朋友圈记录
 // @Description 更新朋友圈记录
-// @Tags 友链朋友圈
+// @Tags 后台管理接口/友链朋友圈
 // @Accept json
 // @Produce json
 // @Param id path int true "朋友圈记录 ID"
@@ -121,7 +121,7 @@ func (h *FriendCircleHandlerImpl) UpdateFriendCircleRecord(c *fiber.Ctx) error {
 
 // @Summary 删除朋友圈记录
 // @Description 删除朋友圈记录
-// @Tags 友链朋友圈
+// @Tags 后台管理接口/友链朋友圈
 // @Accept json
 // @Produce json
 // @Param id path int true "朋友圈记录 ID"

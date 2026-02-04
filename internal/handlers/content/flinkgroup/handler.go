@@ -31,7 +31,7 @@ func NewFlinkGroupHandlerImpl(client *ent.Client, flinkService flink.FlinkServic
 
 // @Summary 查询友链组列表
 // @Description 查询友链组列表
-// @Tags 友链组
+// @Tags 后台管理接口/友链组
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.FlinkGroupResp}
@@ -58,7 +58,7 @@ func (h *FlinkGroupHandlerImpl) ListFLinkGroup(c *fiber.Ctx) error {
 
 // @Summary 创建友链组
 // @Description 创建友链组
-// @Tags 友链组
+// @Tags 后台管理接口/友链组
 // @Accept json
 // @Produce json
 // @Param flink_group_create_req body ent.FLinkGroup true "FlinkGroup创建请求体"
@@ -83,7 +83,7 @@ func (h *FlinkGroupHandlerImpl) CreateFlinkGroup(c *fiber.Ctx) error {
 
 // @Summary 更新友链组
 // @Description 更新友链组
-// @Tags 友链组
+// @Tags 后台管理接口/友链组
 // @Accept json
 // @Produce json
 // @Param id path int true "友链组 ID"
@@ -113,7 +113,7 @@ func (h *FlinkGroupHandlerImpl) UpdateFlinkGroup(c *fiber.Ctx) error {
 
 // @Summary 删除友链组
 // @Description 删除指定友链组
-// @Tags 友链组
+// @Tags 后台管理接口/友链组
 // @Accept json
 // @Produce json
 // @Param id path int true "友链组 ID"

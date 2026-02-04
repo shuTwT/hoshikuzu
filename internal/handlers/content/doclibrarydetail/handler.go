@@ -30,7 +30,7 @@ func NewDocLibraryDetailHandlerImpl(service doclibrarydetail.DocLibraryDetailSer
 
 // @Summary 创建文档库详情
 // @Description 创建新的文档库详情
-// @Tags 文档库详情
+// @Tags 后台管理接口/文档库详情
 // @Accept json
 // @Produce json
 // @Param docLibraryDetail body model.DocLibraryDetailCreateReq true "文档库详情创建请求"
@@ -52,7 +52,7 @@ func (h *DocLibraryDetailHandlerImpl) CreateDocLibraryDetail(c *fiber.Ctx) error
 
 // @Summary 更新文档库详情
 // @Description 更新指定文档库详情的信息
-// @Tags 文档库详情
+// @Tags 后台管理接口/文档库详情
 // @Accept json
 // @Produce json
 // @Param id path int true "文档库详情 ID"
@@ -79,7 +79,7 @@ func (h *DocLibraryDetailHandlerImpl) UpdateDocLibraryDetail(c *fiber.Ctx) error
 
 // @Summary 获取文档库详情分页列表
 // @Description 获取指定文档库下的文档库详情分页列表
-// @Tags 文档库详情
+// @Tags 后台管理接口/文档库详情
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -124,7 +124,7 @@ func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetailPage(c *fiber.Ctx) erro
 
 // @Summary 获取文档库详情
 // @Description 获取指定文档库详情的信息
-// @Tags 文档库详情
+// @Tags 后台管理接口/文档库详情
 // @Accept json
 // @Produce json
 // @Param id path int true "文档库详情 ID"
@@ -159,7 +159,7 @@ func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetail(c *fiber.Ctx) error {
 
 // @Summary 删除文档库详情
 // @Description 删除指定文档库详情
-// @Tags 文档库详情
+// @Tags 后台管理接口/文档库详情
 // @Accept json
 // @Produce json
 // @Param id path int true "文档库详情 ID"
@@ -181,7 +181,7 @@ func (h *DocLibraryDetailHandlerImpl) DeleteDocLibraryDetail(c *fiber.Ctx) error
 
 // @Summary 获取文档库详情树
 // @Description 获取指定文档库下的文档库详情树结构
-// @Tags 文档库详情
+// @Tags 后台管理接口/文档库详情
 // @Accept json
 // @Produce json
 // @Param library_id query int true "文档库 ID"

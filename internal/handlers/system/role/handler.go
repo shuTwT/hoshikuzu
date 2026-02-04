@@ -31,7 +31,7 @@ func NewRoleHandlerImpl(roleService role_service.RoleService) *RoleHandlerImpl {
 
 // @Summary 查询所有角色
 // @Description 查询系统中所有角色的列表
-// @Tags 角色
+// @Tags 后台管理接口/角色
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Role}
@@ -50,7 +50,7 @@ func (h *RoleHandlerImpl) ListRole(c *fiber.Ctx) error {
 
 // @Summary 查询角色分页列表
 // @Description 查询系统中角色的分页列表
-// @Tags 角色
+// @Tags 后台管理接口/角色
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -84,7 +84,7 @@ func (h *RoleHandlerImpl) ListRolePage(c *fiber.Ctx) error {
 
 // @Summary 创建角色
 // @Description 创建一个新的角色
-// @Tags 角色
+// @Tags 后台管理接口/角色
 // @Accept json
 // @Produce json
 // @Param createReq body model.RoleCreateReq true "角色创建请求"
@@ -112,7 +112,7 @@ func (h *RoleHandlerImpl) CreateRole(c *fiber.Ctx) error {
 
 // @Summary 更新角色
 // @Description 更新指定角色的信息
-// @Tags 角色
+// @Tags 后台管理接口/角色
 // @Accept json
 // @Produce json
 // @Param id path int true "角色ID"
@@ -148,7 +148,7 @@ func (h *RoleHandlerImpl) UpdateRole(c *fiber.Ctx) error {
 
 // @Summary 查询角色
 // @Description 查询指定角色的详细信息
-// @Tags 角色
+// @Tags 后台管理接口/角色
 // @Accept json
 // @Produce json
 // @Param id path int true "角色ID"
@@ -174,7 +174,7 @@ func (h *RoleHandlerImpl) QueryRole(c *fiber.Ctx) error {
 
 // @Summary 删除角色
 // @Description 删除指定角色
-// @Tags 角色
+// @Tags 后台管理接口/角色
 // @Accept json
 // @Produce json
 // @Param id path int true "角色ID"

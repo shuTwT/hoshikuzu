@@ -30,7 +30,7 @@ func NewScheduleJobHandlerImpl(scheduleJobService schedulejob.ScheduleJobService
 
 // @Summary 创建定时任务
 // @Description 创建一个新的定时任务
-// @Tags 定时任务
+// @Tags 后台管理接口/定时任务
 // @Accept json
 // @Produce json
 // @Param req body model.CreateScheduleJobReq true "Create Schedule Job Request"
@@ -58,7 +58,7 @@ func (h *ScheduleJobHandlerImpl) CreateScheduleJob(c *fiber.Ctx) error {
 
 // @Summary 获取定时任务分页列表
 // @Description 获取所有定时任务的分页列表
-// @Tags 定时任务
+// @Tags 后台管理接口/定时任务
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -94,7 +94,7 @@ func (h *ScheduleJobHandlerImpl) ListScheduleJobPage(c *fiber.Ctx) error {
 
 // @Summary 查询定时任务
 // @Description 查询指定ID的定时任务
-// @Tags 定时任务
+// @Tags 后台管理接口/定时任务
 // @Accept json
 // @Produce json
 // @Param id path int true "Schedule Job ID"
@@ -121,7 +121,7 @@ func (h *ScheduleJobHandlerImpl) QueryScheduleJob(c *fiber.Ctx) error {
 
 // @Summary 更新定时任务
 // @Description 更新指定ID的定时任务
-// @Tags 定时任务
+// @Tags 后台管理接口/定时任务
 // @Accept json
 // @Produce json
 // @Param id path int true "Schedule Job ID"
@@ -156,7 +156,7 @@ func (h *ScheduleJobHandlerImpl) UpdateScheduleJob(c *fiber.Ctx) error {
 
 // @Summary 删除定时任务
 // @Description 删除指定ID的定时任务
-// @Tags 定时任务
+// @Tags 后台管理接口/定时任务
 // @Accept json
 // @Produce json
 // @Param id path int true "Schedule Job ID"
@@ -183,7 +183,7 @@ func (h *ScheduleJobHandlerImpl) DeleteScheduleJob(c *fiber.Ctx) error {
 
 // @Summary 立即执行定时任务
 // @Description 立即执行指定ID的定时任务
-// @Tags 定时任务
+// @Tags 后台管理接口/定时任务
 // @Accept json
 // @Produce json
 // @Param id path int true "Schedule Job ID"

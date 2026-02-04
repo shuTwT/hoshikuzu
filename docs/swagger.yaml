@@ -2434,6 +2434,15 @@ definitions:
       total:
         type: integer
     type: object
+  model.PageResult-model_PostResp:
+    properties:
+      records:
+        items:
+          $ref: '#/definitions/model.PostResp'
+        type: array
+      total:
+        type: integer
+    type: object
   model.PageResult-model_PostSearchResp:
     properties:
       records:
@@ -3470,7 +3479,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 用户登录
       tags:
-      - 认证
+      - 公开接口/认证
   /api/initialize:
     post:
       consumes:
@@ -3506,7 +3515,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 系统初始化
       tags:
-      - 初始化
+      - 公开接口/初始化
   /api/v1/album-photo/create:
     post:
       consumes:
@@ -3541,7 +3550,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建相册照片
       tags:
-      - 相册照片
+      - 后台管理接口/相册照片
   /api/v1/album-photo/delete/{id}:
     delete:
       consumes:
@@ -3575,7 +3584,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除相册照片
       tags:
-      - 相册照片
+      - 后台管理接口/相册照片
   /api/v1/album-photo/list:
     get:
       consumes:
@@ -3605,7 +3614,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询相册照片列表
       tags:
-      - 相册照片
+      - 后台管理接口/相册照片
   /api/v1/album-photo/page:
     get:
       consumes:
@@ -3644,7 +3653,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询相册照片分页列表
       tags:
-      - 相册照片
+      - 后台管理接口/相册照片
   /api/v1/album-photo/query/{id}:
     get:
       consumes:
@@ -3678,7 +3687,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询相册照片
       tags:
-      - 相册照片
+      - 后台管理接口/相册照片
   /api/v1/album-photo/update/{id}:
     put:
       consumes:
@@ -3718,7 +3727,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新相册照片
       tags:
-      - 相册照片
+      - 后台管理接口/相册照片
   /api/v1/album/create:
     post:
       consumes:
@@ -3753,7 +3762,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建相册
       tags:
-      - 相册
+      - 后台管理接口/相册
   /api/v1/album/delete/{id}:
     delete:
       consumes:
@@ -3787,7 +3796,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除相册
       tags:
-      - 相册
+      - 后台管理接口/相册
   /api/v1/album/list:
     get:
       consumes:
@@ -3817,7 +3826,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询相册列表
       tags:
-      - 相册
+      - 后台管理接口/相册
   /api/v1/album/page:
     get:
       consumes:
@@ -3856,7 +3865,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询相册列表分页
       tags:
-      - 相册
+      - 后台管理接口/相册
   /api/v1/album/query/{id}:
     get:
       consumes:
@@ -3890,7 +3899,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询相册
       tags:
-      - 相册
+      - 后台管理接口/相册
   /api/v1/album/update/{id}:
     put:
       consumes:
@@ -3930,7 +3939,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新相册
       tags:
-      - 相册
+      - 后台管理接口/相册
   /api/v1/api-interface/page:
     get:
       consumes:
@@ -3969,7 +3978,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询API路由分页列表
       tags:
-      - api路由
+      - 后台管理接口/api路由
   /api/v1/category/create:
     post:
       consumes:
@@ -4004,7 +4013,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建分类
       tags:
-      - 分类
+      - 后台管理接口/分类
   /api/v1/category/delete/{id}:
     delete:
       consumes:
@@ -4042,7 +4051,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除分类
       tags:
-      - 分类
+      - 后台管理接口/分类
   /api/v1/category/list:
     get:
       consumes:
@@ -4068,7 +4077,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询分类列表
       tags:
-      - 分类
+      - 后台管理接口/分类
   /api/v1/category/page:
     get:
       consumes:
@@ -4107,7 +4116,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询分类分页列表
       tags:
-      - 分类
+      - 后台管理接口/分类
   /api/v1/category/query/{id}:
     get:
       consumes:
@@ -4145,7 +4154,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询分类
       tags:
-      - 分类
+      - 后台管理接口/分类
   /api/v1/category/update/{id}:
     put:
       consumes:
@@ -4189,7 +4198,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新分类
       tags:
-      - 分类
+      - 后台管理接口/分类
   /api/v1/comment/page:
     get:
       consumes:
@@ -4228,7 +4237,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取评论列表
       tags:
-      - 评论
+      - 后台管理接口/评论
   /api/v1/comment/query/{id}:
     get:
       consumes:
@@ -4262,7 +4271,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取评论
       tags:
-      - 评论
+      - 后台管理接口/评论
   /api/v1/comment/recent:
     get:
       consumes:
@@ -4291,7 +4300,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取最近评论
       tags:
-      - 评论
+      - 公开接口/评论
   /api/v1/common/statistic:
     get:
       consumes:
@@ -4319,7 +4328,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取首页统计信息
       tags:
-      - 公共
+      - 后台管理接口/统计
   /api/v1/coupon/batch/delete:
     delete:
       consumes:
@@ -4354,7 +4363,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 批量删除优惠券
       tags:
-      - 优惠券
+      - 后台管理接口/优惠券
   /api/v1/coupon/batch/update:
     put:
       consumes:
@@ -4389,7 +4398,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 批量更新优惠券
       tags:
-      - 优惠券
+      - 后台管理接口/优惠券
   /api/v1/coupon/create:
     post:
       consumes:
@@ -4424,7 +4433,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建优惠券
       tags:
-      - 优惠券
+      - 后台管理接口/优惠券
   /api/v1/coupon/delete/{id}:
     delete:
       consumes:
@@ -4458,7 +4467,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除优惠券
       tags:
-      - 优惠券
+      - 后台管理接口/优惠券
   /api/v1/coupon/list:
     get:
       consumes:
@@ -4488,7 +4497,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取所有优惠券
       tags:
-      - 优惠券
+      - 后台管理接口/优惠券
   /api/v1/coupon/page:
     get:
       consumes:
@@ -4525,7 +4534,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取优惠券分页列表
       tags:
-      - 优惠券
+      - 后台管理接口/优惠券
   /api/v1/coupon/query/{id}:
     get:
       consumes:
@@ -4559,7 +4568,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询优惠券
       tags:
-      - 优惠券
+      - 后台管理接口/优惠券
   /api/v1/coupon/search:
     get:
       consumes:
@@ -4606,7 +4615,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 搜索优惠券
       tags:
-      - 优惠券
+      - 后台管理接口/优惠券
   /api/v1/coupon/update/{id}:
     put:
       consumes:
@@ -4646,7 +4655,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新优惠券
       tags:
-      - 优惠券
+      - 后台管理接口/优惠券
   /api/v1/couponusage/batch/delete:
     delete:
       consumes:
@@ -4681,7 +4690,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 批量删除优惠券使用记录
       tags:
-      - 优惠券使用记录
+      - 后台管理接口/优惠券使用记录
   /api/v1/couponusage/batch/update:
     put:
       consumes:
@@ -4716,7 +4725,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 批量更新优惠券使用记录
       tags:
-      - 优惠券使用记录
+      - 后台管理接口/优惠券使用记录
   /api/v1/couponusage/create:
     post:
       consumes:
@@ -4751,7 +4760,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建优惠券使用记录
       tags:
-      - 优惠券使用记录
+      - 后台管理接口/优惠券使用记录
   /api/v1/couponusage/delete/{id}:
     delete:
       consumes:
@@ -4785,7 +4794,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除优惠券使用记录
       tags:
-      - 优惠券使用记录
+      - 后台管理接口/优惠券使用记录
   /api/v1/couponusage/list:
     get:
       consumes:
@@ -4815,7 +4824,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取所有优惠券使用记录
       tags:
-      - 优惠券使用记录
+      - 后台管理接口/优惠券使用记录
   /api/v1/couponusage/page:
     get:
       consumes:
@@ -4854,7 +4863,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取优惠券使用记录列表分页
       tags:
-      - 优惠券使用记录
+      - 后台管理接口/优惠券使用记录
   /api/v1/couponusage/query/{id}:
     get:
       consumes:
@@ -4888,7 +4897,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询优惠券使用记录
       tags:
-      - 优惠券使用记录
+      - 后台管理接口/优惠券使用记录
   /api/v1/couponusage/search:
     get:
       consumes:
@@ -4937,7 +4946,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 搜索优惠券使用记录
       tags:
-      - 优惠券使用记录
+      - 后台管理接口/优惠券使用记录
   /api/v1/couponusage/update/{id}:
     put:
       consumes:
@@ -4977,7 +4986,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新优惠券使用记录
       tags:
-      - 优惠券使用记录
+      - 后台管理接口/优惠券使用记录
   /api/v1/doc-library-detail/create:
     post:
       consumes:
@@ -5012,7 +5021,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建文档库详情
       tags:
-      - 文档库详情
+      - 后台管理接口/文档库详情
   /api/v1/doc-library-detail/delete/{id}:
     delete:
       consumes:
@@ -5046,7 +5055,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除文档库详情
       tags:
-      - 文档库详情
+      - 后台管理接口/文档库详情
   /api/v1/doc-library-detail/page:
     get:
       consumes:
@@ -5090,7 +5099,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文档库详情分页列表
       tags:
-      - 文档库详情
+      - 后台管理接口/文档库详情
   /api/v1/doc-library-detail/query/{id}:
     get:
       consumes:
@@ -5124,7 +5133,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文档库详情
       tags:
-      - 文档库详情
+      - 后台管理接口/文档库详情
   /api/v1/doc-library-detail/tree:
     get:
       consumes:
@@ -5160,7 +5169,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文档库详情树
       tags:
-      - 文档库详情
+      - 后台管理接口/文档库详情
   /api/v1/doc-library-detail/update/{id}:
     put:
       consumes:
@@ -5200,7 +5209,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新文档库详情
       tags:
-      - 文档库详情
+      - 后台管理接口/文档库详情
   /api/v1/doc-library/create:
     post:
       consumes:
@@ -5235,7 +5244,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建文档库
       tags:
-      - 文档库
+      - 后台管理接口/文档库
   /api/v1/doc-library/delete/{id}:
     delete:
       consumes:
@@ -5269,7 +5278,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除文档库
       tags:
-      - 文档库
+      - 后台管理接口/文档库
   /api/v1/doc-library/list:
     get:
       consumes:
@@ -5299,7 +5308,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文档库列表
       tags:
-      - 文档库
+      - 后台管理接口/文档库
   /api/v1/doc-library/page:
     get:
       consumes:
@@ -5338,7 +5347,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文档库分页列表
       tags:
-      - 文档库
+      - 后台管理接口/文档库
   /api/v1/doc-library/query/{id}:
     get:
       consumes:
@@ -5372,7 +5381,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文档库
       tags:
-      - 文档库
+      - 后台管理接口/文档库
   /api/v1/doc-library/update/{id}:
     put:
       consumes:
@@ -5412,7 +5421,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新文档库
       tags:
-      - 文档库
+      - 后台管理接口/文档库
   /api/v1/essay/create:
     post:
       consumes:
@@ -5447,7 +5456,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建说说
       tags:
-      - 说说
+      - 后台管理接口/说说
   /api/v1/essay/delete/{id}:
     delete:
       consumes:
@@ -5481,7 +5490,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除说说
       tags:
-      - 说说
+      - 后台管理接口/说说
   /api/v1/essay/list:
     get:
       consumes:
@@ -5517,7 +5526,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取说说列表
       tags:
-      - 说说
+      - 后台管理接口/说说
   /api/v1/essay/page:
     get:
       consumes:
@@ -5556,7 +5565,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取说说分页列表
       tags:
-      - 说说
+      - 后台管理接口/说说
   /api/v1/essay/update/{id}:
     put:
       consumes:
@@ -5596,7 +5605,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新说说
       tags:
-      - 说说
+      - 后台管理接口/说说
   /api/v1/file/delete/{id}:
     delete:
       consumes:
@@ -5630,7 +5639,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除文件
       tags:
-      - 文件
+      - 后台管理接口/文件
   /api/v1/file/list:
     get:
       consumes:
@@ -5656,7 +5665,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文件列表
       tags:
-      - 文件
+      - 后台管理接口/文件
   /api/v1/file/page:
     get:
       consumes:
@@ -5695,7 +5704,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文件分页列表
       tags:
-      - 文件
+      - 后台管理接口/文件
   /api/v1/file/query/{id}:
     get:
       consumes:
@@ -5733,7 +5742,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询文件
       tags:
-      - 文件
+      - 后台管理接口/文件
   /api/v1/file/upload:
     post:
       consumes:
@@ -5774,7 +5783,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 上传文件
       tags:
-      - 文件
+      - 后台管理接口/文件
   /api/v1/flink-application/approve/{id}:
     put:
       consumes:
@@ -5810,7 +5819,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 审核友链申请
       tags:
-      - 友链申请
+      - 后台管理接口/友链申请
   /api/v1/flink-application/create:
     post:
       consumes:
@@ -5841,7 +5850,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建友链申请
       tags:
-      - 友链申请
+      - 公开接口/友链申请
   /api/v1/flink-application/page:
     get:
       consumes:
@@ -5876,7 +5885,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取友链申请分页列表
       tags:
-      - 友链申请
+      - 后台管理接口/友链申请
   /api/v1/flink-application/query/{id}:
     get:
       consumes:
@@ -5906,7 +5915,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询友链申请
       tags:
-      - 友链申请
+      - 后台管理接口/友链申请
   /api/v1/flink-group/create:
     post:
       consumes:
@@ -5941,7 +5950,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建友链组
       tags:
-      - 友链组
+      - 后台管理接口/友链组
   /api/v1/flink-group/delete/{id}:
     delete:
       consumes:
@@ -5975,7 +5984,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除友链组
       tags:
-      - 友链组
+      - 后台管理接口/友链组
   /api/v1/flink-group/list:
     get:
       consumes:
@@ -6005,7 +6014,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询友链组列表
       tags:
-      - 友链组
+      - 后台管理接口/友链组
   /api/v1/flink-group/update/{id}:
     put:
       consumes:
@@ -6045,7 +6054,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新友链组
       tags:
-      - 友链组
+      - 后台管理接口/友链组
   /api/v1/flink/{id}:
     delete:
       consumes:
@@ -6079,7 +6088,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除Flink
       tags:
-      - 友链
+      - 后台管理接口/友链
   /api/v1/flink/create:
     post:
       consumes:
@@ -6114,7 +6123,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建Flink
       tags:
-      - 友链
+      - 后台管理接口/友链
   /api/v1/flink/list:
     get:
       consumes:
@@ -6144,7 +6153,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取所有Flink
       tags:
-      - 友链
+      - 后台管理接口/友链
   /api/v1/flink/page:
     get:
       consumes:
@@ -6183,7 +6192,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取Flink分页列表
       tags:
-      - 友链
+      - 后台管理接口/友链
   /api/v1/flink/query/{id}:
     get:
       consumes:
@@ -6217,7 +6226,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询Flink
       tags:
-      - 友链
+      - 后台管理接口/友链
   /api/v1/flink/random:
     get:
       consumes:
@@ -6245,7 +6254,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 随机查询Flink
       tags:
-      - 友链
+      - 公开接口/友链
   /api/v1/flink/update/{id}:
     put:
       consumes:
@@ -6285,7 +6294,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新Flink
       tags:
-      - 友链
+      - 后台管理接口/友链
   /api/v1/friend-circle:
     post:
       consumes:
@@ -6313,7 +6322,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建朋友圈记录
       tags:
-      - 友链朋友圈
+      - 后台管理接口/友链朋友圈
   /api/v1/friend-circle/{id}:
     delete:
       consumes:
@@ -6347,7 +6356,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除朋友圈记录
       tags:
-      - 友链朋友圈
+      - 后台管理接口/友链朋友圈
     put:
       consumes:
       - application/json
@@ -6380,7 +6389,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新朋友圈记录
       tags:
-      - 友链朋友圈
+      - 后台管理接口/友链朋友圈
   /api/v1/friend-circle/page:
     get:
       consumes:
@@ -6419,7 +6428,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取朋友圈记录分页列表
       tags:
-      - 友链朋友圈
+      - 后台管理接口/友链朋友圈
   /api/v1/knowledge-base/{id}:
     get:
       consumes:
@@ -6453,7 +6462,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取知识库
       tags:
-      - 知识库
+      - 后台管理接口/知识库
   /api/v1/knowledge-base/create:
     post:
       consumes:
@@ -6488,7 +6497,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建知识库
       tags:
-      - 知识库
+      - 后台管理接口/知识库
   /api/v1/knowledge-base/delete/{id}:
     delete:
       consumes:
@@ -6522,7 +6531,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除知识库
       tags:
-      - 知识库
+      - 后台管理接口/知识库
   /api/v1/knowledge-base/list:
     get:
       consumes:
@@ -6552,7 +6561,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取知识库列表
       tags:
-      - 知识库
+      - 后台管理接口/知识库
   /api/v1/knowledge-base/page:
     get:
       consumes:
@@ -6593,7 +6602,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取知识库分页列表
       tags:
-      - 知识库
+      - 后台管理接口/知识库
   /api/v1/knowledge-base/update/{id}:
     put:
       consumes:
@@ -6633,7 +6642,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新知识库
       tags:
-      - 知识库
+      - 后台管理接口/知识库
   /api/v1/license/create:
     post:
       consumes:
@@ -6668,7 +6677,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建授权
       tags:
-      - 授权
+      - 后台管理接口/授权
   /api/v1/license/delete/{id}:
     delete:
       consumes:
@@ -6702,7 +6711,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除授权
       tags:
-      - 授权
+      - 后台管理接口/授权
   /api/v1/license/page:
     get:
       consumes:
@@ -6741,7 +6750,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取授权分页列表
       tags:
-      - 授权
+      - 后台管理接口/授权
   /api/v1/license/query/{id}:
     get:
       consumes:
@@ -6779,7 +6788,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询授权
       tags:
-      - 授权
+      - 后台管理接口/授权
   /api/v1/license/update/{id}:
     put:
       consumes:
@@ -6819,7 +6828,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新授权
       tags:
-      - 授权
+      - 后台管理接口/授权
   /api/v1/license/verify:
     post:
       consumes:
@@ -6854,7 +6863,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 验证授权
       tags:
-      - 授权
+      - 公开接口/授权
   /api/v1/member-level/create:
     post:
       consumes:
@@ -6889,7 +6898,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建会员等级
       tags:
-      - 会员等级
+      - 后台管理接口/会员等级
   /api/v1/member-level/delete/{id}:
     delete:
       consumes:
@@ -6927,7 +6936,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除会员等级
       tags:
-      - 会员等级
+      - 后台管理接口/会员等级
   /api/v1/member-level/list:
     get:
       consumes:
@@ -6953,7 +6962,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询会员等级列表
       tags:
-      - 会员等级
+      - 后台管理接口/会员等级
   /api/v1/member-level/page:
     get:
       consumes:
@@ -6992,7 +7001,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询会员等级分页
       tags:
-      - 会员等级
+      - 后台管理接口/会员等级
   /api/v1/member-level/query/{id}:
     get:
       consumes:
@@ -7030,7 +7039,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询会员等级
       tags:
-      - 会员等级
+      - 后台管理接口/会员等级
   /api/v1/member-level/update/{id}:
     put:
       consumes:
@@ -7074,7 +7083,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新会员等级
       tags:
-      - 会员等级
+      - 后台管理接口/会员等级
   /api/v1/member/create:
     post:
       consumes:
@@ -7109,7 +7118,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建会员
       tags:
-      - 会员
+      - 后台管理接口/会员
   /api/v1/member/delete/{id}:
     delete:
       consumes:
@@ -7147,7 +7156,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除会员
       tags:
-      - 会员
+      - 后台管理接口/会员
   /api/v1/member/page:
     get:
       consumes:
@@ -7186,7 +7195,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询会员列表分页
       tags:
-      - 会员
+      - 后台管理接口/会员
   /api/v1/member/query/{user_id}:
     get:
       consumes:
@@ -7224,7 +7233,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询会员
       tags:
-      - 会员
+      - 后台管理接口/会员
   /api/v1/member/update/{id}:
     put:
       consumes:
@@ -7268,7 +7277,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新会员
       tags:
-      - 会员
+      - 后台管理接口/会员
   /api/v1/migration/check-duplicate:
     post:
       consumes:
@@ -7302,7 +7311,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 检查重复文件
       tags:
-      - 迁移
+      - 后台管理接口/迁移
   /api/v1/migration/md:
     post:
       consumes:
@@ -7336,7 +7345,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 导入Markdown文件
       tags:
-      - 迁移
+      - 后台管理接口/迁移
   /api/v1/notifications/batch/read:
     post:
       consumes:
@@ -7371,7 +7380,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 批量标记为已读
       tags:
-      - 通知
+      - 后台管理接口/通知
   /api/v1/notifications/delete/:id:
     delete:
       consumes:
@@ -7405,7 +7414,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除通知
       tags:
-      - 通知
+      - 后台管理接口/通知
   /api/v1/notifications/page:
     get:
       consumes:
@@ -7449,7 +7458,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询通知分页列表
       tags:
-      - 通知
+      - 后台管理接口/通知
   /api/v1/notifications/query/:id:
     get:
       consumes:
@@ -7483,7 +7492,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询通知详情
       tags:
-      - 通知
+      - 后台管理接口/通知
   /api/v1/pay-order/delete/{id}:
     delete:
       consumes:
@@ -7516,7 +7525,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除支付订单
       tags:
-      - 支付订单
+      - 后台管理接口/支付订单
   /api/v1/pay-order/list:
     get:
       consumes:
@@ -7542,7 +7551,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取支付订单列表
       tags:
-      - 支付订单
+      - 后台管理接口/支付订单
   /api/v1/pay-order/query/{id}:
     get:
       consumes:
@@ -7575,7 +7584,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询支付订单
       tags:
-      - 支付订单
+      - 后台管理接口/支付订单
   /api/v1/pay-order/submit:
     post:
       consumes:
@@ -7605,7 +7614,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 提交支付订单
       tags:
-      - 支付订单
+      - 后台管理接口/支付订单
   /api/v1/pay-order/update/{id}:
     put:
       consumes:
@@ -7640,7 +7649,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新支付订单
       tags:
-      - 支付订单
+      - 后台管理接口/支付订单
   /api/v1/plugin/create:
     post:
       consumes:
@@ -7674,7 +7683,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建插件
       tags:
-      - 插件
+      - 后台管理接口/插件
   /api/v1/plugin/delete/{id}:
     delete:
       consumes:
@@ -7708,7 +7717,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除插件
       tags:
-      - 插件
+      - 后台管理接口/插件
   /api/v1/plugin/heartbeat:
     post:
       consumes:
@@ -7743,7 +7752,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 插件心跳
       tags:
-      - 插件
+      - 公开接口/插件
   /api/v1/plugin/list:
     get:
       consumes:
@@ -7782,7 +7791,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取插件列表
       tags:
-      - 插件
+      - 后台管理接口/插件
   /api/v1/plugin/query/{id}:
     get:
       consumes:
@@ -7816,7 +7825,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询插件
       tags:
-      - 插件
+      - 后台管理接口/插件
   /api/v1/plugin/register:
     post:
       consumes:
@@ -7851,7 +7860,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 注册插件
       tags:
-      - 插件
+      - 公开接口/插件
   /api/v1/plugin/restart/{id}:
     post:
       consumes:
@@ -7885,7 +7894,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 重启插件
       tags:
-      - 插件
+      - 后台管理接口/插件
   /api/v1/plugin/start/{id}:
     post:
       consumes:
@@ -7919,7 +7928,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 启动插件
       tags:
-      - 插件
+      - 后台管理接口/插件
   /api/v1/plugin/stop/{id}:
     post:
       consumes:
@@ -7953,7 +7962,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 停止插件
       tags:
-      - 插件
+      - 后台管理接口/插件
   /api/v1/post/create:
     post:
       consumes:
@@ -7988,7 +7997,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建文章
       tags:
-      - 文章
+      - 后台管理接口/文章
   /api/v1/post/delete/{id}:
     delete:
       consumes:
@@ -8022,7 +8031,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除文章
       tags:
-      - 文章
+      - 后台管理接口/文章
   /api/v1/post/list:
     get:
       consumes:
@@ -8048,7 +8057,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询所有文章
       tags:
-      - 文章
+      - 后台管理接口/文章
   /api/v1/post/month-stats:
     get:
       consumes:
@@ -8079,7 +8088,46 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文章月份统计
       tags:
-      - 文章
+      - 公开接口/文章
+  /api/v1/post/page:
+    get:
+      consumes:
+      - application/json
+      description: 查询文章分页列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.PageResult-model_PostResp'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 查询文章分页列表
+      tags:
+      - 后台管理接口/文章
   /api/v1/post/publish/{id}:
     put:
       consumes:
@@ -8113,7 +8161,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 发布文章
       tags:
-      - 文章
+      - 后台管理接口/文章
   /api/v1/post/query/{id}:
     get:
       consumes:
@@ -8147,7 +8195,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询文章
       tags:
-      - 文章
+      - 后台管理接口/文章
   /api/v1/post/random:
     get:
       consumes:
@@ -8175,7 +8223,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 随机获取一篇文章
       tags:
-      - 文章
+      - 公开接口/文章
   /api/v1/post/search:
     get:
       consumes:
@@ -8216,7 +8264,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 搜索文章
       tags:
-      - 文章
+      - 公开接口/文章
   /api/v1/post/summary/stream/{id}:
     get:
       consumes:
@@ -8250,7 +8298,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取文章摘要流
       tags:
-      - 文章
+      - 公开接口/文章
   /api/v1/post/unpublish/{id}:
     put:
       consumes:
@@ -8284,7 +8332,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 取消发布文章
       tags:
-      - 文章
+      - 后台管理接口/文章
   /api/v1/post/update/{id}:
     put:
       consumes:
@@ -8324,7 +8372,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新文章内容
       tags:
-      - 文章
+      - 后台管理接口/文章
   /api/v1/post/update/setting/{id}:
     put:
       consumes:
@@ -8364,7 +8412,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新文章设置
       tags:
-      - 文章
+      - 后台管理接口/文章
   /api/v1/posts/slug/{slug}:
     get:
       consumes:
@@ -8402,7 +8450,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 根据Slug查询文章
       tags:
-      - 文章
+      - 公开接口/文章
   /api/v1/product/batch-delete:
     delete:
       consumes:
@@ -8437,7 +8485,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 批量删除商品
       tags:
-      - 商品
+      - 后台管理接口/商品
   /api/v1/product/batch-update:
     put:
       consumes:
@@ -8472,7 +8520,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 批量更新商品
       tags:
-      - 商品
+      - 后台管理接口/商品
   /api/v1/product/create:
     post:
       consumes:
@@ -8507,7 +8555,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建商品
       tags:
-      - 商品
+      - 后台管理接口/商品
   /api/v1/product/delete/{id}:
     delete:
       consumes:
@@ -8541,7 +8589,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除商品
       tags:
-      - 商品
+      - 后台管理接口/商品
   /api/v1/product/list:
     get:
       consumes:
@@ -8567,7 +8615,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询所有商品
       tags:
-      - 商品
+      - 后台管理接口/商品
   /api/v1/product/page:
     get:
       consumes:
@@ -8600,7 +8648,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 分页查询商品
       tags:
-      - 商品
+      - 后台管理接口/商品
   /api/v1/product/query/{id}:
     get:
       consumes:
@@ -8634,7 +8682,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询商品
       tags:
-      - 商品
+      - 后台管理接口/商品
   /api/v1/product/search:
     get:
       consumes:
@@ -8681,7 +8729,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 搜索商品
       tags:
-      - 商品
+      - 后台管理接口/商品
   /api/v1/product/update/{id}:
     put:
       consumes:
@@ -8721,7 +8769,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新商品
       tags:
-      - 商品
+      - 后台管理接口/商品
   /api/v1/role/create:
     post:
       consumes:
@@ -8756,7 +8804,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建角色
       tags:
-      - 角色
+      - 后台管理接口/角色
   /api/v1/role/delete/{id}:
     delete:
       consumes:
@@ -8790,7 +8838,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除角色
       tags:
-      - 角色
+      - 后台管理接口/角色
   /api/v1/role/list:
     get:
       consumes:
@@ -8816,7 +8864,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询所有角色
       tags:
-      - 角色
+      - 后台管理接口/角色
   /api/v1/role/page:
     get:
       consumes:
@@ -8855,7 +8903,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询角色分页列表
       tags:
-      - 角色
+      - 后台管理接口/角色
   /api/v1/role/query/{id}:
     get:
       consumes:
@@ -8889,7 +8937,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询角色
       tags:
-      - 角色
+      - 后台管理接口/角色
   /api/v1/role/update/{id}:
     put:
       consumes:
@@ -8929,7 +8977,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新角色
       tags:
-      - 角色
+      - 后台管理接口/角色
   /api/v1/routes:
     get:
       consumes:
@@ -8955,7 +9003,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取路由
       tags:
-      - 路由
+      - 后台管理接口/路由
   /api/v1/schedule-job/create:
     post:
       consumes:
@@ -8990,7 +9038,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建定时任务
       tags:
-      - 定时任务
+      - 后台管理接口/定时任务
   /api/v1/schedule-job/delete/{id}:
     delete:
       consumes:
@@ -9024,7 +9072,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除定时任务
       tags:
-      - 定时任务
+      - 后台管理接口/定时任务
   /api/v1/schedule-job/execute/{id}:
     post:
       consumes:
@@ -9058,7 +9106,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 立即执行定时任务
       tags:
-      - 定时任务
+      - 后台管理接口/定时任务
   /api/v1/schedule-job/page:
     get:
       consumes:
@@ -9097,7 +9145,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取定时任务分页列表
       tags:
-      - 定时任务
+      - 后台管理接口/定时任务
   /api/v1/schedule-job/query/{id}:
     get:
       consumes:
@@ -9131,7 +9179,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询定时任务
       tags:
-      - 定时任务
+      - 后台管理接口/定时任务
   /api/v1/schedule-job/update/{id}:
     put:
       consumes:
@@ -9171,7 +9219,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新定时任务
       tags:
-      - 定时任务
+      - 后台管理接口/定时任务
   /api/v1/settings:
     get:
       consumes:
@@ -9197,7 +9245,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取系统设置
       tags:
-      - 设置
+      - 后台管理接口/设置
   /api/v1/settings/{key}:
     post:
       consumes:
@@ -9238,7 +9286,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 保存系统设置
       tags:
-      - 设置
+      - 后台管理接口/设置
   /api/v1/settings/json/{key}:
     get:
       consumes:
@@ -9273,7 +9321,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取系统设置JSON值
       tags:
-      - 设置
+      - 后台管理接口/设置
   /api/v1/storage-strategy/create:
     post:
       consumes:
@@ -9308,7 +9356,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建存储策略
       tags:
-      - 存储策略
+      - 后台管理接口/存储策略
   /api/v1/storage-strategy/default/{id}:
     put:
       consumes:
@@ -9342,7 +9390,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 设置默认存储策略
       tags:
-      - 存储策略
+      - 后台管理接口/存储策略
   /api/v1/storage-strategy/delete/{id}:
     delete:
       consumes:
@@ -9376,7 +9424,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除存储策略
       tags:
-      - 存储策略
+      - 后台管理接口/存储策略
   /api/v1/storage-strategy/list:
     get:
       consumes:
@@ -9402,7 +9450,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取存储策略列表
       tags:
-      - 存储策略
+      - 后台管理接口/存储策略
   /api/v1/storage-strategy/list-all:
     get:
       consumes:
@@ -9428,7 +9476,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取所有存储策略列表
       tags:
-      - 存储策略
+      - 后台管理接口/存储策略
   /api/v1/storage-strategy/query/{id}:
     get:
       consumes:
@@ -9462,7 +9510,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询存储策略
       tags:
-      - 存储策略
+      - 后台管理接口/存储策略
   /api/v1/storage-strategy/update/{id}:
     put:
       consumes:
@@ -9502,7 +9550,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新存储策略
       tags:
-      - 存储策略
+      - 后台管理接口/存储策略
   /api/v1/tag//update/{id}:
     put:
       consumes:
@@ -9546,7 +9594,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新标签
       tags:
-      - 标签
+      - 后台管理接口/标签
   /api/v1/tag/{id}:
     get:
       consumes:
@@ -9584,7 +9632,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询标签
       tags:
-      - 标签
+      - 后台管理接口/标签
   /api/v1/tag/create:
     post:
       consumes:
@@ -9619,7 +9667,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建标签
       tags:
-      - 标签
+      - 后台管理接口/标签
   /api/v1/tag/delete/{id}:
     delete:
       consumes:
@@ -9657,7 +9705,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除标签
       tags:
-      - 标签
+      - 后台管理接口/标签
   /api/v1/tag/list:
     get:
       consumes:
@@ -9683,7 +9731,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询标签列表
       tags:
-      - 标签
+      - 后台管理接口/标签
   /api/v1/tag/page:
     get:
       consumes:
@@ -9720,7 +9768,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询标签分页
       tags:
-      - 标签
+      - 后台管理接口/标签
   /api/v1/theme/create:
     post:
       consumes:
@@ -9755,7 +9803,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建主题
       tags:
-      - 主题
+      - 后台管理接口/主题
   /api/v1/theme/delete/{id}:
     delete:
       consumes:
@@ -9793,7 +9841,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除主题
       tags:
-      - 主题
+      - 后台管理接口/主题
   /api/v1/theme/disable/{id}:
     put:
       consumes:
@@ -9831,7 +9879,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 禁用主题
       tags:
-      - 主题
+      - 后台管理接口/主题
   /api/v1/theme/enable/{id}:
     put:
       consumes:
@@ -9869,7 +9917,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 启用主题
       tags:
-      - 主题
+      - 后台管理接口/主题
   /api/v1/theme/page:
     get:
       consumes:
@@ -9908,7 +9956,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询主题列表
       tags:
-      - 主题
+      - 后台管理接口/主题
   /api/v1/theme/query/{id}:
     get:
       consumes:
@@ -9946,7 +9994,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询主题
       tags:
-      - 主题
+      - 后台管理接口/主题
   /api/v1/theme/upload:
     post:
       consumes:
@@ -9982,7 +10030,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 上传主题文件
       tags:
-      - 主题
+      - 后台管理接口/主题
   /api/v1/twikoo:
     delete:
       consumes:
@@ -10016,7 +10064,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 处理Twikoo评论事件
       tags:
-      - 评论
+      - 公开接口/评论
     get:
       consumes:
       - application/json
@@ -10049,7 +10097,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 处理Twikoo评论事件
       tags:
-      - 评论
+      - 公开接口/评论
     post:
       consumes:
       - application/json
@@ -10082,7 +10130,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 处理Twikoo评论事件
       tags:
-      - 评论
+      - 公开接口/评论
     put:
       consumes:
       - application/json
@@ -10115,7 +10163,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 处理Twikoo评论事件
       tags:
-      - 评论
+      - 公开接口/评论
   /api/v1/user/create:
     post:
       consumes:
@@ -10145,7 +10193,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建用户
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/delete/{id}:
     delete:
       consumes:
@@ -10178,7 +10226,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除用户
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/list:
     get:
       consumes:
@@ -10199,7 +10247,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取用户列表
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/page:
     get:
       consumes:
@@ -10238,7 +10286,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 获取用户分页列表
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/personal-access-token/create:
     post:
       consumes:
@@ -10268,7 +10316,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 创建 personalAccessToken 个人令牌
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/personal-access-token/list:
     get:
       consumes:
@@ -10293,7 +10341,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询个人令牌列表
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/personal-access-token/query/{id}:
     get:
       consumes:
@@ -10326,7 +10374,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询个人令牌
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/profile:
     get:
       consumes:
@@ -10359,7 +10407,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询用户个人信息
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/query/{id}:
     get:
       consumes:
@@ -10392,7 +10440,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询用户
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/search:
     get:
       consumes:
@@ -10431,7 +10479,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询用户分页列表
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/user/update/{id}:
     put:
       consumes:
@@ -10466,7 +10514,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新用户
       tags:
-      - 用户
+      - 后台管理接口/用户
   /api/v1/visit/batch/delete:
     post:
       consumes:
@@ -10501,7 +10549,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 批量删除访客访问日志
       tags:
-      - 访客访问
+      - 后台管理接口/访客访问
   /api/v1/visit/delete/{id}:
     delete:
       consumes:
@@ -10539,7 +10587,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 删除访客访问日志
       tags:
-      - 访客访问
+      - 后台管理接口/访客访问
   /api/v1/visit/handle:
     post:
       consumes:
@@ -10574,7 +10622,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 处理访客访问
       tags:
-      - 访客访问
+      - 公开接口/访客访问
   /api/v1/visit/list:
     get:
       consumes:
@@ -10613,7 +10661,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询访客访问日志分页
       tags:
-      - 访客访问
+      - 后台管理接口/访客访问
   /api/v1/visit/query/{id}:
     get:
       consumes:
@@ -10651,7 +10699,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询访客访问日志
       tags:
-      - 访客访问
+      - 后台管理接口/访客访问
   /api/v1/wallet/page:
     get:
       consumes:
@@ -10690,7 +10738,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询钱包分页列表
       tags:
-      - 钱包
+      - 后台管理接口/钱包
   /api/v1/wallet/query/{user_id}:
     get:
       consumes:
@@ -10723,7 +10771,7 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 查询钱包
       tags:
-      - 钱包
+      - 后台管理接口/钱包
   /api/v1/wallet/update/{id}:
     put:
       consumes:
@@ -10758,5 +10806,5 @@ paths:
             $ref: '#/definitions/model.HttpError'
       summary: 更新钱包
       tags:
-      - 钱包
+      - 后台管理接口/钱包
 swagger: "2.0"

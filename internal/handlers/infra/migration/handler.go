@@ -25,7 +25,7 @@ func NewMigrationHandlerImpl(migrationService migration_service.MigrationService
 
 // @Summary 导入Markdown文件
 // @Description 批量导入Markdown文件到文章管理
-// @Tags 迁移
+// @Tags 后台管理接口/迁移
 // @Accept multipart/form-data
 // @Produce json
 // @Param files formData file true "Markdown文件"
@@ -62,7 +62,7 @@ func (h *MigrationHandlerImpl) ImportMarkdown(c *fiber.Ctx) error {
 
 // @Summary 检查重复文件
 // @Description 检查待导入的文件中是否有与数据库中文章标题重复的文件
-// @Tags 迁移
+// @Tags 后台管理接口/迁移
 // @Accept multipart/form-data
 // @Produce json
 // @Param files formData file true "Markdown文件"
