@@ -307,10 +307,10 @@ func initMallRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 
 // 公开路由无需认证
 func initPublicRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
-	publicApi := router.Group("/api/public")
+	publicApi := router.Group("/public")
 	{
 		// 访问统计接口
-		publicApi.Get("/visit", handlerMap.VisitHandler.HandleVisitor)
+		publicApi.Post("/visit", handlerMap.VisitHandler.HandleVisitor)
 		// twikoo 接口
 		publicApi.All("/twikoo", handlerMap.CommentHandler.HandleTwikoo)
 		// 最近评论接口
@@ -331,8 +331,14 @@ func initPublicRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 		publicApi.Get("/flink-group/list", handlerMap.FlinkGroupHandler.ListFLinkGroup)
 		// 朋友圈记录分页接口
 		publicApi.Get("/friend-circle-record/page", handlerMap.FriendCircleHandler.ListFriendCircleRecordPage)
+		// 说说(随笔、瞬间)列表接口
+		publicApi.Get("/essay/list", handlerMap.EssayHandler.ListEssay)
 		// 说说(随笔、瞬间)分页接口
 		publicApi.Get("/essay/page", handlerMap.EssayHandler.GetEssayPage)
+		// 文章列表接口
+		publicApi.Get("/post/list", handlerMap.PostHandler.ListPost)
+		// 文章分页接口
+		publicApi.Get("/post/page", handlerMap.PostHandler.ListPostPage)
 		// 文章搜索接口
 		publicApi.Get("/post/search", handlerMap.PostHandler.SearchPosts)
 		// 文章月统计接口
@@ -377,8 +383,9 @@ func Initialize(router *fiber.App, handlerMap handlers.HandlerMap, dbClient *ent
 	}
 
 	api := router.Group("/api")
+	initPublicRouter(api, handlerMap)
 	{
-		initPublicRouter(api, handlerMap)
+
 		apiV1 := api.Group("/v1")
 		{
 
