@@ -31,6 +31,17 @@ func NewMemberHandlerImpl(userService user_service.UserService, memberService me
 	}
 }
 
+// @Summary 查询会员
+// @Description 查询会员
+// @Tags 会员
+// @Accept json
+// @Produce json
+// @Param user_id path int true "用户 ID"
+// @Success 200 {object} model.HttpSuccess{data=model.MemberResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/member/query/{user_id} [get]
 func (h *MemberHandlerImpl) QueryMember(c *fiber.Ctx) error {
 	userId, err := strconv.Atoi(c.Params("user_id"))
 	if err != nil {
@@ -54,6 +65,17 @@ func (h *MemberHandlerImpl) QueryMember(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", m))
 }
 
+// @Summary 查询会员列表分页
+// @Description 查询会员列表分页
+// @Tags 会员
+// @Accept json
+// @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.MemberResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/member/page [get]
 func (h *MemberHandlerImpl) QueryMemberPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
@@ -100,6 +122,16 @@ func (h *MemberHandlerImpl) QueryMemberPage(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", pageResult))
 }
 
+// @Summary 创建会员
+// @Description 创建会员
+// @Tags 会员
+// @Accept json
+// @Produce json
+// @Param member_create_req body model.MemberCreateReq true "会员创建请求体"
+// @Success 200 {object} model.HttpSuccess{data=model.MemberResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/member/create [post]
 func (h *MemberHandlerImpl) CreateMember(c *fiber.Ctx) error {
 	var createReq *model.MemberCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
@@ -118,6 +150,18 @@ func (h *MemberHandlerImpl) CreateMember(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", m))
 }
 
+// @Summary 更新会员
+// @Description 更新会员
+// @Tags 会员
+// @Accept json
+// @Produce json
+// @Param id path int true "会员 ID"
+// @Param member_update_req body model.MemberUpdateReq true "会员更新请求体"
+// @Success 200 {object} model.HttpSuccess{data=model.MemberResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/member/update/{id} [put]
 func (h *MemberHandlerImpl) UpdateMember(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -148,6 +192,17 @@ func (h *MemberHandlerImpl) UpdateMember(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", updatedMember))
 }
 
+// @Summary 删除会员
+// @Description 删除会员
+// @Tags 会员
+// @Accept json
+// @Produce json
+// @Param id path int true "会员 ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/member/delete/{id} [delete]
 func (h *MemberHandlerImpl) DeleteMember(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

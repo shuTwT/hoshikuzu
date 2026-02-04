@@ -24,7 +24,7 @@ func NewCommonHandlerImpl(commonService common_service.CommonService) *CommonHan
 
 // @Summary 获取首页统计信息
 // @Description 获取首页统计信息，包括文章数量、评论数量、相册数量、照片数量
-// @Tags common
+// @Tags 公共
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=model.HomeStatistic}

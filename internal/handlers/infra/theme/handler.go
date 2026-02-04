@@ -29,6 +29,16 @@ func NewThemeHandlerImpl(themeService theme.ThemeService) *ThemeHandlerImpl {
 	return &ThemeHandlerImpl{themeService: themeService}
 }
 
+// @Summary 上传主题文件
+// @Description 上传一个新的主题文件
+// @Tags 主题
+// @Accept json
+// @Produce json
+// @Param file formData file true "主题文件"
+// @Success 200 {object} model.HttpSuccess{data=map[string]string}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/theme/upload [post]
 func (h *ThemeHandlerImpl) UploadThemeFile(c *fiber.Ctx) error {
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -46,6 +56,16 @@ func (h *ThemeHandlerImpl) UploadThemeFile(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("主题文件上传成功", map[string]string{"file_path": filePath}))
 }
 
+// @Summary 创建主题
+// @Description 创建一个新的主题
+// @Tags 主题
+// @Accept json
+// @Produce json
+// @Param req body model.CreateThemeReq true "主题创建请求"
+// @Success 200 {object} model.HttpSuccess{data=model.ThemeResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/theme/create [post]
 func (h *ThemeHandlerImpl) CreateTheme(c *fiber.Ctx) error {
 	var req model.CreateThemeReq
 	if err := c.BodyParser(&req); err != nil {
@@ -64,6 +84,17 @@ func (h *ThemeHandlerImpl) CreateTheme(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("主题创建成功", resp))
 }
 
+// @Summary 查询主题列表
+// @Description 查询所有主题的分页列表
+// @Tags 主题
+// @Accept json
+// @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.ThemeResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/theme/page [get]
 func (h *ThemeHandlerImpl) ListThemePage(c *fiber.Ctx) error {
 	var pageQuery model.PageQuery
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -89,6 +120,17 @@ func (h *ThemeHandlerImpl) ListThemePage(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("主题列表获取成功", pageResult))
 }
 
+// @Summary 查询主题
+// @Description 查询指定主题的信息
+// @Tags 主题
+// @Accept json
+// @Produce json
+// @Param id path int true "主题ID"
+// @Success 200 {object} model.HttpSuccess{data=model.ThemeResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/theme/query/{id} [get]
 func (h *ThemeHandlerImpl) QueryTheme(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -106,6 +148,17 @@ func (h *ThemeHandlerImpl) QueryTheme(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("主题查询成功", resp))
 }
 
+// @Summary 删除主题
+// @Description 删除指定主题
+// @Tags 主题
+// @Accept json
+// @Produce json
+// @Param id path int true "主题ID"
+// @Success 200 {object} model.HttpSuccess{data=model.ThemeResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/theme/delete/{id} [delete]
 func (h *ThemeHandlerImpl) DeleteTheme(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -123,6 +176,17 @@ func (h *ThemeHandlerImpl) DeleteTheme(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("主题删除成功", nil))
 }
 
+// @Summary 启用主题
+// @Description 启用指定主题
+// @Tags 主题
+// @Accept json
+// @Produce json
+// @Param id path int true "主题ID"
+// @Success 200 {object} model.HttpSuccess{data=model.ThemeResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/theme/enable/{id} [put]
 func (h *ThemeHandlerImpl) EnableTheme(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -140,6 +204,17 @@ func (h *ThemeHandlerImpl) EnableTheme(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("主题启用成功", nil))
 }
 
+// @Summary 禁用主题
+// @Description 禁用指定主题
+// @Tags 主题
+// @Accept json
+// @Produce json
+// @Param id path int true "主题ID"
+// @Success 200 {object} model.HttpSuccess{data=model.ThemeResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/theme/disable/{id} [put]
 func (h *ThemeHandlerImpl) DisableTheme(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

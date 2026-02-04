@@ -32,7 +32,7 @@ func NewStorageStrategyHandlerImpl(storageStrategyService storagestrategy_servic
 
 // @Summary 获取存储策略列表
 // @Description 获取所有存储策略的列表
-// @Tags storageStrategy
+// @Tags 存储策略
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.StorageStrategy}
@@ -48,7 +48,7 @@ func (h *StorageStrategyHandlerImpl) ListStorageStrategy(c *fiber.Ctx) error {
 
 // @Summary 获取所有存储策略列表
 // @Description 获取所有存储策略的列表，包括默认策略
-// @Tags storageStrategy
+// @Tags 存储策略
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.StorageStrategyListResp}
@@ -74,7 +74,7 @@ func (h *StorageStrategyHandlerImpl) ListStorageStrategyAll(c *fiber.Ctx) error 
 
 // @Summary 创建存储策略
 // @Description 创建一个新的存储策略
-// @Tags storageStrategy
+// @Tags 存储策略
 // @Accept json
 // @Produce json
 // @Param strategy body model.StorageStrategyCreateReq true "Storage Strategy Create Request"
@@ -97,7 +97,7 @@ func (h *StorageStrategyHandlerImpl) CreateStorageStrategy(c *fiber.Ctx) error {
 
 // @Summary 更新存储策略
 // @Description 更新指定ID的存储策略
-// @Tags storageStrategy
+// @Tags 存储策略
 // @Accept json
 // @Produce json
 // @Param id path int true "Storage Strategy ID"
@@ -127,7 +127,7 @@ func (h *StorageStrategyHandlerImpl) UpdateStorageStrategy(c *fiber.Ctx) error {
 
 // @Summary 查询存储策略
 // @Description 查询指定ID的存储策略
-// @Tags storageStrategy
+// @Tags 存储策略
 // @Accept json
 // @Produce json
 // @Param id path int true "Storage Strategy ID"
@@ -150,7 +150,7 @@ func (h *StorageStrategyHandlerImpl) QueryStorageStrategy(c *fiber.Ctx) error {
 
 // @Summary 删除存储策略
 // @Description 删除指定ID的存储策略
-// @Tags storageStrategy
+// @Tags 存储策略
 // @Accept json
 // @Produce json
 // @Param id path int true "Storage Strategy ID"
@@ -174,7 +174,7 @@ func (h *StorageStrategyHandlerImpl) DeleteStorageStrategy(c *fiber.Ctx) error {
 
 // @Summary 设置默认存储策略
 // @Description 设置指定ID的存储策略为默认策略
-// @Tags storageStrategy
+// @Tags 存储策略
 // @Accept json
 // @Produce json
 // @Param id path int true "Storage Strategy ID"

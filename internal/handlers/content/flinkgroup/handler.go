@@ -29,12 +29,12 @@ func NewFlinkGroupHandlerImpl(client *ent.Client, flinkService flink.FlinkServic
 	}
 }
 
-// @Summary 查询FlinkGroup
-// @Description 查询FlinkGroup
-// @Tags flinkGroup
+// @Summary 查询友链组列表
+// @Description 查询友链组列表
+// @Tags 友链组
 // @Accept json
 // @Produce json
-// @Success 200 {object} model.HttpSuccess{data=[]ent.FLinkGroup}
+// @Success 200 {object} model.HttpSuccess{data=[]model.FlinkGroupResp}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink-group/list [get]
@@ -56,9 +56,9 @@ func (h *FlinkGroupHandlerImpl) ListFLinkGroup(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", resp))
 }
 
-// @Summary 创建FlinkGroup
-// @Description 创建FlinkGroup
-// @Tags flinkGroup
+// @Summary 创建友链组
+// @Description 创建友链组
+// @Tags 友链组
 // @Accept json
 // @Produce json
 // @Param flink_group_create_req body ent.FLinkGroup true "FlinkGroup创建请求体"
@@ -81,13 +81,13 @@ func (h *FlinkGroupHandlerImpl) CreateFlinkGroup(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", flinkGroup))
 }
 
-// @Summary 更新FlinkGroup
-// @Description 更新FlinkGroup
-// @Tags flinkGroup
+// @Summary 更新友链组
+// @Description 更新友链组
+// @Tags 友链组
 // @Accept json
 // @Produce json
-// @Param id path int true "FlinkGroup ID"
-// @Param flink_group_update_req body ent.FLinkGroup true "FlinkGroup更新请求体"
+// @Param id path int true "友链组 ID"
+// @Param flink_group_update_req body ent.FLinkGroup true "友链组更新请求体"
 // @Success 200 {object} model.HttpSuccess{data=ent.FLinkGroup}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
@@ -111,12 +111,12 @@ func (h *FlinkGroupHandlerImpl) UpdateFlinkGroup(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", flinkGroup))
 }
 
-// @Summary 删除FlinkGroup
-// @Description 删除FlinkGroup
-// @Tags flinkGroup
+// @Summary 删除友链组
+// @Description 删除指定友链组
+// @Tags 友链组
 // @Accept json
 // @Produce json
-// @Param id path int true "FlinkGroup ID"
+// @Param id path int true "友链组 ID"
 // @Success 200 {object} model.HttpSuccess{data=nil}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError

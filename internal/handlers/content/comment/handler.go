@@ -39,7 +39,7 @@ func NewCommentHandlerImpl(commentService comment_service.CommentService) *Comme
 
 // @Summary 获取评论列表
 // @Description 获取评论列表
-// @Tags comment
+// @Tags 评论
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -64,14 +64,14 @@ func (h *CommentHandlerImpl) ListCommentPage(c *fiber.Ctx) error {
 
 // @Summary 获取评论
 // @Description 获取指定评论
-// @Tags comment
+// @Tags 评论
 // @Accept json
 // @Produce json
 // @Param id path int true "评论ID"
 // @Success 200 {object} model.HttpSuccess{data=ent.Comment}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/comment/{id} [get]
+// @Router /api/v1/comment/query/{id} [get]
 func (h *CommentHandlerImpl) GetComment(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -103,7 +103,7 @@ type TwikooReqBody struct {
 
 // @Summary 处理Twikoo评论事件
 // @Description 处理Twikoo评论事件，包括获取配置、获取评论、获取评论数量、提交评论
-// @Tags comment
+// @Tags 评论
 // @Accept json
 // @Produce json
 // @Param twikoo_req_body body TwikooReqBody true "Twikoo请求体"
@@ -189,7 +189,7 @@ func (h *CommentHandlerImpl) HandleTwikoo(c *fiber.Ctx) error {
 
 // @Summary 获取最近评论
 // @Description 获取最近评论
-// @Tags comment
+// @Tags 评论
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]interface{}}

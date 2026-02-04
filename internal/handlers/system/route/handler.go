@@ -13,6 +13,14 @@ type RouteHandler interface {
 type RouteHandlerImpl struct {
 }
 
+// @Summary 获取路由
+// @Description 获取系统中所有路由的列表
+// @Tags 路由
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.HttpSuccess{data=[]string}
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/routes [get]
 func NewRouteHandlerImpl() *RouteHandlerImpl {
 	return &RouteHandlerImpl{}
 }

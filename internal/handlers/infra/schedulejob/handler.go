@@ -28,6 +28,16 @@ func NewScheduleJobHandlerImpl(scheduleJobService schedulejob.ScheduleJobService
 	return &ScheduleJobHandlerImpl{scheduleJobService: scheduleJobService}
 }
 
+// @Summary 创建定时任务
+// @Description 创建一个新的定时任务
+// @Tags 定时任务
+// @Accept json
+// @Produce json
+// @Param req body model.CreateScheduleJobReq true "Create Schedule Job Request"
+// @Success 200 {object} model.HttpSuccess{data=model.ScheduleJobResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/schedule-job/create [post]
 func (h *ScheduleJobHandlerImpl) CreateScheduleJob(c *fiber.Ctx) error {
 	var req model.CreateScheduleJobReq
 	if err := c.BodyParser(&req); err != nil {
@@ -46,6 +56,17 @@ func (h *ScheduleJobHandlerImpl) CreateScheduleJob(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("定时任务创建成功", resp))
 }
 
+// @Summary 获取定时任务分页列表
+// @Description 获取所有定时任务的分页列表
+// @Tags 定时任务
+// @Accept json
+// @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.ScheduleJobResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/schedule-job/page [get]
 func (h *ScheduleJobHandlerImpl) ListScheduleJobPage(c *fiber.Ctx) error {
 	var pageQuery model.PageQuery
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -71,6 +92,16 @@ func (h *ScheduleJobHandlerImpl) ListScheduleJobPage(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("定时任务列表获取成功", pageResult))
 }
 
+// @Summary 查询定时任务
+// @Description 查询指定ID的定时任务
+// @Tags 定时任务
+// @Accept json
+// @Produce json
+// @Param id path int true "Schedule Job ID"
+// @Success 200 {object} model.HttpSuccess{data=model.ScheduleJobResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/schedule-job/query/{id} [get]
 func (h *ScheduleJobHandlerImpl) QueryScheduleJob(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -88,6 +119,17 @@ func (h *ScheduleJobHandlerImpl) QueryScheduleJob(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("定时任务查询成功", resp))
 }
 
+// @Summary 更新定时任务
+// @Description 更新指定ID的定时任务
+// @Tags 定时任务
+// @Accept json
+// @Produce json
+// @Param id path int true "Schedule Job ID"
+// @Param req body model.UpdateScheduleJobReq true "Update Schedule Job Request"
+// @Success 200 {object} model.HttpSuccess{data=model.ScheduleJobResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/schedule-job/update/{id} [put]
 func (h *ScheduleJobHandlerImpl) UpdateScheduleJob(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -112,6 +154,16 @@ func (h *ScheduleJobHandlerImpl) UpdateScheduleJob(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("定时任务更新成功", resp))
 }
 
+// @Summary 删除定时任务
+// @Description 删除指定ID的定时任务
+// @Tags 定时任务
+// @Accept json
+// @Produce json
+// @Param id path int true "Schedule Job ID"
+// @Success 200 {object} model.HttpSuccess{data=model.ScheduleJobResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/schedule-job/delete/{id} [delete]
 func (h *ScheduleJobHandlerImpl) DeleteScheduleJob(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -129,6 +181,16 @@ func (h *ScheduleJobHandlerImpl) DeleteScheduleJob(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("定时任务删除成功", nil))
 }
 
+// @Summary 立即执行定时任务
+// @Description 立即执行指定ID的定时任务
+// @Tags 定时任务
+// @Accept json
+// @Produce json
+// @Param id path int true "Schedule Job ID"
+// @Success 200 {object} model.HttpSuccess{data=model.ScheduleJobResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/schedule-job/execute/{id} [post]
 func (h *ScheduleJobHandlerImpl) ExecuteScheduleJobNow(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

@@ -28,7 +28,7 @@ func NewEssayHandlerImpl(service essay.EssayService) EssayHandler {
 
 // @Summary 创建说说
 // @Description 创建一个新说说
-// @Tags essay
+// @Tags 说说
 // @Accept json
 // @Produce json
 // @Param req body model.EssayCreateReq true "说创建请求"
@@ -51,7 +51,7 @@ func (h *EssayHandlerImpl) CreateEssay(c *fiber.Ctx) error {
 
 // @Summary 更新说说
 // @Description 更新指定说说的信息
-// @Tags essay
+// @Tags 说说
 // @Accept json
 // @Produce json
 // @Param id path string true "说说ID"
@@ -78,7 +78,7 @@ func (h *EssayHandlerImpl) UpdateEssay(c *fiber.Ctx) error {
 
 // @Summary 获取说说分页列表
 // @Description 获取说说分页列表
-// @Tags essay
+// @Tags 说说
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -114,7 +114,7 @@ func (h *EssayHandlerImpl) GetEssayPage(c *fiber.Ctx) error {
 
 // @Summary 获取说说列表
 // @Description 获取说说列表
-// @Tags essay
+// @Tags 说说
 // @Accept json
 // @Produce json
 // @Param limit query int false "数量限制" default(10)
@@ -143,7 +143,7 @@ func (h *EssayHandlerImpl) ListEssay(c *fiber.Ctx) error {
 
 // @Summary 删除说说
 // @Description 删除指定说说
-// @Tags essay
+// @Tags 说说
 // @Accept json
 // @Produce json
 // @Param id path string true "说说ID"

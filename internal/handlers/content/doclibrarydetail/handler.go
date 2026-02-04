@@ -28,6 +28,16 @@ func NewDocLibraryDetailHandlerImpl(service doclibrarydetail.DocLibraryDetailSer
 	return &DocLibraryDetailHandlerImpl{service: service}
 }
 
+// @Summary 创建文档库详情
+// @Description 创建新的文档库详情
+// @Tags 文档库详情
+// @Accept json
+// @Produce json
+// @Param docLibraryDetail body model.DocLibraryDetailCreateReq true "文档库详情创建请求"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library-detail/create [post]
 func (h *DocLibraryDetailHandlerImpl) CreateDocLibraryDetail(c *fiber.Ctx) error {
 	createReq := model.DocLibraryDetailCreateReq{}
 	if err := c.BodyParser(&createReq); err != nil {
@@ -40,6 +50,17 @@ func (h *DocLibraryDetailHandlerImpl) CreateDocLibraryDetail(c *fiber.Ctx) error
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 更新文档库详情
+// @Description 更新指定文档库详情的信息
+// @Tags 文档库详情
+// @Accept json
+// @Produce json
+// @Param id path int true "文档库详情 ID"
+// @Param docLibraryDetail body model.DocLibraryDetailUpdateReq true "文档库详情更新请求"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library-detail/update/{id} [put]
 func (h *DocLibraryDetailHandlerImpl) UpdateDocLibraryDetail(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -56,6 +77,18 @@ func (h *DocLibraryDetailHandlerImpl) UpdateDocLibraryDetail(c *fiber.Ctx) error
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 获取文档库详情分页列表
+// @Description 获取指定文档库下的文档库详情分页列表
+// @Tags 文档库详情
+// @Accept json
+// @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Param library_id query int true "文档库 ID"
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.DocLibraryDetailResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library-detail/page [get]
 func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetailPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -89,6 +122,16 @@ func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetailPage(c *fiber.Ctx) erro
 	}))
 }
 
+// @Summary 获取文档库详情
+// @Description 获取指定文档库详情的信息
+// @Tags 文档库详情
+// @Accept json
+// @Produce json
+// @Param id path int true "文档库详情 ID"
+// @Success 200 {object} model.HttpSuccess{data=model.DocLibraryDetailResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library-detail/query/{id} [get]
 func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetail(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -114,6 +157,16 @@ func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetail(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", resp))
 }
 
+// @Summary 删除文档库详情
+// @Description 删除指定文档库详情
+// @Tags 文档库详情
+// @Accept json
+// @Produce json
+// @Param id path int true "文档库详情 ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library-detail/delete/{id} [delete]
 func (h *DocLibraryDetailHandlerImpl) DeleteDocLibraryDetail(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -126,6 +179,16 @@ func (h *DocLibraryDetailHandlerImpl) DeleteDocLibraryDetail(c *fiber.Ctx) error
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 获取文档库详情树
+// @Description 获取指定文档库下的文档库详情树结构
+// @Tags 文档库详情
+// @Accept json
+// @Produce json
+// @Param library_id query int true "文档库 ID"
+// @Success 200 {object} model.HttpSuccess{data=[]model.DocLibraryDetailTreeResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library-detail/tree [get]
 func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetailTree(c *fiber.Ctx) error {
 	libraryID := c.QueryInt("library_id", 0)
 

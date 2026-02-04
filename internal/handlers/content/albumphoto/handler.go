@@ -31,7 +31,7 @@ func NewAlbumPhotoHandlerImpl(albumPhotoService albumphotoservice.AlbumPhotoServ
 
 // @Summary 查询相册照片列表
 // @Description 查询所有相册照片
-// @Tags albumPhotos
+// @Tags 相册照片
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.AlbumPhoto}
@@ -48,7 +48,7 @@ func (h *AlbumPhotoHandlerImpl) ListAlbumPhoto(c *fiber.Ctx) error {
 
 // @Summary 查询相册照片分页列表
 // @Description 查询所有相册照片分页列表
-// @Tags albumPhotos
+// @Tags 相册照片
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -77,7 +77,7 @@ func (h *AlbumPhotoHandlerImpl) ListAlbumPhotoPage(c *fiber.Ctx) error {
 
 // @Summary 创建相册照片
 // @Description 创建一个新的相册照片
-// @Tags albumPhotos
+// @Tags 相册照片
 // @Accept json
 // @Produce json
 // @Param album_photo body model.AlbumPhotoCreateReq true "相册照片信息"
@@ -101,7 +101,7 @@ func (h *AlbumPhotoHandlerImpl) CreateAlbumPhoto(c *fiber.Ctx) error {
 
 // @Summary 更新相册照片
 // @Description 更新指定相册照片的信息
-// @Tags albumPhotos
+// @Tags 相册照片
 // @Accept json
 // @Produce json
 // @Param id path string true "相册照片ID"
@@ -132,7 +132,7 @@ func (h *AlbumPhotoHandlerImpl) UpdateAlbumPhoto(c *fiber.Ctx) error {
 
 // @Summary 查询相册照片
 // @Description 查询指定相册照片的信息
-// @Tags albumPhotos
+// @Tags 相册照片
 // @Accept json
 // @Produce json
 // @Param id path string true "相册照片ID"
@@ -157,7 +157,7 @@ func (h *AlbumPhotoHandlerImpl) QueryAlbumPhoto(c *fiber.Ctx) error {
 
 // @Summary 删除相册照片
 // @Description 删除指定相册照片
-// @Tags albumPhotos
+// @Tags 相册照片
 // @Accept json
 // @Produce json
 // @Param id path string true "相册照片ID"

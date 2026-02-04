@@ -29,6 +29,14 @@ func NewFileHandlerImpl(fileService file.FileService, storageService storagestra
 	return &FileHandlerImpl{fileService: fileService, storageService: storageService}
 }
 
+// @Summary 获取文件列表
+// @Description 获取所有文件的列表
+// @Tags 文件
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.HttpSuccess{data=[]model.FileResp}
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/file/list [get]
 func (h *FileHandlerImpl) ListFile(c *fiber.Ctx) error {
 	files, err := h.fileService.ListFile(c.Context())
 	if err != nil {
@@ -57,6 +65,17 @@ func (h *FileHandlerImpl) ListFile(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("文件列表获取成功", fileResps))
 }
 
+// @Summary 获取文件分页列表
+// @Description 获取所有文件的分页列表
+// @Tags 文件
+// @Accept json
+// @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.FileResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/file/page [get]
 func (h *FileHandlerImpl) ListFilePage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -95,6 +114,17 @@ func (h *FileHandlerImpl) ListFilePage(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("文件列表获取成功", pageResult))
 }
 
+// @Summary 查询文件
+// @Description 查询指定文件的信息
+// @Tags 文件
+// @Accept json
+// @Produce json
+// @Param id path int true "文件ID"
+// @Success 200 {object} model.HttpSuccess{data=model.FileResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/file/query/{id} [get]
 func (h *FileHandlerImpl) QueryFile(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -125,6 +155,16 @@ func (h *FileHandlerImpl) QueryFile(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("文件查询成功", fileResp))
 }
 
+// @Summary 删除文件
+// @Description 删除指定文件
+// @Tags 文件
+// @Accept json
+// @Produce json
+// @Param id path int true "文件ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/file/delete/{id} [delete]
 func (h *FileHandlerImpl) DeleteFile(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -138,6 +178,17 @@ func (h *FileHandlerImpl) DeleteFile(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("文件删除成功", nil))
 }
 
+// @Summary 上传文件
+// @Description 上传文件到指定的存储策略
+// @Tags 文件
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "要上传的文件"
+// @Param storage_strategy formData int false "存储策略ID" default(1)
+// @Success 200 {object} model.HttpSuccess{data=[]ent.File}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/file/upload [post]
 func (h *FileHandlerImpl) Upload(c *fiber.Ctx) error {
 	form, err := c.MultipartForm()
 	if err != nil {

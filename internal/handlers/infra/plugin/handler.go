@@ -34,6 +34,16 @@ func NewPluginHandlerImpl(pluginService plugin.PluginService) *PluginHandlerImpl
 	return &PluginHandlerImpl{pluginService: pluginService}
 }
 
+// @Summary 创建插件
+// @Description 创建一个新的插件
+// @Tags 插件
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "插件文件"
+// @Success 200 {object} model.HttpSuccess{data=model.PluginResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/plugin/create [post]
 func (h *PluginHandlerImpl) CreatePlugin(c *fiber.Ctx) error {
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -52,6 +62,17 @@ func (h *PluginHandlerImpl) CreatePlugin(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("插件创建成功", resp))
 }
 
+// @Summary 获取插件列表
+// @Description 获取所有插件的分页列表
+// @Tags 插件
+// @Accept json
+// @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.PluginResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/plugin/list [get]
 func (h *PluginHandlerImpl) ListPluginPage(c *fiber.Ctx) error {
 	var pageQuery model.PageQuery
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -77,6 +98,16 @@ func (h *PluginHandlerImpl) ListPluginPage(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("插件列表获取成功", pageResult))
 }
 
+// @Summary 查询插件
+// @Description 查询指定ID的插件详情
+// @Tags 插件
+// @Accept json
+// @Produce json
+// @Param id path int true "插件ID"
+// @Success 200 {object} model.HttpSuccess{data=model.PluginResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/plugin/query/{id} [get]
 func (h *PluginHandlerImpl) QueryPlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -94,6 +125,16 @@ func (h *PluginHandlerImpl) QueryPlugin(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("插件查询成功", resp))
 }
 
+// @Summary 删除插件
+// @Description 删除指定插件
+// @Tags 插件
+// @Accept json
+// @Produce json
+// @Param id path int true "插件ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/plugin/delete/{id} [delete]
 func (h *PluginHandlerImpl) DeletePlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -111,6 +152,16 @@ func (h *PluginHandlerImpl) DeletePlugin(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("插件删除成功", nil))
 }
 
+// @Summary 启动插件
+// @Description 启动指定插件
+// @Tags 插件
+// @Accept json
+// @Produce json
+// @Param id path int true "插件ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/plugin/start/{id} [post]
 func (h *PluginHandlerImpl) StartPlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -128,6 +179,16 @@ func (h *PluginHandlerImpl) StartPlugin(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("插件启动成功", nil))
 }
 
+// @Summary 停止插件
+// @Description 停止指定插件
+// @Tags 插件
+// @Accept json
+// @Produce json
+// @Param id path int true "插件ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/plugin/stop/{id} [post]
 func (h *PluginHandlerImpl) StopPlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -145,6 +206,16 @@ func (h *PluginHandlerImpl) StopPlugin(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("插件停止成功", nil))
 }
 
+// @Summary 重启插件
+// @Description 重启指定插件
+// @Tags 插件
+// @Accept json
+// @Produce json
+// @Param id path int true "插件ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/plugin/restart/{id} [post]
 func (h *PluginHandlerImpl) RestartPlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -162,6 +233,16 @@ func (h *PluginHandlerImpl) RestartPlugin(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("插件重启成功", nil))
 }
 
+// @Summary 注册插件
+// @Description 注册新插件到系统
+// @Tags 插件
+// @Accept json
+// @Produce json
+// @Param pluginInfo body model.PluginRegisterReq true "插件注册信息"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/plugin/register [post]
 func (h *PluginHandlerImpl) RegisterPlugin(c *fiber.Ctx) error {
 	// 检查debug模式是否开启
 	if !config.GetBool(config.SERVER_DEBUG) {
@@ -187,6 +268,16 @@ func (h *PluginHandlerImpl) RegisterPlugin(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("插件注册成功", nil))
 }
 
+// @Summary 插件心跳
+// @Description 更新插件的心跳时间
+// @Tags 插件
+// @Accept json
+// @Produce json
+// @Param heartbeatInfo body model.PluginHeartbeatReq true "插件心跳信息"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/plugin/heartbeat [post]
 func (h *PluginHandlerImpl) HeartbeatPlugin(c *fiber.Ctx) error {
 	// 检查debug模式是否开启
 	if !config.GetBool(config.SERVER_DEBUG) {

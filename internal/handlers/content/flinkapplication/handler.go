@@ -29,6 +29,15 @@ func NewFlinkApplicationHandlerImpl(client *ent.Client, flinkApplicationService 
 	}
 }
 
+// @Summary 创建友链申请
+// @Description 创建一个新的友链申请
+// @Tags 友链申请
+// @Accept json
+// @Produce json
+// @Param req body model.FlinkApplicationCreateReq true "友链申请创建请求"
+// @Success 200 {object} model.HttpSuccess{data=ent.FLinkApplication}
+// @Failure 400 {object} model.HttpError
+// @Router /api/v1/flink-application/create [post]
 func (h *FlinkApplicationHandlerImpl) CreateFlinkApplication(c *fiber.Ctx) error {
 	var createReq *model.FlinkApplicationCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
@@ -41,6 +50,16 @@ func (h *FlinkApplicationHandlerImpl) CreateFlinkApplication(c *fiber.Ctx) error
 	return c.JSON(model.NewSuccess("success", application))
 }
 
+// @Summary 获取友链申请分页列表
+// @Description 获取友链申请分页列表
+// @Tags 友链申请
+// @Accept json
+// @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.FlinkApplicationResp]}
+// @Failure 400 {object} model.HttpError
+// @Router /api/v1/flink-application/page [get]
 func (h *FlinkApplicationHandlerImpl) ListFlinkApplicationPage(c *fiber.Ctx) error {
 	var pageQuery model.FlinkApplicationPageReq
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -76,6 +95,15 @@ func (h *FlinkApplicationHandlerImpl) ListFlinkApplicationPage(c *fiber.Ctx) err
 	return c.JSON(model.NewSuccess("success", pageResult))
 }
 
+// @Summary 查询友链申请
+// @Description 查询指定ID的友链申请
+// @Tags 友链申请
+// @Accept json
+// @Produce json
+// @Param id path int true "友链申请ID"
+// @Success 200 {object} model.HttpSuccess{data=ent.FLinkApplication}
+// @Failure 400 {object} model.HttpError
+// @Router /api/v1/flink-application/query/{id} [get]
 func (h *FlinkApplicationHandlerImpl) QueryFlinkApplication(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -88,6 +116,16 @@ func (h *FlinkApplicationHandlerImpl) QueryFlinkApplication(c *fiber.Ctx) error 
 	return c.JSON(model.NewSuccess("success", application))
 }
 
+// @Summary 审核友链申请
+// @Description 审核指定ID的友链申请
+// @Tags 友链申请
+// @Accept json
+// @Produce json
+// @Param id path int true "友链申请ID"
+// @Param req body model.FlinkApplicationUpdateReq true "友链申请更新请求"
+// @Success 200 {object} model.HttpSuccess{data=ent.FLinkApplication}
+// @Failure 400 {object} model.HttpError
+// @Router /api/v1/flink-application/approve/{id} [put]
 func (h *FlinkApplicationHandlerImpl) ApproveFlinkApplication(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

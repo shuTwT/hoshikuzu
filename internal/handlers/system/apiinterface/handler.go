@@ -24,7 +24,7 @@ func NewApiInterfaceHandlerImpl(apiInterfaceService api_interface_service.ApiInt
 
 // @Summary 查询API路由分页列表
 // @Description 查询所有API路由的分页列表
-// @Tags apiInterface
+// @Tags api路由
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)

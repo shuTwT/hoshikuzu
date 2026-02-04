@@ -30,6 +30,17 @@ func NewTagHandlerImpl(tagService tag_service.TagService) *TagHandlerImpl {
 	}
 }
 
+// @Summary 查询标签
+// @Description 查询指定标签
+// @Tags 标签
+// @Accept json
+// @Produce json
+// @Param id path int true "标签 ID"
+// @Success 200 {object} model.HttpSuccess{data=ent.Tag}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/tag/{id} [get]
 func (h *TagHandlerImpl) QueryTag(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -53,6 +64,14 @@ func (h *TagHandlerImpl) QueryTag(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", tag))
 }
 
+// @Summary 查询标签列表
+// @Description 查询所有标签
+// @Tags 标签
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.HttpSuccess{data=[]ent.Tag}
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/tag/list [get]
 func (h *TagHandlerImpl) QueryTagList(c *fiber.Ctx) error {
 	tags, err := h.tagService.QueryTagList(c)
 	if err != nil {
@@ -64,6 +83,17 @@ func (h *TagHandlerImpl) QueryTagList(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", tags))
 }
 
+// @Summary 查询标签分页
+// @Description 查询标签分页列表
+// @Tags 标签
+// @Accept json
+// @Produce json
+// @Param limit query int false "返回数据条数限制"
+// @Param offset query int false "返回数据偏移量"
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[ent.Tag]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/tag/page [get]
 func (h *TagHandlerImpl) QueryTagPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
@@ -87,6 +117,16 @@ func (h *TagHandlerImpl) QueryTagPage(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", pageResult))
 }
 
+// @Summary 创建标签
+// @Description 创建新标签
+// @Tags 标签
+// @Accept json
+// @Produce json
+// @Param tag body model.TagCreateReq true "标签创建请求"
+// @Success 200 {object} model.HttpSuccess{data=ent.Tag}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/tag/create [post]
 func (h *TagHandlerImpl) CreateTag(c *fiber.Ctx) error {
 	var createReq model.TagCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
@@ -105,6 +145,18 @@ func (h *TagHandlerImpl) CreateTag(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", tag))
 }
 
+// @Summary 更新标签
+// @Description 更新指定标签
+// @Tags 标签
+// @Accept json
+// @Produce json
+// @Param id path int true "标签 ID"
+// @Param tag body model.TagUpdateReq true "标签更新请求"
+// @Success 200 {object} model.HttpSuccess{data=ent.Tag}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/tag//update/{id} [put]
 func (h *TagHandlerImpl) UpdateTag(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -135,6 +187,17 @@ func (h *TagHandlerImpl) UpdateTag(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", updatedTag))
 }
 
+// @Summary 删除标签
+// @Description 删除指定标签
+// @Tags 标签
+// @Accept json
+// @Produce json
+// @Param id path int true "标签 ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/tag/delete/{id} [delete]
 func (h *TagHandlerImpl) DeleteTag(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

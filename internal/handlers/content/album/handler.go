@@ -31,7 +31,7 @@ func NewAlbumHandlerImpl(albumService album.AlbumService) *AlbumHandlerImpl {
 
 // @Summary 查询相册列表
 // @Description 查询所有相册
-// @Tags album
+// @Tags 相册
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Album}
@@ -48,7 +48,7 @@ func (h *AlbumHandlerImpl) ListAlbum(c *fiber.Ctx) error {
 
 // @Summary 查询相册列表分页
 // @Description 查询相册列表分页
-// @Tags album
+// @Tags 相册
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -77,7 +77,7 @@ func (h *AlbumHandlerImpl) ListAlbumPage(c *fiber.Ctx) error {
 
 // @Summary 创建相册
 // @Description 创建一个新相册
-// @Tags album
+// @Tags 相册
 // @Accept json
 // @Produce json
 // @Param req body model.AlbumCreateReq true "相册创建请求"
@@ -101,7 +101,7 @@ func (h *AlbumHandlerImpl) CreateAlbum(c *fiber.Ctx) error {
 
 // @Summary 更新相册
 // @Description 更新指定相册的信息
-// @Tags album
+// @Tags 相册
 // @Accept json
 // @Produce json
 // @Param id path string true "相册ID"
@@ -132,7 +132,7 @@ func (h *AlbumHandlerImpl) UpdateAlbum(c *fiber.Ctx) error {
 
 // @Summary 查询相册
 // @Description 查询指定相册的信息
-// @Tags album
+// @Tags 相册
 // @Accept json
 // @Produce json
 // @Param id path string true "相册ID"
@@ -157,7 +157,7 @@ func (h *AlbumHandlerImpl) QueryAlbum(c *fiber.Ctx) error {
 
 // @Summary 删除相册
 // @Description 删除指定相册
-// @Tags album
+// @Tags 相册
 // @Accept json
 // @Produce json
 // @Param id path string true "相册ID"

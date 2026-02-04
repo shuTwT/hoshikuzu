@@ -26,6 +26,16 @@ func NewVisitHandlerImpl(visitService visit.VisitService) VisitHandler {
 	return &VisitHandlerImpl{visitService: visitService}
 }
 
+// @Summary 处理访客访问
+// @Description 处理访客访问请求，记录访问日志
+// @Tags 访客访问
+// @Accept json
+// @Produce json
+// @Param req body model.VisitLogReq true "访客访问请求"
+// @Success 200 {object} model.HttpSuccess{data=ent.VisitLog}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/visit/handle [post]
 func (h *VisitHandlerImpl) HandleVisitor(c *fiber.Ctx) error {
 	var req model.VisitLogReq
 	if err := c.BodyParser(&req); err != nil {
@@ -34,6 +44,17 @@ func (h *VisitHandlerImpl) HandleVisitor(c *fiber.Ctx) error {
 	return h.visitService.CreateVisitLog(c.Context(), req)
 }
 
+// @Summary 查询访客访问日志分页
+// @Description 查询访客访问日志的分页列表
+// @Tags 访客访问
+// @Accept json
+// @Produce json
+// @Param page query int false "Page number" default(1)
+// @Param pageSize query int false "Page size" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[ent.VisitLog]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/visit/list [get]
 func (h *VisitHandlerImpl) ListVisitLogPage(c *fiber.Ctx) error {
 	var pageQuery model.VisitLogPageQuery
 	err := c.QueryParser(&pageQuery)
@@ -57,6 +78,17 @@ func (h *VisitHandlerImpl) ListVisitLogPage(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", pageResult))
 }
 
+// @Summary 查询访客访问日志
+// @Description 查询指定ID的访客访问日志
+// @Tags 访客访问
+// @Accept json
+// @Produce json
+// @Param id path int true "Visit Log ID"
+// @Success 200 {object} model.HttpSuccess{data=ent.VisitLog}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/visit/query/{id} [get]
 func (h *VisitHandlerImpl) QueryVisitLog(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -73,6 +105,17 @@ func (h *VisitHandlerImpl) QueryVisitLog(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", visitLog))
 }
 
+// @Summary 删除访客访问日志
+// @Description 删除指定ID的访客访问日志
+// @Tags 访客访问
+// @Accept json
+// @Produce json
+// @Param id path int true "Visit Log ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 404 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/visit/delete/{id} [delete]
 func (h *VisitHandlerImpl) DeleteVisitLog(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -89,6 +132,16 @@ func (h *VisitHandlerImpl) DeleteVisitLog(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 批量删除访客访问日志
+// @Description 批量删除指定ID的访客访问日志
+// @Tags 访客访问
+// @Accept json
+// @Produce json
+// @Param req body model.VisitLogBatchDeleteReq true "批量删除访客访问日志请求"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/visit/batch/delete [post]
 func (h *VisitHandlerImpl) BatchDeleteVisitLog(c *fiber.Ctx) error {
 	var req model.VisitLogBatchDeleteReq
 	if err := c.BodyParser(&req); err != nil {

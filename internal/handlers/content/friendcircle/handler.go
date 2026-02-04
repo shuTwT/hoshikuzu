@@ -28,7 +28,7 @@ func NewFriendCircleHandlerImpl(friendCircleService friendcircle.FriendCircleSer
 
 // @Summary 获取朋友圈记录分页列表
 // @Description 获取朋友圈记录分页列表
-// @Tags friend_circle_records
+// @Tags 友链朋友圈
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -36,7 +36,7 @@ func NewFriendCircleHandlerImpl(friendCircleService friendcircle.FriendCircleSer
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.FriendCircleRecordResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/friend_circle_records [get]
+// @Router /api/v1/friend-circle/page [get]
 func (h *FriendCircleHandlerImpl) ListFriendCircleRecordPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -69,13 +69,13 @@ func (h *FriendCircleHandlerImpl) ListFriendCircleRecordPage(c *fiber.Ctx) error
 
 // @Summary 创建朋友圈记录
 // @Description 创建朋友圈记录
-// @Tags friend_circle_records
+// @Tags 友链朋友圈
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=ent.FriendCircleRecord}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/friend_circle_records [post]
+// @Router /api/v1/friend-circle [post]
 func (h *FriendCircleHandlerImpl) CreateFriendCircleRecord(c *fiber.Ctx) error {
 	var req *model.FriendCircleRecordSaveReq
 	if err := c.BodyParser(&req); err != nil {
@@ -92,14 +92,14 @@ func (h *FriendCircleHandlerImpl) CreateFriendCircleRecord(c *fiber.Ctx) error {
 
 // @Summary 更新朋友圈记录
 // @Description 更新朋友圈记录
-// @Tags friend_circle_records
+// @Tags 友链朋友圈
 // @Accept json
 // @Produce json
 // @Param id path int true "朋友圈记录 ID"
 // @Success 200 {object} model.HttpSuccess{data=ent.FriendCircleRecord}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/friend_circle_records/{id} [put]
+// @Router /api/v1/friend-circle/{id} [put]
 func (h *FriendCircleHandlerImpl) UpdateFriendCircleRecord(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -121,14 +121,14 @@ func (h *FriendCircleHandlerImpl) UpdateFriendCircleRecord(c *fiber.Ctx) error {
 
 // @Summary 删除朋友圈记录
 // @Description 删除朋友圈记录
-// @Tags friend_circle_records
+// @Tags 友链朋友圈
 // @Accept json
 // @Produce json
 // @Param id path int true "朋友圈记录 ID"
 // @Success 200 {object} model.HttpSuccess{data=nil}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/friend_circle_records/{id} [delete]
+// @Router /api/v1/friend-circle/{id} [delete]
 func (h *FriendCircleHandlerImpl) DeleteFriendCircleRecord(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

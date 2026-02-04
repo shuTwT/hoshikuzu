@@ -30,12 +30,12 @@ func NewPayOrderHandlerImpl(client *ent.Client, service payorder_service.PayOrde
 
 // @Summary 获取支付订单列表
 // @Description 获取所有支付订单的列表
-// @Tags payorders
+// @Tags 支付订单
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.PayOrder}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/payorders [get]
+// @Router /api/v1/pay-order/list [get]
 func (h *PayOrderHandlerImpl) ListPayOrderPage(c *fiber.Ctx) error {
 	var req model.PageQuery
 	if err := c.QueryParser(&req); err != nil {
@@ -54,7 +54,7 @@ func (h *PayOrderHandlerImpl) ListPayOrderPage(c *fiber.Ctx) error {
 
 // @Summary 更新支付订单
 // @Description 更新指定支付订单的信息
-// @Tags payorders
+// @Tags 支付订单
 // @Accept json
 // @Produce json
 // @Param id path string true "支付订单ID"
@@ -62,7 +62,7 @@ func (h *PayOrderHandlerImpl) ListPayOrderPage(c *fiber.Ctx) error {
 // @Success 200 {object} ent.PayOrder
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/payorders/{id} [put]
+// @Router /api/v1/pay-order/update/{id} [put]
 func (h *PayOrderHandlerImpl) UpdatePayOrder(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -98,7 +98,7 @@ func (h *PayOrderHandlerImpl) UpdatePayOrder(c *fiber.Ctx) error {
 
 // @Summary 查询支付订单
 // @Description 查询指定支付订单的详细信息
-// @Tags payorders
+// @Tags 支付订单
 // @Accept json
 // @Produce json
 // @Param id path string true "支付订单ID"
@@ -106,7 +106,7 @@ func (h *PayOrderHandlerImpl) UpdatePayOrder(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/payorders/{id} [get]
+// @Router /api/v1/pay-order/query/{id} [get]
 func (h *PayOrderHandlerImpl) QueryPayOrder(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -130,7 +130,7 @@ func (h *PayOrderHandlerImpl) QueryPayOrder(c *fiber.Ctx) error {
 
 // @Summary 删除支付订单
 // @Description 删除指定支付订单
-// @Tags payorders
+// @Tags 支付订单
 // @Accept json
 // @Produce json
 // @Param id path string true "支付订单ID"
@@ -138,7 +138,7 @@ func (h *PayOrderHandlerImpl) QueryPayOrder(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/payorders/{id} [delete]
+// @Router /api/v1/pay-order/delete/{id} [delete]
 func (h *PayOrderHandlerImpl) DeletePayOrder(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -163,14 +163,14 @@ func (h *PayOrderHandlerImpl) DeletePayOrder(c *fiber.Ctx) error {
 
 // @Summary 提交支付订单
 // @Description 提交一个新的支付订单
-// @Tags payorders
+// @Tags 支付订单
 // @Accept json
 // @Produce json
 // @Param payorder body model.PayOrderSubmitReq true "支付订单提交请求"
 // @Success 200 {object} model.HttpSuccess
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/payorders/submit [post]
+// @Router /api/v1/pay-order/submit [post]
 func (h *PayOrderHandlerImpl) SubmitPayOrder(c *fiber.Ctx) error {
 	var req model.PayOrderSubmitReq
 	if err := c.BodyParser(&req); err != nil {

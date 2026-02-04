@@ -26,6 +26,16 @@ func NewKnowledgeBaseHandlerImpl(service knowledgebase.KnowledgeBaseService) Kno
 	return &KnowledgeBaseHandlerImpl{service: service}
 }
 
+// @Summary 创建知识库
+// @Description 创建知识库
+// @Tags 知识库
+// @Accept json
+// @Produce json
+// @Param knowledge_base_create_req body model.KnowledgeBaseCreateReq true "知识库创建请求体"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/knowledge-base/create [post]
 func (h *KnowledgeBaseHandlerImpl) CreateKnowledgeBase(c *fiber.Ctx) error {
 	createReq := model.KnowledgeBaseCreateReq{}
 	if err := c.BodyParser(&createReq); err != nil {
@@ -38,6 +48,17 @@ func (h *KnowledgeBaseHandlerImpl) CreateKnowledgeBase(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 更新知识库
+// @Description 更新知识库
+// @Tags 知识库
+// @Accept json
+// @Produce json
+// @Param id path int true "知识库 ID"
+// @Param knowledge_base_update_req body model.KnowledgeBaseUpdateReq true "知识库更新请求体"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/knowledge-base/update/{id} [put]
 func (h *KnowledgeBaseHandlerImpl) UpdateKnowledgeBase(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -54,6 +75,17 @@ func (h *KnowledgeBaseHandlerImpl) UpdateKnowledgeBase(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 获取知识库分页列表
+// @Description 获取知识库分页列表
+// @Tags 知识库
+// @Accept json
+// @Produce json
+// @Param limit query int false "数量限制" default(10)
+// @Param page query int false "页码" default(1)
+// @Success 200 {object} model.HttpSuccess{data=[]model.KnowledgeBaseResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/knowledge-base/page [get]
 func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBasePage(c *fiber.Ctx) error {
 	queryReq := model.KnowledgeBaseQueryReq{}
 	if err := c.QueryParser(&queryReq); err != nil {
@@ -82,6 +114,16 @@ func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBasePage(c *fiber.Ctx) error {
 	}))
 }
 
+// @Summary 获取知识库
+// @Description 获取指定知识库
+// @Tags 知识库
+// @Accept json
+// @Produce json
+// @Param id path int true "知识库 ID"
+// @Success 200 {object} model.HttpSuccess{data=model.KnowledgeBaseResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/knowledge-base/{id} [get]
 func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBase(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -104,6 +146,16 @@ func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBase(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", resp))
 }
 
+// @Summary 删除知识库
+// @Description 删除指定知识库
+// @Tags 知识库
+// @Accept json
+// @Produce json
+// @Param id path int true "知识库 ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/knowledge-base/delete/{id} [delete]
 func (h *KnowledgeBaseHandlerImpl) DeleteKnowledgeBase(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -116,6 +168,15 @@ func (h *KnowledgeBaseHandlerImpl) DeleteKnowledgeBase(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 获取知识库列表
+// @Description 获取所有知识库
+// @Tags 知识库
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.HttpSuccess{data=[]model.KnowledgeBaseResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/knowledge-base/list [get]
 func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBaseList(c *fiber.Ctx) error {
 	kbs, err := h.service.GetKnowledgeBaseList(c.Context())
 	if err != nil {

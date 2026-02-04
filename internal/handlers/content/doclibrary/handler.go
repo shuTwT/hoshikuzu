@@ -26,6 +26,16 @@ func NewDocLibraryHandlerImpl(service doclibrary.DocLibraryService) DocLibraryHa
 	return &DocLibraryHandlerImpl{service: service}
 }
 
+// @Summary 创建文档库
+// @Description 创建新的文档库
+// @Tags 文档库
+// @Accept json
+// @Produce json
+// @Param doc_library_create_req body model.DocLibraryCreateReq true "文档库创建请求"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library/create [post]
 func (h *DocLibraryHandlerImpl) CreateDocLibrary(c *fiber.Ctx) error {
 	createReq := &model.DocLibraryCreateReq{}
 	if err := c.BodyParser(&createReq); err != nil {
@@ -38,6 +48,17 @@ func (h *DocLibraryHandlerImpl) CreateDocLibrary(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 更新文档库
+// @Description 更新指定文档库的信息
+// @Tags 文档库
+// @Accept json
+// @Produce json
+// @Param id path int true "文档库 ID"
+// @Param doc_library_update_req body model.DocLibraryUpdateReq true "文档库更新请求"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library/update/{id} [put]
 func (h *DocLibraryHandlerImpl) UpdateDocLibrary(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -54,6 +75,17 @@ func (h *DocLibraryHandlerImpl) UpdateDocLibrary(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 获取文档库分页列表
+// @Description 获取文档库的分页列表
+// @Tags 文档库
+// @Accept json
+// @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.DocLibraryResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library/page [get]
 func (h *DocLibraryHandlerImpl) GetDocLibraryPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -82,6 +114,16 @@ func (h *DocLibraryHandlerImpl) GetDocLibraryPage(c *fiber.Ctx) error {
 	}))
 }
 
+// @Summary 获取文档库
+// @Description 获取指定文档库的信息
+// @Tags 文档库
+// @Accept json
+// @Produce json
+// @Param id path int true "文档库 ID"
+// @Success 200 {object} model.HttpSuccess{data=model.DocLibraryResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library/query/{id} [get]
 func (h *DocLibraryHandlerImpl) GetDocLibrary(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -104,6 +146,16 @@ func (h *DocLibraryHandlerImpl) GetDocLibrary(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", resp))
 }
 
+// @Summary 删除文档库
+// @Description 删除指定文档库
+// @Tags 文档库
+// @Accept json
+// @Produce json
+// @Param id path int true "文档库 ID"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library/delete/{id} [delete]
 func (h *DocLibraryHandlerImpl) DeleteDocLibrary(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -116,6 +168,15 @@ func (h *DocLibraryHandlerImpl) DeleteDocLibrary(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 获取文档库列表
+// @Description 获取所有文档库的列表
+// @Tags 文档库
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.HttpSuccess{data=[]model.DocLibraryResp}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/doc-library/list [get]
 func (h *DocLibraryHandlerImpl) GetDocLibraryList(c *fiber.Ctx) error {
 	libraries, err := h.service.GetDocLibraryList(c.Context())
 	if err != nil {

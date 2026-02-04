@@ -31,12 +31,12 @@ func NewRoleHandlerImpl(roleService role_service.RoleService) *RoleHandlerImpl {
 
 // @Summary 查询所有角色
 // @Description 查询系统中所有角色的列表
-// @Tags roles
+// @Tags 角色
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Role}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/roles [get]
+// @Router /api/v1/role/list [get]
 func (h *RoleHandlerImpl) ListRole(c *fiber.Ctx) error {
 	roles, err := h.roleService.QueryRoleList(c.Context())
 	if err != nil {
@@ -50,7 +50,7 @@ func (h *RoleHandlerImpl) ListRole(c *fiber.Ctx) error {
 
 // @Summary 查询角色分页列表
 // @Description 查询系统中角色的分页列表
-// @Tags roles
+// @Tags 角色
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -58,7 +58,7 @@ func (h *RoleHandlerImpl) ListRole(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[ent.Role]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/roles/page [get]
+// @Router /api/v1/role/page [get]
 func (h *RoleHandlerImpl) ListRolePage(c *fiber.Ctx) error {
 	var pageQuery = model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
@@ -84,14 +84,14 @@ func (h *RoleHandlerImpl) ListRolePage(c *fiber.Ctx) error {
 
 // @Summary 创建角色
 // @Description 创建一个新的角色
-// @Tags roles
+// @Tags 角色
 // @Accept json
 // @Produce json
 // @Param createReq body model.RoleCreateReq true "角色创建请求"
 // @Success 200 {object} model.HttpSuccess{data=ent.Role}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/roles [post]
+// @Router /api/v1/role/create [post]
 func (h *RoleHandlerImpl) CreateRole(c *fiber.Ctx) error {
 	var roleData model.RoleCreateReq
 	if err := c.BodyParser(&roleData); err != nil {
@@ -112,7 +112,7 @@ func (h *RoleHandlerImpl) CreateRole(c *fiber.Ctx) error {
 
 // @Summary 更新角色
 // @Description 更新指定角色的信息
-// @Tags roles
+// @Tags 角色
 // @Accept json
 // @Produce json
 // @Param id path int true "角色ID"
@@ -120,7 +120,7 @@ func (h *RoleHandlerImpl) CreateRole(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=ent.Role}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/roles/{id} [put]
+// @Router /api/v1/role/update/{id} [put]
 func (h *RoleHandlerImpl) UpdateRole(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -148,14 +148,14 @@ func (h *RoleHandlerImpl) UpdateRole(c *fiber.Ctx) error {
 
 // @Summary 查询角色
 // @Description 查询指定角色的详细信息
-// @Tags roles
+// @Tags 角色
 // @Accept json
 // @Produce json
 // @Param id path int true "角色ID"
 // @Success 200 {object} model.HttpSuccess{data=ent.Role}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/roles/{id} [get]
+// @Router /api/v1/role/query/{id} [get]
 func (h *RoleHandlerImpl) QueryRole(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -174,14 +174,14 @@ func (h *RoleHandlerImpl) QueryRole(c *fiber.Ctx) error {
 
 // @Summary 删除角色
 // @Description 删除指定角色
-// @Tags roles
+// @Tags 角色
 // @Accept json
 // @Produce json
 // @Param id path int true "角色ID"
 // @Success 200 {object} model.HttpSuccess{data=nil}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/roles/{id} [delete]
+// @Router /api/v1/role/delete/{id} [delete]
 func (h *RoleHandlerImpl) DeleteRole(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

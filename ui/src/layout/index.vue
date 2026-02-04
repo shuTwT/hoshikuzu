@@ -18,12 +18,8 @@ defineOptions({
 })
 
 const route = useRoute()
-const router = useRouter()
-const routes: any = router.options.routes
-const appStore = useAppStore()
 const permissionStore = usePermissionStore()
 
-const userStore = useUserStore()
 const message = useMessage()
 window.$message = message
 const dialog = useDialog()
@@ -31,85 +27,13 @@ window.$dialog = dialog
 const notification = useNotification()
 window.$notification = notification
 
-const menuData = computed(() => permissionStore.wholeMenus)
-
-const menuOptions = computed<MenuOption[]>(() =>
-  menuData.value.map((item: any) => {
-    if (item.children && item.children.length > 1) {
-      return {
-        label: item.meta?.title || item.name,
-        key: item.name,
-        children: item.children.map((child: any) => ({
-          label: () => {
-            return h(
-              RouterLink,
-              {
-                to: {
-                  name: child.name,
-                },
-              },
-              {
-                default: () => child.meta?.title || child.name,
-              },
-            )
-          },
-          key: child.name,
-        })),
-      }
-    }
-    return {
-      label: () => {
-        return h(
-          RouterLink,
-          {
-            to: {
-              name: item.name,
-            },
-          },
-          {
-            default: () => item.meta?.title || item.name,
-          },
-        )
-      },
-      key: item.name,
-    }
-  }),
-)
-
-const {
-  layoutMode,
-} = storeToRefs(appStore)
-
-const { activeKey } = useLayoutMenu({
-  mode: layoutMode,
-  menus: menuOptions,
-})
 
 
 
 
-/** 判断路径是否参与菜单 */
-function isRemaining(path: string) {
-  return remainingPaths.includes(path)
-}
-
-function menuSelect(path: string) {
-  if (permissionStore.wholeMenus.length === 0 || isRemaining(path)) return
-}
 
 
-watch(
-  () => [route.path, usePermissionStore().wholeMenus],
-  () => {
-    if (route.path.includes('/redirect')) return
-    menuSelect(route.path)
-  },
-)
 
-
-onMounted(() => {
-  activeKey.value = route.name?.toString() || ''
-})
 </script>
 <template>
   <div class="app-wrapper">
@@ -140,7 +64,11 @@ onMounted(() => {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 280px;
+  left: 64px;
   right: 0;
+  transition: left 0.3s ease-in-out;
+}
+.nav-right-show ~ .main-container{
+  left: 280px;
 }
 </style>

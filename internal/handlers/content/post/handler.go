@@ -45,21 +45,21 @@ func NewPostHandlerImpl(postService post_service.PostService) *PostHandlerImpl {
 
 // @Summary 查询所有文章
 // @Description 查询所有文章
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
-// @Success 200 {object} model.HttpSuccess{data=[]ent.Post}
+// @Success 200 {object} model.HttpSuccess{data=[]model.PostResp}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts [get]
+// @Router /api/v1/post/list [get]
 func (h *PostHandlerImpl) ListPost(c *fiber.Ctx) error {
 	var req model.PostListReq
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 	posts, err := h.postService.QueryPostList(c.Context(), req)
-	postResp := make([]*model.PostResp, 0, len(posts))
+	postResps := make([]*model.PostResp, 0, len(posts))
 	for _, post := range posts {
-		postResp = append(postResp, &model.PostResp{
+		postResps = append(postResps, &model.PostResp{
 			ID:                    post.ID,
 			Title:                 post.Title,
 			Slug:                  post.Slug,
@@ -106,7 +106,7 @@ func (h *PostHandlerImpl) ListPost(c *fiber.Ctx) error {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	return c.JSON(model.NewSuccess("success", posts))
+	return c.JSON(model.NewSuccess("success", postResps))
 }
 
 func (h *PostHandlerImpl) ListPostPage(c *fiber.Ctx) error {
@@ -171,14 +171,14 @@ func (h *PostHandlerImpl) ListPostPage(c *fiber.Ctx) error {
 
 // @Summary 创建文章
 // @Description 创建一篇新文章
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param post body model.PostCreateReq true "文章创建请求"
 // @Success 200 {object} model.HttpSuccess{data=ent.Post}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts [post]
+// @Router /api/v1/post/create [post]
 func (h *PostHandlerImpl) CreatePost(c *fiber.Ctx) error {
 	var post model.PostCreateReq
 	if err := c.BodyParser(&post); err != nil {
@@ -193,7 +193,7 @@ func (h *PostHandlerImpl) CreatePost(c *fiber.Ctx) error {
 
 // @Summary 更新文章内容
 // @Description 更新指定文章的内容
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
@@ -201,7 +201,7 @@ func (h *PostHandlerImpl) CreatePost(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=ent.Post}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts/{id} [put]
+// @Router /api/v1/post/update/{id} [put]
 func (h *PostHandlerImpl) UpdatePostContent(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -221,7 +221,7 @@ func (h *PostHandlerImpl) UpdatePostContent(c *fiber.Ctx) error {
 
 // @Summary 更新文章设置
 // @Description 更新指定文章的设置
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
@@ -229,7 +229,7 @@ func (h *PostHandlerImpl) UpdatePostContent(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=ent.Post}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts/{id}/settings [put]
+// @Router /api/v1/post/update/setting/{id} [put]
 func (h *PostHandlerImpl) UpdatePostSetting(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -249,14 +249,14 @@ func (h *PostHandlerImpl) UpdatePostSetting(c *fiber.Ctx) error {
 
 // @Summary 发布文章
 // @Description 发布指定文章
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
 // @Success 200 {object} model.HttpSuccess{data=ent.Post}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts/{id}/publish [put]
+// @Router /api/v1/post/publish/{id} [put]
 func (h *PostHandlerImpl) PublishPost(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -272,14 +272,14 @@ func (h *PostHandlerImpl) PublishPost(c *fiber.Ctx) error {
 
 // @Summary 取消发布文章
 // @Description 取消发布指定文章
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
 // @Success 200 {object} model.HttpSuccess{data=ent.Post}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts/{id}/unpublish [put]
+// @Router /api/v1/post/unpublish/{id} [put]
 func (h *PostHandlerImpl) UnpublishPost(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -295,14 +295,14 @@ func (h *PostHandlerImpl) UnpublishPost(c *fiber.Ctx) error {
 
 // @Summary 查询文章
 // @Description 查询指定文章
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
 // @Success 200 {object} model.HttpSuccess{data=ent.Post}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts/{id} [get]
+// @Router /api/v1/post/query/{id} [get]
 func (h *PostHandlerImpl) QueryPost(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -360,7 +360,7 @@ func (h *PostHandlerImpl) QueryPost(c *fiber.Ctx) error {
 
 // @Summary 根据Slug查询文章
 // @Description 根据Slug查询指定文章
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param slug path string true "文章Slug"
@@ -430,14 +430,14 @@ func (h *PostHandlerImpl) QueryPostBySlug(c *fiber.Ctx) error {
 
 // @Summary 删除文章
 // @Description 删除指定文章
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
 // @Success 200 {object} model.HttpSuccess{data=nil}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts/{id} [delete]
+// @Router /api/v1/post/delete/{id} [delete]
 func (h *PostHandlerImpl) DeletePost(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -465,14 +465,14 @@ func simulateAIProcessing(targetText string, ch chan model.AIResponse) {
 
 // @Summary 获取文章摘要流
 // @Description 获取指定文章的摘要流
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param id path int true "文章ID"
 // @Success 200 {object} model.HttpSuccess{data=model.AIResponse}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts/{id}/summary/stream [get]
+// @Router /api/v1/post/summary/stream/{id} [get]
 func (h *PostHandlerImpl) GetSummaryForStream(c *fiber.Ctx) error {
 	c.Set("Content-Type", "text/event-stream")
 	c.Set("Cache-Control", "no-cache")
@@ -521,7 +521,7 @@ func (h *PostHandlerImpl) GetSummaryForStream(c *fiber.Ctx) error {
 
 // @Summary 获取文章月份统计
 // @Description 获取每个月份的文章数量统计
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Param limit query int false "返回数据条数限制"
@@ -543,7 +543,7 @@ func (h *PostHandlerImpl) GetPostMonthStats(c *fiber.Ctx) error {
 
 // @Summary 随机获取一篇文章
 // @Description 随机获取一篇文章
-// @Tags posts
+// @Tags 文章
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=ent.Post}
@@ -561,6 +561,18 @@ func (h *PostHandlerImpl) GetRandomPost(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", post))
 }
 
+// @Summary 搜索文章
+// @Description 根据查询参数搜索文章
+// @Tags 文章
+// @Accept json
+// @Produce json
+// @Param query query string false "搜索查询"
+// @Param limit query int false "返回数据条数限制"
+// @Param offset query int false "返回数据偏移量"
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.PostSearchResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/post/search [get]
 func (h *PostHandlerImpl) SearchPosts(c *fiber.Ctx) error {
 	var req model.PostSearchReq
 	if err := c.QueryParser(&req); err != nil {

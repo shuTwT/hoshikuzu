@@ -28,7 +28,7 @@ func NewWalletHandlerImpl(walletService wallet_service.WalletService) *WalletHan
 
 // @Summary 查询钱包
 // @Description 查询指定用户的钱包信息
-// @Tags wallet
+// @Tags 钱包
 // @Accept json
 // @Produce json
 // @Param user_id path string true "用户ID"
@@ -62,7 +62,7 @@ func (h *WalletHandlerImpl) QueryWallet(c *fiber.Ctx) error {
 
 // @Summary 查询钱包分页列表
 // @Description 查询所有钱包的分页列表
-// @Tags wallet
+// @Tags 钱包
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -96,7 +96,7 @@ func (h *WalletHandlerImpl) QueryWalletPage(c *fiber.Ctx) error {
 
 // @Summary 更新钱包
 // @Description 更新指定钱包的信息
-// @Tags wallet
+// @Tags 钱包
 // @Accept json
 // @Produce json
 // @Param id path string true "钱包ID"

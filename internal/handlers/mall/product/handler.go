@@ -35,12 +35,12 @@ func NewProductHandlerImpl(productService product_service.ProductService) *Produ
 
 // @Summary 查询所有商品
 // @Description 查询所有商品
-// @Tags products
+// @Tags 商品
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Product}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/products/list [get]
+// @Router /api/v1/product/list [get]
 func (h *ProductHandlerImpl) ListProducts(c *fiber.Ctx) error {
 	products, err := h.productService.ListAllProducts(c.Context())
 	if err != nil {
@@ -52,14 +52,14 @@ func (h *ProductHandlerImpl) ListProducts(c *fiber.Ctx) error {
 
 // @Summary 分页查询商品
 // @Description 分页查询商品
-// @Tags products
+// @Tags 商品
 // @Accept json
 // @Produce json
 // @Param page query int false "页码"
 // @Param size query int false "每页数量"
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[ent.Product]}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/products/page [get]
+// @Router /api/v1/product/page [get]
 func (h *ProductHandlerImpl) ListProductsPage(c *fiber.Ctx) error {
 	var pageQuery model.PageQuery
 
@@ -88,14 +88,14 @@ func (h *ProductHandlerImpl) ListProductsPage(c *fiber.Ctx) error {
 
 // @Summary 创建商品
 // @Description 创建一个新商品
-// @Tags products
+// @Tags 商品
 // @Accept json
 // @Produce json
 // @Param product body model.ProductCreateReq true "商品创建请求"
 // @Success 200 {object} model.HttpSuccess{data=ent.Product}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/products/create [post]
+// @Router /api/v1/product/create [post]
 func (h *ProductHandlerImpl) CreateProduct(c *fiber.Ctx) error {
 	var req *model.ProductCreateReq
 	if err := c.BodyParser(&req); err != nil {
@@ -112,7 +112,7 @@ func (h *ProductHandlerImpl) CreateProduct(c *fiber.Ctx) error {
 
 // @Summary 更新商品
 // @Description 更新指定商品
-// @Tags products
+// @Tags 商品
 // @Accept json
 // @Produce json
 // @Param id path int true "商品ID"
@@ -120,7 +120,7 @@ func (h *ProductHandlerImpl) CreateProduct(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=ent.Product}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/products/update/{id} [put]
+// @Router /api/v1/product/update/{id} [put]
 func (h *ProductHandlerImpl) UpdateProduct(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -142,14 +142,14 @@ func (h *ProductHandlerImpl) UpdateProduct(c *fiber.Ctx) error {
 
 // @Summary 查询商品
 // @Description 查询指定商品
-// @Tags products
+// @Tags 商品
 // @Accept json
 // @Produce json
 // @Param id path int true "商品ID"
 // @Success 200 {object} model.HttpSuccess{data=ent.Product}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/products/query/{id} [get]
+// @Router /api/v1/product/query/{id} [get]
 func (h *ProductHandlerImpl) QueryProduct(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -166,14 +166,14 @@ func (h *ProductHandlerImpl) QueryProduct(c *fiber.Ctx) error {
 
 // @Summary 删除商品
 // @Description 删除指定商品
-// @Tags products
+// @Tags 商品
 // @Accept json
 // @Produce json
 // @Param id path int true "商品ID"
 // @Success 200 {object} model.HttpSuccess{data=nil}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/products/delete/{id} [delete]
+// @Router /api/v1/product/delete/{id} [delete]
 func (h *ProductHandlerImpl) DeleteProduct(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -187,6 +187,16 @@ func (h *ProductHandlerImpl) DeleteProduct(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 批量更新商品
+// @Description 批量更新指定商品的信息
+// @Tags 商品
+// @Accept json
+// @Produce json
+// @Param products body model.ProductBatchUpdateReq true "商品批量更新请求"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/product/batch-update [put]
 func (h *ProductHandlerImpl) BatchUpdateProducts(c *fiber.Ctx) error {
 	var req *model.ProductBatchUpdateReq
 	if err := c.BodyParser(&req); err != nil {
@@ -200,6 +210,16 @@ func (h *ProductHandlerImpl) BatchUpdateProducts(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 批量删除商品
+// @Description 批量删除指定商品
+// @Tags 商品
+// @Accept json
+// @Produce json
+// @Param products body model.ProductBatchDeleteReq true "商品批量删除请求"
+// @Success 200 {object} model.HttpSuccess{data=nil}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/product/batch-delete [delete]
 func (h *ProductHandlerImpl) BatchDeleteProducts(c *fiber.Ctx) error {
 	var req *model.ProductBatchDeleteReq
 	if err := c.BodyParser(&req); err != nil {
@@ -213,6 +233,19 @@ func (h *ProductHandlerImpl) BatchDeleteProducts(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", nil))
 }
 
+// @Summary 搜索商品
+// @Description 根据搜索条件查询商品
+// @Tags 商品
+// @Accept json
+// @Produce json
+// @Param name query string false "商品名称"
+// @Param category_id query int false "商品分类ID"
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.ProductSearchResp]}
+// @Failure 400 {object} model.HttpError
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/product/search [get]
 func (h *ProductHandlerImpl) SearchProducts(c *fiber.Ctx) error {
 	var req model.ProductSearchReq
 	if err := c.QueryParser(&req); err != nil {
