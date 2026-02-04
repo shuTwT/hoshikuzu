@@ -37,6 +37,14 @@ const getBreadcrumb = () => {
 
   levelList.value = matched.filter((item) => item?.meta && item?.meta.title !== false)
 }
+
+watch(
+  () => route.path,
+  () => {
+    getBreadcrumb()
+  },
+  { immediate: true },
+)
 </script>
 <template>
     <div class="header-nav">
@@ -59,7 +67,14 @@ const getBreadcrumb = () => {
 </template>
 <style scoped>
 .header-nav {
-  height: 50px;
-  background-color: #f5f7fa;
+  height: 64px;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  border-bottom: 1px solid #e5e5e5;
 }
 </style>

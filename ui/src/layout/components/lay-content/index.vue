@@ -3,15 +3,32 @@ import LayFooter from "../lay-footer/index.vue"
 </script>
 <template>
     <section class="app-main">
-        <router-view></router-view>
-        <LayFooter></LayFooter>
+        <n-scrollbar>
+            <div class="grow">
+                <router-view></router-view>
+                
+            </div>
+            <LayFooter></LayFooter>
+        </n-scrollbar>
+
     </section>
 </template>
 <style scoped>
 .app-main {
     position: relative;
     width: 100%;
-    height: 100vh;
     overflow-x: hidden;
+    height: 100vh;
+    padding-top: 64px;
+    background-color: #f5f7fa;
+}
+
+.app-main--vertical {
+    display: flex;
+    flex-direction: column;
+}
+:deep() .n-scrollbar-content{
+    display: flex;
+    flex-direction: column;
 }
 </style>
