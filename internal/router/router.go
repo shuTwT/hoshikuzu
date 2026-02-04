@@ -12,34 +12,34 @@ import (
 func initSystemRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 	settingsApi := router.Group("/settings")
 	{
-		settingsApi.Get("/json/:key", handlerMap.SettingHandler.GetJsonSettingsMap).Name("settingsMap")
-		settingsApi.Post("/json/save/:key", handlerMap.SettingHandler.SaveSettings).Name("jsonSettingsSave")
+		settingsApi.Get("/json/:key", handlerMap.SettingHandler.GetJsonSettingsMap)
+		settingsApi.Post("/json/save/:key", handlerMap.SettingHandler.SaveSettings)
 	}
 	roleApi := router.Group("/role")
 	{
-		roleApi.Get("/list", handlerMap.RoleHandler.ListRole).Name("roleList")
-		roleApi.Get("/page", handlerMap.RoleHandler.ListRolePage).Name("rolePage")
-		roleApi.Post("/create", handlerMap.RoleHandler.CreateRole).Name("roleCreate")
-		roleApi.Put("/update/:id", handlerMap.RoleHandler.UpdateRole).Name("roleUpdate")
-		roleApi.Get("/query/:id", handlerMap.RoleHandler.QueryRole).Name("roleQuery")
-		roleApi.Delete("/delete/:id", handlerMap.RoleHandler.DeleteRole).Name("roleDelete")
+		roleApi.Get("/list", handlerMap.RoleHandler.ListRole)
+		roleApi.Get("/page", handlerMap.RoleHandler.ListRolePage)
+		roleApi.Post("/create", handlerMap.RoleHandler.CreateRole)
+		roleApi.Put("/update/:id", handlerMap.RoleHandler.UpdateRole)
+		roleApi.Get("/query/:id", handlerMap.RoleHandler.QueryRole)
+		roleApi.Delete("/delete/:id", handlerMap.RoleHandler.DeleteRole)
 	}
 	userApi := router.Group("/user")
 	{
-		userApi.Get("/profile", handlerMap.UserHandler.GetUserProfile).Name("userProfile")
-		userApi.Get("/list", handlerMap.UserHandler.ListUser).Name("userList")
-		userApi.Get("/page", handlerMap.UserHandler.ListUserPage).Name("userPage")
-		userApi.Post("/create", handlerMap.UserHandler.CreateUser).Name("userCreate")
-		userApi.Put("/update/:id", handlerMap.UserHandler.UpdateUser).Name("userUpdate")
-		userApi.Get("/query/:id", handlerMap.UserHandler.QueryUser).Name("userQuery")
-		userApi.Delete("/delete/:id", handlerMap.UserHandler.DeleteUser).Name("userDelete")
+		userApi.Get("/profile", handlerMap.UserHandler.GetUserProfile)
+		userApi.Get("/list", handlerMap.UserHandler.ListUser)
+		userApi.Get("/page", handlerMap.UserHandler.ListUserPage)
+		userApi.Post("/create", handlerMap.UserHandler.CreateUser)
+		userApi.Put("/update/:id", handlerMap.UserHandler.UpdateUser)
+		userApi.Get("/query/:id", handlerMap.UserHandler.QueryUser)
+		userApi.Delete("/delete/:id", handlerMap.UserHandler.DeleteUser)
 	}
 	notificationApi := router.Group("/notifications")
 	{
-		notificationApi.Get("/page", handlerMap.NotificationHandler.ListNotificationPage).Name("notificationPage")
-		notificationApi.Get("/query/:id", handlerMap.NotificationHandler.QueryNotification).Name("notificationQuery")
-		notificationApi.Delete("/delete/:id", handlerMap.NotificationHandler.DeleteNotification).Name("notificationDelete")
-		notificationApi.Post("/batch/read", handlerMap.NotificationHandler.BatchMarkAsRead).Name("notificationBatchRead")
+		notificationApi.Get("/page", handlerMap.NotificationHandler.ListNotificationPage)
+		notificationApi.Get("/query/:id", handlerMap.NotificationHandler.QueryNotification)
+		notificationApi.Delete("/delete/:id", handlerMap.NotificationHandler.DeleteNotification)
+		notificationApi.Post("/batch/read", handlerMap.NotificationHandler.BatchMarkAsRead)
 	}
 }
 
@@ -47,121 +47,118 @@ func initSystemRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 func initContentRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 	commentApi := router.Group("/comment")
 	{
-		commentApi.Get("/page", handlerMap.CommentHandler.ListCommentPage).Name("commentPage")
-		commentApi.Get("/query/:id", handlerMap.CommentHandler.GetComment).Name("commentQuery")
+		commentApi.Get("/page", handlerMap.CommentHandler.ListCommentPage)
+		commentApi.Get("/query/:id", handlerMap.CommentHandler.GetComment)
 	}
 	albumApi := router.Group("/album")
 	{
-		albumApi.Get("/list", handlerMap.AlbumHandler.ListAlbum).Name("albumList")
-		albumApi.Get("/page", handlerMap.AlbumHandler.ListAlbumPage).Name("albumPage")
-		albumApi.Post("/create", handlerMap.AlbumHandler.CreateAlbum).Name("albumCreate")
-		albumApi.Put("/update/:id", handlerMap.AlbumHandler.UpdateAlbum).Name("albumUpdate")
-		albumApi.Get("/query/:id", handlerMap.AlbumHandler.QueryAlbum).Name("albumQuery")
-		albumApi.Delete("/delete/:id", handlerMap.AlbumHandler.DeleteAlbum).Name("albumDelete")
+		albumApi.Get("/list", handlerMap.AlbumHandler.ListAlbum)
+		albumApi.Get("/page", handlerMap.AlbumHandler.ListAlbumPage)
+		albumApi.Post("/create", handlerMap.AlbumHandler.CreateAlbum)
+		albumApi.Put("/update/:id", handlerMap.AlbumHandler.UpdateAlbum)
+		albumApi.Get("/query/:id", handlerMap.AlbumHandler.QueryAlbum)
+		albumApi.Delete("/delete/:id", handlerMap.AlbumHandler.DeleteAlbum)
 	}
 	albumPhotoApi := router.Group("/album-photo")
 	{
-		albumPhotoApi.Get("/list", handlerMap.AlbumPhotoHandler.ListAlbumPhoto).Name("albumPhotoList")
-		albumPhotoApi.Get("/page", handlerMap.AlbumPhotoHandler.ListAlbumPhotoPage).Name("albumPhotoPage")
-		albumPhotoApi.Post("/create", handlerMap.AlbumPhotoHandler.CreateAlbumPhoto).Name("albumPhotoCreate")
-		albumPhotoApi.Put("/update/:id", handlerMap.AlbumPhotoHandler.UpdateAlbumPhoto).Name("albumPhotoUpdate")
-		albumPhotoApi.Get("/query/:id", handlerMap.AlbumPhotoHandler.QueryAlbumPhoto).Name("albumPhotoQuery")
-		albumPhotoApi.Delete("/delete/:id", handlerMap.AlbumPhotoHandler.DeleteAlbumPhoto).Name("albumPhotoDelete")
+		albumPhotoApi.Get("/list", handlerMap.AlbumPhotoHandler.ListAlbumPhoto)
+		albumPhotoApi.Get("/page", handlerMap.AlbumPhotoHandler.ListAlbumPhotoPage)
+		albumPhotoApi.Post("/create", handlerMap.AlbumPhotoHandler.CreateAlbumPhoto)
+		albumPhotoApi.Put("/update/:id", handlerMap.AlbumPhotoHandler.UpdateAlbumPhoto)
+		albumPhotoApi.Get("/query/:id", handlerMap.AlbumPhotoHandler.QueryAlbumPhoto)
+		albumPhotoApi.Delete("/delete/:id", handlerMap.AlbumPhotoHandler.DeleteAlbumPhoto)
 	}
 	flinkApi := router.Group("/flink")
 	{
-		flinkApi.Get("/list", handlerMap.FlinkHandler.ListFlink).Name("flinkList")
-		flinkApi.Get("/page", handlerMap.FlinkHandler.ListFlinkPage).Name("flinkPage")
-		flinkApi.Post("/create", handlerMap.FlinkHandler.CreateFlink).Name("flinkCreate")
-		flinkApi.Put("/update/:id", handlerMap.FlinkHandler.UpdateFlink).Name("flinkUpdate")
-		flinkApi.Get("/query/:id", handlerMap.FlinkHandler.QueryFlink).Name("flinkQuery")
-		flinkApi.Delete("/delete/:id", handlerMap.FlinkHandler.DeleteFlink).Name("flinkDelete")
+		flinkApi.Get("/list", handlerMap.FlinkHandler.ListFlink)
+		flinkApi.Get("/page", handlerMap.FlinkHandler.ListFlinkPage)
+		flinkApi.Post("/create", handlerMap.FlinkHandler.CreateFlink)
+		flinkApi.Put("/update/:id", handlerMap.FlinkHandler.UpdateFlink)
+		flinkApi.Get("/query/:id", handlerMap.FlinkHandler.QueryFlink)
+		flinkApi.Delete("/delete/:id", handlerMap.FlinkHandler.DeleteFlink)
 	}
 	flinkGroupApi := router.Group("/flink-group")
 	{
-		flinkGroupApi.Get("/list", handlerMap.FlinkGroupHandler.ListFLinkGroup).Name("flinkGroupList")
-		flinkGroupApi.Post("/create", handlerMap.FlinkGroupHandler.CreateFlinkGroup).Name("flinkGroupCreate")
-		flinkGroupApi.Put("/update/:id", handlerMap.FlinkGroupHandler.UpdateFlinkGroup).Name("flinkGroupUpdate")
-		flinkGroupApi.Delete("/delete/:id", handlerMap.FlinkGroupHandler.DeleteFLinkGroup).Name("flinkGroupDelete")
+		flinkGroupApi.Get("/list", handlerMap.FlinkGroupHandler.ListFLinkGroup)
+		flinkGroupApi.Post("/create", handlerMap.FlinkGroupHandler.CreateFlinkGroup)
+		flinkGroupApi.Put("/update/:id", handlerMap.FlinkGroupHandler.UpdateFlinkGroup)
+		flinkGroupApi.Delete("/delete/:id", handlerMap.FlinkGroupHandler.DeleteFLinkGroup)
 	}
 	friendCircleRecordApi := router.Group("/friend-circle")
 	{
-		friendCircleRecordApi.Get("/page", handlerMap.FriendCircleHandler.ListFriendCircleRecordPage).Name("friendCircleRecordPage")
+		friendCircleRecordApi.Get("/page", handlerMap.FriendCircleHandler.ListFriendCircleRecordPage)
 	}
 	essayApi := router.Group("/essay")
 	{
-		essayApi.Get("/list", handlerMap.EssayHandler.ListEssay).Name("essayList")
-		essayApi.Get("/page", handlerMap.EssayHandler.GetEssayPage).Name("essayPage")
-		essayApi.Post("/create", handlerMap.EssayHandler.CreateEssay).Name("essayCreate")
-		essayApi.Put("/update/:id", handlerMap.EssayHandler.UpdateEssay).Name("essayUpdate")
-		essayApi.Delete("/delete/:id", handlerMap.EssayHandler.DeleteEssay).Name("essayDelete")
+		essayApi.Get("/list", handlerMap.EssayHandler.ListEssay)
+		essayApi.Get("/page", handlerMap.EssayHandler.GetEssayPage)
+		essayApi.Post("/create", handlerMap.EssayHandler.CreateEssay)
+		essayApi.Put("/update/:id", handlerMap.EssayHandler.UpdateEssay)
+		essayApi.Delete("/delete/:id", handlerMap.EssayHandler.DeleteEssay)
 	}
 	postApi := router.Group("/post")
 	{
-		postApi.Get("/list", handlerMap.PostHandler.ListPost).Name("postList")
-		postApi.Get("/page", handlerMap.PostHandler.ListPostPage).Name("postPage")
-		postApi.Get("/month-stats", handlerMap.PostHandler.GetPostMonthStats).Name("postMonthStats")
-		postApi.Get("/random", handlerMap.PostHandler.GetRandomPost).Name("postRandom")
-		postApi.Get("/slug/:slug", handlerMap.PostHandler.QueryPostBySlug).Name("postQueryBySlug")
-		postApi.Post("/create", handlerMap.PostHandler.CreatePost).Name("postCreate")
-		postApi.Put("/update/content/:id", handlerMap.PostHandler.UpdatePostContent).Name("postUpdateContent")
-		postApi.Put("/update/setting/:id", handlerMap.PostHandler.UpdatePostSetting).Name("postUpdateSetting")
-		postApi.Put("/publish/:id", handlerMap.PostHandler.PublishPost).Name("postPublish")
-		postApi.Put("/unpublish/:id", handlerMap.PostHandler.UnpublishPost).Name("postUnpublish")
-		postApi.Get("/query/:id", handlerMap.PostHandler.QueryPost).Name("postQuery")
-		postApi.Delete("/delete/:id", handlerMap.PostHandler.DeletePost).Name("postDelete")
+		postApi.Get("/list", handlerMap.PostHandler.ListPost)
+		postApi.Get("/page", handlerMap.PostHandler.ListPostPage)
+		postApi.Post("/create", handlerMap.PostHandler.CreatePost)
+		postApi.Put("/update/content/:id", handlerMap.PostHandler.UpdatePostContent)
+		postApi.Put("/update/setting/:id", handlerMap.PostHandler.UpdatePostSetting)
+		postApi.Put("/publish/:id", handlerMap.PostHandler.PublishPost)
+		postApi.Put("/unpublish/:id", handlerMap.PostHandler.UnpublishPost)
+		postApi.Get("/query/:id", handlerMap.PostHandler.QueryPost)
+		postApi.Delete("/delete/:id", handlerMap.PostHandler.DeletePost)
 
 	}
 	categoryApi := router.Group("/category")
 	{
-		categoryApi.Get("/query/:id", handlerMap.CategoryHandler.QueryCategory).Name("categoryQuery")
-		categoryApi.Get("/list", handlerMap.CategoryHandler.QueryCategoryList).Name("categoryList")
-		categoryApi.Get("/page", handlerMap.CategoryHandler.QueryCategoryPage).Name("categoryPage")
-		categoryApi.Post("/create", handlerMap.CategoryHandler.CreateCategory).Name("categoryCreate")
-		categoryApi.Put("/update/:id", handlerMap.CategoryHandler.UpdateCategory).Name("categoryUpdate")
-		categoryApi.Delete("/delete/:id", handlerMap.CategoryHandler.DeleteCategory).Name("categoryDelete")
+		categoryApi.Get("/query/:id", handlerMap.CategoryHandler.QueryCategory)
+		categoryApi.Get("/list", handlerMap.CategoryHandler.QueryCategoryList)
+		categoryApi.Get("/page", handlerMap.CategoryHandler.QueryCategoryPage)
+		categoryApi.Post("/create", handlerMap.CategoryHandler.CreateCategory)
+		categoryApi.Put("/update/:id", handlerMap.CategoryHandler.UpdateCategory)
+		categoryApi.Delete("/delete/:id", handlerMap.CategoryHandler.DeleteCategory)
 	}
 	tagApi := router.Group("/tag")
 	{
-		tagApi.Get("/query/:id", handlerMap.TagHandler.QueryTag).Name("tagQuery")
-		tagApi.Get("/list", handlerMap.TagHandler.QueryTagList).Name("tagList")
-		tagApi.Get("/page", handlerMap.TagHandler.QueryTagPage).Name("tagPage")
-		tagApi.Post("/create", handlerMap.TagHandler.CreateTag).Name("tagCreate")
-		tagApi.Put("/update/:id", handlerMap.TagHandler.UpdateTag).Name("tagUpdate")
-		tagApi.Delete("/delete/:id", handlerMap.TagHandler.DeleteTag).Name("tagDelete")
+		tagApi.Get("/query/:id", handlerMap.TagHandler.QueryTag)
+		tagApi.Get("/list", handlerMap.TagHandler.QueryTagList)
+		tagApi.Get("/page", handlerMap.TagHandler.QueryTagPage)
+		tagApi.Post("/create", handlerMap.TagHandler.CreateTag)
+		tagApi.Put("/update/:id", handlerMap.TagHandler.UpdateTag)
+		tagApi.Delete("/delete/:id", handlerMap.TagHandler.DeleteTag)
 	}
 	docLibraryApi := router.Group("/doclibrary")
 	{
-		docLibraryApi.Get("/list", handlerMap.DocLibraryHandler.GetDocLibraryList).Name("docLibraryList")
-		docLibraryApi.Get("/page", handlerMap.DocLibraryHandler.GetDocLibraryPage).Name("docLibraryPage")
-		docLibraryApi.Post("/create", handlerMap.DocLibraryHandler.CreateDocLibrary).Name("docLibraryCreate")
-		docLibraryApi.Put("/update/:id", handlerMap.DocLibraryHandler.UpdateDocLibrary).Name("docLibraryUpdate")
-		docLibraryApi.Get("/query/:id", handlerMap.DocLibraryHandler.GetDocLibrary).Name("docLibraryQuery")
-		docLibraryApi.Delete("/delete/:id", handlerMap.DocLibraryHandler.DeleteDocLibrary).Name("docLibraryDelete")
+		docLibraryApi.Get("/list", handlerMap.DocLibraryHandler.GetDocLibraryList)
+		docLibraryApi.Get("/page", handlerMap.DocLibraryHandler.GetDocLibraryPage)
+		docLibraryApi.Post("/create", handlerMap.DocLibraryHandler.CreateDocLibrary)
+		docLibraryApi.Put("/update/:id", handlerMap.DocLibraryHandler.UpdateDocLibrary)
+		docLibraryApi.Get("/query/:id", handlerMap.DocLibraryHandler.GetDocLibrary)
+		docLibraryApi.Delete("/delete/:id", handlerMap.DocLibraryHandler.DeleteDocLibrary)
 	}
 	docLibraryDetailApi := router.Group("/doclibrarydetail")
 	{
-		docLibraryDetailApi.Get("/page", handlerMap.DocLibraryDetailHandler.GetDocLibraryDetailPage).Name("docLibraryDetailPage")
-		docLibraryDetailApi.Post("/create", handlerMap.DocLibraryDetailHandler.CreateDocLibraryDetail).Name("docLibraryDetailCreate")
-		docLibraryDetailApi.Put("/update/:id", handlerMap.DocLibraryDetailHandler.UpdateDocLibraryDetail).Name("docLibraryDetailUpdate")
-		docLibraryDetailApi.Get("/query/:id", handlerMap.DocLibraryDetailHandler.GetDocLibraryDetail).Name("docLibraryDetailQuery")
-		docLibraryDetailApi.Delete("/delete/:id", handlerMap.DocLibraryDetailHandler.DeleteDocLibraryDetail).Name("docLibraryDetailDelete")
-		docLibraryDetailApi.Get("/tree", handlerMap.DocLibraryDetailHandler.GetDocLibraryDetailTree).Name("docLibraryDetailTree")
+		docLibraryDetailApi.Get("/page", handlerMap.DocLibraryDetailHandler.GetDocLibraryDetailPage)
+		docLibraryDetailApi.Post("/create", handlerMap.DocLibraryDetailHandler.CreateDocLibraryDetail)
+		docLibraryDetailApi.Put("/update/:id", handlerMap.DocLibraryDetailHandler.UpdateDocLibraryDetail)
+		docLibraryDetailApi.Get("/query/:id", handlerMap.DocLibraryDetailHandler.GetDocLibraryDetail)
+		docLibraryDetailApi.Delete("/delete/:id", handlerMap.DocLibraryDetailHandler.DeleteDocLibraryDetail)
+		docLibraryDetailApi.Get("/tree", handlerMap.DocLibraryDetailHandler.GetDocLibraryDetailTree)
 	}
 	knowledgeBaseApi := router.Group("/knowledgebase")
 	{
-		knowledgeBaseApi.Get("/list", handlerMap.KnowledgeBaseHandler.GetKnowledgeBaseList).Name("knowledgeBaseList")
-		knowledgeBaseApi.Get("/page", handlerMap.KnowledgeBaseHandler.GetKnowledgeBasePage).Name("knowledgeBasePage")
-		knowledgeBaseApi.Post("/create", handlerMap.KnowledgeBaseHandler.CreateKnowledgeBase).Name("knowledgeBaseCreate")
-		knowledgeBaseApi.Put("/update/:id", handlerMap.KnowledgeBaseHandler.UpdateKnowledgeBase).Name("knowledgeBaseUpdate")
-		knowledgeBaseApi.Get("/query/:id", handlerMap.KnowledgeBaseHandler.GetKnowledgeBase).Name("knowledgeBaseQuery")
-		knowledgeBaseApi.Delete("/delete/:id", handlerMap.KnowledgeBaseHandler.DeleteKnowledgeBase).Name("knowledgeBaseDelete")
+		knowledgeBaseApi.Get("/list", handlerMap.KnowledgeBaseHandler.GetKnowledgeBaseList)
+		knowledgeBaseApi.Get("/page", handlerMap.KnowledgeBaseHandler.GetKnowledgeBasePage)
+		knowledgeBaseApi.Post("/create", handlerMap.KnowledgeBaseHandler.CreateKnowledgeBase)
+		knowledgeBaseApi.Put("/update/:id", handlerMap.KnowledgeBaseHandler.UpdateKnowledgeBase)
+		knowledgeBaseApi.Get("/query/:id", handlerMap.KnowledgeBaseHandler.GetKnowledgeBase)
+		knowledgeBaseApi.Delete("/delete/:id", handlerMap.KnowledgeBaseHandler.DeleteKnowledgeBase)
 	}
 	flinkApplicationApi := router.Group("/flink-application")
 	{
-		flinkApplicationApi.Get("/page", handlerMap.FlinkApplicationHandler.ListFlinkApplicationPage).Name("flinkApplicationPage")
-		flinkApplicationApi.Get("/query/:id", handlerMap.FlinkApplicationHandler.QueryFlinkApplication).Name("flinkApplicationQuery")
-		flinkApplicationApi.Put("/update/:id", handlerMap.FlinkApplicationHandler.ApproveFlinkApplication).Name("flinkApplicationUpdate")
+		flinkApplicationApi.Get("/page", handlerMap.FlinkApplicationHandler.ListFlinkApplicationPage)
+		flinkApplicationApi.Get("/query/:id", handlerMap.FlinkApplicationHandler.QueryFlinkApplication)
+		flinkApplicationApi.Put("/update/:id", handlerMap.FlinkApplicationHandler.ApproveFlinkApplication)
 	}
 }
 
@@ -169,71 +166,71 @@ func initContentRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 func initInfraRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 	storageStrategyApi := router.Group("/storage-strategy")
 	{
-		storageStrategyApi.Get("/list", handlerMap.StorageStrategyHandler.ListStorageStrategy).Name("storageStrategyList")
-		storageStrategyApi.Get("/list-all", handlerMap.StorageStrategyHandler.ListStorageStrategyAll).Name("storageStrategyListAll")
-		storageStrategyApi.Post("/create", handlerMap.StorageStrategyHandler.CreateStorageStrategy).Name("storageStrategyCreate")
-		storageStrategyApi.Put("/update/:id", handlerMap.StorageStrategyHandler.UpdateStorageStrategy).Name("storageStrategyUpdate")
-		storageStrategyApi.Get("/query/:id", handlerMap.StorageStrategyHandler.QueryStorageStrategy).Name("storageStrategyQuery")
-		storageStrategyApi.Delete("/delete/:id", handlerMap.StorageStrategyHandler.DeleteStorageStrategy).Name("storageStrategyDelete")
-		storageStrategyApi.Put("/default/:id", handlerMap.StorageStrategyHandler.SetDefaultStorageStrategy).Name("storageStrategyDefault")
+		storageStrategyApi.Get("/list", handlerMap.StorageStrategyHandler.ListStorageStrategy)
+		storageStrategyApi.Get("/list-all", handlerMap.StorageStrategyHandler.ListStorageStrategyAll)
+		storageStrategyApi.Post("/create", handlerMap.StorageStrategyHandler.CreateStorageStrategy)
+		storageStrategyApi.Put("/update/:id", handlerMap.StorageStrategyHandler.UpdateStorageStrategy)
+		storageStrategyApi.Get("/query/:id", handlerMap.StorageStrategyHandler.QueryStorageStrategy)
+		storageStrategyApi.Delete("/delete/:id", handlerMap.StorageStrategyHandler.DeleteStorageStrategy)
+		storageStrategyApi.Put("/default/:id", handlerMap.StorageStrategyHandler.SetDefaultStorageStrategy)
 	}
 	fileApi := router.Group("/file")
 	{
-		fileApi.Get("/list", handlerMap.FileHandler.ListFile).Name("fileList")
-		fileApi.Get("/page", handlerMap.FileHandler.ListFilePage).Name("filePage")
-		fileApi.Get("/query/:id", handlerMap.FileHandler.QueryFile).Name("fileQuery")
-		fileApi.Delete("/delete/:id", handlerMap.FileHandler.DeleteFile).Name("fileDelete")
-		fileApi.Post("/upload", handlerMap.FileHandler.Upload).Name("fileUpload")
+		fileApi.Get("/list", handlerMap.FileHandler.ListFile)
+		fileApi.Get("/page", handlerMap.FileHandler.ListFilePage)
+		fileApi.Get("/query/:id", handlerMap.FileHandler.QueryFile)
+		fileApi.Delete("/delete/:id", handlerMap.FileHandler.DeleteFile)
+		fileApi.Post("/upload", handlerMap.FileHandler.Upload)
 	}
 	scheduleJobApi := router.Group("/schedule-job")
 	{
-		scheduleJobApi.Post("/create", handlerMap.ScheduleJobHandler.CreateScheduleJob).Name("scheduleJobCreate")
-		scheduleJobApi.Get("/page", handlerMap.ScheduleJobHandler.ListScheduleJobPage).Name("scheduleJobPage")
-		scheduleJobApi.Get("/query/:id", handlerMap.ScheduleJobHandler.QueryScheduleJob).Name("scheduleJobQuery")
-		scheduleJobApi.Put("/update/:id", handlerMap.ScheduleJobHandler.UpdateScheduleJob).Name("scheduleJobUpdate")
-		scheduleJobApi.Delete("/delete/:id", handlerMap.ScheduleJobHandler.DeleteScheduleJob).Name("scheduleJobDelete")
-		scheduleJobApi.Post("/execute/:id", handlerMap.ScheduleJobHandler.ExecuteScheduleJobNow).Name("scheduleJobExecute")
+		scheduleJobApi.Post("/create", handlerMap.ScheduleJobHandler.CreateScheduleJob)
+		scheduleJobApi.Get("/page", handlerMap.ScheduleJobHandler.ListScheduleJobPage)
+		scheduleJobApi.Get("/query/:id", handlerMap.ScheduleJobHandler.QueryScheduleJob)
+		scheduleJobApi.Put("/update/:id", handlerMap.ScheduleJobHandler.UpdateScheduleJob)
+		scheduleJobApi.Delete("/delete/:id", handlerMap.ScheduleJobHandler.DeleteScheduleJob)
+		scheduleJobApi.Post("/execute/:id", handlerMap.ScheduleJobHandler.ExecuteScheduleJobNow)
 	}
 	migrationApi := router.Group("/migration")
 	{
-		migrationApi.Post("/md", handlerMap.MigrationHandler.ImportMarkdown).Name("migrationMd")
-		migrationApi.Post("/check-duplicate", handlerMap.MigrationHandler.CheckDuplicate).Name("migrationCheckDuplicate")
+		migrationApi.Post("/md", handlerMap.MigrationHandler.ImportMarkdown)
+		migrationApi.Post("/check-duplicate", handlerMap.MigrationHandler.CheckDuplicate)
 	}
 	visitLogApi := router.Group("/visit-log")
 	{
-		visitLogApi.Get("/page", handlerMap.VisitHandler.ListVisitLogPage).Name("visitLogPage")
-		visitLogApi.Get("/query/:id", handlerMap.VisitHandler.QueryVisitLog).Name("visitLogQuery")
-		visitLogApi.Delete("/delete/:id", handlerMap.VisitHandler.DeleteVisitLog).Name("visitLogDelete")
-		visitLogApi.Post("/batch/delete", handlerMap.VisitHandler.BatchDeleteVisitLog).Name("visitLogBatchDelete")
+		visitLogApi.Get("/page", handlerMap.VisitHandler.ListVisitLogPage)
+		visitLogApi.Get("/query/:id", handlerMap.VisitHandler.QueryVisitLog)
+		visitLogApi.Delete("/delete/:id", handlerMap.VisitHandler.DeleteVisitLog)
+		visitLogApi.Post("/batch/delete", handlerMap.VisitHandler.BatchDeleteVisitLog)
 	}
 	pluginApi := router.Group("/plugin")
 	{
-		pluginApi.Post("/create", handlerMap.PluginHandler.CreatePlugin).Name("pluginCreate")
-		pluginApi.Get("/page", handlerMap.PluginHandler.ListPluginPage).Name("pluginPage")
-		pluginApi.Get("/query/:id", handlerMap.PluginHandler.QueryPlugin).Name("pluginQuery")
-		pluginApi.Delete("/delete/:id", handlerMap.PluginHandler.DeletePlugin).Name("pluginDelete")
-		pluginApi.Post("/:id/start", handlerMap.PluginHandler.StartPlugin).Name("pluginStart")
-		pluginApi.Post("/:id/stop", handlerMap.PluginHandler.StopPlugin).Name("pluginStop")
-		pluginApi.Post("/:id/restart", handlerMap.PluginHandler.RestartPlugin).Name("pluginRestart")
+		pluginApi.Post("/create", handlerMap.PluginHandler.CreatePlugin)
+		pluginApi.Get("/page", handlerMap.PluginHandler.ListPluginPage)
+		pluginApi.Get("/query/:id", handlerMap.PluginHandler.QueryPlugin)
+		pluginApi.Delete("/delete/:id", handlerMap.PluginHandler.DeletePlugin)
+		pluginApi.Post("/:id/start", handlerMap.PluginHandler.StartPlugin)
+		pluginApi.Post("/:id/stop", handlerMap.PluginHandler.StopPlugin)
+		pluginApi.Post("/:id/restart", handlerMap.PluginHandler.RestartPlugin)
 	}
 	themeApi := router.Group("/theme")
 	{
-		themeApi.Post("/upload", handlerMap.ThemeHandler.UploadThemeFile).Name("themeUpload")
-		themeApi.Post("/create", handlerMap.ThemeHandler.CreateTheme).Name("themeCreate")
-		themeApi.Get("/page", handlerMap.ThemeHandler.ListThemePage).Name("themePage")
-		themeApi.Get("/query/:id", handlerMap.ThemeHandler.QueryTheme).Name("themeQuery")
-		themeApi.Delete("/delete/:id", handlerMap.ThemeHandler.DeleteTheme).Name("themeDelete")
-		themeApi.Post("/:id/enable", handlerMap.ThemeHandler.EnableTheme).Name("themeEnable")
-		themeApi.Post("/:id/disable", handlerMap.ThemeHandler.DisableTheme).Name("themeDisable")
+		themeApi.Post("/upload", handlerMap.ThemeHandler.UploadThemeFile)
+		themeApi.Post("/create", handlerMap.ThemeHandler.CreateTheme)
+		themeApi.Get("/page", handlerMap.ThemeHandler.ListThemePage)
+		themeApi.Get("/query/:id", handlerMap.ThemeHandler.QueryTheme)
+		themeApi.Delete("/delete/:id", handlerMap.ThemeHandler.DeleteTheme)
+		themeApi.Post("/:id/enable", handlerMap.ThemeHandler.EnableTheme)
+		themeApi.Post("/:id/disable", handlerMap.ThemeHandler.DisableTheme)
 	}
 	licenseApi := router.Group("/license")
 	{
-		licenseApi.Get("/page", handlerMap.LicenseHandler.ListLicensePage).Name("licensePage")
-		licenseApi.Get("/query/:id", handlerMap.LicenseHandler.QueryLicense).Name("licenseQuery")
-		licenseApi.Post("/create", handlerMap.LicenseHandler.CreateLicense).Name("licenseCreate")
-		licenseApi.Put("/update/:id", handlerMap.LicenseHandler.UpdateLicense).Name("licenseUpdate")
-		licenseApi.Delete("/delete/:id", handlerMap.LicenseHandler.DeleteLicense).Name("licenseDelete")
-		licenseApi.Post("/verify", handlerMap.LicenseHandler.VerifyLicense).Name("licenseVerify")
+		licenseApi.Get("/page", handlerMap.LicenseHandler.ListLicensePage)
+		licenseApi.Get("/query/:id", handlerMap.LicenseHandler.QueryLicense)
+		licenseApi.Post("/create", handlerMap.LicenseHandler.CreateLicense)
+		licenseApi.Put("/update/:id", handlerMap.LicenseHandler.UpdateLicense)
+		licenseApi.Delete("/delete/:id", handlerMap.LicenseHandler.DeleteLicense)
+		licenseApi.Post("/verify", handlerMap.LicenseHandler.VerifyLicense)
 	}
 }
 
@@ -308,6 +305,67 @@ func initMallRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 	}
 }
 
+// 公开路由无需认证
+func initPublicRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
+	publicApi := router.Group("/api/public")
+	{
+		// 访问统计接口
+		publicApi.Get("/visit", handlerMap.VisitHandler.HandleVisitor)
+		// twikoo 接口
+		publicApi.All("/twikoo", handlerMap.CommentHandler.HandleTwikoo)
+		// 最近评论接口
+		publicApi.Get("/comment/recent", handlerMap.CommentHandler.RecentComment)
+		// 相册列表接口
+		publicApi.Get("/album/list", handlerMap.AlbumHandler.ListAlbum)
+		// 相册分页接口
+		publicApi.Get("/album/page", handlerMap.AlbumHandler.ListAlbumPage)
+		// 相册照片列表接口
+		publicApi.Get("/album-photo/list", handlerMap.AlbumPhotoHandler.ListAlbumPhoto)
+		// 相册照片分页接口
+		publicApi.Get("/album-photo/page", handlerMap.AlbumPhotoHandler.ListAlbumPhotoPage)
+		// 友链列表接口
+		publicApi.Get("/flink/list", handlerMap.FlinkHandler.ListFlink)
+		// 友链分页接口
+		publicApi.Get("/flink/page", handlerMap.FlinkHandler.ListFlinkPage)
+		// 友链分组列表接口
+		publicApi.Get("/flink-group/list", handlerMap.FlinkGroupHandler.ListFLinkGroup)
+		// 朋友圈记录分页接口
+		publicApi.Get("/friend-circle-record/page", handlerMap.FriendCircleHandler.ListFriendCircleRecordPage)
+		// 说说(随笔、瞬间)分页接口
+		publicApi.Get("/essay/page", handlerMap.EssayHandler.GetEssayPage)
+		// 文章搜索接口
+		publicApi.Get("/post/search", handlerMap.PostHandler.SearchPosts)
+		// 文章月统计接口
+		publicApi.Get("/post/month-stats", handlerMap.PostHandler.GetPostMonthStats)
+		// 随机文章接口
+		publicApi.Get("/post/random", handlerMap.PostHandler.GetRandomPost)
+		// 文章详情接口
+		publicApi.Get("/post/slug/:slug", handlerMap.PostHandler.QueryPostBySlug)
+		// 分类列表接口
+		publicApi.Get("/category/list", handlerMap.CategoryHandler.QueryCategoryList)
+		// 分类分页接口
+		publicApi.Get("/category/page", handlerMap.CategoryHandler.QueryCategoryPage)
+		// 标签列表接口
+		publicApi.Get("/tag/list", handlerMap.TagHandler.QueryTagList)
+		// 标签分页接口
+		publicApi.Get("/tag/page", handlerMap.TagHandler.QueryTagPage)
+		// 用户搜索接口
+		publicApi.Get("/user/search", handlerMap.UserHandler.SearchUsers)
+		// 随机友链接口
+		publicApi.Get("/flink/random", handlerMap.FlinkHandler.RandomFlink)
+		// 文章摘要接口
+		publicApi.Get("/posts/:id/summary/stream", handlerMap.PostHandler.GetSummaryForStream)
+		// 商品搜索接口
+		publicApi.Get("/product/search", handlerMap.ProductHandler.SearchProducts)
+		// 友链申请接口
+		publicApi.Post("/flink-application/create", handlerMap.FlinkApplicationHandler.CreateFlinkApplication)
+		// 插件注册接口，仅在debug模式下生效，不需要认证
+		publicApi.Post("/plugin/register", handlerMap.PluginHandler.RegisterPlugin)
+		// 插件心跳接口，仅在debug模式下生效，不需要认证
+		publicApi.Post("/plugin/heartbeat", handlerMap.PluginHandler.HeartbeatPlugin)
+	}
+}
+
 func Initialize(router *fiber.App, handlerMap handlers.HandlerMap, dbClient *ent.Client) {
 	router.Use(middleware.Security)
 	router.Get("/api/preinit", handlerMap.InitializeHandler.PreInit)
@@ -320,38 +378,23 @@ func Initialize(router *fiber.App, handlerMap handlers.HandlerMap, dbClient *ent
 
 	api := router.Group("/api")
 	{
+		initPublicRouter(api, handlerMap)
 		apiV1 := api.Group("/v1")
 		{
-			apiV1.Get("/visit", handlerMap.VisitHandler.HandleVisitor)
+
+			// 路由列表接口
 			apiV1.Get("/routes", handlerMap.RouteHandler.GetRoutes)
-
 			apiV1.Get("/api-interface/page", handlerMap.ApiInterfaceHandler.ListApiRoutesPage)
-
 			apiV1.Get("/settings", handlerMap.SettingHandler.GetSettings)
-			apiV1.All("/twikoo", handlerMap.CommentHandler.HandleTwikoo).Name("twikoo")
-			apiV1.Get("/comment/recent", handlerMap.CommentHandler.RecentComment).Name("recentComment")
-			apiV1.Get("/flink/random", handlerMap.FlinkHandler.RandomFlink).Name("randomFlink")
-			apiV1.Get("/posts/:id/summary/stream", handlerMap.PostHandler.GetSummaryForStream).Name("postSummaryStream")
-
-			apiV1.Get("/post/search", handlerMap.PostHandler.SearchPosts).Name("postSearch")
-			apiV1.Get("/user/search", handlerMap.UserHandler.SearchUsers).Name("userSearch")
-			apiV1.Get("/product/search", handlerMap.ProductHandler.SearchProducts).Name("productSearch")
-
-			apiV1.Post("/flink-application/create", handlerMap.FlinkApplicationHandler.CreateFlinkApplication).Name("flinkApplicationCreate")
-
-			// 插件注册接口，仅在debug模式下生效，不需要认证
-			apiV1.Post("/plugin/register", handlerMap.PluginHandler.RegisterPlugin).Name("pluginRegister")
-			// 插件心跳接口，仅在debug模式下生效，不需要认证
-			apiV1.Post("/plugin/heartbeat", handlerMap.PluginHandler.HeartbeatPlugin).Name("pluginHeartbeat")
 
 			apiV1.Use(middleware.FlexibleAuth(dbClient))
 
 			// 首页统计信息接口
-			apiV1.Get("/common/statistic", handlerMap.CommonHandler.GetHomeStatistics).Name("homeStatistic")
+			apiV1.Get("/common/statistic", handlerMap.CommonHandler.GetHomeStatistics)
 
-			apiV1.Get("/user/personal-access-token/list", handlerMap.UserHandler.GetPersonalAccessTokenList).Name("patList")
-			apiV1.Get("/user/personal-access-token/query/:id", handlerMap.UserHandler.GetPersonalAccessToken).Name("patInfo")
-			apiV1.Post("/user/personal-access-token/create", handlerMap.UserHandler.CreatePat).Name("patCreate")
+			apiV1.Get("/user/personal-access-token/list", handlerMap.UserHandler.GetPersonalAccessTokenList)
+			apiV1.Get("/user/personal-access-token/query/:id", handlerMap.UserHandler.GetPersonalAccessToken)
+			apiV1.Post("/user/personal-access-token/create", handlerMap.UserHandler.CreatePat)
 
 			initContentRouter(apiV1, handlerMap)
 			initInfraRouter(apiV1, handlerMap)

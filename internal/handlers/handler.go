@@ -31,6 +31,7 @@ import (
 	payorder_handler "github.com/shuTwT/hoshikuzu/internal/handlers/mall/payorder"
 	product_handler "github.com/shuTwT/hoshikuzu/internal/handlers/mall/product"
 	wallet_handler "github.com/shuTwT/hoshikuzu/internal/handlers/mall/wallet"
+	public_handler "github.com/shuTwT/hoshikuzu/internal/handlers/public"
 	apiinterface_handler "github.com/shuTwT/hoshikuzu/internal/handlers/system/apiinterface"
 	auth_handler "github.com/shuTwT/hoshikuzu/internal/handlers/system/auth"
 	common_handler "github.com/shuTwT/hoshikuzu/internal/handlers/system/common"
@@ -82,6 +83,7 @@ type HandlerMap struct {
 	StorageStrategyHandler  storagestrategy.StorageStrategyHandler
 	VisitHandler            visit_handler.VisitHandler
 	WalletHandler           wallet_handler.WalletHandler
+	PublicHandler           public_handler.PublicHandler
 }
 
 func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
@@ -123,6 +125,7 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 	pluginHandler := plugin_handler.NewPluginHandlerImpl(serviceMap.PluginService)
 	scheduleJobHandler := schedulejob_handler.NewScheduleJobHandlerImpl(serviceMap.ScheduleJobService)
 	themeHandler := theme_handler.NewThemeHandlerImpl(serviceMap.ThemeService)
+	publicHandler := public_handler.NewPublicHandlerImpl()
 
 	handlerMap := HandlerMap{
 		AlbumHandler:            albumHandler,
@@ -163,6 +166,7 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 		VisitHandler:            visitHandler,
 		WalletHandler:           walletHandler,
 		ThemeHandler:            themeHandler,
+		PublicHandler:           publicHandler,
 	}
 
 	return handlerMap
