@@ -13,12 +13,62 @@ import (
 	"github.com/shuTwT/hoshikuzu/internal/router"
 	"github.com/shuTwT/hoshikuzu/pkg"
 	"github.com/shuTwT/hoshikuzu/pkg/config"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/swagger"
 )
+
+type (
+	User struct {
+		Name string `validate:"required,min=5,max=20"` // Required field, min 5 char long max 20
+		Age  int    `validate:"required,teener"`       // Required field, and client needs to implement our 'teener' tag format which we'll see later
+	}
+
+	ErrorResponse struct {
+		Error       bool
+		FailedField string
+		Tag         string
+		Value       interface{}
+	}
+
+	XValidator struct {
+		validator *validator.Validate
+	}
+
+	GlobalErrorHandlerResp struct {
+		Success bool   `json:"success"`
+		Message string `json:"message"`
+	}
+)
+
+// This is the validator instance
+// for more information see: https://github.com/go-playground/validator
+var validate = validator.New()
+
+func (v XValidator) Validate(data interface{}) []ErrorResponse {
+	validationErrors := []ErrorResponse{}
+
+	errs := validate.Struct(data)
+	if errs != nil {
+		for _, err := range errs.(validator.ValidationErrors) {
+			// In this case data object is actually holding the User struct
+			var elem ErrorResponse
+
+			elem.FailedField = err.Field() // Export struct field name
+			elem.Tag = err.Tag()           // Export struct tag
+			elem.Value = err.Value()       // Export field value
+			elem.Error = true
+
+			validationErrors = append(validationErrors, elem)
+		}
+	}
+
+	return validationErrors
+}
 
 func InitializeApp(assetsRes embed.FS, frontendRes embed.FS) (*fiber.App, func()) {
 	config.Init()
@@ -65,12 +115,23 @@ func InitializeApp(assetsRes embed.FS, frontendRes embed.FS) (*fiber.App, func()
 		}
 	}
 
+	// myValidator := &XValidator{
+	// 	validator: validate,
+	// }
+
 	app := fiber.New(fiber.Config{
 		AppName:       "Fiber HTML Template Demo",
 		Prefork:       false,   // 启用多进程（Prefork 模式）
 		CaseSensitive: true,    // 路由大小写敏感
 		StrictRouting: true,    // 严格匹配带 / 和不带 / 的路由
 		ServerHeader:  "Fiber", // 返回响应头中的 Server 字段
+		// Global custom error handler
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			return c.Status(fiber.StatusBadRequest).JSON(model.HttpError{
+				Code: fiber.ErrBadRequest.Code,
+				Msg:  err.Error(),
+			})
+		},
 	})
 
 	if config.GetBool(config.SWAGGER_ENABLE) {

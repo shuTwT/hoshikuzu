@@ -10,6 +10,8 @@ import {
   type VisitLogResponse,
 } from '@/api/infra/visitLog'
 import { addDialog } from '@/components/dialog'
+import LogDetail from './logDetail.vue'
+import dayjs from 'dayjs'
 
 const message = useMessage()
 const dialog = useDialog()
@@ -94,6 +96,9 @@ const columns: DataTableColumns<VisitLogResponse> = [
     title: '访问时间',
     key: 'created_at',
     width: 180,
+    render(row){
+      return dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss')
+    }
   },
   {
     title: '操作',
@@ -151,45 +156,7 @@ const columns: DataTableColumns<VisitLogResponse> = [
 const openDetailDialog = (row: VisitLogResponse) => {
   addDialog({
     title: '访问日志详情',
-    contentRenderer: () =>
-      h('div', { style: { padding: '20px' } }, [
-        h('div', { style: { marginBottom: '12px' } }, [
-          h('span', { style: { fontWeight: 'bold', width: '100px', display: 'inline-block' } }, '编号：'),
-          h('span', row.id),
-        ]),
-        h('div', { style: { marginBottom: '12px' } }, [
-          h('span', { style: { fontWeight: 'bold', width: '100px', display: 'inline-block' } }, '访问IP：'),
-          h('span', row.ip),
-        ]),
-        h('div', { style: { marginBottom: '12px' } }, [
-          h('span', { style: { fontWeight: 'bold', width: '100px', display: 'inline-block' } }, '访问路径：'),
-          h('span', row.path),
-        ]),
-        h('div', { style: { marginBottom: '12px' } }, [
-          h('span', { style: { fontWeight: 'bold', width: '100px', display: 'inline-block' } }, '操作系统：'),
-          h('span', row.os || '-'),
-        ]),
-        h('div', { style: { marginBottom: '12px' } }, [
-          h('span', { style: { fontWeight: 'bold', width: '100px', display: 'inline-block' } }, '浏览器：'),
-          h('span', row.browser || '-'),
-        ]),
-        h('div', { style: { marginBottom: '12px' } }, [
-          h('span', { style: { fontWeight: 'bold', width: '100px', display: 'inline-block' } }, '设备：'),
-          h('span', row.device || '-'),
-        ]),
-        h('div', { style: { marginBottom: '12px' } }, [
-          h('span', { style: { fontWeight: 'bold', width: '100px', display: 'inline-block' } }, '用户代理：'),
-          h('span', { style: { wordBreak: 'break-all' } }, row.user_agent || '-'),
-        ]),
-        h('div', { style: { marginBottom: '12px' } }, [
-          h('span', { style: { fontWeight: 'bold', width: '100px', display: 'inline-block' } }, '创建时间：'),
-          h('span', row.created_at),
-        ]),
-        h('div', { style: { marginBottom: '12px' } }, [
-          h('span', { style: { fontWeight: 'bold', width: '100px', display: 'inline-block' } }, '更新时间：'),
-          h('span', row.updated_at),
-        ]),
-      ]),
+    contentRenderer: () => h(LogDetail, { data: row }),
   })
 }
 
@@ -198,7 +165,7 @@ const onSearch = async () => {
   try {
     const res = await getVisitLogPage({
       page: pagination.page,
-      size: pagination.pageSize,
+      page_size: pagination.pageSize,
       ip: searchParams.ip,
       path: searchParams.path,
     })

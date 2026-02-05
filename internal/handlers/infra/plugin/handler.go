@@ -314,8 +314,8 @@ func (h *PluginHandlerImpl) buildPluginResp(p *ent.Plugin) *model.PluginResp {
 
 	return &model.PluginResp{
 		ID:               p.ID,
-		CreatedAt:        p.CreatedAt,
-		UpdatedAt:        p.UpdatedAt,
+		CreatedAt:        (model.LocalTime)(p.CreatedAt),
+		UpdatedAt:        (model.LocalTime)(p.UpdatedAt),
 		Key:              p.Key,
 		Name:             p.Name,
 		Version:          p.Version,
@@ -330,7 +330,7 @@ func (h *PluginHandlerImpl) buildPluginResp(p *ent.Plugin) *model.PluginResp {
 		AutoStart:        p.AutoStart,
 		Status:           string(p.Status),
 		LastError:        p.LastError,
-		LastStartedAt:    lastStartedAt,
-		LastStoppedAt:    lastStoppedAt,
+		LastStartedAt:    (*model.LocalTime)(lastStartedAt),
+		LastStoppedAt:    (*model.LocalTime)(lastStoppedAt),
 	}
 }

@@ -3,7 +3,6 @@ package visit
 import (
 	"strconv"
 
-	"github.com/shuTwT/hoshikuzu/ent"
 	"github.com/shuTwT/hoshikuzu/internal/services/infra/visit"
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
@@ -71,9 +70,22 @@ func (h *VisitHandlerImpl) ListVisitLogPage(c *fiber.Ctx) error {
 			err.Error(),
 		))
 	}
-	pageResult := model.PageResult[*ent.VisitLog]{
+	visitLogResps := make([]*model.VisitLogResp, 0, len(visitLogs))
+	for _, visitLog := range visitLogs {
+		visitLogResps = append(visitLogResps, &model.VisitLogResp{
+			ID:        visitLog.ID,
+			CreatedAt: model.LocalTime(visitLog.CreatedAt),
+			IP:        visitLog.IP,
+			UserAgent: visitLog.UserAgent,
+			Path:      visitLog.Path,
+			Os:        visitLog.Os,
+			Browser:   visitLog.Browser,
+			Device:    visitLog.Device,
+		})
+	}
+	pageResult := model.PageResult[*model.VisitLogResp]{
 		Total:   int64(count),
-		Records: visitLogs,
+		Records: visitLogResps,
 	}
 	return c.JSON(model.NewSuccess("success", pageResult))
 }

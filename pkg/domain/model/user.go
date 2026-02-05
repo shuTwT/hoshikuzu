@@ -4,8 +4,6 @@
 package model
 
 import (
-	"time"
-
 	"github.com/shuTwT/hoshikuzu/ent"
 )
 
@@ -32,7 +30,7 @@ type UserUpdateReq struct {
 
 type UserResp struct {
 	ID                  int        `json:"id"`
-	CreatedAt           *time.Time `json:"created_at"`
+	CreatedAt           *LocalTime `json:"created_at"`
 	Email               string     `json:"email"`
 	EmailVerified       bool       `json:"email_verified"`
 	Name                string     `json:"name"`

@@ -117,7 +117,7 @@ const columns: DataTableColumns<any> = [
 
 const getMemberLevels = async () => {
   try {
-    const res = await memberLevelApi.getMemberLevelPage({ pageNum: 1, pageSize: 100 })
+    const res = await memberLevelApi.getMemberLevelPage({ page: 1, page_size: 100 })
     const levels = res.data.records || []
     const map: Record<number, any> = {}
     levels.forEach((level: any) => {
@@ -132,8 +132,8 @@ const getMemberLevels = async () => {
 const onSearch = () => {
   loading.value = true
   memberApi.getMemberPage({
-    pageNum: pagination.page,
-    pageSize: pagination.pageSize,
+    page: pagination.page,
+    page_size: pagination.pageSize,
   }).then(res => {
     dataList.value = res.data.records || []
     pagination.total = res.data.total || 0

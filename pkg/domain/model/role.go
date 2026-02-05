@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 // RoleCreateReq represents the request body for creating a role.
 
 type RoleCreateReq struct {
@@ -24,7 +22,7 @@ type RoleUpdateReq struct {
 
 type RoleResp struct {
 	ID          int       `json:"id"`
-	CreatedAt   time.Time `json:"created_at"`
+	CreatedAt   LocalTime `json:"created_at"`
 	Name        string    `json:"name"`
 	Code        string    `json:"code"`
 	Description string    `json:"description,omitempty"`

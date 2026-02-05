@@ -180,7 +180,7 @@ const loadData = async () => {
   try {
     const params: any = {
       page: pagination.page,
-      size: pagination.pageSize,
+      page_size: pagination.pageSize,
     }
     if (statusFilter.value !== null) {
       params.status = statusFilter.value

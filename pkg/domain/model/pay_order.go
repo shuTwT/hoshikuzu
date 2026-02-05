@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 // PayOrderCreateReq represents the request body for creating a payment order.
 type PayOrderCreateReq struct {
 	ChannelType string `json:"channel_id" validate:"required"`
@@ -39,7 +37,7 @@ type PayOrderUpdateReq struct {
 // PayOrderResp represents the response body for a payment order.
 type PayOrderResp struct {
 	ID         int       `json:"id"`
-	CreatedAt  time.Time `json:"created_at"`
+	CreatedAt  LocalTime `json:"created_at"`
 	ChannelID  string    `json:"channel_id"`
 	OrderID    string    `json:"order_id"`
 	OutTradeNo string    `json:"out_trade_no"`

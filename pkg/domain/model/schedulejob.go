@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 type CreateScheduleJobReq struct {
 	Name                string  `json:"name" validate:"required"`
 	Type                string  `json:"type" validate:"required,oneof=cron interval"`
@@ -26,15 +24,15 @@ type UpdateScheduleJobReq struct {
 
 type ScheduleJobResp struct {
 	ID                  int       `json:"id"`
-	CreatedAt           time.Time `json:"created_at"`
-	UpdatedAt           time.Time `json:"updated_at"`
+	CreatedAt           LocalTime `json:"created_at"`
+	UpdatedAt           LocalTime `json:"updated_at"`
 	Name                string    `json:"name"`
 	Type                string    `json:"type"`
 	Expression          string    `json:"expression"`
 	Description         string    `json:"description"`
 	Enabled             bool      `json:"enabled"`
-	NextRunTime         time.Time `json:"next_run_time"`
-	LastRunTime         time.Time `json:"last_run_time"`
+	NextRunTime         LocalTime `json:"next_run_time"`
+	LastRunTime         LocalTime `json:"last_run_time"`
 	JobName             string    `json:"job_name"`
 	MaxRetries          int       `json:"max_retries"`
 	FailureNotification bool      `json:"failure_notification"`

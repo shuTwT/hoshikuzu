@@ -27,7 +27,7 @@ export interface Theme {
 
 export interface ThemePageParams {
   page: number
-  size: number
+  page_size: number
 }
 
 export interface CreateThemeParams {

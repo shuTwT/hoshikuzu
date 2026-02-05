@@ -129,8 +129,8 @@ const columns: DataTableColumns<any> = [
 const onSearch = () => {
   loading.value = true
   tagApi.getTagPage({
-    pageNum: pagination.page,
-    pageSize: pagination.pageSize,
+    page: pagination.page,
+    page_size: pagination.pageSize,
   }).then(res => {
     dataList.value = res.data.records || []
     pagination.total = res.data.total || 0

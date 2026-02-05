@@ -73,8 +73,8 @@ func (h *FlinkApplicationHandlerImpl) ListFlinkApplicationPage(c *fiber.Ctx) err
 	for _, application := range applications {
 		records = append(records, model.FlinkApplicationResp{
 			ID:                 application.ID,
-			CreatedAt:          &application.CreatedAt,
-			UpdatedAt:          &application.UpdatedAt,
+			CreatedAt:          (model.LocalTime)(application.CreatedAt),
+			UpdatedAt:          (model.LocalTime)(application.UpdatedAt),
 			WebsiteURL:         application.WebsiteURL,
 			ApplicationType:    application.ApplicationType,
 			WebsiteName:        application.WebsiteName,

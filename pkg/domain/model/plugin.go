@@ -24,8 +24,8 @@ type CreatePluginReq struct {
 
 type PluginResp struct {
 	ID               int        `json:"id"`
-	CreatedAt        time.Time  `json:"created_at"`
-	UpdatedAt        time.Time  `json:"updated_at"`
+	CreatedAt        LocalTime  `json:"created_at"`
+	UpdatedAt        LocalTime  `json:"updated_at"`
 	Key              string     `json:"key"`
 	Name             string     `json:"name"`
 	Version          string     `json:"version"`
@@ -40,8 +40,8 @@ type PluginResp struct {
 	AutoStart        bool       `json:"auto_start"`
 	Status           string     `json:"status"`
 	LastError        string     `json:"last_error"`
-	LastStartedAt    *time.Time `json:"last_started_at"`
-	LastStoppedAt    *time.Time `json:"last_stopped_at"`
+	LastStartedAt    *LocalTime `json:"last_started_at"`
+	LastStoppedAt    *LocalTime `json:"last_stopped_at"`
 }
 
 // PluginRegisterReq 插件注册请求结构体

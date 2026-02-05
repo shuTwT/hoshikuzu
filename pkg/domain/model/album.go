@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 // AlbumCreateReq represents the request body for creating an album.
 
 type AlbumCreateReq struct {
@@ -22,7 +20,7 @@ type AlbumUpdateReq struct {
 
 type AlbumResp struct {
 	ID          int       `json:"id"`
-	CreatedAt   time.Time `json:"created_at"`
+	CreatedAt   LocalTime `json:"created_at"`
 	Name        string    `json:"name"`
 	Description string    `json:"description,omitempty"`
 	Sort        int       `json:"sort"`

@@ -91,7 +91,7 @@ const fetchEssays = async () => {
   try {
     const res = await essayApi.getEssayPage({
       page: pagination.value.page,
-      size: pagination.value.pageSize,
+      page_size: pagination.value.pageSize,
     })
     
     // 为每个说说添加模拟用户信息

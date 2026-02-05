@@ -14,7 +14,7 @@ export interface License {
 
 export interface LicensePageParams {
   page: number
-  size: number
+  page_size: number
 }
 
 export interface LicenseCreateReq {

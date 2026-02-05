@@ -24,10 +24,10 @@ type Oauth2CodeUpdateReq struct {
 
 type Oauth2CodeResp struct {
 	ID          int       `json:"id"`
-	CreatedAt   time.Time `json:"created_at"`
+	CreatedAt   LocalTime `json:"created_at"`
 	UserID      int       `json:"user_id"`
 	Code        string    `json:"code"`
-	ExpireAt    time.Time `json:"expire_at"`
+	ExpireAt    LocalTime `json:"expire_at"`
 	ClientID    string    `json:"client_id"`
 	RedirectURI string    `json:"redirect_uri"`
 	Scope       string    `json:"scope"`

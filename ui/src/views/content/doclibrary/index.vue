@@ -148,7 +148,7 @@ const fetchDocLibraries = async () => {
   try {
     const res = await doclibraryApi.getDocLibraryPage({
       page: pagination.value.page,
-      size: pagination.value.pageSize,
+      page_size: pagination.value.pageSize,
     })
     data.value = res.data.records
     pagination.value.total = res.data.total

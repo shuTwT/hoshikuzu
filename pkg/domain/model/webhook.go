@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 // WebHookCreateReq represents the request body for creating a webhook.
 type WebHookCreateReq struct {
 	Name  string `json:"name" validate:"required"`
@@ -19,7 +17,7 @@ type WebHookUpdateReq struct {
 // WebHookResp represents the response body for a webhook.
 type WebHookResp struct {
 	ID        int       `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt LocalTime `json:"created_at"`
 	Name      string    `json:"name"`
 	URL       string    `json:"url"`
 	Event     string    `json:"event"`

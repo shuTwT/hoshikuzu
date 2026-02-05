@@ -23,10 +23,10 @@ type Oauth2RefreshTokenUpdateReq struct {
 
 type Oauth2RefreshTokenResp struct {
 	ID           int       `json:"id"`
-	CreatedAt    time.Time `json:"created_at"`
+	CreatedAt    LocalTime `json:"created_at"`
 	UserID       int       `json:"user_id"`
 	RefreshToken string    `json:"refresh_token"`
 	ClientID     string    `json:"client_id"`
 	Scope        string    `json:"scope"`
-	ExpireAt     time.Time `json:"expire_at"`
+	ExpireAt     LocalTime `json:"expire_at"`
 }

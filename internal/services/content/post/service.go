@@ -346,7 +346,7 @@ func (s *PostServiceImpl) SearchPosts(c context.Context, req model.PostSearchReq
 				Slug:        p.Slug,
 				Cover:       p.Cover,
 				Author:      p.Author,
-				PublishedAt: p.PublishedAt,
+				PublishedAt: (*model.LocalTime)(p.PublishedAt),
 				ViewCount:   p.ViewCount,
 				Relevance:   relevance,
 			})
@@ -356,7 +356,7 @@ func (s *PostServiceImpl) SearchPosts(c context.Context, req model.PostSearchReq
 	sort.Slice(results, func(i, j int) bool {
 		if results[i].Relevance == results[j].Relevance {
 			if results[i].PublishedAt != nil && results[j].PublishedAt != nil {
-				return results[i].PublishedAt.After(*results[j].PublishedAt)
+				return results[i].PublishedAt.Time().After(results[j].PublishedAt.Time())
 			}
 			return results[i].ID > results[j].ID
 		}

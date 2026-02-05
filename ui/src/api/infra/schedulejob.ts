@@ -34,7 +34,7 @@ export interface UpdateScheduleJobParams extends Partial<CreateScheduleJobParams
 
 export interface ScheduleJobPageParams {
   page: number
-  size: number
+  page_size: number
 }
 
 export const getScheduleJobPage = (params: ScheduleJobPageParams) => {

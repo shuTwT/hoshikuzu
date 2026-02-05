@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 // CommentCreateReq represents the request body for creating a comment.
 
 type CommentCreateReq struct {
@@ -24,7 +22,7 @@ type CommentUpdateReq struct {
 
 type CommentResp struct {
 	ID         int       `json:"id"`
-	CreatedAt  time.Time `json:"created_at"`
+	CreatedAt  LocalTime `json:"created_at"`
 	PostID     int       `json:"post_id"`
 	PageID     int       `json:"page_id"`
 	Content    string    `json:"content"`

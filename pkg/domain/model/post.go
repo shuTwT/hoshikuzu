@@ -1,8 +1,6 @@
 package model
 
 import (
-	"time"
-
 	"github.com/shuTwT/hoshikuzu/ent"
 )
 
@@ -80,7 +78,7 @@ type PostUpdateReq struct {
 // PostResp represents the response body for a post.
 type PostResp struct {
 	ID                    int             `json:"id"`                       //文章ID
-	CreatedAt             time.Time       `json:"created_at"`               //创建时间
+	CreatedAt             LocalTime       `json:"created_at"`               //创建时间
 	Title                 string          `json:"title"`                    //文章标题
 	Slug                  *string         `json:"slug"`                     //文章别名
 	Content               string          `json:"content"`                  //文章内容
@@ -95,7 +93,7 @@ type PostResp struct {
 	IsVisibleAfterComment bool            `json:"is_visible_after_comment"` //是否评论后可见
 	IsVisibleAfterPay     bool            `json:"is_visible_after_pay"`     //是否支付后可见
 	Price                 float32         `json:"price"`                    //文章价格
-	PublishedAt           *time.Time      `json:"published_at,omitempty"`   //发布时间
+	PublishedAt           *LocalTime      `json:"published_at,omitempty"`   //发布时间
 	ViewCount             int             `json:"view_count"`               //浏览次数
 	CommentCount          int             `json:"comment_count"`            //评论次数
 	Cover                 string          `json:"cover"`                    //文章封面
@@ -132,7 +130,7 @@ type PostSearchResp struct {
 	Slug        *string    `json:"slug"`
 	Cover       string     `json:"cover"`
 	Author      string     `json:"author"`
-	PublishedAt *time.Time `json:"published_at"`
+	PublishedAt *LocalTime `json:"published_at"`
 	ViewCount   int        `json:"view_count"`
 	Relevance   float64    `json:"relevance"`
 }

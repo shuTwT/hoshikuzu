@@ -64,8 +64,8 @@ func (h *FlinkHandlerImpl) ListFlink(c *fiber.Ctx) error {
 		}
 		result = append(result, model.FlinkResp{
 			ID:                 flink.ID,
-			CreatedAt:          &flink.CreatedAt,
-			UpdatedAt:          &flink.UpdatedAt,
+			CreatedAt:          (model.LocalTime)(flink.CreatedAt),
+			UpdatedAt:          (model.LocalTime)(flink.UpdatedAt),
 			Name:               flink.Name,
 			URL:                flink.URL,
 			AvatarURL:          flink.AvatarURL,
@@ -107,8 +107,8 @@ func (h *FlinkHandlerImpl) ListFlinkPage(c *fiber.Ctx) error {
 	for _, flink := range flinks {
 		records = append(records, model.FlinkResp{
 			ID:                 flink.ID,
-			CreatedAt:          &flink.CreatedAt,
-			UpdatedAt:          &flink.UpdatedAt,
+			CreatedAt:          (model.LocalTime)(flink.CreatedAt),
+			UpdatedAt:          (model.LocalTime)(flink.UpdatedAt),
 			Name:               flink.Name,
 			URL:                flink.URL,
 			AvatarURL:          flink.AvatarURL,

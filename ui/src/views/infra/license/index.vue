@@ -150,7 +150,7 @@ const columns: DataTableColumns<License> = [
 const onSearch = async () => {
   loading.value = true
   try {
-    const res = await getLicensePage({ page: pagination.page, size: pagination.pageSize })
+    const res = await getLicensePage({ page: pagination.page, page_size: pagination.pageSize })
     data.value = res.data.records
     pagination.total = res.data.total
   } catch (error) {

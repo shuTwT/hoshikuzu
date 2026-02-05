@@ -26,11 +26,11 @@ type Oauth2AccessTokenUpdateReq struct {
 
 type Oauth2AccessTokenResp struct {
 	ID           int       `json:"id"`
-	CreatedAt    time.Time `json:"created_at"`
+	CreatedAt    LocalTime `json:"created_at"`
 	UserID       int       `json:"user_id"`
 	AccessToken  string    `json:"access_token"`
 	RefreshToken string    `json:"refresh_token"`
 	ClientID     string    `json:"client_id"`
 	Scope        string    `json:"scope"`
-	ExpireAt     time.Time `json:"expire_at"`
+	ExpireAt     LocalTime `json:"expire_at"`
 }

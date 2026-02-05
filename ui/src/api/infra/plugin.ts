@@ -25,7 +25,7 @@ export interface Plugin {
 
 export interface PluginPageParams {
   page: number
-  size: number
+  page_size: number
 }
 
 export const getPluginPage = (params: PluginPageParams) => {

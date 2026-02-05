@@ -14,6 +14,7 @@ import {
 } from '@/api/infra/schedulejob'
 import { addDialog } from '@/components/dialog'
 import FormComponent from './form.vue'
+import dayjs from 'dayjs'
 
 const dialog = useDialog()
 
@@ -118,7 +119,7 @@ const columns: DataTableColumns<ScheduleJob> = [
       tooltip: true,
     },
     render(row) {
-      return row.next_run_time || '-'
+      return row.next_run_time ? dayjs(row.next_run_time).format('YYYY-MM-DD HH:mm:ss') : '-'
     },
   },
   {
@@ -128,7 +129,7 @@ const columns: DataTableColumns<ScheduleJob> = [
       tooltip: true,
     },
     render(row) {
-      return row.last_run_time || '-'
+      return row.last_run_time ? dayjs(row.last_run_time).format('YYYY-MM-DD HH:mm:ss') : '-'
     },
   },
   {
@@ -137,6 +138,9 @@ const columns: DataTableColumns<ScheduleJob> = [
     ellipsis: {
       tooltip: true,
     },
+    render(row){
+      return dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss')
+    }
   },
   {
     title: '操作',
@@ -215,7 +219,7 @@ const onSearch = () => {
   loading.value = true
   getScheduleJobPage({
     page: pagination.page,
-    size: pagination.pageSize,
+    page_size: pagination.pageSize,
   }).then(res => {
     if (res.code === 200) {
       data.value = res.data.records || []

@@ -159,7 +159,7 @@ const onSearch = () => {
   loading.value = true
   themeApi.getThemePage({
     page: pagination.page,
-    size: pagination.pageSize,
+    page_size: pagination.pageSize,
   }).then(res => {
     dataList.value = res.data.records || []
     pagination.total = res.data.total || 0

@@ -18,12 +18,12 @@ type LicenseUpdateReq struct {
 
 type LicenseResp struct {
 	ID           int       `json:"id"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
+	CreatedAt    LocalTime `json:"created_at"`
+	UpdatedAt    LocalTime `json:"updated_at"`
 	Domain       string    `json:"domain"`
 	LicenseKey   string    `json:"license_key"`
 	CustomerName string    `json:"customer_name"`
-	ExpireDate   time.Time `json:"expire_date"`
+	ExpireDate   LocalTime `json:"expire_date"`
 	Status       int       `json:"status"`
 }
 

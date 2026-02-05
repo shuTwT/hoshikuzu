@@ -129,7 +129,7 @@ const onSearch = async () => {
   loading.value = true
   const res = await fileApi.getFilePage({
     page: pagination.page,
-    size: pagination.pageSize,
+    page_size: pagination.pageSize,
   })
   if (res.code === 200) {
     dataList.value = res.data.records || []

@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 type FlinkCreateReq struct {
 	// 名称
 	Name string `json:"name"`
@@ -50,9 +48,9 @@ type FlinkResp struct {
 	// ID of the ent.
 	ID int `json:"id"`
 	// CreatedAt holds the value of the "created_at" field.
-	CreatedAt *time.Time `json:"created_at"`
+	CreatedAt LocalTime `json:"created_at"`
 	// UpdatedAt holds the value of the "updated_at" field.
-	UpdatedAt *time.Time `json:"updated_at"`
+	UpdatedAt LocalTime `json:"updated_at"`
 	// 名称
 	Name string `json:"name"`
 	// 链接

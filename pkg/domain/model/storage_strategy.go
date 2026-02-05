@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 // StorageStrategyCreateReq represents the request body for creating a storage strategy.
 type StorageStrategyCreateReq struct {
 	Name      string `json:"name" validate:"required"`
@@ -35,7 +33,7 @@ type StorageStrategyUpdateReq struct {
 // StorageStrategyResp represents the response body for a storage strategy.
 type StorageStrategyResp struct {
 	ID        int       `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt LocalTime `json:"created_at"`
 	Name      string    `json:"name"`
 	Type      string    `json:"type"`
 	NodeID    string    `json:"node_id"`

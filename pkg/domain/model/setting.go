@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 // SettingCreateReq represents the request body for creating a setting.
 type SettingCreateReq struct {
 	Key     string  `json:"key" validate:"required"`
@@ -18,7 +16,7 @@ type SettingUpdateReq struct {
 // SettingResp represents the response body for a setting.
 type SettingResp struct {
 	ID        int       `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt LocalTime `json:"created_at"`
 	Key       string    `json:"key"`
 	Value     string    `json:"value"`
 	Comment   *string   `json:"comment,omitempty"`

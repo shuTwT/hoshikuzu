@@ -235,8 +235,8 @@ func (h *ThemeHandlerImpl) DisableTheme(c *fiber.Ctx) error {
 func (h *ThemeHandlerImpl) buildThemeResp(t *ent.Theme) *model.ThemeResp {
 	return &model.ThemeResp{
 		ID:            t.ID,
-		CreatedAt:     t.CreatedAt,
-		UpdatedAt:     t.UpdatedAt,
+		CreatedAt:     (model.LocalTime)(t.CreatedAt),
+		UpdatedAt:     (model.LocalTime)(t.UpdatedAt),
 		Type:          t.Type,
 		Name:          t.Name,
 		DisplayName:   t.DisplayName,

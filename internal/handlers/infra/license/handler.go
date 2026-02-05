@@ -54,12 +54,12 @@ func (h *LicenseHandlerImpl) ListLicensePage(c *fiber.Ctx) error {
 	for _, licenseEntity := range licenses {
 		licenseResps = append(licenseResps, &model.LicenseResp{
 			ID:           licenseEntity.ID,
-			CreatedAt:    licenseEntity.CreatedAt,
-			UpdatedAt:    licenseEntity.UpdatedAt,
+			CreatedAt:    (model.LocalTime)(licenseEntity.CreatedAt),
+			UpdatedAt:    (model.LocalTime)(licenseEntity.UpdatedAt),
 			Domain:       licenseEntity.Domain,
 			LicenseKey:   licenseEntity.LicenseKey,
 			CustomerName: licenseEntity.CustomerName,
-			ExpireDate:   licenseEntity.ExpireDate,
+			ExpireDate:   (model.LocalTime)(licenseEntity.ExpireDate),
 			Status:       licenseEntity.Status,
 		})
 	}
@@ -95,12 +95,12 @@ func (h *LicenseHandlerImpl) QueryLicense(c *fiber.Ctx) error {
 
 	licenseResp := &model.LicenseResp{
 		ID:           licenseEntity.ID,
-		CreatedAt:    licenseEntity.CreatedAt,
-		UpdatedAt:    licenseEntity.UpdatedAt,
+		CreatedAt:    (model.LocalTime)(licenseEntity.CreatedAt),
+		UpdatedAt:    (model.LocalTime)(licenseEntity.UpdatedAt),
 		Domain:       licenseEntity.Domain,
 		LicenseKey:   licenseEntity.LicenseKey,
 		CustomerName: licenseEntity.CustomerName,
-		ExpireDate:   licenseEntity.ExpireDate,
+		ExpireDate:   (model.LocalTime)(licenseEntity.ExpireDate),
 		Status:       licenseEntity.Status,
 	}
 	return c.JSON(model.NewSuccess("授权查询成功", licenseResp))
@@ -134,12 +134,12 @@ func (h *LicenseHandlerImpl) CreateLicense(c *fiber.Ctx) error {
 
 	licenseResp := &model.LicenseResp{
 		ID:           newLicense.ID,
-		CreatedAt:    newLicense.CreatedAt,
-		UpdatedAt:    newLicense.UpdatedAt,
+		CreatedAt:    (model.LocalTime)(newLicense.CreatedAt),
+		UpdatedAt:    (model.LocalTime)(newLicense.UpdatedAt),
 		Domain:       newLicense.Domain,
 		LicenseKey:   newLicense.LicenseKey,
 		CustomerName: newLicense.CustomerName,
-		ExpireDate:   newLicense.ExpireDate,
+		ExpireDate:   (model.LocalTime)(newLicense.ExpireDate),
 		Status:       newLicense.Status,
 	}
 	return c.JSON(model.NewSuccess("授权创建成功", licenseResp))
@@ -174,12 +174,12 @@ func (h *LicenseHandlerImpl) UpdateLicense(c *fiber.Ctx) error {
 
 	licenseResp := &model.LicenseResp{
 		ID:           updatedLicense.ID,
-		CreatedAt:    updatedLicense.CreatedAt,
-		UpdatedAt:    updatedLicense.UpdatedAt,
+		CreatedAt:    (model.LocalTime)(updatedLicense.CreatedAt),
+		UpdatedAt:    (model.LocalTime)(updatedLicense.UpdatedAt),
 		Domain:       updatedLicense.Domain,
 		LicenseKey:   updatedLicense.LicenseKey,
 		CustomerName: updatedLicense.CustomerName,
-		ExpireDate:   updatedLicense.ExpireDate,
+		ExpireDate:   (model.LocalTime)(updatedLicense.ExpireDate),
 		Status:       updatedLicense.Status,
 	}
 	return c.JSON(model.NewSuccess("授权更新成功", licenseResp))

@@ -75,7 +75,7 @@ func (h *PostHandlerImpl) ListPost(c *fiber.Ctx) error {
 			IsVisibleAfterComment: post.IsVisibleAfterComment,
 			IsVisibleAfterPay:     post.IsVisibleAfterPay,
 			Price:                 float32(post.Price) / 100,
-			PublishedAt:           post.PublishedAt,
+			PublishedAt:           (*model.LocalTime)(post.PublishedAt),
 			ViewCount:             post.ViewCount,
 			CommentCount:          post.CommentCount,
 			Cover:                 post.Cover,
@@ -83,7 +83,7 @@ func (h *PostHandlerImpl) ListPost(c *fiber.Ctx) error {
 			Copyright:             post.Copyright,
 			Author:                post.Author,
 			Summary:               post.Summary,
-			CreatedAt:             post.CreatedAt,
+			CreatedAt:             (model.LocalTime)(post.CreatedAt),
 			Categories:            post.Edges.Categories,
 			CategoryIds: func() []int {
 				ids := make([]int, len(post.Edges.Categories))
@@ -147,7 +147,7 @@ func (h *PostHandlerImpl) ListPostPage(c *fiber.Ctx) error {
 			IsVisibleAfterComment: post.IsVisibleAfterComment,
 			IsVisibleAfterPay:     post.IsVisibleAfterPay,
 			Price:                 float32(post.Price) / 100,
-			PublishedAt:           post.PublishedAt,
+			PublishedAt:           (*model.LocalTime)(post.PublishedAt),
 			ViewCount:             post.ViewCount,
 			CommentCount:          post.CommentCount,
 			Cover:                 post.Cover,
@@ -155,7 +155,7 @@ func (h *PostHandlerImpl) ListPostPage(c *fiber.Ctx) error {
 			Copyright:             post.Copyright,
 			Author:                post.Author,
 			Summary:               post.Summary,
-			CreatedAt:             post.CreatedAt,
+			CreatedAt:             (model.LocalTime)(post.CreatedAt),
 			Categories:            post.Edges.Categories,
 			CategoryIds: func() []int {
 				ids := make([]int, len(post.Edges.Categories))
@@ -337,7 +337,7 @@ func (h *PostHandlerImpl) QueryPost(c *fiber.Ctx) error {
 		IsVisibleAfterComment: post.IsVisibleAfterComment,
 		IsVisibleAfterPay:     post.IsVisibleAfterPay,
 		Price:                 float32(post.Price) / 100,
-		PublishedAt:           post.PublishedAt,
+		PublishedAt:           (*model.LocalTime)(post.PublishedAt),
 		ViewCount:             post.ViewCount,
 		CommentCount:          post.CommentCount,
 		Cover:                 post.Cover,
@@ -361,7 +361,7 @@ func (h *PostHandlerImpl) QueryPost(c *fiber.Ctx) error {
 			}
 			return ids
 		}(),
-		CreatedAt: post.CreatedAt,
+		CreatedAt: (model.LocalTime)(post.CreatedAt),
 	}
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
@@ -410,7 +410,7 @@ func (h *PostHandlerImpl) QueryPostBySlug(c *fiber.Ctx) error {
 		IsVisibleAfterComment: post.IsVisibleAfterComment,
 		IsVisibleAfterPay:     post.IsVisibleAfterPay,
 		Price:                 float32(post.Price) / 100,
-		PublishedAt:           post.PublishedAt,
+		PublishedAt:           (*model.LocalTime)(post.PublishedAt),
 		ViewCount:             post.ViewCount,
 		CommentCount:          post.CommentCount,
 		Cover:                 post.Cover,
@@ -434,7 +434,7 @@ func (h *PostHandlerImpl) QueryPostBySlug(c *fiber.Ctx) error {
 			}
 			return ids
 		}(),
-		CreatedAt: post.CreatedAt,
+		CreatedAt: (model.LocalTime)(post.CreatedAt),
 	}
 	return c.JSON(model.NewSuccess("success", postResp))
 }
