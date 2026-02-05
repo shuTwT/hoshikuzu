@@ -16,20 +16,21 @@ var configKeys = []string{
 }
 
 const (
-	DATABASE_TYPE         = "database.type"
-	DATABASE_URL          = "database.url"
-	SERVER_PORT           = "server.port"
-	SERVER_STAGE          = "server.stage"
-	SERVER_DEBUG          = "server.debug"
-	SWAGGER_ENABLE        = "swagger.enable"
-	AUTH_TOKEN_SECRET     = "auth.token_secret"
-	AUTH_PAT_SECRET       = "auth.pat_secret"
-	PAY_EPAY_ENABLE       = "pay.epay_enable"
-	PAY_EPAY_API_URL      = "pay.epay_api_url"
-	PAY_EPAY_MERCHANT_ID  = "pay.epay_merchant_id"
-	PAY_EPAY_MERCHANT_KEY = "pay.epay_merchant_key"
-	PAY_EPAY_NOTIFY_URL   = "pay.epay_notify_url"
-	PAY_EPAY_RETURN_URL   = "pay.epay_return_url"
+	DATABASE_TYPE          = "database.type"
+	DATABASE_URL           = "database.url"
+	SERVER_PORT            = "server.port"
+	SERVER_STAGE           = "server.stage"
+	SERVER_DEBUG           = "server.debug"
+	SERVER_TRUSTED_PROXIES = "server.trusted_proxies"
+	SWAGGER_ENABLE         = "swagger.enable"
+	AUTH_TOKEN_SECRET      = "auth.token_secret"
+	AUTH_PAT_SECRET        = "auth.pat_secret"
+	PAY_EPAY_ENABLE        = "pay.epay_enable"
+	PAY_EPAY_API_URL       = "pay.epay_api_url"
+	PAY_EPAY_MERCHANT_ID   = "pay.epay_merchant_id"
+	PAY_EPAY_MERCHANT_KEY  = "pay.epay_merchant_key"
+	PAY_EPAY_NOTIFY_URL    = "pay.epay_notify_url"
+	PAY_EPAY_RETURN_URL    = "pay.epay_return_url"
 	// Redis 相关
 	Redis_Enable   = "redis.enable"
 	REDIS_ADDR     = "redis.addr"
@@ -43,6 +44,7 @@ func Init() {
 	viper.SetDefault(SERVER_PORT, "8000")
 	viper.SetDefault(SERVER_STAGE, "dev")
 	viper.SetDefault(SERVER_DEBUG, false)
+	viper.SetDefault(SERVER_TRUSTED_PROXIES, []string{"127.0.0.1"})
 	viper.SetDefault(SWAGGER_ENABLE, true)
 	viper.SetDefault(AUTH_TOKEN_SECRET, "your-secret-key")
 	viper.SetDefault(AUTH_PAT_SECRET, "your-pat-secret")
@@ -125,4 +127,8 @@ func GetInt(key string) int {
 
 func GetBool(key string) bool {
 	return viper.GetBool(key)
+}
+
+func GetTrustedProxies() []string {
+	return viper.GetStringSlice(SERVER_TRUSTED_PROXIES)
 }

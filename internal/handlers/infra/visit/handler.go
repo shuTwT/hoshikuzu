@@ -36,11 +36,13 @@ func NewVisitHandlerImpl(visitService visit.VisitService) VisitHandler {
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/visit/handle [post]
 func (h *VisitHandlerImpl) HandleVisitor(c *fiber.Ctx) error {
+	ip := c.IP()
+	userAgent := c.Context().UserAgent()
 	var req model.VisitLogReq
 	if err := c.BodyParser(&req); err != nil {
 		return err
 	}
-	return h.visitService.CreateVisitLog(c.Context(), req)
+	return h.visitService.CreateVisitLog(c.Context(), ip, userAgent, req)
 }
 
 // @Summary 查询访客访问日志分页

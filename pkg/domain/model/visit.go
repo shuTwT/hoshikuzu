@@ -1,12 +1,12 @@
 package model
 
 type VisitLogReq struct {
-	IP        string `json:"ip"`
-	UserAgent string `json:"user_agent"`
-	Path      string `json:"path"`
-	OS        string `json:"os"`
-	Browser   string `json:"browser"`
-	Device    string `json:"device"`
+	Event     string `json:"event" validate:"required"`
+	Duration  int64  `json:"duration" validate:"required"`
+	PageTitle string `json:"page_title" validate:"required"`
+	Referer   string `json:"referer" validate:"required"`
+	UrlPath   string `json:"url_path" validate:"required"`
+	Source    string `json:"source" validate:"required"`
 }
 
 type VisitLogPageQuery struct {

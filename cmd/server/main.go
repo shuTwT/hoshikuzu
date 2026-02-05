@@ -132,6 +132,7 @@ func InitializeApp(assetsRes embed.FS, frontendRes embed.FS) (*fiber.App, func()
 				Msg:  err.Error(),
 			})
 		},
+		TrustedProxies: config.GetTrustedProxies(),
 	})
 
 	if config.GetBool(config.SWAGGER_ENABLE) {

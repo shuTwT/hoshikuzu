@@ -8,10 +8,11 @@ import (
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/mssola/user_agent"
 )
 
 type VisitService interface {
-	CreateVisitLog(ctx context.Context, req model.VisitLogReq) error
+	CreateVisitLog(ctx context.Context, ip string, userAgent []byte, req model.VisitLogReq) error
 	QueryVisitLogPage(c *fiber.Ctx, req model.VisitLogPageQuery) ([]*ent.VisitLog, int, error)
 	QueryVisitLog(c *fiber.Ctx, id int) (*ent.VisitLog, error)
 	DeleteVisitLog(c *fiber.Ctx, id int) error
@@ -26,14 +27,23 @@ func NewVisitServiceImpl(client *ent.Client) VisitService {
 	return &VisitServiceImpl{client: client}
 }
 
-func (s *VisitServiceImpl) CreateVisitLog(ctx context.Context, req model.VisitLogReq) error {
+func (s *VisitServiceImpl) CreateVisitLog(ctx context.Context, ip string, userAgent []byte, req model.VisitLogReq) error {
+	uaString := string(userAgent)
+	ua := user_agent.New(uaString)
+	browserName, browserVersion := ua.Browser()
+	var device string
+	if ua.Mobile() {
+		device = "Mobile"
+	} else {
+		device = "Desktop"
+	}
 	_, err := s.client.VisitLog.Create().
-		SetIP(req.IP).
-		SetUserAgent(req.UserAgent).
-		SetPath(req.Path).
-		SetOs(req.OS).
-		SetBrowser(req.Browser).
-		SetDevice(req.Device).
+		SetIP(ip).
+		SetUserAgent(uaString).
+		SetPath(req.UrlPath).
+		SetOs(ua.OS()).
+		SetBrowser(browserName + " " + browserVersion).
+		SetDevice(device).
 		Save(ctx)
 	if err != nil {
 		return err
