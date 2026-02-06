@@ -69,18 +69,23 @@ func (h *PluginHandlerImpl) CreatePlugin(c *fiber.Ctx) error {
 // @Produce json
 // @Param page query int false "页码" default(1)
 // @Param size query int false "每页数量" default(10)
+// @Param name query string false "插件名称"
+// @Param key query string false "插件标识"
+// @Param status query string false "状态"
+// @Param enabled query bool false "是否启用"
+// @Param auto_start query bool false "是否自动启动"
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.PluginResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/list [get]
 func (h *PluginHandlerImpl) ListPluginPage(c *fiber.Ctx) error {
-	var pageQuery model.PageQuery
-	if err := c.QueryParser(&pageQuery); err != nil {
+	var pageReq model.PluginPageReq
+	if err := c.QueryParser(&pageReq); err != nil {
 		slog.Error("Failed to parse query parameters", "error", err.Error())
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "查询参数解析失败"))
 	}
 
-	count, plugins, err := h.pluginService.ListPluginPage(c.Context(), pageQuery.Page, pageQuery.Size)
+	count, plugins, err := h.pluginService.ListPluginPageWithQuery(c.Context(), pageReq)
 	if err != nil {
 		slog.Error("Failed to list plugins", "error", err.Error())
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))

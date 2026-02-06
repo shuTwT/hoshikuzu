@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { h, ref, onMounted } from 'vue'
-import { NCard, NDataTable, NButton, NSpace, NSwitch, useMessage, NIcon, useDialog } from 'naive-ui'
-import { RefreshOutline,Pencil } from '@vicons/ionicons5'
+import { h, ref, reactive, onMounted } from 'vue'
+import { NCard, NDataTable, NButton, NSpace, NSwitch, NIcon, useMessage, NInput, NSelect } from 'naive-ui'
+import { RefreshOutline,Pencil, Search } from '@vicons/ionicons5'
 import type { DataTableColumns } from 'naive-ui'
 import {
   getStorageStrategyList,
@@ -16,11 +16,43 @@ import FormComponent from './form.vue'
 import type { FormItemProps } from './utils/types'
 
 const message = useMessage()
-const dialog = useDialog()
 
-// 表格数据
+const searchForm = reactive({
+  name: '',
+  type: '',
+  master: null as boolean | null,
+})
+
+const typeOptions = [
+  { label: '本地存储', value: 'local' },
+  { label: 'S3存储', value: 's3' },
+]
+
+const masterOptions = [
+  { label: '是', value: true },
+  { label: '否', value: false },
+]
+
 const loading = ref(false)
 const data = ref<StorageStrategy[]>([])
+
+const pagination = reactive({
+  page: 1,
+  pageSize: 10,
+  showSizePicker: true,
+  total: 0,
+  pageSizes: [10, 20, 50, 100],
+  onChange: (page: number) => {
+    pagination.page = page
+    onSearch()
+  },
+  onUpdatePageSize: (pageSize: number) => {
+    pagination.pageSize = pageSize
+    pagination.page = 1
+    onSearch()
+  },
+})
+
 const columns: DataTableColumns<StorageStrategy> = [
   {
     title: '策略名称',
@@ -32,9 +64,7 @@ const columns: DataTableColumns<StorageStrategy> = [
     render(row) {
       const typeMap = {
         local: '本地存储',
-        aliyun: '阿里云OSS',
-        tencent: '腾讯云COS',
-        qiniu: '七牛云',
+        s3: 'S3存储',
       }
       return typeMap[row.type] || row.type
     },
@@ -95,17 +125,31 @@ const columns: DataTableColumns<StorageStrategy> = [
 ]
 
 
-// 获取存储策略列表
 const onSearch = async () => {
   loading.value = true
   try {
-    const res = await getStorageStrategyList()
-    data.value = res.data
+    const res = await getStorageStrategyList({
+      page: pagination.page,
+      page_size: pagination.pageSize,
+      name: searchForm.name || undefined,
+      type: searchForm.type || undefined,
+      master: searchForm.master ?? undefined,
+    })
+    data.value = res.data.records || []
+    pagination.total = res.data.total || 0
   } catch (error) {
     message.error('获取存储策略列表失败：' + (error as Error).message)
   } finally {
     loading.value = false
   }
+}
+
+const onReset = () => {
+  searchForm.name = ''
+  searchForm.type = ''
+  searchForm.master = null
+  pagination.page = 1
+  onSearch()
 }
 
 const openEditDialog = (title='新增',row?:FormItemProps) => {
@@ -193,7 +237,35 @@ onMounted(() => {
     <n-card title="存储策略管理" class="storage-strategy-card">
       <!-- 头部操作栏 -->
        <div class="header-section">
-        <div class="search-section"></div>
+        <div class="search-section">
+          <n-input
+            v-model:value="searchForm.name"
+            placeholder="策略名称"
+            clearable
+            style="width: 200px"
+          />
+          <n-select
+            v-model:value="searchForm.type"
+            placeholder="存储类型"
+            clearable
+            :options="typeOptions"
+            style="width: 150px"
+          />
+          <n-select
+            v-model:value="searchForm.master"
+            placeholder="是否默认"
+            clearable
+            :options="masterOptions"
+            style="width: 120px"
+          />
+          <n-button type="primary" @click="onSearch">
+            <template #icon>
+              <n-icon><search /></n-icon>
+            </template>
+            搜索
+          </n-button>
+          <n-button @click="onReset">重置</n-button>
+        </div>
         <div class="action-section">
           <n-button type="primary" @click="openEditDialog('新增')" style="margin-right: 12px">添加策略</n-button>
           <n-button>
@@ -208,7 +280,7 @@ onMounted(() => {
         :loading="loading"
         :columns="columns"
         :data="data"
-        :pagination="{ pageSize: 10 }"
+        :pagination="pagination"
         :remote="true"
       />
     </n-card>

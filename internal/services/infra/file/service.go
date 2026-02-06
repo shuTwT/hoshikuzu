@@ -5,11 +5,13 @@ import (
 
 	"github.com/shuTwT/hoshikuzu/ent"
 	"github.com/shuTwT/hoshikuzu/ent/file"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type FileService interface {
 	ListFile(ctx context.Context) ([]*ent.File, error)
 	ListFilePage(ctx context.Context, page, size int) (int, []*ent.File, error)
+	ListFilePageWithQuery(ctx context.Context, req model.FilePageReq) (int, []*ent.File, error)
 	QueryFile(ctx context.Context, id int) (*ent.File, error)
 	DeleteFile(ctx context.Context, id int) error
 	CreateFile(ctx context.Context, strategyID int, name, path, url, fileType, size string) (*ent.File, error)
@@ -42,6 +44,39 @@ func (s *FileServiceImpl) ListFilePage(ctx context.Context, page, size int) (int
 		Order(ent.Desc(file.FieldID)).
 		Offset((page - 1) * size).
 		Limit(size).
+		All(ctx)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return count, files, nil
+}
+
+func (s *FileServiceImpl) ListFilePageWithQuery(ctx context.Context, req model.FilePageReq) (int, []*ent.File, error) {
+	query := s.client.File.Query()
+
+	if req.Name != "" {
+		query.Where(file.NameContains(req.Name))
+	}
+
+	if req.Type != "" {
+		query.Where(file.Type(req.Type))
+	}
+
+	if req.StorageStrategyID != nil {
+		query.Where(file.StorageStrategyID(*req.StorageStrategyID))
+	}
+
+	count, err := query.Count(ctx)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	files, err := query.
+		WithStorageStrategy().
+		Order(ent.Desc(file.FieldID)).
+		Offset((req.Page - 1) * req.Size).
+		Limit(req.Size).
 		All(ctx)
 	if err != nil {
 		return 0, nil, err

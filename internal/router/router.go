@@ -360,7 +360,7 @@ func initPublicRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 		// 随机友链接口
 		publicApi.Get("/flink/random", handlerMap.FlinkHandler.RandomFlink)
 		// 文章摘要接口
-		publicApi.Get("/posts/:id/summary/stream", handlerMap.PostHandler.GetSummaryForStream)
+		publicApi.Get("/post/:id/summary/stream", handlerMap.PostHandler.GetSummaryForStream)
 		// 商品搜索接口
 		publicApi.Get("/product/search", handlerMap.ProductHandler.SearchProducts)
 		// 友链申请接口

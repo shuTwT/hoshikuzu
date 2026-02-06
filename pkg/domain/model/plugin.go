@@ -5,6 +5,16 @@ import (
 	"time"
 )
 
+type PluginPageReq struct {
+	Page      int    `json:"page" query:"page" form:"page" validate:"required,min=1"`
+	Size      int    `json:"page_size" query:"page_size" form:"page_size" validate:"required,min=1,max=100"`
+	Name      string `json:"name" query:"name" form:"name"`
+	Key       string `json:"key" query:"key" form:"key"`
+	Status    string `json:"status" query:"status" form:"status" validate:"omitempty,oneof=stopped running error loading"`
+	Enabled   *bool  `json:"enabled" query:"enabled" form:"enabled"`
+	AutoStart *bool  `json:"auto_start" query:"auto_start" form:"auto_start"`
+}
+
 type PluginConfig struct {
 	Name             string   `yaml:"name" validate:"required"`
 	Key              string   `yaml:"key" validate:"required"`

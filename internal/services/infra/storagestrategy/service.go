@@ -5,11 +5,13 @@ import (
 
 	"github.com/shuTwT/hoshikuzu/ent"
 	"github.com/shuTwT/hoshikuzu/ent/storagestrategy"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type StorageStrategyService interface {
 	ListStorageStrategy(ctx context.Context) ([]*ent.StorageStrategy, error)
 	ListStorageStrategyPage(ctx context.Context, page, size int) (int, []*ent.StorageStrategy, error)
+	ListStorageStrategyPageWithQuery(ctx context.Context, req model.StorageStrategyPageReq) (int, []*ent.StorageStrategy, error)
 	CreateStorageStrategy(ctx context.Context, name, strategyType, nodeID, endpoint, region, bucket, accessKey, secretKey, basePath, domain string, master bool) (*ent.StorageStrategy, error)
 	UpdateStorageStrategy(ctx context.Context, id int, name, strategyType, nodeID, endpoint, region, bucket, accessKey, secretKey, basePath, domain string, master bool) (*ent.StorageStrategy, error)
 	QueryStorageStrategy(ctx context.Context, id int) (*ent.StorageStrategy, error)
@@ -47,6 +49,38 @@ func (s *StorageStrategyServiceImpl) ListStorageStrategyPage(ctx context.Context
 		Order(ent.Desc(storagestrategy.FieldID)).
 		Limit(size).
 		Offset((page - 1) * size).
+		All(ctx)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return count, strategies, nil
+}
+
+func (s *StorageStrategyServiceImpl) ListStorageStrategyPageWithQuery(ctx context.Context, req model.StorageStrategyPageReq) (int, []*ent.StorageStrategy, error) {
+	query := s.client.StorageStrategy.Query()
+
+	if req.Name != "" {
+		query.Where(storagestrategy.NameContains(req.Name))
+	}
+
+	if req.Type != "" {
+		query.Where(storagestrategy.TypeEQ(storagestrategy.Type(req.Type)))
+	}
+
+	if req.Master != nil {
+		query.Where(storagestrategy.Master(*req.Master))
+	}
+
+	count, err := query.Count(ctx)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	strategies, err := query.
+		Order(ent.Desc(storagestrategy.FieldID)).
+		Limit(req.Size).
+		Offset((req.Page - 1) * req.Size).
 		All(ctx)
 	if err != nil {
 		return 0, nil, err

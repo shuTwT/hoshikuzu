@@ -26,6 +26,7 @@ import (
 
 type PluginService interface {
 	ListPluginPage(ctx context.Context, page, size int) (int, []*ent.Plugin, error)
+	ListPluginPageWithQuery(ctx context.Context, req model.PluginPageReq) (int, []*ent.Plugin, error)
 	QueryPlugin(ctx context.Context, id int) (*ent.Plugin, error)
 	CreatePlugin(ctx context.Context, fileHeader *multipart.FileHeader) (*ent.Plugin, error)
 	DeletePlugin(ctx context.Context, id int) error
@@ -101,6 +102,46 @@ func (s *PluginServiceImpl) ListPluginPage(ctx context.Context, page, size int) 
 		Order(ent.Desc(plugin_ent.FieldID)).
 		Offset((page - 1) * size).
 		Limit(size).
+		All(ctx)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return count, plugins, nil
+}
+
+func (s *PluginServiceImpl) ListPluginPageWithQuery(ctx context.Context, req model.PluginPageReq) (int, []*ent.Plugin, error) {
+	query := s.client.Plugin.Query()
+
+	if req.Name != "" {
+		query.Where(plugin_ent.NameContains(req.Name))
+	}
+
+	if req.Key != "" {
+		query.Where(plugin_ent.KeyContains(req.Key))
+	}
+
+	if req.Status != "" {
+		query.Where(plugin_ent.StatusEQ(plugin_ent.Status(req.Status)))
+	}
+
+	if req.Enabled != nil {
+		query.Where(plugin_ent.Enabled(*req.Enabled))
+	}
+
+	if req.AutoStart != nil {
+		query.Where(plugin_ent.AutoStart(*req.AutoStart))
+	}
+
+	count, err := query.Count(ctx)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	plugins, err := query.
+		Order(ent.Desc(plugin_ent.FieldID)).
+		Offset((req.Page - 1) * req.Size).
+		Limit(req.Size).
 		All(ctx)
 	if err != nil {
 		return 0, nil, err

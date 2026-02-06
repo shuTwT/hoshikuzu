@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"math/rand"
+	"math/rand/v2"
 	"sort"
 	"strings"
 	"time"
@@ -287,8 +287,7 @@ func (s *PostServiceImpl) GetRandomPost(c context.Context) (*ent.Post, error) {
 		return nil, nil
 	}
 
-	rand.Seed(time.Now().UnixNano())
-	offset := rand.Intn(count)
+	offset := rand.IntN(count)
 
 	post, err := s.client.Post.Query().
 		WithCategories().
@@ -296,7 +295,7 @@ func (s *PostServiceImpl) GetRandomPost(c context.Context) (*ent.Post, error) {
 		Order(ent.Asc(post.FieldID)).
 		Offset(offset).
 		Limit(1).
-		Only(c)
+		First(c)
 	if err != nil {
 		return nil, err
 	}

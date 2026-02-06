@@ -2,6 +2,14 @@ package model
 
 import "time"
 
+type LicensePageReq struct {
+	Page         int    `json:"page" query:"page" form:"page" validate:"required,min=1"`
+	Size         int    `json:"page_size" query:"page_size" form:"page_size" validate:"required,min=1,max=100"`
+	Domain       string `json:"domain" query:"domain" form:"domain"`
+	CustomerName string `json:"customer_name" query:"customer_name" form:"customer_name"`
+	Status       *int   `json:"status" query:"status" form:"status"`
+}
+
 type LicenseCreateReq struct {
 	Domain       string    `json:"domain" validate:"required"`
 	CustomerName string    `json:"customer_name"`

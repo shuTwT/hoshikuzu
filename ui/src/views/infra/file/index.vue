@@ -1,12 +1,19 @@
 <script lang="ts" setup>
-import { NButton, NIcon, NPopconfirm, NSpace } from 'naive-ui'
-import { RefreshOutline, Link } from '@vicons/ionicons5'
+import { NButton, NIcon, NPopconfirm, NSpace, NInput, NSelect } from 'naive-ui'
+import { RefreshOutline, Link, Search } from '@vicons/ionicons5'
 import type { DataTableColumns } from 'naive-ui'
 import { addDialog } from '@/components/dialog'
 import uploadForm from './uploadForm.vue'
 import * as fileApi from '@/api/infra/file'
 
-// 分页配置
+const searchForm = reactive({
+  name: '',
+  type: '',
+  storage_strategy_id: null as number | null,
+})
+
+const storageStrategyOptions = ref<any[]>([])
+
 const pagination = reactive({
   page: 1,
   pageSize: 10,
@@ -15,17 +22,18 @@ const pagination = reactive({
   itemCount: 0,
   onChange: (page: number) => {
     pagination.page = page
+    onSearch()
   },
   onUpdatePageSize: (pageSize: number) => {
     pagination.pageSize = pageSize
     pagination.page = 1
+    onSearch()
   },
 })
 
 const dataList = ref<any[]>([])
 const loading = ref(false)
 
-// 表格列定义
 const columns: DataTableColumns<any> = [
   {
     title: '编号',
@@ -130,12 +138,23 @@ const onSearch = async () => {
   const res = await fileApi.getFilePage({
     page: pagination.page,
     page_size: pagination.pageSize,
+    name: searchForm.name || undefined,
+    type: searchForm.type || undefined,
+    storage_strategy_id: searchForm.storage_strategy_id || undefined,
   })
   if (res.code === 200) {
     dataList.value = res.data.records || []
     pagination.itemCount = res.data.total || 0
   }
   loading.value = false
+}
+
+const onReset = () => {
+  searchForm.name = ''
+  searchForm.type = ''
+  searchForm.storage_strategy_id = null
+  pagination.page = 1
+  onSearch()
 }
 
 onMounted(() => {
@@ -147,7 +166,34 @@ onMounted(() => {
     <n-card title="文件管理" class="file-card">
       <!-- 头部操作栏 -->
       <div class="header-section">
-        <div class="search-section"></div>
+        <div class="search-section">
+          <n-input
+            v-model:value="searchForm.name"
+            placeholder="文件名称"
+            clearable
+            style="width: 200px"
+          />
+          <n-input
+            v-model:value="searchForm.type"
+            placeholder="文件类型"
+            clearable
+            style="width: 150px"
+          />
+          <n-select
+            v-model:value="searchForm.storage_strategy_id"
+            placeholder="存储策略"
+            clearable
+            :options="storageStrategyOptions"
+            style="width: 180px"
+          />
+          <n-button type="primary" @click="onSearch">
+            <template #icon>
+              <n-icon><search /></n-icon>
+            </template>
+            搜索
+          </n-button>
+          <n-button @click="onReset">重置</n-button>
+        </div>
         <div class="action-section">
           <n-button type="primary" style="margin-right: 12px" @click="openUploadDialog('新增')">
             <i class="bi bi-plus"></i> 上传文件

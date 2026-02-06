@@ -72,17 +72,20 @@ func (h *FileHandlerImpl) ListFile(c *fiber.Ctx) error {
 // @Produce json
 // @Param page query int false "页码" default(1)
 // @Param size query int false "每页数量" default(10)
+// @Param name query string false "文件名称"
+// @Param type query string false "文件类型"
+// @Param storage_strategy_id query int false "存储策略ID"
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.FileResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/file/page [get]
 func (h *FileHandlerImpl) ListFilePage(c *fiber.Ctx) error {
-	pageQuery := model.PageQuery{}
-	if err := c.QueryParser(&pageQuery); err != nil {
+	var pageReq model.FilePageReq
+	if err := c.QueryParser(&pageReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	count, files, err := h.fileService.ListFilePage(c.Context(), pageQuery.Page, pageQuery.Size)
+	count, files, err := h.fileService.ListFilePageWithQuery(c.Context(), pageReq)
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
 	}

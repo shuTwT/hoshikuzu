@@ -35,17 +35,20 @@ func NewLicenseHandlerImpl(licenseService license.LicenseService) *LicenseHandle
 // @Produce json
 // @Param page query int false "页码" default(1)
 // @Param size query int false "每页数量" default(10)
+// @Param domain query string false "域名"
+// @Param customer_name query string false "客户名称"
+// @Param status query int false "状态"
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.LicenseResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/license/page [get]
 func (h *LicenseHandlerImpl) ListLicensePage(c *fiber.Ctx) error {
-	pageQuery := model.PageQuery{}
-	if err := c.QueryParser(&pageQuery); err != nil {
+	var pageReq model.LicensePageReq
+	if err := c.QueryParser(&pageReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	count, licenses, err := h.licenseService.ListLicensePage(c.Context(), pageQuery.Page, pageQuery.Size)
+	count, licenses, err := h.licenseService.ListLicensePageWithQuery(c.Context(), pageReq)
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
 	}

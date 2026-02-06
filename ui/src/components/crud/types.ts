@@ -1,4 +1,4 @@
-import type { ExtendProForm } from "pro-naive-ui";
+import type { ExtendProForm,  ProSearchFormColumns } from "pro-naive-ui";
 
 export type CreateProSearchFormReturn<Values = any> = ExtendProForm<Values, {
     /**
@@ -11,3 +11,9 @@ export type CreateProSearchFormReturn<Values = any> = ExtendProForm<Values, {
      */
     toggleCollapse: (collapsed?: boolean) => void;
 }>;
+
+export type CrudLayoutProps<Values = any> = {
+  loading: boolean;
+  form: CreateProSearchFormReturn<Values>;
+  columns: ProSearchFormColumns<Values>;
+}

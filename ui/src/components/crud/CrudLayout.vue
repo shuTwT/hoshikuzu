@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { ProSearchForm, type ProSearchFormColumns } from 'pro-naive-ui';
-import type { CreateProSearchFormReturn } from './types';
+import type { CrudLayoutProps } from './types';
 
-const props = defineProps<{
-  loading:false,
-  form:CreateProSearchFormReturn<any>
-}>()
+const props = defineProps<CrudLayoutProps>()
 
 
 
@@ -22,4 +19,22 @@ const searchColumns:ProSearchFormColumns<any>=[] as any[]
   </div>
 </template>
 <style scoped>
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.action-section {
+  display: flex;
+  align-items: center;
+}
 </style>

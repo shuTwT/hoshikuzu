@@ -26,6 +26,11 @@ export interface Plugin {
 export interface PluginPageParams {
   page: number
   page_size: number
+  name?: string
+  key?: string
+  status?: string
+  enabled?: boolean
+  auto_start?: boolean
 }
 
 export const getPluginPage = (params: PluginPageParams) => {

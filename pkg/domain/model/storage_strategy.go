@@ -1,5 +1,13 @@
 package model
 
+type StorageStrategyPageReq struct {
+	Page  int    `json:"page" query:"page" form:"page" validate:"required,min=1"`
+	Size  int    `json:"page_size" query:"page_size" form:"page_size" validate:"required,min=1,max=100"`
+	Name  string `json:"name" query:"name" form:"name"`
+	Type  string `json:"type" query:"type" form:"type" validate:"omitempty,oneof=local s3"`
+	Master *bool  `json:"master" query:"master" form:"master"`
+}
+
 // StorageStrategyCreateReq represents the request body for creating a storage strategy.
 type StorageStrategyCreateReq struct {
 	Name      string `json:"name" validate:"required"`

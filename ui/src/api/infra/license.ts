@@ -15,6 +15,9 @@ export interface License {
 export interface LicensePageParams {
   page: number
   page_size: number
+  domain?: string
+  customer_name?: string
+  status?: number
 }
 
 export interface LicenseCreateReq {

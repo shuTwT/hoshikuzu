@@ -3,6 +3,7 @@ package storagestrategy
 import (
 	"strconv"
 
+	"github.com/shuTwT/hoshikuzu/ent"
 	"github.com/shuTwT/hoshikuzu/internal/infra/storage"
 	storagestrategy_service "github.com/shuTwT/hoshikuzu/internal/services/infra/storagestrategy"
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
@@ -35,15 +36,30 @@ func NewStorageStrategyHandlerImpl(storageStrategyService storagestrategy_servic
 // @Tags 后台管理接口/存储策略
 // @Accept json
 // @Produce json
+// @Param page query int false "页码" default(1)
+// @Param size query int false "每页数量" default(10)
+// @Param name query string false "策略名称"
+// @Param type query string false "存储类型"
+// @Param master query bool false "是否默认"
 // @Success 200 {object} model.HttpSuccess{data=[]ent.StorageStrategy}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/storage-strategy/list [get]
 func (h *StorageStrategyHandlerImpl) ListStorageStrategy(c *fiber.Ctx) error {
-	strategies, err := h.storageStrategyService.ListStorageStrategy(c.Context())
+	var pageReq model.StorageStrategyPageReq
+	if err := c.QueryParser(&pageReq); err != nil {
+		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
+	}
+
+	count, strategies, err := h.storageStrategyService.ListStorageStrategyPageWithQuery(c.Context(), pageReq)
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
-	return c.JSON(model.NewSuccess("success", strategies))
+
+	pageResult := model.PageResult[*ent.StorageStrategy]{
+		Total:   int64(count),
+		Records: strategies,
+	}
+	return c.JSON(model.NewSuccess("success", pageResult))
 }
 
 // @Summary 获取所有存储策略列表

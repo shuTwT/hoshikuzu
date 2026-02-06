@@ -4,7 +4,7 @@ import { BASE_URL, type ApiResponse } from '@/api/utils'
 export interface StorageStrategy {
   id: number
   name: string
-  type: 'local' | 'aliyun' | 'tencent' | 'qiniu'
+  type: 'local' | 's3'
   domain: string
   access_key?: string
   secret_key?: string
@@ -13,6 +13,14 @@ export interface StorageStrategy {
   master: boolean
   created_at: string
   updated_at: string
+}
+
+export interface StorageStrategyPageParams {
+  page: number
+  page_size: number
+  name?: string
+  type?: string
+  master?: boolean
 }
 
 export interface CreateStorageStrategyParams {
@@ -31,8 +39,8 @@ export interface UpdateStorageStrategyParams extends Partial<CreateStorageStrate
 }
 
 // 获取存储策略列表
-export const getStorageStrategyList = () => {
-  return http.request<ApiResponse<StorageStrategy[]>>('get',`${BASE_URL}/v1/storage-strategy/list`)
+export const getStorageStrategyList = (params?: StorageStrategyPageParams) => {
+  return http.request<ApiResponse<StorageStrategy[]>>('get',`${BASE_URL}/v1/storage-strategy/list`, { params })
 }
 
 // 获取所有存储策略

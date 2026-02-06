@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { h, ref, reactive } from 'vue'
-import { NCard, NDataTable, NButton, NSpace, NTag, NIcon, NPopconfirm, useMessage } from 'naive-ui'
-import { RefreshOutline, AddOutline, TrashOutline, CheckmarkCircleOutline } from '@vicons/ionicons5'
+import { h, ref, reactive, onMounted } from 'vue'
+import { NCard, NDataTable, NButton, NSpace, NTag, NIcon, NPopconfirm, useMessage, NInput, NSelect } from 'naive-ui'
+import { RefreshOutline, AddOutline, TrashOutline, CheckmarkCircleOutline, Search } from '@vicons/ionicons5'
 import type { DataTableColumns } from 'naive-ui'
 import {
   getLicensePage,
@@ -16,6 +16,19 @@ import FormComponent from './form.vue'
 import type { FormProps } from './utils/types'
 
 const message = useMessage()
+
+const searchForm = reactive({
+  domain: '',
+  customer_name: '',
+  status: null as number | null,
+})
+
+const statusOptions = [
+  { label: '全部', value: null },
+  { label: '有效', value: 1 },
+  { label: '过期', value: 2 },
+  { label: '禁用', value: 3 },
+]
 
 const loading = ref(false)
 const data = ref<License[]>([])
@@ -150,14 +163,28 @@ const columns: DataTableColumns<License> = [
 const onSearch = async () => {
   loading.value = true
   try {
-    const res = await getLicensePage({ page: pagination.page, page_size: pagination.pageSize })
-    data.value = res.data.records
-    pagination.total = res.data.total
+    const res = await getLicensePage({
+      page: pagination.page,
+      page_size: pagination.pageSize,
+      domain: searchForm.domain || undefined,
+      customer_name: searchForm.customer_name || undefined,
+      status: searchForm.status ?? undefined,
+    })
+    data.value = res.data.records || []
+    pagination.total = res.data.total || 0
   } catch (error) {
     message.error('获取授权列表失败：' + (error as Error).message)
   } finally {
     loading.value = false
   }
+}
+
+const onReset = () => {
+  searchForm.domain = ''
+  searchForm.customer_name = ''
+  searchForm.status = null
+  pagination.page = 1
+  onSearch()
 }
 
 const openEditDialog = (title = '新增', row?: License) => {
@@ -224,12 +251,37 @@ onMounted(() => {
   onSearch()
 })
 </script>
-
 <template>
   <div class="container-fluid p-6">
     <n-card title="授权管理" class="license-card">
       <div class="header-section">
         <div class="search-section">
+          <n-input
+            v-model:value="searchForm.domain"
+            placeholder="域名"
+            clearable
+            style="width: 200px"
+          />
+          <n-input
+            v-model:value="searchForm.customer_name"
+            placeholder="客户名称"
+            clearable
+            style="width: 180px"
+          />
+          <n-select
+            v-model:value="searchForm.status"
+            placeholder="状态"
+            clearable
+            :options="statusOptions"
+            style="width: 120px"
+          />
+          <n-button type="primary" @click="onSearch">
+            <template #icon>
+              <n-icon><search /></n-icon>
+            </template>
+            搜索
+          </n-button>
+          <n-button @click="onReset">重置</n-button>
         </div>
         <div class="action-section">
           <n-button type="primary" style="margin-right: 12px" @click="openEditDialog('新增')">

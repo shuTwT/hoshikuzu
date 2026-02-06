@@ -8,11 +8,19 @@ type FileListResponse = {
   type: string;
 }
 
+export interface FilePageParams {
+  page: number;
+  page_size: number;
+  name?: string;
+  type?: string;
+  storage_strategy_id?: number;
+}
+
 export const getFileList = () =>{
   return http.request<ApiResponse<FileListResponse[]>>('get',`${BASE_URL}/v1/file/list`)
 }
 
-export const getFilePage = (params:any) =>{
+export const getFilePage = (params: FilePageParams) =>{
   return http.request<TableResponse<FileListResponse[]>>('get',`${BASE_URL}/v1/file/page`,{params})
 }
 

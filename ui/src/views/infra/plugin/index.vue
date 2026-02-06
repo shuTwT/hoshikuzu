@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { h, ref, onMounted } from 'vue'
-import { NCard, NDataTable, NButton, NSpace, NSwitch, NTag, NIcon, NPopconfirm, useMessage } from 'naive-ui'
-import { RefreshOutline, Play, Stop, Refresh as RefreshIcon, TrashOutline } from '@vicons/ionicons5'
+import { h, ref, reactive, onMounted } from 'vue'
+import { NCard, NDataTable, NButton, NSpace, NSwitch, NTag, NIcon, NPopconfirm, useMessage, NInput, NSelect } from 'naive-ui'
+import { RefreshOutline, Play, Stop, Refresh as RefreshIcon, TrashOutline, Search } from '@vicons/ionicons5'
 import type { DataTableColumns } from 'naive-ui'
 import {
   getPluginPage,
@@ -15,6 +15,32 @@ import { addDialog } from '@/components/dialog'
 import FormComponent from './form.vue'
 
 const message = useMessage()
+
+const searchForm = reactive({
+  name: '',
+  key: '',
+  status: '',
+  enabled: null as boolean | null,
+  auto_start: null as boolean | null,
+})
+
+const statusOptions = [
+  { label: '全部', value: '' },
+  { label: '已停止', value: 'stopped' },
+  { label: '运行中', value: 'running' },
+  { label: '错误', value: 'error' },
+  { label: '加载中', value: 'loading' },
+]
+
+const enabledOptions = [
+  { label: '是', value: true },
+  { label: '否', value: false },
+]
+
+const autoStartOptions = [
+  { label: '是', value: true },
+  { label: '否', value: false },
+]
 
 const loading = ref(false)
 const data = ref<Plugin[]>([])
@@ -35,14 +61,6 @@ const pagination = reactive({
     onSearch()
   },
 })
-
-const statusOptions = [
-  { label: '全部', value: '' },
-  { label: '已停止', value: 'stopped' },
-  { label: '运行中', value: 'running' },
-  { label: '错误', value: 'error' },
-  { label: '加载中', value: 'loading' },
-]
 
 const columns: DataTableColumns<Plugin> = [
   {
@@ -195,14 +213,32 @@ const columns: DataTableColumns<Plugin> = [
 const onSearch = async () => {
   loading.value = true
   try {
-    const res = await getPluginPage({ page: pagination.page, page_size: pagination.pageSize })
-    data.value = res.data.records
-    pagination.total = res.data.total
+    const res = await getPluginPage({ 
+      page: pagination.page, 
+      page_size: pagination.pageSize,
+      name: searchForm.name || undefined,
+      key: searchForm.key || undefined,
+      status: searchForm.status || undefined,
+      enabled: searchForm.enabled ?? undefined,
+      auto_start: searchForm.auto_start ?? undefined,
+    })
+    data.value = res.data.records || []
+    pagination.total = res.data.total || 0
   } catch (error) {
     message.error('获取插件列表失败：' + (error as Error).message)
   } finally {
     loading.value = false
   }
+}
+
+const onReset = () => {
+  searchForm.name = ''
+  searchForm.key = ''
+  searchForm.status = ''
+  searchForm.enabled = null
+  searchForm.auto_start = null
+  pagination.page = 1
+  onSearch()
 }
 
 const handleAddPlugin = () => {
@@ -262,7 +298,48 @@ onMounted(() => {
   <div class="container-fluid p-6">
     <n-card title="插件管理" class="plugin-card">
       <div class="header-section">
-        <div class="search-section"></div>
+        <div class="search-section">
+          <n-input
+            v-model:value="searchForm.name"
+            placeholder="插件名称"
+            clearable
+            style="width: 200px"
+          />
+          <n-input
+            v-model:value="searchForm.key"
+            placeholder="插件标识"
+            clearable
+            style="width: 180px"
+          />
+          <n-select
+            v-model:value="searchForm.status"
+            placeholder="状态"
+            clearable
+            :options="statusOptions"
+            style="width: 120px"
+          />
+          <n-select
+            v-model:value="searchForm.enabled"
+            placeholder="是否启用"
+            clearable
+            :options="enabledOptions"
+            style="width: 120px"
+          />
+          <n-select
+            v-model:value="searchForm.auto_start"
+            placeholder="是否自动启动"
+            clearable
+            :options="autoStartOptions"
+            style="width: 130px"
+          />
+          <n-button type="primary" @click="onSearch">
+            <template #icon>
+              <n-icon><search /></n-icon>
+            </template>
+            搜索
+          </n-button>
+          <n-button @click="onReset">重置</n-button>
+        </div>
         <div class="action-section">
           <n-button type="primary" @click="handleAddPlugin" style="margin-right: 12px">添加插件</n-button>
           <n-button>

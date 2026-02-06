@@ -485,6 +485,11 @@ func simulateAIProcessing(targetText string, ch chan model.AIResponse) {
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/summary/stream/{id} [get]
 func (h *PostHandlerImpl) GetSummaryForStream(c *fiber.Ctx) error {
+	// postId, err := strconv.Atoi(c.Params("id"))
+	// if err != nil {
+	// 	return c.JSON(model.NewError(fiber.StatusBadRequest,
+	// 		"Invalid ID format"))
+	// }
 	c.Set("Content-Type", "text/event-stream")
 	c.Set("Cache-Control", "no-cache")
 	c.Set("Connection", "keep-alive")
@@ -494,7 +499,7 @@ func (h *PostHandlerImpl) GetSummaryForStream(c *fiber.Ctx) error {
 	var targetStr string
 	post, err := h.postService.GetRandomPost(c.Context())
 	if err != nil {
-		targetStr = "看来遇到了点问题，这不是你的问题"
+		targetStr = "看来遇到了点问题，这不是你的问题" + err.Error()
 	} else {
 		if post.Summary != "" {
 			targetStr = post.Summary
@@ -512,7 +517,7 @@ func (h *PostHandlerImpl) GetSummaryForStream(c *fiber.Ctx) error {
 				continue
 			}
 
-			_, err = fmt.Fprintf(w, "%s", string(data))
+			_, err = fmt.Fprintf(w, "data: %s\n\n", string(data))
 
 			err = w.Flush()
 

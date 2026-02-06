@@ -6,10 +6,12 @@ import (
 
 	"github.com/shuTwT/hoshikuzu/ent"
 	license_ent "github.com/shuTwT/hoshikuzu/ent/license"
+	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
 type LicenseService interface {
 	ListLicensePage(ctx context.Context, page, size int) (int, []*ent.License, error)
+	ListLicensePageWithQuery(ctx context.Context, req model.LicensePageReq) (int, []*ent.License, error)
 	QueryLicense(ctx context.Context, id int) (*ent.License, error)
 	CreateLicense(ctx context.Context, domain, licenseKey, customerName string, expireDate time.Time) (*ent.License, error)
 	UpdateLicense(ctx context.Context, id int, domain, licenseKey, customerName string, expireDate time.Time, status int) (*ent.License, error)
@@ -35,6 +37,38 @@ func (s *LicenseServiceImpl) ListLicensePage(ctx context.Context, page, size int
 		Order(ent.Desc(license_ent.FieldID)).
 		Offset((page - 1) * size).
 		Limit(size).
+		All(ctx)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return count, licenses, nil
+}
+
+func (s *LicenseServiceImpl) ListLicensePageWithQuery(ctx context.Context, req model.LicensePageReq) (int, []*ent.License, error) {
+	query := s.client.License.Query()
+
+	if req.Domain != "" {
+		query.Where(license_ent.DomainContains(req.Domain))
+	}
+
+	if req.CustomerName != "" {
+		query.Where(license_ent.CustomerNameContains(req.CustomerName))
+	}
+
+	if req.Status != nil {
+		query.Where(license_ent.Status(*req.Status))
+	}
+
+	count, err := query.Count(ctx)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	licenses, err := query.
+		Order(ent.Desc(license_ent.FieldID)).
+		Offset((req.Page - 1) * req.Size).
+		Limit(req.Size).
 		All(ctx)
 	if err != nil {
 		return 0, nil, err
