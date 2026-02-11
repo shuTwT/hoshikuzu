@@ -283,7 +283,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="doclibrary-container">
+  <div class="container-fluid p-6">
+    <div class="max-w-[1600px] mx-auto">
     <NCard :bordered="false" class="doclibrary-card">
       <div class="doclibrary-header">
         <h1 class="page-title">文档库管理</h1>
@@ -485,14 +486,10 @@ onMounted(() => {
       </template>
     </NModal>
   </div>
+  </div>
 </template>
 
 <style scoped>
-.doclibrary-container {
-  padding: 24px;
-  background-color: #f5f7fa;
-  min-height: 100vh;
-}
 
 .doclibrary-card {
   border-radius: 12px;

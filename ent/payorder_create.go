@@ -76,6 +76,20 @@ func (_c *PayOrderCreate) SetNillableOrderID(v *string) *PayOrderCreate {
 	return _c
 }
 
+// SetMerchantOrderID sets the "merchant_order_id" field.
+func (_c *PayOrderCreate) SetMerchantOrderID(v string) *PayOrderCreate {
+	_c.mutation.SetMerchantOrderID(v)
+	return _c
+}
+
+// SetNillableMerchantOrderID sets the "merchant_order_id" field if the given value is not nil.
+func (_c *PayOrderCreate) SetNillableMerchantOrderID(v *string) *PayOrderCreate {
+	if v != nil {
+		_c.SetMerchantOrderID(*v)
+	}
+	return _c
+}
+
 // SetOutTradeNo sets the "out_trade_no" field.
 func (_c *PayOrderCreate) SetOutTradeNo(v string) *PayOrderCreate {
 	_c.mutation.SetOutTradeNo(v)
@@ -90,16 +104,44 @@ func (_c *PayOrderCreate) SetNillableOutTradeNo(v *string) *PayOrderCreate {
 	return _c
 }
 
-// SetTotalFee sets the "total_fee" field.
-func (_c *PayOrderCreate) SetTotalFee(v string) *PayOrderCreate {
-	_c.mutation.SetTotalFee(v)
+// SetOrderPrice sets the "order_price" field.
+func (_c *PayOrderCreate) SetOrderPrice(v int) *PayOrderCreate {
+	_c.mutation.SetOrderPrice(v)
 	return _c
 }
 
-// SetNillableTotalFee sets the "total_fee" field if the given value is not nil.
-func (_c *PayOrderCreate) SetNillableTotalFee(v *string) *PayOrderCreate {
+// SetNillableOrderPrice sets the "order_price" field if the given value is not nil.
+func (_c *PayOrderCreate) SetNillableOrderPrice(v *int) *PayOrderCreate {
 	if v != nil {
-		_c.SetTotalFee(*v)
+		_c.SetOrderPrice(*v)
+	}
+	return _c
+}
+
+// SetPrice sets the "price" field.
+func (_c *PayOrderCreate) SetPrice(v int) *PayOrderCreate {
+	_c.mutation.SetPrice(v)
+	return _c
+}
+
+// SetNillablePrice sets the "price" field if the given value is not nil.
+func (_c *PayOrderCreate) SetNillablePrice(v *int) *PayOrderCreate {
+	if v != nil {
+		_c.SetPrice(*v)
+	}
+	return _c
+}
+
+// SetChannelFeePrice sets the "channel_fee_price" field.
+func (_c *PayOrderCreate) SetChannelFeePrice(v int) *PayOrderCreate {
+	_c.mutation.SetChannelFeePrice(v)
+	return _c
+}
+
+// SetNillableChannelFeePrice sets the "channel_fee_price" field if the given value is not nil.
+func (_c *PayOrderCreate) SetNillableChannelFeePrice(v *int) *PayOrderCreate {
+	if v != nil {
+		_c.SetChannelFeePrice(*v)
 	}
 	return _c
 }
@@ -341,13 +383,25 @@ func (_c *PayOrderCreate) createSpec() (*PayOrder, *sqlgraph.CreateSpec) {
 		_spec.SetField(payorder.FieldOrderID, field.TypeString, value)
 		_node.OrderID = &value
 	}
+	if value, ok := _c.mutation.MerchantOrderID(); ok {
+		_spec.SetField(payorder.FieldMerchantOrderID, field.TypeString, value)
+		_node.MerchantOrderID = &value
+	}
 	if value, ok := _c.mutation.OutTradeNo(); ok {
 		_spec.SetField(payorder.FieldOutTradeNo, field.TypeString, value)
 		_node.OutTradeNo = &value
 	}
-	if value, ok := _c.mutation.TotalFee(); ok {
-		_spec.SetField(payorder.FieldTotalFee, field.TypeString, value)
-		_node.TotalFee = value
+	if value, ok := _c.mutation.OrderPrice(); ok {
+		_spec.SetField(payorder.FieldOrderPrice, field.TypeInt, value)
+		_node.OrderPrice = value
+	}
+	if value, ok := _c.mutation.Price(); ok {
+		_spec.SetField(payorder.FieldPrice, field.TypeInt, value)
+		_node.Price = value
+	}
+	if value, ok := _c.mutation.ChannelFeePrice(); ok {
+		_spec.SetField(payorder.FieldChannelFeePrice, field.TypeInt, value)
+		_node.ChannelFeePrice = value
 	}
 	if value, ok := _c.mutation.Subject(); ok {
 		_spec.SetField(payorder.FieldSubject, field.TypeString, value)

@@ -101,7 +101,7 @@ const columns: DataTableColumns<any> = [
   {
     title: '操作',
     key: 'actions',
-    width: 120,
+    width: 180,
     fixed: 'right',
     render: (row) => {
       return h(
@@ -175,9 +175,9 @@ const openEditDialog = (title = '新增', row?: any) => {
         id: row?.id || undefined,
         name: row?.name || '',
         sku: row?.sku || '',
-        price: row?.price || 0,
-        original_price: row?.original_price || 0,
-        cost_price: row?.cost_price || 0,
+        price: row?.price ? row.price/100 : 0,
+        original_price: row?.original_price ? row.original_price/100 : 0,
+        cost_price: row?.cost_price ? row.cost_price/100 : 0,
         stock: row?.stock || 0,
         min_stock: row?.min_stock || 0,
         category_id: row?.category_id || null,

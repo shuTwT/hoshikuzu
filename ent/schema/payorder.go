@@ -22,18 +22,28 @@ func (PayOrder) Fields() []ent.Field {
 		field.String("channel_type").
 			Optional().
 			Nillable().
-			Comment("支付渠道ID"),
+			Comment("支付渠道类型"),
 		field.String("order_id").
 			Optional().
 			Nillable().
 			Comment("支付订单ID"),
+		field.String("merchant_order_id").
+			Optional().
+			Nillable().
+			Comment("系统内部商户订单号，按规则生成，唯一"),
 		field.String("out_trade_no").
 			Optional().
 			Nillable().
-			Comment("商户订单号"),
-		field.String("total_fee").
+			Comment("外部订单号,对应支付渠道那里的"),
+		field.Int("order_price").
 			Optional().
-			Comment("订单金额"),
+			Comment("订单金额,单位分"),
+		field.Int("price").
+			Optional().
+			Comment("支付金额,单位分"),
+		field.Int("channel_fee_price").
+			Optional().
+			Comment("渠道手续费金额,单位分"),
 		field.String("subject").
 			Optional().
 			Comment("订单标题"),

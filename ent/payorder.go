@@ -21,14 +21,20 @@ type PayOrder struct {
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	// 支付渠道ID
+	// 支付渠道类型
 	ChannelType *string `json:"channel_type,omitempty"`
 	// 支付订单ID
 	OrderID *string `json:"order_id,omitempty"`
-	// 商户订单号
+	// 系统内部商户订单号，按规则生成，唯一
+	MerchantOrderID *string `json:"merchant_order_id,omitempty"`
+	// 外部订单号,对应支付渠道那里的
 	OutTradeNo *string `json:"out_trade_no,omitempty"`
-	// 订单金额
-	TotalFee string `json:"total_fee,omitempty"`
+	// 订单金额,单位分
+	OrderPrice int `json:"order_price,omitempty"`
+	// 支付金额,单位分
+	Price int `json:"price,omitempty"`
+	// 渠道手续费金额,单位分
+	ChannelFeePrice int `json:"channel_fee_price,omitempty"`
 	// 订单标题
 	Subject string `json:"subject,omitempty"`
 	// 订单描述
@@ -55,9 +61,9 @@ func (*PayOrder) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case payorder.FieldID:
+		case payorder.FieldID, payorder.FieldOrderPrice, payorder.FieldPrice, payorder.FieldChannelFeePrice:
 			values[i] = new(sql.NullInt64)
-		case payorder.FieldChannelType, payorder.FieldOrderID, payorder.FieldOutTradeNo, payorder.FieldTotalFee, payorder.FieldSubject, payorder.FieldBody, payorder.FieldNotifyURL, payorder.FieldReturnURL, payorder.FieldExtra, payorder.FieldPayURL, payorder.FieldState, payorder.FieldErrorMsg, payorder.FieldRaw:
+		case payorder.FieldChannelType, payorder.FieldOrderID, payorder.FieldMerchantOrderID, payorder.FieldOutTradeNo, payorder.FieldSubject, payorder.FieldBody, payorder.FieldNotifyURL, payorder.FieldReturnURL, payorder.FieldExtra, payorder.FieldPayURL, payorder.FieldState, payorder.FieldErrorMsg, payorder.FieldRaw:
 			values[i] = new(sql.NullString)
 		case payorder.FieldCreatedAt, payorder.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -108,6 +114,13 @@ func (_m *PayOrder) assignValues(columns []string, values []any) error {
 				_m.OrderID = new(string)
 				*_m.OrderID = value.String
 			}
+		case payorder.FieldMerchantOrderID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field merchant_order_id", values[i])
+			} else if value.Valid {
+				_m.MerchantOrderID = new(string)
+				*_m.MerchantOrderID = value.String
+			}
 		case payorder.FieldOutTradeNo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field out_trade_no", values[i])
@@ -115,11 +128,23 @@ func (_m *PayOrder) assignValues(columns []string, values []any) error {
 				_m.OutTradeNo = new(string)
 				*_m.OutTradeNo = value.String
 			}
-		case payorder.FieldTotalFee:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field total_fee", values[i])
+		case payorder.FieldOrderPrice:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field order_price", values[i])
 			} else if value.Valid {
-				_m.TotalFee = value.String
+				_m.OrderPrice = int(value.Int64)
+			}
+		case payorder.FieldPrice:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field price", values[i])
+			} else if value.Valid {
+				_m.Price = int(value.Int64)
+			}
+		case payorder.FieldChannelFeePrice:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field channel_fee_price", values[i])
+			} else if value.Valid {
+				_m.ChannelFeePrice = int(value.Int64)
 			}
 		case payorder.FieldSubject:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -230,13 +255,24 @@ func (_m *PayOrder) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
+	if v := _m.MerchantOrderID; v != nil {
+		builder.WriteString("merchant_order_id=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
 	if v := _m.OutTradeNo; v != nil {
 		builder.WriteString("out_trade_no=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	builder.WriteString("total_fee=")
-	builder.WriteString(_m.TotalFee)
+	builder.WriteString("order_price=")
+	builder.WriteString(fmt.Sprintf("%v", _m.OrderPrice))
+	builder.WriteString(", ")
+	builder.WriteString("price=")
+	builder.WriteString(fmt.Sprintf("%v", _m.Price))
+	builder.WriteString(", ")
+	builder.WriteString("channel_fee_price=")
+	builder.WriteString(fmt.Sprintf("%v", _m.ChannelFeePrice))
 	builder.WriteString(", ")
 	builder.WriteString("subject=")
 	builder.WriteString(_m.Subject)

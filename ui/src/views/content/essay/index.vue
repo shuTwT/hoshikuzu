@@ -206,7 +206,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="essay-container">
+  <div class="container-fluid p-6">
+    <div class="max-w-[1600px] mx-auto">
     <!-- 顶部导航栏 -->
     <div class="essay-header">
       <div class="header-left">
@@ -355,6 +356,7 @@ onMounted(() => {
         />
       </div>
     </div>
+    </div>
   </div>
 
   <!-- 新建/编辑模态框 -->
@@ -435,7 +437,6 @@ onMounted(() => {
 <style scoped>
 /* 全局容器 */
 .essay-container {
-  min-height: 100vh;
   background-color: #f5f7fa;
   padding: 24px;
 }

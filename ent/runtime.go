@@ -1093,7 +1093,7 @@ func init() {
 	// payorder.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	payorder.UpdateDefaultUpdatedAt = payorderDescUpdatedAt.UpdateDefault.(func() time.Time)
 	// payorderDescState is the schema descriptor for state field.
-	payorderDescState := payorderFields[10].Descriptor()
+	payorderDescState := payorderFields[13].Descriptor()
 	// payorder.DefaultState holds the default value on creation for the state field.
 	payorder.DefaultState = payorderDescState.Default.(string)
 	personalaccesstokenMixin := schema.PersonalAccessToken{}.Mixin()

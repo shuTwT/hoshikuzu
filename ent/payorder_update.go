@@ -74,6 +74,26 @@ func (_u *PayOrderUpdate) ClearOrderID() *PayOrderUpdate {
 	return _u
 }
 
+// SetMerchantOrderID sets the "merchant_order_id" field.
+func (_u *PayOrderUpdate) SetMerchantOrderID(v string) *PayOrderUpdate {
+	_u.mutation.SetMerchantOrderID(v)
+	return _u
+}
+
+// SetNillableMerchantOrderID sets the "merchant_order_id" field if the given value is not nil.
+func (_u *PayOrderUpdate) SetNillableMerchantOrderID(v *string) *PayOrderUpdate {
+	if v != nil {
+		_u.SetMerchantOrderID(*v)
+	}
+	return _u
+}
+
+// ClearMerchantOrderID clears the value of the "merchant_order_id" field.
+func (_u *PayOrderUpdate) ClearMerchantOrderID() *PayOrderUpdate {
+	_u.mutation.ClearMerchantOrderID()
+	return _u
+}
+
 // SetOutTradeNo sets the "out_trade_no" field.
 func (_u *PayOrderUpdate) SetOutTradeNo(v string) *PayOrderUpdate {
 	_u.mutation.SetOutTradeNo(v)
@@ -94,23 +114,84 @@ func (_u *PayOrderUpdate) ClearOutTradeNo() *PayOrderUpdate {
 	return _u
 }
 
-// SetTotalFee sets the "total_fee" field.
-func (_u *PayOrderUpdate) SetTotalFee(v string) *PayOrderUpdate {
-	_u.mutation.SetTotalFee(v)
+// SetOrderPrice sets the "order_price" field.
+func (_u *PayOrderUpdate) SetOrderPrice(v int) *PayOrderUpdate {
+	_u.mutation.ResetOrderPrice()
+	_u.mutation.SetOrderPrice(v)
 	return _u
 }
 
-// SetNillableTotalFee sets the "total_fee" field if the given value is not nil.
-func (_u *PayOrderUpdate) SetNillableTotalFee(v *string) *PayOrderUpdate {
+// SetNillableOrderPrice sets the "order_price" field if the given value is not nil.
+func (_u *PayOrderUpdate) SetNillableOrderPrice(v *int) *PayOrderUpdate {
 	if v != nil {
-		_u.SetTotalFee(*v)
+		_u.SetOrderPrice(*v)
 	}
 	return _u
 }
 
-// ClearTotalFee clears the value of the "total_fee" field.
-func (_u *PayOrderUpdate) ClearTotalFee() *PayOrderUpdate {
-	_u.mutation.ClearTotalFee()
+// AddOrderPrice adds value to the "order_price" field.
+func (_u *PayOrderUpdate) AddOrderPrice(v int) *PayOrderUpdate {
+	_u.mutation.AddOrderPrice(v)
+	return _u
+}
+
+// ClearOrderPrice clears the value of the "order_price" field.
+func (_u *PayOrderUpdate) ClearOrderPrice() *PayOrderUpdate {
+	_u.mutation.ClearOrderPrice()
+	return _u
+}
+
+// SetPrice sets the "price" field.
+func (_u *PayOrderUpdate) SetPrice(v int) *PayOrderUpdate {
+	_u.mutation.ResetPrice()
+	_u.mutation.SetPrice(v)
+	return _u
+}
+
+// SetNillablePrice sets the "price" field if the given value is not nil.
+func (_u *PayOrderUpdate) SetNillablePrice(v *int) *PayOrderUpdate {
+	if v != nil {
+		_u.SetPrice(*v)
+	}
+	return _u
+}
+
+// AddPrice adds value to the "price" field.
+func (_u *PayOrderUpdate) AddPrice(v int) *PayOrderUpdate {
+	_u.mutation.AddPrice(v)
+	return _u
+}
+
+// ClearPrice clears the value of the "price" field.
+func (_u *PayOrderUpdate) ClearPrice() *PayOrderUpdate {
+	_u.mutation.ClearPrice()
+	return _u
+}
+
+// SetChannelFeePrice sets the "channel_fee_price" field.
+func (_u *PayOrderUpdate) SetChannelFeePrice(v int) *PayOrderUpdate {
+	_u.mutation.ResetChannelFeePrice()
+	_u.mutation.SetChannelFeePrice(v)
+	return _u
+}
+
+// SetNillableChannelFeePrice sets the "channel_fee_price" field if the given value is not nil.
+func (_u *PayOrderUpdate) SetNillableChannelFeePrice(v *int) *PayOrderUpdate {
+	if v != nil {
+		_u.SetChannelFeePrice(*v)
+	}
+	return _u
+}
+
+// AddChannelFeePrice adds value to the "channel_fee_price" field.
+func (_u *PayOrderUpdate) AddChannelFeePrice(v int) *PayOrderUpdate {
+	_u.mutation.AddChannelFeePrice(v)
+	return _u
+}
+
+// ClearChannelFeePrice clears the value of the "channel_fee_price" field.
+func (_u *PayOrderUpdate) ClearChannelFeePrice() *PayOrderUpdate {
+	_u.mutation.ClearChannelFeePrice()
 	return _u
 }
 
@@ -359,17 +440,44 @@ func (_u *PayOrderUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.OrderIDCleared() {
 		_spec.ClearField(payorder.FieldOrderID, field.TypeString)
 	}
+	if value, ok := _u.mutation.MerchantOrderID(); ok {
+		_spec.SetField(payorder.FieldMerchantOrderID, field.TypeString, value)
+	}
+	if _u.mutation.MerchantOrderIDCleared() {
+		_spec.ClearField(payorder.FieldMerchantOrderID, field.TypeString)
+	}
 	if value, ok := _u.mutation.OutTradeNo(); ok {
 		_spec.SetField(payorder.FieldOutTradeNo, field.TypeString, value)
 	}
 	if _u.mutation.OutTradeNoCleared() {
 		_spec.ClearField(payorder.FieldOutTradeNo, field.TypeString)
 	}
-	if value, ok := _u.mutation.TotalFee(); ok {
-		_spec.SetField(payorder.FieldTotalFee, field.TypeString, value)
+	if value, ok := _u.mutation.OrderPrice(); ok {
+		_spec.SetField(payorder.FieldOrderPrice, field.TypeInt, value)
 	}
-	if _u.mutation.TotalFeeCleared() {
-		_spec.ClearField(payorder.FieldTotalFee, field.TypeString)
+	if value, ok := _u.mutation.AddedOrderPrice(); ok {
+		_spec.AddField(payorder.FieldOrderPrice, field.TypeInt, value)
+	}
+	if _u.mutation.OrderPriceCleared() {
+		_spec.ClearField(payorder.FieldOrderPrice, field.TypeInt)
+	}
+	if value, ok := _u.mutation.Price(); ok {
+		_spec.SetField(payorder.FieldPrice, field.TypeInt, value)
+	}
+	if value, ok := _u.mutation.AddedPrice(); ok {
+		_spec.AddField(payorder.FieldPrice, field.TypeInt, value)
+	}
+	if _u.mutation.PriceCleared() {
+		_spec.ClearField(payorder.FieldPrice, field.TypeInt)
+	}
+	if value, ok := _u.mutation.ChannelFeePrice(); ok {
+		_spec.SetField(payorder.FieldChannelFeePrice, field.TypeInt, value)
+	}
+	if value, ok := _u.mutation.AddedChannelFeePrice(); ok {
+		_spec.AddField(payorder.FieldChannelFeePrice, field.TypeInt, value)
+	}
+	if _u.mutation.ChannelFeePriceCleared() {
+		_spec.ClearField(payorder.FieldChannelFeePrice, field.TypeInt)
 	}
 	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(payorder.FieldSubject, field.TypeString, value)
@@ -491,6 +599,26 @@ func (_u *PayOrderUpdateOne) ClearOrderID() *PayOrderUpdateOne {
 	return _u
 }
 
+// SetMerchantOrderID sets the "merchant_order_id" field.
+func (_u *PayOrderUpdateOne) SetMerchantOrderID(v string) *PayOrderUpdateOne {
+	_u.mutation.SetMerchantOrderID(v)
+	return _u
+}
+
+// SetNillableMerchantOrderID sets the "merchant_order_id" field if the given value is not nil.
+func (_u *PayOrderUpdateOne) SetNillableMerchantOrderID(v *string) *PayOrderUpdateOne {
+	if v != nil {
+		_u.SetMerchantOrderID(*v)
+	}
+	return _u
+}
+
+// ClearMerchantOrderID clears the value of the "merchant_order_id" field.
+func (_u *PayOrderUpdateOne) ClearMerchantOrderID() *PayOrderUpdateOne {
+	_u.mutation.ClearMerchantOrderID()
+	return _u
+}
+
 // SetOutTradeNo sets the "out_trade_no" field.
 func (_u *PayOrderUpdateOne) SetOutTradeNo(v string) *PayOrderUpdateOne {
 	_u.mutation.SetOutTradeNo(v)
@@ -511,23 +639,84 @@ func (_u *PayOrderUpdateOne) ClearOutTradeNo() *PayOrderUpdateOne {
 	return _u
 }
 
-// SetTotalFee sets the "total_fee" field.
-func (_u *PayOrderUpdateOne) SetTotalFee(v string) *PayOrderUpdateOne {
-	_u.mutation.SetTotalFee(v)
+// SetOrderPrice sets the "order_price" field.
+func (_u *PayOrderUpdateOne) SetOrderPrice(v int) *PayOrderUpdateOne {
+	_u.mutation.ResetOrderPrice()
+	_u.mutation.SetOrderPrice(v)
 	return _u
 }
 
-// SetNillableTotalFee sets the "total_fee" field if the given value is not nil.
-func (_u *PayOrderUpdateOne) SetNillableTotalFee(v *string) *PayOrderUpdateOne {
+// SetNillableOrderPrice sets the "order_price" field if the given value is not nil.
+func (_u *PayOrderUpdateOne) SetNillableOrderPrice(v *int) *PayOrderUpdateOne {
 	if v != nil {
-		_u.SetTotalFee(*v)
+		_u.SetOrderPrice(*v)
 	}
 	return _u
 }
 
-// ClearTotalFee clears the value of the "total_fee" field.
-func (_u *PayOrderUpdateOne) ClearTotalFee() *PayOrderUpdateOne {
-	_u.mutation.ClearTotalFee()
+// AddOrderPrice adds value to the "order_price" field.
+func (_u *PayOrderUpdateOne) AddOrderPrice(v int) *PayOrderUpdateOne {
+	_u.mutation.AddOrderPrice(v)
+	return _u
+}
+
+// ClearOrderPrice clears the value of the "order_price" field.
+func (_u *PayOrderUpdateOne) ClearOrderPrice() *PayOrderUpdateOne {
+	_u.mutation.ClearOrderPrice()
+	return _u
+}
+
+// SetPrice sets the "price" field.
+func (_u *PayOrderUpdateOne) SetPrice(v int) *PayOrderUpdateOne {
+	_u.mutation.ResetPrice()
+	_u.mutation.SetPrice(v)
+	return _u
+}
+
+// SetNillablePrice sets the "price" field if the given value is not nil.
+func (_u *PayOrderUpdateOne) SetNillablePrice(v *int) *PayOrderUpdateOne {
+	if v != nil {
+		_u.SetPrice(*v)
+	}
+	return _u
+}
+
+// AddPrice adds value to the "price" field.
+func (_u *PayOrderUpdateOne) AddPrice(v int) *PayOrderUpdateOne {
+	_u.mutation.AddPrice(v)
+	return _u
+}
+
+// ClearPrice clears the value of the "price" field.
+func (_u *PayOrderUpdateOne) ClearPrice() *PayOrderUpdateOne {
+	_u.mutation.ClearPrice()
+	return _u
+}
+
+// SetChannelFeePrice sets the "channel_fee_price" field.
+func (_u *PayOrderUpdateOne) SetChannelFeePrice(v int) *PayOrderUpdateOne {
+	_u.mutation.ResetChannelFeePrice()
+	_u.mutation.SetChannelFeePrice(v)
+	return _u
+}
+
+// SetNillableChannelFeePrice sets the "channel_fee_price" field if the given value is not nil.
+func (_u *PayOrderUpdateOne) SetNillableChannelFeePrice(v *int) *PayOrderUpdateOne {
+	if v != nil {
+		_u.SetChannelFeePrice(*v)
+	}
+	return _u
+}
+
+// AddChannelFeePrice adds value to the "channel_fee_price" field.
+func (_u *PayOrderUpdateOne) AddChannelFeePrice(v int) *PayOrderUpdateOne {
+	_u.mutation.AddChannelFeePrice(v)
+	return _u
+}
+
+// ClearChannelFeePrice clears the value of the "channel_fee_price" field.
+func (_u *PayOrderUpdateOne) ClearChannelFeePrice() *PayOrderUpdateOne {
+	_u.mutation.ClearChannelFeePrice()
 	return _u
 }
 
@@ -806,17 +995,44 @@ func (_u *PayOrderUpdateOne) sqlSave(ctx context.Context) (_node *PayOrder, err 
 	if _u.mutation.OrderIDCleared() {
 		_spec.ClearField(payorder.FieldOrderID, field.TypeString)
 	}
+	if value, ok := _u.mutation.MerchantOrderID(); ok {
+		_spec.SetField(payorder.FieldMerchantOrderID, field.TypeString, value)
+	}
+	if _u.mutation.MerchantOrderIDCleared() {
+		_spec.ClearField(payorder.FieldMerchantOrderID, field.TypeString)
+	}
 	if value, ok := _u.mutation.OutTradeNo(); ok {
 		_spec.SetField(payorder.FieldOutTradeNo, field.TypeString, value)
 	}
 	if _u.mutation.OutTradeNoCleared() {
 		_spec.ClearField(payorder.FieldOutTradeNo, field.TypeString)
 	}
-	if value, ok := _u.mutation.TotalFee(); ok {
-		_spec.SetField(payorder.FieldTotalFee, field.TypeString, value)
+	if value, ok := _u.mutation.OrderPrice(); ok {
+		_spec.SetField(payorder.FieldOrderPrice, field.TypeInt, value)
 	}
-	if _u.mutation.TotalFeeCleared() {
-		_spec.ClearField(payorder.FieldTotalFee, field.TypeString)
+	if value, ok := _u.mutation.AddedOrderPrice(); ok {
+		_spec.AddField(payorder.FieldOrderPrice, field.TypeInt, value)
+	}
+	if _u.mutation.OrderPriceCleared() {
+		_spec.ClearField(payorder.FieldOrderPrice, field.TypeInt)
+	}
+	if value, ok := _u.mutation.Price(); ok {
+		_spec.SetField(payorder.FieldPrice, field.TypeInt, value)
+	}
+	if value, ok := _u.mutation.AddedPrice(); ok {
+		_spec.AddField(payorder.FieldPrice, field.TypeInt, value)
+	}
+	if _u.mutation.PriceCleared() {
+		_spec.ClearField(payorder.FieldPrice, field.TypeInt)
+	}
+	if value, ok := _u.mutation.ChannelFeePrice(); ok {
+		_spec.SetField(payorder.FieldChannelFeePrice, field.TypeInt, value)
+	}
+	if value, ok := _u.mutation.AddedChannelFeePrice(); ok {
+		_spec.AddField(payorder.FieldChannelFeePrice, field.TypeInt, value)
+	}
+	if _u.mutation.ChannelFeePriceCleared() {
+		_spec.ClearField(payorder.FieldChannelFeePrice, field.TypeInt)
 	}
 	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(payorder.FieldSubject, field.TypeString, value)

@@ -21,10 +21,16 @@ const (
 	FieldChannelType = "channel_type"
 	// FieldOrderID holds the string denoting the order_id field in the database.
 	FieldOrderID = "order_id"
+	// FieldMerchantOrderID holds the string denoting the merchant_order_id field in the database.
+	FieldMerchantOrderID = "merchant_order_id"
 	// FieldOutTradeNo holds the string denoting the out_trade_no field in the database.
 	FieldOutTradeNo = "out_trade_no"
-	// FieldTotalFee holds the string denoting the total_fee field in the database.
-	FieldTotalFee = "total_fee"
+	// FieldOrderPrice holds the string denoting the order_price field in the database.
+	FieldOrderPrice = "order_price"
+	// FieldPrice holds the string denoting the price field in the database.
+	FieldPrice = "price"
+	// FieldChannelFeePrice holds the string denoting the channel_fee_price field in the database.
+	FieldChannelFeePrice = "channel_fee_price"
 	// FieldSubject holds the string denoting the subject field in the database.
 	FieldSubject = "subject"
 	// FieldBody holds the string denoting the body field in the database.
@@ -54,8 +60,11 @@ var Columns = []string{
 	FieldUpdatedAt,
 	FieldChannelType,
 	FieldOrderID,
+	FieldMerchantOrderID,
 	FieldOutTradeNo,
-	FieldTotalFee,
+	FieldOrderPrice,
+	FieldPrice,
+	FieldChannelFeePrice,
 	FieldSubject,
 	FieldBody,
 	FieldNotifyURL,
@@ -116,14 +125,29 @@ func ByOrderID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOrderID, opts...).ToFunc()
 }
 
+// ByMerchantOrderID orders the results by the merchant_order_id field.
+func ByMerchantOrderID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldMerchantOrderID, opts...).ToFunc()
+}
+
 // ByOutTradeNo orders the results by the out_trade_no field.
 func ByOutTradeNo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOutTradeNo, opts...).ToFunc()
 }
 
-// ByTotalFee orders the results by the total_fee field.
-func ByTotalFee(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTotalFee, opts...).ToFunc()
+// ByOrderPrice orders the results by the order_price field.
+func ByOrderPrice(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOrderPrice, opts...).ToFunc()
+}
+
+// ByPrice orders the results by the price field.
+func ByPrice(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPrice, opts...).ToFunc()
+}
+
+// ByChannelFeePrice orders the results by the channel_fee_price field.
+func ByChannelFeePrice(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldChannelFeePrice, opts...).ToFunc()
 }
 
 // BySubject orders the results by the subject field.
