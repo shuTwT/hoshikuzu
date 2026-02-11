@@ -3,7 +3,6 @@ package role
 import (
 	"strconv"
 
-	"github.com/shuTwT/hoshikuzu/ent"
 	role_service "github.com/shuTwT/hoshikuzu/internal/services/system/role"
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
@@ -45,7 +44,19 @@ func (h *RoleHandlerImpl) ListRole(c *fiber.Ctx) error {
 		))
 	}
 
-	return c.JSON(model.NewSuccess("success", roles))
+	resps := make([]model.RoleResp, 0, len(roles))
+
+	for _, role := range roles {
+		resps = append(resps, model.RoleResp{
+			ID:        role.ID,
+			Name:      role.Name,
+			Code:      role.Code,
+			CreatedAt: model.LocalTime(role.CreatedAt),
+			IsDefault: role.IsDefault,
+		})
+	}
+
+	return c.JSON(model.NewSuccess("success", resps))
 }
 
 // @Summary 查询角色分页列表
@@ -75,9 +86,22 @@ func (h *RoleHandlerImpl) ListRolePage(c *fiber.Ctx) error {
 			err.Error(),
 		))
 	}
-	pageResult := model.PageResult[*ent.Role]{
+
+	resps := make([]model.RoleResp, 0, len(roles))
+
+	for _, role := range roles {
+		resps = append(resps, model.RoleResp{
+			ID:        role.ID,
+			Name:      role.Name,
+			Code:      role.Code,
+			CreatedAt: model.LocalTime(role.CreatedAt),
+			IsDefault: role.IsDefault,
+		})
+	}
+
+	pageResult := model.PageResult[model.RoleResp]{
 		Total:   int64(count),
-		Records: roles,
+		Records: resps,
 	}
 	return c.JSON(model.NewSuccess("success", pageResult))
 }

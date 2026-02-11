@@ -701,7 +701,7 @@ var (
 		{Name: "node_id", Type: field.TypeString, Default: ""},
 		{Name: "endpoint", Type: field.TypeString, Default: ""},
 		{Name: "region", Type: field.TypeString, Default: ""},
-		{Name: "bucket", Type: field.TypeString},
+		{Name: "bucket", Type: field.TypeString, Default: ""},
 		{Name: "access_key", Type: field.TypeString, Default: ""},
 		{Name: "secret_key", Type: field.TypeString, Default: ""},
 		{Name: "base_path", Type: field.TypeString, Default: ""},

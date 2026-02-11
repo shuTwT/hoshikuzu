@@ -1616,8 +1616,8 @@ func init() {
 	storagestrategy.DefaultRegion = storagestrategyDescRegion.Default.(string)
 	// storagestrategyDescBucket is the schema descriptor for bucket field.
 	storagestrategyDescBucket := storagestrategyFields[5].Descriptor()
-	// storagestrategy.BucketValidator is a validator for the "bucket" field. It is called by the builders before save.
-	storagestrategy.BucketValidator = storagestrategyDescBucket.Validators[0].(func(string) error)
+	// storagestrategy.DefaultBucket holds the default value on creation for the bucket field.
+	storagestrategy.DefaultBucket = storagestrategyDescBucket.Default.(string)
 	// storagestrategyDescAccessKey is the schema descriptor for access_key field.
 	storagestrategyDescAccessKey := storagestrategyFields[6].Descriptor()
 	// storagestrategy.DefaultAccessKey holds the default value on creation for the access_key field.

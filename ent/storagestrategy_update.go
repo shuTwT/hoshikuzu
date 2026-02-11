@@ -278,11 +278,6 @@ func (_u *StorageStrategyUpdate) check() error {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "StorageStrategy.type": %w`, err)}
 		}
 	}
-	if v, ok := _u.mutation.Bucket(); ok {
-		if err := storagestrategy.BucketValidator(v); err != nil {
-			return &ValidationError{Name: "bucket", err: fmt.Errorf(`ent: validator failed for field "StorageStrategy.bucket": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -659,11 +654,6 @@ func (_u *StorageStrategyUpdateOne) check() error {
 	if v, ok := _u.mutation.GetType(); ok {
 		if err := storagestrategy.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "StorageStrategy.type": %w`, err)}
-		}
-	}
-	if v, ok := _u.mutation.Bucket(); ok {
-		if err := storagestrategy.BucketValidator(v); err != nil {
-			return &ValidationError{Name: "bucket", err: fmt.Errorf(`ent: validator failed for field "StorageStrategy.bucket": %w`, err)}
 		}
 	}
 	return nil

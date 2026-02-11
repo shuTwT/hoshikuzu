@@ -3,7 +3,6 @@ package storagestrategy
 import (
 	"strconv"
 
-	"github.com/shuTwT/hoshikuzu/ent"
 	"github.com/shuTwT/hoshikuzu/internal/infra/storage"
 	storagestrategy_service "github.com/shuTwT/hoshikuzu/internal/services/infra/storagestrategy"
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
@@ -12,8 +11,8 @@ import (
 )
 
 type StorageStrategyHandler interface {
+	ListStorageStrategyPage(c *fiber.Ctx) error
 	ListStorageStrategy(c *fiber.Ctx) error
-	ListStorageStrategyAll(c *fiber.Ctx) error
 	CreateStorageStrategy(c *fiber.Ctx) error
 	UpdateStorageStrategy(c *fiber.Ctx) error
 	QueryStorageStrategy(c *fiber.Ctx) error
@@ -31,8 +30,8 @@ func NewStorageStrategyHandlerImpl(storageStrategyService storagestrategy_servic
 	}
 }
 
-// @Summary 获取存储策略列表
-// @Description 获取所有存储策略的列表
+// @Summary 获取存储策略分页
+// @Description 获取所有存储策略的分页
 // @Tags 后台管理接口/存储策略
 // @Accept json
 // @Produce json
@@ -43,8 +42,8 @@ func NewStorageStrategyHandlerImpl(storageStrategyService storagestrategy_servic
 // @Param master query bool false "是否默认"
 // @Success 200 {object} model.HttpSuccess{data=[]ent.StorageStrategy}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/storage-strategy/list [get]
-func (h *StorageStrategyHandlerImpl) ListStorageStrategy(c *fiber.Ctx) error {
+// @Router /api/v1/storage-strategy/page [get]
+func (h *StorageStrategyHandlerImpl) ListStorageStrategyPage(c *fiber.Ctx) error {
 	var pageReq model.StorageStrategyPageReq
 	if err := c.QueryParser(&pageReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -55,9 +54,28 @@ func (h *StorageStrategyHandlerImpl) ListStorageStrategy(c *fiber.Ctx) error {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	pageResult := model.PageResult[*ent.StorageStrategy]{
+	resps := make([]model.StorageStrategyResp, 0, len(strategies))
+	for _, strategy := range strategies {
+		resps = append(resps, model.StorageStrategyResp{
+			ID:        strategy.ID,
+			Name:      strategy.Name,
+			Type:      string(strategy.Type),
+			Master:    strategy.Master,
+			NodeID:    strategy.NodeID,
+			Endpoint:  strategy.Endpoint,
+			Region:    strategy.Region,
+			Bucket:    strategy.Bucket,
+			BasePath:  strategy.BasePath,
+			Domain:    strategy.Domain,
+			AccessKey: strategy.AccessKey,
+			SecretKey: strategy.SecretKey,
+			CreatedAt: model.LocalTime(strategy.CreatedAt),
+		})
+	}
+
+	pageResult := model.PageResult[model.StorageStrategyResp]{
 		Total:   int64(count),
-		Records: strategies,
+		Records: resps,
 	}
 	return c.JSON(model.NewSuccess("success", pageResult))
 }
@@ -69,8 +87,8 @@ func (h *StorageStrategyHandlerImpl) ListStorageStrategy(c *fiber.Ctx) error {
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.StorageStrategyListResp}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/storage-strategy/list-all [get]
-func (h *StorageStrategyHandlerImpl) ListStorageStrategyAll(c *fiber.Ctx) error {
+// @Router /api/v1/storage-strategy/list [get]
+func (h *StorageStrategyHandlerImpl) ListStorageStrategy(c *fiber.Ctx) error {
 	strategies, err := h.storageStrategyService.ListStorageStrategy(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))

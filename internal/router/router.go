@@ -166,8 +166,8 @@ func initContentRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 func initInfraRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 	storageStrategyApi := router.Group("/storage-strategy")
 	{
+		storageStrategyApi.Get("/page", handlerMap.StorageStrategyHandler.ListStorageStrategyPage)
 		storageStrategyApi.Get("/list", handlerMap.StorageStrategyHandler.ListStorageStrategy)
-		storageStrategyApi.Get("/list-all", handlerMap.StorageStrategyHandler.ListStorageStrategyAll)
 		storageStrategyApi.Post("/create", handlerMap.StorageStrategyHandler.CreateStorageStrategy)
 		storageStrategyApi.Put("/update/:id", handlerMap.StorageStrategyHandler.UpdateStorageStrategy)
 		storageStrategyApi.Get("/query/:id", handlerMap.StorageStrategyHandler.QueryStorageStrategy)

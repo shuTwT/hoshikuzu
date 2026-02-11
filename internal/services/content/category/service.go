@@ -5,19 +5,16 @@ import (
 
 	"github.com/shuTwT/hoshikuzu/ent"
 	"github.com/shuTwT/hoshikuzu/ent/category"
-	"github.com/shuTwT/hoshikuzu/ent/post"
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 type CategoryService interface {
-	QueryCategory(c *fiber.Ctx, id int) (*ent.Category, error)
-	QueryCategoryList(c *fiber.Ctx) ([]model.CategoryResp, error)
-	QueryCategoryPage(c *fiber.Ctx, pageQuery model.PageQuery) (int, []*ent.Category, error)
+	QueryCategory(c context.Context, id int) (*ent.Category, error)
+	QueryCategoryList(c context.Context) ([]*ent.Category, error)
+	QueryCategoryPage(c context.Context, pageQuery model.PageQuery) (int, []*ent.Category, error)
 	CreateCategory(c context.Context, createReq model.CategoryCreateReq) (*ent.Category, error)
-	UpdateCategory(c *fiber.Ctx, id int, updateReq *model.CategoryUpdateReq) (*ent.Category, error)
-	DeleteCategory(c *fiber.Ctx, id int) error
+	UpdateCategory(c context.Context, id int, updateReq *model.CategoryUpdateReq) (*ent.Category, error)
+	DeleteCategory(c context.Context, id int) error
 }
 
 type CategoryServiceImpl struct {
@@ -28,49 +25,29 @@ func NewCategoryServiceImpl(client *ent.Client) *CategoryServiceImpl {
 	return &CategoryServiceImpl{client: client}
 }
 
-func (s *CategoryServiceImpl) QueryCategory(c *fiber.Ctx, id int) (*ent.Category, error) {
+func (s *CategoryServiceImpl) QueryCategory(c context.Context, id int) (*ent.Category, error) {
 	category, err := s.client.Category.Query().
 		Where(category.ID(id)).
-		Only(c.Context())
+		Only(c)
 	if err != nil {
 		return nil, err
 	}
 	return category, nil
 }
 
-func (s *CategoryServiceImpl) QueryCategoryList(c *fiber.Ctx) ([]model.CategoryResp, error) {
+func (s *CategoryServiceImpl) QueryCategoryList(c context.Context) ([]*ent.Category, error) {
 
 	categories, err := s.client.Category.Query().
-		All(c.Context())
+		All(c)
 	if err != nil {
 		return nil, err
 	}
 
-	var resp []model.CategoryResp
-	for _, cat := range categories {
-		postCount, err := s.client.Post.Query().
-			Where(post.HasCategoriesWith(category.ID(cat.ID))).
-			Count(c.Context())
-		if err != nil {
-			return nil, err
-		}
-
-		resp = append(resp, model.CategoryResp{
-			ID:          cat.ID,
-			Name:        cat.Name,
-			Description: cat.Description,
-			Slug:        cat.Slug,
-			SortOrder:   cat.SortOrder,
-			Active:      cat.Active,
-			PostCount:   postCount,
-		})
-	}
-
-	return resp, nil
+	return categories, nil
 }
 
-func (s *CategoryServiceImpl) QueryCategoryPage(c *fiber.Ctx, pageQuery model.PageQuery) (int, []*ent.Category, error) {
-	count, err := s.client.Category.Query().Count(c.UserContext())
+func (s *CategoryServiceImpl) QueryCategoryPage(c context.Context, pageQuery model.PageQuery) (int, []*ent.Category, error) {
+	count, err := s.client.Category.Query().Count(c)
 	if err != nil {
 		return 0, nil, err
 	}
@@ -79,7 +56,7 @@ func (s *CategoryServiceImpl) QueryCategoryPage(c *fiber.Ctx, pageQuery model.Pa
 		Order(ent.Desc(category.FieldID)).
 		Offset((pageQuery.Page - 1) * pageQuery.Size).
 		Limit(pageQuery.Size).
-		All(c.Context())
+		All(c)
 	if err != nil {
 		return 0, nil, err
 	}
@@ -101,7 +78,7 @@ func (s *CategoryServiceImpl) CreateCategory(c context.Context, createReq model.
 	return category, nil
 }
 
-func (s *CategoryServiceImpl) UpdateCategory(c *fiber.Ctx, id int, updateReq *model.CategoryUpdateReq) (*ent.Category, error) {
+func (s *CategoryServiceImpl) UpdateCategory(c context.Context, id int, updateReq *model.CategoryUpdateReq) (*ent.Category, error) {
 
 	update := s.client.Category.UpdateOneID(id)
 
@@ -125,7 +102,7 @@ func (s *CategoryServiceImpl) UpdateCategory(c *fiber.Ctx, id int, updateReq *mo
 		update.SetNillableActive(updateReq.Active)
 	}
 
-	updatedCategory, err := update.Save(c.Context())
+	updatedCategory, err := update.Save(c)
 	if err != nil {
 		return nil, err
 	}
@@ -133,8 +110,8 @@ func (s *CategoryServiceImpl) UpdateCategory(c *fiber.Ctx, id int, updateReq *mo
 	return updatedCategory, nil
 }
 
-func (s *CategoryServiceImpl) DeleteCategory(c *fiber.Ctx, id int) error {
-	err := s.client.Category.DeleteOneID(id).Exec(c.Context())
+func (s *CategoryServiceImpl) DeleteCategory(c context.Context, id int) error {
+	err := s.client.Category.DeleteOneID(id).Exec(c)
 	if err != nil {
 		return err
 	}

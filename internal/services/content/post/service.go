@@ -33,6 +33,7 @@ type PostService interface {
 	SearchPosts(c context.Context, req model.PostSearchReq) ([]*model.PostSearchResp, int, error)
 	PublishPost(c context.Context, id int) (*ent.Post, error)
 	UnpublishPost(c context.Context, id int) (*ent.Post, error)
+	PostCountByCategory(c context.Context, categoryID int) (int, error)
 }
 
 type PostServiceImpl struct {
@@ -434,4 +435,14 @@ func (s *PostServiceImpl) UnpublishPost(c context.Context, id int) (*ent.Post, e
 		return nil, err
 	}
 	return post, nil
+}
+
+func (s *PostServiceImpl) PostCountByCategory(c context.Context, categoryID int) (int, error) {
+	count, err := s.client.Post.Query().
+		Where(post.HasCategoriesWith(category.IDEQ(categoryID))).
+		Count(c)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }

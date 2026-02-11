@@ -97,8 +97,8 @@ var (
 	DefaultEndpoint string
 	// DefaultRegion holds the default value on creation for the "region" field.
 	DefaultRegion string
-	// BucketValidator is a validator for the "bucket" field. It is called by the builders before save.
-	BucketValidator func(string) error
+	// DefaultBucket holds the default value on creation for the "bucket" field.
+	DefaultBucket string
 	// DefaultAccessKey holds the default value on creation for the "access_key" field.
 	DefaultAccessKey string
 	// DefaultSecretKey holds the default value on creation for the "secret_key" field.

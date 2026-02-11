@@ -5,6 +5,7 @@ import type { DataTableColumns } from 'naive-ui'
 import { addDialog } from '@/components/dialog'
 import uploadForm from './uploadForm.vue'
 import * as fileApi from '@/api/infra/file'
+import dayjs from 'dayjs'
 
 const searchForm = reactive({
   name: '',
@@ -77,6 +78,9 @@ const columns: DataTableColumns<any> = [
     ellipsis: {
       tooltip: true,
     },
+    render:(row)=>{
+      return row.created_at ? dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') : '-'
+    }
   },
   {
     title: '操作',

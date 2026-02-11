@@ -80,8 +80,8 @@ onBeforeUnmount(()=>{
     <div class="mb-2">
       <span>存储策略</span>
     </div>
-    <div class="mb-2">
-      <div v-for="(item,index) in storageStrategyList" :key="index">
+    <div class="mb-2 w-full flex ">
+      <div v-for="(item,index) in storageStrategyList" :key="index" class="mr-2">
         <n-button ghost :type="formData.currStorageStrategy === item.id ? 'primary' : 'default'" @click="formData.currStorageStrategy = item.id">
           {{ item.name }}
         </n-button>

@@ -47,7 +47,7 @@ func (h *FileHandlerImpl) ListFile(c *fiber.Ctx) error {
 	for _, file := range files {
 		fileResps = append(fileResps, &model.FileResp{
 			ID:                file.ID,
-			CreatedAt:         file.CreatedAt,
+			CreatedAt:         model.LocalTime(file.CreatedAt),
 			Name:              file.Name,
 			Path:              file.Path,
 			URL:               file.URL,
@@ -94,7 +94,7 @@ func (h *FileHandlerImpl) ListFilePage(c *fiber.Ctx) error {
 	for _, file := range files {
 		fileResps = append(fileResps, &model.FileResp{
 			ID:                file.ID,
-			CreatedAt:         file.CreatedAt,
+			CreatedAt:         model.LocalTime(file.CreatedAt),
 			Name:              file.Name,
 			Path:              file.Path,
 			URL:               file.URL,
@@ -141,7 +141,7 @@ func (h *FileHandlerImpl) QueryFile(c *fiber.Ctx) error {
 
 	fileResp := &model.FileResp{
 		ID:                file.ID,
-		CreatedAt:         file.CreatedAt,
+		CreatedAt:         model.LocalTime(file.CreatedAt),
 		Name:              file.Name,
 		Path:              file.Path,
 		URL:               file.URL,

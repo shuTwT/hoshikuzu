@@ -1,10 +1,10 @@
 package model
 
 type StorageStrategyPageReq struct {
-	Page  int    `json:"page" query:"page" form:"page" validate:"required,min=1"`
-	Size  int    `json:"page_size" query:"page_size" form:"page_size" validate:"required,min=1,max=100"`
-	Name  string `json:"name" query:"name" form:"name"`
-	Type  string `json:"type" query:"type" form:"type" validate:"omitempty,oneof=local s3"`
+	Page   int    `json:"page" query:"page" form:"page" validate:"required,min=1"`
+	Size   int    `json:"page_size" query:"page_size" form:"page_size" validate:"required,min=1,max=100"`
+	Name   string `json:"name" query:"name" form:"name"`
+	Type   string `json:"type" query:"type" form:"type" validate:"omitempty,oneof=local s3"`
 	Master *bool  `json:"master" query:"master" form:"master"`
 }
 
@@ -51,6 +51,8 @@ type StorageStrategyResp struct {
 	BasePath  string    `json:"base_path"`
 	Domain    string    `json:"domain"`
 	Master    bool      `json:"master"`
+	AccessKey string    `json:"access_key"`
+	SecretKey string    `json:"secret_key"`
 }
 
 type StorageStrategyListResp struct {

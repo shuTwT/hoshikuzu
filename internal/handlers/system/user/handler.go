@@ -54,10 +54,12 @@ func (h *UserHandlerImpl) ListUser(c *fiber.Ctx) error {
 	userRespList := []model.UserResp{}
 	for _, user := range users {
 		userRespList = append(userRespList, model.UserResp{
-			ID:     user.ID,
-			Name:   user.Name,
-			Email:  user.Email,
-			RoleID: &user.RoleID,
+			ID:          user.ID,
+			Name:        user.Name,
+			Email:       user.Email,
+			PhoneNumber: user.PhoneNumber,
+			RoleID:      &user.RoleID,
+			CreatedAt:   model.LocalTime(user.CreatedAt),
 		})
 	}
 	return c.JSON(model.NewSuccess("success", userRespList))
@@ -92,10 +94,12 @@ func (h *UserHandlerImpl) ListUserPage(c *fiber.Ctx) error {
 	userRespList := []model.UserResp{}
 	for _, user := range users {
 		userResp := model.UserResp{
-			ID:     user.ID,
-			Name:   user.Name,
-			Email:  user.Email,
-			RoleID: &user.RoleID,
+			ID:          user.ID,
+			Name:        user.Name,
+			Email:       user.Email,
+			PhoneNumber: user.PhoneNumber,
+			RoleID:      &user.RoleID,
+			CreatedAt:   model.LocalTime(user.CreatedAt),
 		}
 		role, _ := h.roleService.QueryRole(c.Context(), user.RoleID)
 		userResp.Role = role
@@ -203,8 +207,9 @@ func (h *UserHandlerImpl) QueryUser(c *fiber.Ctx) error {
 		ID:          user.ID,
 		Name:        user.Name,
 		Email:       user.Email,
-		PhoneNumber: &user.PhoneNumber,
+		PhoneNumber: user.PhoneNumber,
 		RoleID:      &user.RoleID,
+		CreatedAt:   model.LocalTime(user.CreatedAt),
 	}
 
 	return c.JSON(model.NewSuccess("success", userResp))

@@ -117,6 +117,14 @@ func (_c *StorageStrategyCreate) SetBucket(v string) *StorageStrategyCreate {
 	return _c
 }
 
+// SetNillableBucket sets the "bucket" field if the given value is not nil.
+func (_c *StorageStrategyCreate) SetNillableBucket(v *string) *StorageStrategyCreate {
+	if v != nil {
+		_c.SetBucket(*v)
+	}
+	return _c
+}
+
 // SetAccessKey sets the "access_key" field.
 func (_c *StorageStrategyCreate) SetAccessKey(v string) *StorageStrategyCreate {
 	_c.mutation.SetAccessKey(v)
@@ -267,6 +275,10 @@ func (_c *StorageStrategyCreate) defaults() {
 		v := storagestrategy.DefaultRegion
 		_c.mutation.SetRegion(v)
 	}
+	if _, ok := _c.mutation.Bucket(); !ok {
+		v := storagestrategy.DefaultBucket
+		_c.mutation.SetBucket(v)
+	}
 	if _, ok := _c.mutation.AccessKey(); !ok {
 		v := storagestrategy.DefaultAccessKey
 		_c.mutation.SetAccessKey(v)
@@ -324,11 +336,6 @@ func (_c *StorageStrategyCreate) check() error {
 	}
 	if _, ok := _c.mutation.Bucket(); !ok {
 		return &ValidationError{Name: "bucket", err: errors.New(`ent: missing required field "StorageStrategy.bucket"`)}
-	}
-	if v, ok := _c.mutation.Bucket(); ok {
-		if err := storagestrategy.BucketValidator(v); err != nil {
-			return &ValidationError{Name: "bucket", err: fmt.Errorf(`ent: validator failed for field "StorageStrategy.bucket": %w`, err)}
-		}
 	}
 	if _, ok := _c.mutation.AccessKey(); !ok {
 		return &ValidationError{Name: "access_key", err: errors.New(`ent: missing required field "StorageStrategy.access_key"`)}

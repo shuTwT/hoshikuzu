@@ -91,7 +91,7 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 	albnumPhotoHandler := albumphoto_handler.NewAlbumPhotoHandlerImpl(serviceMap.AlbumPhotoService)
 	apiInterfaceHandler := apiinterface_handler.NewApiInterfaceHandlerImpl(serviceMap.ApiInterfaceService)
 	authHandler := auth_handler.NewAuthHandlerImpl(serviceMap.AuthService)
-	categoryHandler := category_handler.NewCategoryHandlerImpl(serviceMap.CategoryService)
+	categoryHandler := category_handler.NewCategoryHandlerImpl(serviceMap.CategoryService, serviceMap.PostService)
 	commentHandler := comment_handler.NewCommentHandlerImpl(serviceMap.CommentService)
 	commonHandler := common_handler.NewCommonHandlerImpl(serviceMap.CommonService)
 	couponHandler := coupon_handler.NewCouponHandlerImpl(serviceMap.CouponService)

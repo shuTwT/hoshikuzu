@@ -29,15 +29,15 @@ type UserUpdateReq struct {
 // UserResp represents the response body for a user.
 
 type UserResp struct {
-	ID                  int        `json:"id"`
-	CreatedAt           *LocalTime `json:"created_at"`
-	Email               string     `json:"email"`
-	EmailVerified       bool       `json:"email_verified"`
-	Name                string     `json:"name"`
-	PhoneNumber         *string    `json:"phone_number"`
-	PhoneNumberVerified bool       `json:"phone_number_verified"`
-	RoleID              *int       `json:"role_id,omitempty"`
-	Role                *ent.Role  `json:"role,omitempty"`
+	ID                  int       `json:"id"`
+	CreatedAt           LocalTime `json:"created_at"`
+	Email               string    `json:"email"`
+	EmailVerified       bool      `json:"email_verified"`
+	Name                string    `json:"name"`
+	PhoneNumber         string    `json:"phone_number"`
+	PhoneNumberVerified bool      `json:"phone_number_verified"`
+	RoleID              *int      `json:"role_id,omitempty"`
+	Role                *ent.Role `json:"role,omitempty"`
 }
 
 type UserProfileResp struct {

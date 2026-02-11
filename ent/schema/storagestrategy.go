@@ -25,7 +25,7 @@ func (StorageStrategy) Fields() []ent.Field {
 		field.String("node_id").Default("").Comment("节点 ID"),
 		field.String("endpoint").Default("").Comment("端点"),
 		field.String("region").Default("").Comment("region"),
-		field.String("bucket").NotEmpty().Comment("存储桶名称"),
+		field.String("bucket").Default("").Comment("存储桶名称"),
 		field.String("access_key").Default("").Comment("accessKey"),
 		field.String("secret_key").Default("").Comment("secret_key"),
 		field.String("base_path").Default("").Comment("local 基础路径"),

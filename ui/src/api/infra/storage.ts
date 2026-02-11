@@ -40,12 +40,12 @@ export interface UpdateStorageStrategyParams extends Partial<CreateStorageStrate
 
 // 获取存储策略列表
 export const getStorageStrategyList = (params?: StorageStrategyPageParams) => {
-  return http.request<ApiResponse<StorageStrategy[]>>('get',`${BASE_URL}/v1/storage-strategy/list`, { params })
+  return http.request<ApiResponse<StorageStrategy[]>>('get',`${BASE_URL}/v1/storage-strategy/page`, { params })
 }
 
 // 获取所有存储策略
 export const getStorageStrategyListAll = () => {
-  return http.request<ApiResponse<StorageStrategy[]>>('get',`${BASE_URL}/v1/storage-strategy/list-all`)
+  return http.request<ApiResponse<StorageStrategy[]>>('get',`${BASE_URL}/v1/storage-strategy/list`)
 }
 
 // 创建存储策略

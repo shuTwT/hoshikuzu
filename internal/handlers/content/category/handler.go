@@ -5,6 +5,7 @@ import (
 
 	"github.com/shuTwT/hoshikuzu/ent"
 	category_service "github.com/shuTwT/hoshikuzu/internal/services/content/category"
+	post_service "github.com/shuTwT/hoshikuzu/internal/services/content/post"
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,11 +22,13 @@ type CategoryHandler interface {
 
 type CategoryHandlerImpl struct {
 	categoryService category_service.CategoryService
+	postService     post_service.PostService
 }
 
-func NewCategoryHandlerImpl(categoryService category_service.CategoryService) *CategoryHandlerImpl {
+func NewCategoryHandlerImpl(categoryService category_service.CategoryService, postService post_service.PostService) *CategoryHandlerImpl {
 	return &CategoryHandlerImpl{
 		categoryService: categoryService,
+		postService:     postService,
 	}
 }
 
@@ -48,7 +51,7 @@ func (h *CategoryHandlerImpl) QueryCategory(c *fiber.Ctx) error {
 		))
 	}
 
-	category, err := h.categoryService.QueryCategory(c, id)
+	category, err := h.categoryService.QueryCategory(c.Context(), id)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return c.JSON(model.NewError(fiber.StatusNotFound,
@@ -72,14 +75,32 @@ func (h *CategoryHandlerImpl) QueryCategory(c *fiber.Ctx) error {
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/category/list [get]
 func (h *CategoryHandlerImpl) QueryCategoryList(c *fiber.Ctx) error {
-	categories, err := h.categoryService.QueryCategoryList(c)
+	categories, err := h.categoryService.QueryCategoryList(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError,
 			err.Error(),
 		))
 	}
 
-	return c.JSON(model.NewSuccess("success", categories))
+	resps := []model.CategoryResp{}
+	for _, cat := range categories {
+		var postCount int
+		postCount, err = h.postService.PostCountByCategory(c.Context(), cat.ID)
+		if err != nil {
+			postCount = 0
+		}
+		resps = append(resps, model.CategoryResp{
+			ID:          cat.ID,
+			Name:        cat.Name,
+			Description: cat.Description,
+			Slug:        cat.Slug,
+			SortOrder:   cat.SortOrder,
+			Active:      cat.Active,
+			PostCount:   postCount,
+		})
+	}
+
+	return c.JSON(model.NewSuccess("success", resps))
 }
 
 // @Summary 查询分类分页列表
@@ -102,16 +123,34 @@ func (h *CategoryHandlerImpl) QueryCategoryPage(c *fiber.Ctx) error {
 		))
 	}
 
-	count, categories, err := h.categoryService.QueryCategoryPage(c, pageQuery)
+	count, categories, err := h.categoryService.QueryCategoryPage(c.Context(), pageQuery)
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError,
 			err.Error(),
 		))
 	}
 
-	pageResult := model.PageResult[*ent.Category]{
+	resps := []model.CategoryResp{}
+	for _, cat := range categories {
+		var postCount int
+		postCount, err = h.postService.PostCountByCategory(c.Context(), cat.ID)
+		if err != nil {
+			postCount = 0
+		}
+		resps = append(resps, model.CategoryResp{
+			ID:          cat.ID,
+			Name:        cat.Name,
+			Description: cat.Description,
+			Slug:        cat.Slug,
+			SortOrder:   cat.SortOrder,
+			Active:      cat.Active,
+			PostCount:   postCount,
+		})
+	}
+
+	pageResult := model.PageResult[model.CategoryResp]{
 		Total:   int64(count),
-		Records: categories,
+		Records: resps,
 	}
 	return c.JSON(model.NewSuccess("success", pageResult))
 }
@@ -171,7 +210,7 @@ func (h *CategoryHandlerImpl) UpdateCategory(c *fiber.Ctx) error {
 		))
 	}
 
-	updatedCategory, err := h.categoryService.UpdateCategory(c, id, updateReq)
+	updatedCategory, err := h.categoryService.UpdateCategory(c.Context(), id, updateReq)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return c.JSON(model.NewError(fiber.StatusNotFound,
@@ -205,7 +244,7 @@ func (h *CategoryHandlerImpl) DeleteCategory(c *fiber.Ctx) error {
 		))
 	}
 
-	err = h.categoryService.DeleteCategory(c, id)
+	err = h.categoryService.DeleteCategory(c.Context(), id)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return c.JSON(model.NewError(fiber.StatusNotFound,
