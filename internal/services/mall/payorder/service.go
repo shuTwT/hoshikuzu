@@ -16,6 +16,7 @@ import (
 type PayOrderService interface {
 	ListPayOrderPage(ctx context.Context, req *model.PageQuery) ([]*ent.PayOrder, int, error)
 	SubmitPayOrder(ctx context.Context, req *model.PayOrderSubmitReq) error
+	GetTodayStats(ctx context.Context) (*model.PayOrderTodayStats, error)
 }
 
 type PayOrderServiceImpl struct {
@@ -106,4 +107,44 @@ func (s *PayOrderServiceImpl) SubmitPayOrder(ctx context.Context, req *model.Pay
 		}
 	}
 	return nil
+}
+
+func (s *PayOrderServiceImpl) GetTodayStats(ctx context.Context) (*model.PayOrderTodayStats, error) {
+	now := time.Now()
+	todayStart := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+	todayEnd := todayStart.Add(24 * time.Hour)
+
+	orders, err := s.db.PayOrder.Query().
+		Where(payorder.CreatedAtGTE(todayStart)).
+		Where(payorder.CreatedAtLT(todayEnd)).
+		All(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	total := len(orders)
+	var amount float64
+	pending := 0
+	successCount := 0
+
+	for _, order := range orders {
+		if order.State == "2" {
+			successCount++
+			amount += float64(order.Price) / 100
+		} else if order.State == "1" {
+			pending++
+		}
+	}
+
+	var successRate float64
+	if total > 0 {
+		successRate = float64(successCount) / float64(total) * 100
+	}
+
+	return &model.PayOrderTodayStats{
+		Total:       total,
+		Amount:      amount,
+		SuccessRate: successRate,
+		Pending:     pending,
+	}, nil
 }

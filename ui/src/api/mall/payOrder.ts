@@ -1,22 +1,26 @@
 import { http } from "@/utils/http";
-import { BASE_URL, type ApiResponse } from "@/api/utils";
+import { BASE_URL, type ApiResponse, type TableResponse } from "@/api/utils";
 
-export const getPayOrderList = ()=>{
-  return http.request<ApiResponse<any>>('get',`${BASE_URL}/v1/pay-order/page`);
+export const getPayOrderPage = (params?: any) => {
+  return http.request<TableResponse<any>>('get', `${BASE_URL}/v1/pay-order/page`, { params })
 }
 
-export const createPayOrder = () =>{
-  return http.request<ApiResponse<any>>('post',`${BASE_URL}/v1/pay-order/create`)
+export const getTodayStats = () => {
+  return http.request<ApiResponse<any>>('get', `${BASE_URL}/v1/pay-order/today-stats`)
 }
 
-export const updatePayOrder = () =>{
-  return http.request<ApiResponse<any>>('put',`${BASE_URL}/v1/pay-order/update`)
+export const submitPayOrder = (data: any) => {
+  return http.request<ApiResponse<any>>('post', `${BASE_URL}/v1/pay-order/submit`, { data })
 }
 
-export const queryPayOrder = () =>{
-  return http.request<ApiResponse<any>>('get',`${BASE_URL}/v1/pay-order/query`)
+export const updatePayOrder = (id: number, data: any) => {
+  return http.request<ApiResponse<any>>('put', `${BASE_URL}/v1/pay-order/update/${id}`, { data })
 }
 
-export const deletePayOrder = () =>{
-  return http.request<ApiResponse<any>>('delete',`${BASE_URL}/v1/pay-order/delete`)
+export const queryPayOrder = (id: number) => {
+  return http.request<ApiResponse<any>>('get', `${BASE_URL}/v1/pay-order/query/${id}`)
+}
+
+export const deletePayOrder = (id: number) => {
+  return http.request<ApiResponse<any>>('delete', `${BASE_URL}/v1/pay-order/delete/${id}`)
 }

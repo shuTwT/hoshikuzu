@@ -247,6 +247,7 @@ const pagination = reactive({
   pageSize: 10,
   showSizePicker: true,
   pageSizes: [10, 20, 50, 100],
+  total: 0,
   onChange: (page: number) => {
     pagination.page = page
   },
@@ -286,7 +287,7 @@ const todayStats = reactive({
 
 // 订单数据类型
 interface PayOrderItem {
-  id: string
+  id: number
   merchantOrderNo: string
   title: string
   amount: number
@@ -310,6 +311,75 @@ interface PayOrderItem {
   updatedAt: string
 }
 
+// 后端订单数据类型
+interface BackendPayOrder {
+  id: number
+  created_at: string
+  updated_at: string
+  channel_type: string
+  order_id: string
+  out_trade_no: string
+  total_fee: string
+  subject: string
+  body: string
+  notify_url: string
+  return_url?: string
+  extra?: string
+  pay_url?: string
+  state: string
+  error_msg?: string
+  raw?: string
+}
+
+// 状态映射
+const stateToStatusMap: Record<string, PayOrderItem['status']> = {
+  '0': 'cancelled',
+  '1': 'pending',
+  '2': 'paid',
+  '3': 'failed',
+  '4': 'refunded'
+}
+
+// 渠道映射
+const channelToNameMap: Record<string, string> = {
+  'alipay': '支付宝',
+  'wechatpay': '微信支付',
+  'unionpay': '银联支付',
+  'paypal': 'PayPal',
+  'stripe': 'Stripe'
+}
+
+// 将后端数据映射到前端数据
+const mapBackendToFrontend = (backendOrder: BackendPayOrder): PayOrderItem => {
+  const status = stateToStatusMap[backendOrder.state] || 'pending'
+  const channelName = channelToNameMap[backendOrder.channel_type] || backendOrder.channel_type
+
+  return {
+    id: backendOrder.id,
+    merchantOrderNo: backendOrder.out_trade_no || '',
+    title: backendOrder.subject || '',
+    amount: parseFloat(backendOrder.total_fee || '0'),
+    paidAmount: status === 'paid' ? parseFloat(backendOrder.total_fee || '0') : 0,
+    fee: 0,
+    channel: backendOrder.channel_type,
+    channelName: channelName,
+    status: status,
+    tradeNo: backendOrder.order_id,
+    thirdPartyOrderNo: '',
+    userId: '',
+    clientIp: '',
+    userAgent: '',
+    notifyUrl: backendOrder.notify_url || '',
+    returnUrl: backendOrder.return_url || '',
+    extra: backendOrder.extra,
+    failReason: backendOrder.error_msg,
+    createdAt: backendOrder.created_at,
+    paidAt: status === 'paid' ? backendOrder.updated_at : undefined,
+    expireAt: '',
+    updatedAt: backendOrder.updated_at
+  }
+}
+
 // 筛选后的订单列表
 const filteredOrderList = computed(() => {
   let filtered = orderList.value
@@ -319,7 +389,7 @@ const filteredOrderList = computed(() => {
     const keyword = searchKeyword.value.toLowerCase()
     filtered = filtered.filter(
       (order) =>
-        order.id.toLowerCase().includes(keyword) ||
+        String(order.id).toLowerCase().includes(keyword) ||
         order.merchantOrderNo.toLowerCase().includes(keyword) ||
         order.title.toLowerCase().includes(keyword),
     )
@@ -538,164 +608,51 @@ const exportOrders = () => {
   message.info('订单导出功能开发中...')
 }
 
-// 刷新数据
-const handleRefresh = () => {
-  loadOrderList()
-}
-
-// 计算今日统计
-const calculateTodayStats = () => {
-  const today = new Date().toDateString()
-  const todayOrders = orderList.value.filter(
-    (order) => new Date(order.createdAt).toDateString() === today,
-  )
-
-  todayStats.total = todayOrders.length
-  todayStats.amount = todayOrders.reduce((sum, order) => sum + order.paidAmount, 0)
-  todayStats.pending = todayOrders.filter((order) => order.status === 'pending').length
-
-  const successOrders = todayOrders.filter((order) => order.status === 'paid')
-  todayStats.successRate =
-    todayOrders.length > 0 ? (successOrders.length / todayOrders.length) * 100 : 0
-}
-
-const onSearch = async ()=>{
-  const res = await payOrderApi.getPayOrderList()
-}
-
 // 加载订单列表
 const loadOrderList = async () => {
   loading.value = true
   try {
-    // 模拟API调用
-    await new Promise((resolve) => setTimeout(resolve, 800))
+    const res = await payOrderApi.getPayOrderPage({
+      page: pagination.page,
+      page_size: pagination.pageSize
+    })
 
-    // 模拟数据
-    orderList.value = [
-      {
-        id: 'ORD202401150001',
-        merchantOrderNo: 'MER202401150001',
-        title: 'VIP会员年费',
-        amount: 299.0,
-        paidAmount: 299.0,
-        fee: 2.99,
-        channel: 'alipay',
-        channelName: '支付宝',
-        status: 'paid',
-        tradeNo: '2024011522001234567890',
-        thirdPartyOrderNo: '2024011531f2e4r5t6y7u8i9o0p',
-        userId: 'USER123456',
-        clientIp: '192.168.1.100',
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        notifyUrl: 'https://example.com/api/pay/notify/alipay',
-        returnUrl: 'https://example.com/pay/success',
-        extra: JSON.stringify({ product_id: 'VIP001', quantity: 1 }, null, 2),
-        createdAt: '2024-01-15 14:30:00',
-        paidAt: '2024-01-15 14:31:25',
-        expireAt: '2024-01-15 15:00:00',
-        updatedAt: '2024-01-15 14:31:25',
-      },
-      {
-        id: 'ORD202401150002',
-        merchantOrderNo: 'MER202401150002',
-        title: '月度会员',
-        amount: 29.9,
-        paidAmount: 0,
-        fee: 0,
-        channel: 'wechatpay',
-        channelName: '微信支付',
-        status: 'pending',
-        userId: 'USER123457',
-        clientIp: '192.168.1.101',
-        userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X)',
-        notifyUrl: 'https://example.com/api/pay/notify/wechat',
-        returnUrl: 'https://example.com/pay/success',
-        extra: JSON.stringify({ product_id: 'MONTH001', quantity: 1 }, null, 2),
-        createdAt: '2024-01-15 14:35:00',
-        expireAt: '2024-01-15 15:05:00',
-        updatedAt: '2024-01-15 14:35:00',
-      },
-      {
-        id: 'ORD202401150003',
-        merchantOrderNo: 'MER202401150003',
-        title: '高级功能包',
-        amount: 99.0,
-        paidAmount: 0,
-        fee: 0,
-        channel: 'alipay',
-        channelName: '支付宝',
-        status: 'failed',
-        failReason: '用户支付超时',
-        userId: 'USER123458',
-        clientIp: '192.168.1.102',
-        userAgent: 'Mozilla/5.0 (Android 11; Mobile; rv:68.0)',
-        notifyUrl: 'https://example.com/api/pay/notify/alipay',
-        returnUrl: 'https://example.com/pay/success',
-        extra: JSON.stringify({ product_id: 'ADV001', quantity: 1 }, null, 2),
-        createdAt: '2024-01-15 14:40:00',
-        expireAt: '2024-01-15 15:10:00',
-        updatedAt: '2024-01-15 14:45:30',
-      },
-      {
-        id: 'ORD202401150004',
-        merchantOrderNo: 'MER202401150004',
-        title: '企业版套餐',
-        amount: 999.0,
-        paidAmount: 999.0,
-        fee: 9.99,
-        channel: 'stripe',
-        channelName: 'Stripe',
-        status: 'refunded',
-        tradeNo: 'pi_3O4H5I6J7K8L9M0N',
-        thirdPartyOrderNo: 'ch_1O4H5I6J7K8L9M0N',
-        userId: 'USER123459',
-        clientIp: '192.168.1.103',
-        userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
-        notifyUrl: 'https://example.com/api/pay/notify/stripe',
-        returnUrl: 'https://example.com/pay/success',
-        extra: JSON.stringify({ product_id: 'ENT001', quantity: 1 }, null, 2),
-        createdAt: '2024-01-15 14:50:00',
-        paidAt: '2024-01-15 14:51:15',
-        expireAt: '2024-01-15 15:20:00',
-        updatedAt: '2024-01-15 15:30:45',
-      },
-      {
-        id: 'ORD202401150005',
-        merchantOrderNo: 'MER202401150005',
-        title: '季度会员',
-        amount: 79.9,
-        paidAmount: 79.9,
-        fee: 0.8,
-        channel: 'unionpay',
-        channelName: '银联支付',
-        status: 'paid',
-        tradeNo: '2024011531040000000000',
-        thirdPartyOrderNo: 'UP2024011531f2e4r5t6y7u8i9o1',
-        userId: 'USER123460',
-        clientIp: '192.168.1.104',
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        notifyUrl: 'https://example.com/api/pay/notify/unionpay',
-        returnUrl: 'https://example.com/pay/success',
-        extra: JSON.stringify({ product_id: 'QUARTER001', quantity: 1 }, null, 2),
-        createdAt: '2024-01-15 15:00:00',
-        paidAt: '2024-01-15 15:02:30',
-        expireAt: '2024-01-15 15:30:00',
-        updatedAt: '2024-01-15 15:02:30',
-      },
-    ]
-
-    // 计算今日统计
-    calculateTodayStats()
-  } catch {
+    if (res.data && res.data.records) {
+      orderList.value = res.data.records.map((item: BackendPayOrder) => mapBackendToFrontend(item))
+      pagination.total = res.data.total || 0
+    }
+  } catch (error) {
+    console.error('订单列表加载失败:', error)
     message.error('订单列表加载失败')
   } finally {
     loading.value = false
   }
 }
 
+// 加载今日统计
+const loadTodayStats = async () => {
+  try {
+    const res = await payOrderApi.getTodayStats()
+    if (res.data) {
+      todayStats.total = res.data.total || 0
+      todayStats.amount = res.data.amount || 0
+      todayStats.successRate = res.data.success_rate || 0
+      todayStats.pending = res.data.pending || 0
+    }
+  } catch (error) {
+    console.error('今日统计加载失败:', error)
+  }
+}
+
+// 刷新数据
+const handleRefresh = () => {
+  loadOrderList()
+  loadTodayStats()
+}
+
 onMounted(() => {
   loadOrderList()
-  onSearch()
+  loadTodayStats()
 })
 </script>
 

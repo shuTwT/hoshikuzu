@@ -19,19 +19,21 @@ type PayOrderCreateReq struct {
 
 // PayOrderUpdateReq represents the request body for updating a payment order.
 type PayOrderUpdateReq struct {
-	ChannelType string `json:"channel_id"`
-	OrderID     string `json:"order_id"`
-	OutTradeNo  string `json:"out_trade_no"`
-	TotalFee    string `json:"total_fee"`
-	Subject     string `json:"subject"`
-	Body        string `json:"body"`
-	NotifyURL   string `json:"notify_url"`
-	ReturnURL   string `json:"return_url"`
-	Extra       string `json:"extra"`
-	PayURL      string `json:"pay_url,omitempty"`
-	State       string `json:"state"`
-	ErrorMsg    string `json:"error_msg,omitempty"`
-	Raw         string `json:"raw,omitempty"`
+	ChannelType     string `json:"channel_type"`
+	OrderID         string `json:"order_id"`
+	OutTradeNo      string `json:"out_trade_no"`
+	OrderPrice      int    `json:"order_price"`
+	Price           int    `json:"price"`
+	ChannelFeePrice int    `json:"channel_fee_price"`
+	Subject         string `json:"subject"`
+	Body            string `json:"body"`
+	NotifyURL       string `json:"notify_url"`
+	ReturnURL       string `json:"return_url"`
+	Extra           string `json:"extra"`
+	PayURL          string `json:"pay_url,omitempty"`
+	State           string `json:"state"`
+	ErrorMsg        string `json:"error_msg,omitempty"`
+	Raw             string `json:"raw,omitempty"`
 }
 
 // PayOrderResp represents the response body for a payment order.
@@ -72,4 +74,11 @@ type PayOrderSubmitReq struct {
 	PostId int `json:"post_id"`
 	// 商品 id，可选
 	ProductId int `json:"product_id"`
+}
+
+type PayOrderTodayStats struct {
+	Total       int     `json:"total"`
+	Amount      float64 `json:"amount"`
+	SuccessRate float64 `json:"success_rate"`
+	Pending     int     `json:"pending"`
 }

@@ -17,6 +17,7 @@ type PayOrderHandler interface {
 	QueryPayOrder(c *fiber.Ctx) error
 	DeletePayOrder(c *fiber.Ctx) error
 	SubmitPayOrder(c *fiber.Ctx) error
+	GetTodayStats(c *fiber.Ctx) error
 }
 
 type PayOrderHandlerImpl struct {
@@ -70,7 +71,7 @@ func (h *PayOrderHandlerImpl) UpdatePayOrder(c *fiber.Ctx) error {
 			"Invalid ID format"))
 	}
 
-	var order *model.PayOrderUpdateReq
+	var order model.PayOrderUpdateReq
 	if err = c.BodyParser(&order); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
 	}
@@ -79,7 +80,9 @@ func (h *PayOrderHandlerImpl) UpdatePayOrder(c *fiber.Ctx) error {
 		SetChannelType(order.ChannelType).
 		SetOrderID(order.OrderID).
 		SetOutTradeNo(order.OutTradeNo).
-		SetTotalFee(order.TotalFee).
+		SetOrderPrice(order.OrderPrice).
+		SetPrice(order.Price).
+		SetChannelFeePrice(order.ChannelFeePrice).
 		SetSubject(order.Subject).
 		SetBody(order.Body).
 		SetNotifyURL(order.NotifyURL).
@@ -195,4 +198,20 @@ func (h *PayOrderHandlerImpl) SubmitPayOrder(c *fiber.Ctx) error {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 	return nil
+}
+
+// @Summary 获取今日统计
+// @Description 获取今日支付订单统计信息
+// @Tags 后台管理接口/支付订单
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.HttpSuccess{data=model.PayOrderTodayStats}
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/pay-order/today-stats [get]
+func (h *PayOrderHandlerImpl) GetTodayStats(c *fiber.Ctx) error {
+	stats, err := h.payOrderService.GetTodayStats(c.Context())
+	if err != nil {
+		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
+	}
+	return c.JSON(model.NewSuccess("success", stats))
 }
