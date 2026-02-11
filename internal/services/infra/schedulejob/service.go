@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log"
+	"time"
 
 	"github.com/shuTwT/hoshikuzu/ent"
 	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
@@ -206,6 +207,14 @@ func (s *ScheduleJobServiceImpl) ExecuteScheduleJobNow(ctx context.Context, id i
 	go func() {
 		if err := s.scheduleManager.ExecuteJobNow(job); err != nil {
 			log.Printf("异步执行任务失败: %v", err)
+		} else {
+			now := time.Now()
+			_, err := s.client.ScheduleJob.UpdateOneID(id).
+				SetLastRunTime(now).
+				Save(context.Background())
+			if err != nil {
+				log.Printf("更新任务执行时间失败: %v", err)
+			}
 		}
 	}()
 

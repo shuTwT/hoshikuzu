@@ -94,20 +94,6 @@ func (_c *ScheduleJobCreate) SetNillableEnabled(v *bool) *ScheduleJobCreate {
 	return _c
 }
 
-// SetNextRunTime sets the "next_run_time" field.
-func (_c *ScheduleJobCreate) SetNextRunTime(v time.Time) *ScheduleJobCreate {
-	_c.mutation.SetNextRunTime(v)
-	return _c
-}
-
-// SetNillableNextRunTime sets the "next_run_time" field if the given value is not nil.
-func (_c *ScheduleJobCreate) SetNillableNextRunTime(v *time.Time) *ScheduleJobCreate {
-	if v != nil {
-		_c.SetNextRunTime(*v)
-	}
-	return _c
-}
-
 // SetLastRunTime sets the "last_run_time" field.
 func (_c *ScheduleJobCreate) SetLastRunTime(v time.Time) *ScheduleJobCreate {
 	_c.mutation.SetLastRunTime(v)
@@ -307,10 +293,6 @@ func (_c *ScheduleJobCreate) createSpec() (*ScheduleJob, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Enabled(); ok {
 		_spec.SetField(schedulejob.FieldEnabled, field.TypeBool, value)
 		_node.Enabled = value
-	}
-	if value, ok := _c.mutation.NextRunTime(); ok {
-		_spec.SetField(schedulejob.FieldNextRunTime, field.TypeTime, value)
-		_node.NextRunTime = value
 	}
 	if value, ok := _c.mutation.LastRunTime(); ok {
 		_spec.SetField(schedulejob.FieldLastRunTime, field.TypeTime, value)

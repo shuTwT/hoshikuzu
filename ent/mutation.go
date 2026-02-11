@@ -29940,7 +29940,6 @@ type ScheduleJobMutation struct {
 	expression           *string
 	description          *string
 	enabled              *bool
-	next_run_time        *time.Time
 	last_run_time        *time.Time
 	job_name             *string
 	max_retries          *int
@@ -30321,55 +30320,6 @@ func (m *ScheduleJobMutation) ResetEnabled() {
 	m.enabled = nil
 }
 
-// SetNextRunTime sets the "next_run_time" field.
-func (m *ScheduleJobMutation) SetNextRunTime(t time.Time) {
-	m.next_run_time = &t
-}
-
-// NextRunTime returns the value of the "next_run_time" field in the mutation.
-func (m *ScheduleJobMutation) NextRunTime() (r time.Time, exists bool) {
-	v := m.next_run_time
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldNextRunTime returns the old "next_run_time" field's value of the ScheduleJob entity.
-// If the ScheduleJob object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ScheduleJobMutation) OldNextRunTime(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldNextRunTime is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldNextRunTime requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldNextRunTime: %w", err)
-	}
-	return oldValue.NextRunTime, nil
-}
-
-// ClearNextRunTime clears the value of the "next_run_time" field.
-func (m *ScheduleJobMutation) ClearNextRunTime() {
-	m.next_run_time = nil
-	m.clearedFields[schedulejob.FieldNextRunTime] = struct{}{}
-}
-
-// NextRunTimeCleared returns if the "next_run_time" field was cleared in this mutation.
-func (m *ScheduleJobMutation) NextRunTimeCleared() bool {
-	_, ok := m.clearedFields[schedulejob.FieldNextRunTime]
-	return ok
-}
-
-// ResetNextRunTime resets all changes to the "next_run_time" field.
-func (m *ScheduleJobMutation) ResetNextRunTime() {
-	m.next_run_time = nil
-	delete(m.clearedFields, schedulejob.FieldNextRunTime)
-}
-
 // SetLastRunTime sets the "last_run_time" field.
 func (m *ScheduleJobMutation) SetLastRunTime(t time.Time) {
 	m.last_run_time = &t
@@ -30581,7 +30531,7 @@ func (m *ScheduleJobMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ScheduleJobMutation) Fields() []string {
-	fields := make([]string, 0, 12)
+	fields := make([]string, 0, 11)
 	if m.created_at != nil {
 		fields = append(fields, schedulejob.FieldCreatedAt)
 	}
@@ -30602,9 +30552,6 @@ func (m *ScheduleJobMutation) Fields() []string {
 	}
 	if m.enabled != nil {
 		fields = append(fields, schedulejob.FieldEnabled)
-	}
-	if m.next_run_time != nil {
-		fields = append(fields, schedulejob.FieldNextRunTime)
 	}
 	if m.last_run_time != nil {
 		fields = append(fields, schedulejob.FieldLastRunTime)
@@ -30640,8 +30587,6 @@ func (m *ScheduleJobMutation) Field(name string) (ent.Value, bool) {
 		return m.Description()
 	case schedulejob.FieldEnabled:
 		return m.Enabled()
-	case schedulejob.FieldNextRunTime:
-		return m.NextRunTime()
 	case schedulejob.FieldLastRunTime:
 		return m.LastRunTime()
 	case schedulejob.FieldJobName:
@@ -30673,8 +30618,6 @@ func (m *ScheduleJobMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldDescription(ctx)
 	case schedulejob.FieldEnabled:
 		return m.OldEnabled(ctx)
-	case schedulejob.FieldNextRunTime:
-		return m.OldNextRunTime(ctx)
 	case schedulejob.FieldLastRunTime:
 		return m.OldLastRunTime(ctx)
 	case schedulejob.FieldJobName:
@@ -30740,13 +30683,6 @@ func (m *ScheduleJobMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetEnabled(v)
-		return nil
-	case schedulejob.FieldNextRunTime:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetNextRunTime(v)
 		return nil
 	case schedulejob.FieldLastRunTime:
 		v, ok := value.(time.Time)
@@ -30824,9 +30760,6 @@ func (m *ScheduleJobMutation) ClearedFields() []string {
 	if m.FieldCleared(schedulejob.FieldDescription) {
 		fields = append(fields, schedulejob.FieldDescription)
 	}
-	if m.FieldCleared(schedulejob.FieldNextRunTime) {
-		fields = append(fields, schedulejob.FieldNextRunTime)
-	}
 	if m.FieldCleared(schedulejob.FieldLastRunTime) {
 		fields = append(fields, schedulejob.FieldLastRunTime)
 	}
@@ -30846,9 +30779,6 @@ func (m *ScheduleJobMutation) ClearField(name string) error {
 	switch name {
 	case schedulejob.FieldDescription:
 		m.ClearDescription()
-		return nil
-	case schedulejob.FieldNextRunTime:
-		m.ClearNextRunTime()
 		return nil
 	case schedulejob.FieldLastRunTime:
 		m.ClearLastRunTime()
@@ -30881,9 +30811,6 @@ func (m *ScheduleJobMutation) ResetField(name string) error {
 		return nil
 	case schedulejob.FieldEnabled:
 		m.ResetEnabled()
-		return nil
-	case schedulejob.FieldNextRunTime:
-		m.ResetNextRunTime()
 		return nil
 	case schedulejob.FieldLastRunTime:
 		m.ResetLastRunTime()

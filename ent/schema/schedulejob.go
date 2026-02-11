@@ -24,7 +24,6 @@ func (ScheduleJob) Fields() []ent.Field {
 		field.String("expression").Comment("调度表达式: cron表达式或时间间隔"),
 		field.Text("description").Optional().Comment("任务描述"),
 		field.Bool("enabled").Default(true).Comment("是否启用"),
-		field.Time("next_run_time").Optional().Comment("下次执行时间"),
 		field.Time("last_run_time").Optional().Comment("上次执行时间"),
 		field.String("job_name").Comment("内部任务名称"),
 		field.Int("max_retries").Default(3).Comment("最大重试次数"),

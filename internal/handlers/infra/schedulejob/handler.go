@@ -218,7 +218,6 @@ func (*ScheduleJobHandlerImpl) buildScheduleJobResp(job *ent.ScheduleJob) *model
 		Expression:          job.Expression,
 		Description:         job.Description,
 		Enabled:             job.Enabled,
-		NextRunTime:         model.LocalTime(job.NextRunTime),
 		LastRunTime:         model.LocalTime(job.LastRunTime),
 		JobName:             job.JobName,
 		MaxRetries:          job.MaxRetries,

@@ -110,26 +110,6 @@ func (_u *ScheduleJobUpdate) SetNillableEnabled(v *bool) *ScheduleJobUpdate {
 	return _u
 }
 
-// SetNextRunTime sets the "next_run_time" field.
-func (_u *ScheduleJobUpdate) SetNextRunTime(v time.Time) *ScheduleJobUpdate {
-	_u.mutation.SetNextRunTime(v)
-	return _u
-}
-
-// SetNillableNextRunTime sets the "next_run_time" field if the given value is not nil.
-func (_u *ScheduleJobUpdate) SetNillableNextRunTime(v *time.Time) *ScheduleJobUpdate {
-	if v != nil {
-		_u.SetNextRunTime(*v)
-	}
-	return _u
-}
-
-// ClearNextRunTime clears the value of the "next_run_time" field.
-func (_u *ScheduleJobUpdate) ClearNextRunTime() *ScheduleJobUpdate {
-	_u.mutation.ClearNextRunTime()
-	return _u
-}
-
 // SetLastRunTime sets the "last_run_time" field.
 func (_u *ScheduleJobUpdate) SetLastRunTime(v time.Time) *ScheduleJobUpdate {
 	_u.mutation.SetLastRunTime(v)
@@ -270,12 +250,6 @@ func (_u *ScheduleJobUpdate) sqlSave(ctx context.Context) (_node int, err error)
 	if value, ok := _u.mutation.Enabled(); ok {
 		_spec.SetField(schedulejob.FieldEnabled, field.TypeBool, value)
 	}
-	if value, ok := _u.mutation.NextRunTime(); ok {
-		_spec.SetField(schedulejob.FieldNextRunTime, field.TypeTime, value)
-	}
-	if _u.mutation.NextRunTimeCleared() {
-		_spec.ClearField(schedulejob.FieldNextRunTime, field.TypeTime)
-	}
 	if value, ok := _u.mutation.LastRunTime(); ok {
 		_spec.SetField(schedulejob.FieldLastRunTime, field.TypeTime, value)
 	}
@@ -393,26 +367,6 @@ func (_u *ScheduleJobUpdateOne) SetNillableEnabled(v *bool) *ScheduleJobUpdateOn
 	if v != nil {
 		_u.SetEnabled(*v)
 	}
-	return _u
-}
-
-// SetNextRunTime sets the "next_run_time" field.
-func (_u *ScheduleJobUpdateOne) SetNextRunTime(v time.Time) *ScheduleJobUpdateOne {
-	_u.mutation.SetNextRunTime(v)
-	return _u
-}
-
-// SetNillableNextRunTime sets the "next_run_time" field if the given value is not nil.
-func (_u *ScheduleJobUpdateOne) SetNillableNextRunTime(v *time.Time) *ScheduleJobUpdateOne {
-	if v != nil {
-		_u.SetNextRunTime(*v)
-	}
-	return _u
-}
-
-// ClearNextRunTime clears the value of the "next_run_time" field.
-func (_u *ScheduleJobUpdateOne) ClearNextRunTime() *ScheduleJobUpdateOne {
-	_u.mutation.ClearNextRunTime()
 	return _u
 }
 
@@ -585,12 +539,6 @@ func (_u *ScheduleJobUpdateOne) sqlSave(ctx context.Context) (_node *ScheduleJob
 	}
 	if value, ok := _u.mutation.Enabled(); ok {
 		_spec.SetField(schedulejob.FieldEnabled, field.TypeBool, value)
-	}
-	if value, ok := _u.mutation.NextRunTime(); ok {
-		_spec.SetField(schedulejob.FieldNextRunTime, field.TypeTime, value)
-	}
-	if _u.mutation.NextRunTimeCleared() {
-		_spec.ClearField(schedulejob.FieldNextRunTime, field.TypeTime)
 	}
 	if value, ok := _u.mutation.LastRunTime(); ok {
 		_spec.SetField(schedulejob.FieldLastRunTime, field.TypeTime, value)

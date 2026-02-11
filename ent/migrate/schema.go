@@ -664,7 +664,6 @@ var (
 		{Name: "expression", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647},
 		{Name: "enabled", Type: field.TypeBool, Default: true},
-		{Name: "next_run_time", Type: field.TypeTime, Nullable: true},
 		{Name: "last_run_time", Type: field.TypeTime, Nullable: true},
 		{Name: "job_name", Type: field.TypeString},
 		{Name: "max_retries", Type: field.TypeInt, Default: 3},

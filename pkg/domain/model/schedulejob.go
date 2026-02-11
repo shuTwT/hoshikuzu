@@ -31,7 +31,6 @@ type ScheduleJobResp struct {
 	Expression          string    `json:"expression"`
 	Description         string    `json:"description"`
 	Enabled             bool      `json:"enabled"`
-	NextRunTime         LocalTime `json:"next_run_time"`
 	LastRunTime         LocalTime `json:"last_run_time"`
 	JobName             string    `json:"job_name"`
 	MaxRetries          int       `json:"max_retries"`

@@ -1539,11 +1539,11 @@ func init() {
 	// schedulejob.DefaultEnabled holds the default value on creation for the enabled field.
 	schedulejob.DefaultEnabled = schedulejobDescEnabled.Default.(bool)
 	// schedulejobDescMaxRetries is the schema descriptor for max_retries field.
-	schedulejobDescMaxRetries := schedulejobFields[8].Descriptor()
+	schedulejobDescMaxRetries := schedulejobFields[7].Descriptor()
 	// schedulejob.DefaultMaxRetries holds the default value on creation for the max_retries field.
 	schedulejob.DefaultMaxRetries = schedulejobDescMaxRetries.Default.(int)
 	// schedulejobDescFailureNotification is the schema descriptor for failure_notification field.
-	schedulejobDescFailureNotification := schedulejobFields[9].Descriptor()
+	schedulejobDescFailureNotification := schedulejobFields[8].Descriptor()
 	// schedulejob.DefaultFailureNotification holds the default value on creation for the failure_notification field.
 	schedulejob.DefaultFailureNotification = schedulejobDescFailureNotification.Default.(bool)
 	settingMixin := schema.Setting{}.Mixin()

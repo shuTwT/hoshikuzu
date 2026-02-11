@@ -31,8 +31,6 @@ type ScheduleJob struct {
 	Description string `json:"description,omitempty"`
 	// 是否启用
 	Enabled bool `json:"enabled,omitempty"`
-	// 下次执行时间
-	NextRunTime time.Time `json:"next_run_time,omitempty"`
 	// 上次执行时间
 	LastRunTime time.Time `json:"last_run_time,omitempty"`
 	// 内部任务名称
@@ -55,7 +53,7 @@ func (*ScheduleJob) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case schedulejob.FieldName, schedulejob.FieldType, schedulejob.FieldExpression, schedulejob.FieldDescription, schedulejob.FieldJobName:
 			values[i] = new(sql.NullString)
-		case schedulejob.FieldCreatedAt, schedulejob.FieldUpdatedAt, schedulejob.FieldNextRunTime, schedulejob.FieldLastRunTime:
+		case schedulejob.FieldCreatedAt, schedulejob.FieldUpdatedAt, schedulejob.FieldLastRunTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -119,12 +117,6 @@ func (_m *ScheduleJob) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field enabled", values[i])
 			} else if value.Valid {
 				_m.Enabled = value.Bool
-			}
-		case schedulejob.FieldNextRunTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field next_run_time", values[i])
-			} else if value.Valid {
-				_m.NextRunTime = value.Time
 			}
 		case schedulejob.FieldLastRunTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -206,9 +198,6 @@ func (_m *ScheduleJob) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("enabled=")
 	builder.WriteString(fmt.Sprintf("%v", _m.Enabled))
-	builder.WriteString(", ")
-	builder.WriteString("next_run_time=")
-	builder.WriteString(_m.NextRunTime.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("last_run_time=")
 	builder.WriteString(_m.LastRunTime.Format(time.ANSIC))

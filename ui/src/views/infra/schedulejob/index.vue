@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, ref, onMounted } from 'vue'
+import { h, ref, onMounted, computed } from 'vue'
 import { NButton, NIcon, NDataTable, NInput, NSelect, NPopconfirm, NTag, NSwitch, useMessage, useDialog } from 'naive-ui'
 import { RefreshOutline, Pencil, TrashOutline, PlayCircleOutline } from '@vicons/ionicons5'
 import type { DataTableColumns } from 'naive-ui'
@@ -17,6 +17,7 @@ import FormComponent from './form.vue'
 import dayjs from 'dayjs'
 
 const dialog = useDialog()
+const message = useMessage()
 
 const loading = ref(false)
 const data = ref<ScheduleJob[]>([])
@@ -55,6 +56,55 @@ const enabledOptions = [
   { label: '启用', value: 'true' },
   { label: '禁用', value: 'false' },
 ]
+
+const calculateNextRunTime = (expression: string, type: string, lastRunTime?: string) => {
+  if (type === 'cron') {
+    try {
+      const cronParts = expression.split(' ')
+      if (cronParts.length >= 5) {
+        const [minute, hour, day, month, weekday] = cronParts
+        const now = dayjs()
+        let nextRun = now
+
+        if (minute !== '*') {
+          nextRun = nextRun.minute(parseInt(minute))
+        }
+        if (hour !== '*') {
+          nextRun = nextRun.hour(parseInt(hour))
+        }
+        if (day !== '*') {
+          nextRun = nextRun.date(parseInt(day))
+        }
+        if (month !== '*') {
+          nextRun = nextRun.month(parseInt(month) - 1)
+        }
+        if (weekday !== '*') {
+          nextRun = nextRun.day(parseInt(weekday))
+        }
+
+        if (nextRun.isBefore(now)) {
+          nextRun = nextRun.add(1, 'day')
+        }
+
+        return nextRun.format('YYYY-MM-DD HH:mm:ss')
+      }
+    } catch {
+      return '-'
+    }
+  } else if (type === 'interval') {
+    try {
+      const duration = parseInt(expression)
+      if (!isNaN(duration)) {
+        const baseTime = lastRunTime ? dayjs(lastRunTime) : dayjs()
+        const nextRun = baseTime.add(duration, 'second')
+        return nextRun.format('YYYY-MM-DD HH:mm:ss')
+      }
+    } catch {
+      return '-'
+    }
+  }
+  return '-'
+}
 
 const columns: DataTableColumns<ScheduleJob> = [
   {
@@ -115,11 +165,12 @@ const columns: DataTableColumns<ScheduleJob> = [
   {
     title: '下次执行时间',
     key: 'next_run_time',
+    width: 180,
     ellipsis: {
       tooltip: true,
     },
     render(row) {
-      return row.next_run_time ? dayjs(row.next_run_time).format('YYYY-MM-DD HH:mm:ss') : '-'
+      return calculateNextRunTime(row.expression, row.type, row.last_run_time)
     },
   },
   {

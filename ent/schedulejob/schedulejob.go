@@ -27,8 +27,6 @@ const (
 	FieldDescription = "description"
 	// FieldEnabled holds the string denoting the enabled field in the database.
 	FieldEnabled = "enabled"
-	// FieldNextRunTime holds the string denoting the next_run_time field in the database.
-	FieldNextRunTime = "next_run_time"
 	// FieldLastRunTime holds the string denoting the last_run_time field in the database.
 	FieldLastRunTime = "last_run_time"
 	// FieldJobName holds the string denoting the job_name field in the database.
@@ -51,7 +49,6 @@ var Columns = []string{
 	FieldExpression,
 	FieldDescription,
 	FieldEnabled,
-	FieldNextRunTime,
 	FieldLastRunTime,
 	FieldJobName,
 	FieldMaxRetries,
@@ -124,11 +121,6 @@ func ByDescription(opts ...sql.OrderTermOption) OrderOption {
 // ByEnabled orders the results by the enabled field.
 func ByEnabled(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEnabled, opts...).ToFunc()
-}
-
-// ByNextRunTime orders the results by the next_run_time field.
-func ByNextRunTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldNextRunTime, opts...).ToFunc()
 }
 
 // ByLastRunTime orders the results by the last_run_time field.

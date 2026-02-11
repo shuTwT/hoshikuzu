@@ -89,11 +89,6 @@ func Enabled(v bool) predicate.ScheduleJob {
 	return predicate.ScheduleJob(sql.FieldEQ(FieldEnabled, v))
 }
 
-// NextRunTime applies equality check predicate on the "next_run_time" field. It's identical to NextRunTimeEQ.
-func NextRunTime(v time.Time) predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldEQ(FieldNextRunTime, v))
-}
-
 // LastRunTime applies equality check predicate on the "last_run_time" field. It's identical to LastRunTimeEQ.
 func LastRunTime(v time.Time) predicate.ScheduleJob {
 	return predicate.ScheduleJob(sql.FieldEQ(FieldLastRunTime, v))
@@ -472,56 +467,6 @@ func EnabledEQ(v bool) predicate.ScheduleJob {
 // EnabledNEQ applies the NEQ predicate on the "enabled" field.
 func EnabledNEQ(v bool) predicate.ScheduleJob {
 	return predicate.ScheduleJob(sql.FieldNEQ(FieldEnabled, v))
-}
-
-// NextRunTimeEQ applies the EQ predicate on the "next_run_time" field.
-func NextRunTimeEQ(v time.Time) predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldEQ(FieldNextRunTime, v))
-}
-
-// NextRunTimeNEQ applies the NEQ predicate on the "next_run_time" field.
-func NextRunTimeNEQ(v time.Time) predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldNEQ(FieldNextRunTime, v))
-}
-
-// NextRunTimeIn applies the In predicate on the "next_run_time" field.
-func NextRunTimeIn(vs ...time.Time) predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldIn(FieldNextRunTime, vs...))
-}
-
-// NextRunTimeNotIn applies the NotIn predicate on the "next_run_time" field.
-func NextRunTimeNotIn(vs ...time.Time) predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldNotIn(FieldNextRunTime, vs...))
-}
-
-// NextRunTimeGT applies the GT predicate on the "next_run_time" field.
-func NextRunTimeGT(v time.Time) predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldGT(FieldNextRunTime, v))
-}
-
-// NextRunTimeGTE applies the GTE predicate on the "next_run_time" field.
-func NextRunTimeGTE(v time.Time) predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldGTE(FieldNextRunTime, v))
-}
-
-// NextRunTimeLT applies the LT predicate on the "next_run_time" field.
-func NextRunTimeLT(v time.Time) predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldLT(FieldNextRunTime, v))
-}
-
-// NextRunTimeLTE applies the LTE predicate on the "next_run_time" field.
-func NextRunTimeLTE(v time.Time) predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldLTE(FieldNextRunTime, v))
-}
-
-// NextRunTimeIsNil applies the IsNil predicate on the "next_run_time" field.
-func NextRunTimeIsNil() predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldIsNull(FieldNextRunTime))
-}
-
-// NextRunTimeNotNil applies the NotNil predicate on the "next_run_time" field.
-func NextRunTimeNotNil() predicate.ScheduleJob {
-	return predicate.ScheduleJob(sql.FieldNotNull(FieldNextRunTime))
 }
 
 // LastRunTimeEQ applies the EQ predicate on the "last_run_time" field.
