@@ -10,19 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type NotificationHandler interface {
-	ListNotificationPage(c *fiber.Ctx) error
-	QueryNotification(c *fiber.Ctx) error
-	DeleteNotification(c *fiber.Ctx) error
-	BatchMarkAsRead(c *fiber.Ctx) error
-}
-
-type NotificationHandlerImpl struct {
+type NotificationHandler struct {
 	notificationService notification_service.NotificationService
 }
 
-func NewNotificationHandlerImpl(notificationService notification_service.NotificationService) *NotificationHandlerImpl {
-	return &NotificationHandlerImpl{
+func NewNotificationHandler(notificationService notification_service.NotificationService) *NotificationHandler {
+	return &NotificationHandler{
 		notificationService: notificationService,
 	}
 }
@@ -39,7 +32,7 @@ func NewNotificationHandlerImpl(notificationService notification_service.Notific
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/notifications/page [get]
-func (h *NotificationHandlerImpl) ListNotificationPage(c *fiber.Ctx) error {
+func (h *NotificationHandler) ListNotificationPage(c *fiber.Ctx) error {
 	var pageQuery = model.NotificationPageQuery{}
 	err := c.QueryParser(&pageQuery)
 
@@ -72,7 +65,7 @@ func (h *NotificationHandlerImpl) ListNotificationPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/notifications/query/:id [get]
-func (h *NotificationHandlerImpl) QueryNotification(c *fiber.Ctx) error {
+func (h *NotificationHandler) QueryNotification(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -98,7 +91,7 @@ func (h *NotificationHandlerImpl) QueryNotification(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/notifications/delete/:id [delete]
-func (h *NotificationHandlerImpl) DeleteNotification(c *fiber.Ctx) error {
+func (h *NotificationHandler) DeleteNotification(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -124,7 +117,7 @@ func (h *NotificationHandlerImpl) DeleteNotification(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/notifications/batch/read [post]
-func (h *NotificationHandlerImpl) BatchMarkAsRead(c *fiber.Ctx) error {
+func (h *NotificationHandler) BatchMarkAsRead(c *fiber.Ctx) error {
 	var req model.NotificationBatchReadReq
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,

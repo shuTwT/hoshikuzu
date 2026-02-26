@@ -9,21 +9,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type KnowledgeBaseHandler interface {
-	CreateKnowledgeBase(c *fiber.Ctx) error
-	UpdateKnowledgeBase(c *fiber.Ctx) error
-	GetKnowledgeBasePage(c *fiber.Ctx) error
-	GetKnowledgeBase(c *fiber.Ctx) error
-	DeleteKnowledgeBase(c *fiber.Ctx) error
-	GetKnowledgeBaseList(c *fiber.Ctx) error
-}
-
-type KnowledgeBaseHandlerImpl struct {
+type KnowledgeBaseHandler struct {
 	service knowledgebase.KnowledgeBaseService
 }
 
-func NewKnowledgeBaseHandlerImpl(service knowledgebase.KnowledgeBaseService) KnowledgeBaseHandler {
-	return &KnowledgeBaseHandlerImpl{service: service}
+func NewKnowledgeBaseHandler(service knowledgebase.KnowledgeBaseService) *KnowledgeBaseHandler {
+	return &KnowledgeBaseHandler{service: service}
 }
 
 // @Summary 创建知识库
@@ -36,7 +27,7 @@ func NewKnowledgeBaseHandlerImpl(service knowledgebase.KnowledgeBaseService) Kno
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/knowledge-base/create [post]
-func (h *KnowledgeBaseHandlerImpl) CreateKnowledgeBase(c *fiber.Ctx) error {
+func (h *KnowledgeBaseHandler) CreateKnowledgeBase(c *fiber.Ctx) error {
 	createReq := model.KnowledgeBaseCreateReq{}
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -59,7 +50,7 @@ func (h *KnowledgeBaseHandlerImpl) CreateKnowledgeBase(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/knowledge-base/update/{id} [put]
-func (h *KnowledgeBaseHandlerImpl) UpdateKnowledgeBase(c *fiber.Ctx) error {
+func (h *KnowledgeBaseHandler) UpdateKnowledgeBase(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -86,7 +77,7 @@ func (h *KnowledgeBaseHandlerImpl) UpdateKnowledgeBase(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/knowledge-base/page [get]
-func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBasePage(c *fiber.Ctx) error {
+func (h *KnowledgeBaseHandler) GetKnowledgeBasePage(c *fiber.Ctx) error {
 	queryReq := model.KnowledgeBaseQueryReq{}
 	if err := c.QueryParser(&queryReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -124,7 +115,7 @@ func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBasePage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/knowledge-base/{id} [get]
-func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBase(c *fiber.Ctx) error {
+func (h *KnowledgeBaseHandler) GetKnowledgeBase(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -156,7 +147,7 @@ func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBase(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/knowledge-base/delete/{id} [delete]
-func (h *KnowledgeBaseHandlerImpl) DeleteKnowledgeBase(c *fiber.Ctx) error {
+func (h *KnowledgeBaseHandler) DeleteKnowledgeBase(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -177,7 +168,7 @@ func (h *KnowledgeBaseHandlerImpl) DeleteKnowledgeBase(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/knowledge-base/list [get]
-func (h *KnowledgeBaseHandlerImpl) GetKnowledgeBaseList(c *fiber.Ctx) error {
+func (h *KnowledgeBaseHandler) GetKnowledgeBaseList(c *fiber.Ctx) error {
 	kbs, err := h.service.GetKnowledgeBaseList(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

@@ -11,21 +11,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type TagHandler interface {
-	QueryTag(c *fiber.Ctx) error
-	QueryTagList(c *fiber.Ctx) error
-	QueryTagPage(c *fiber.Ctx) error
-	CreateTag(c *fiber.Ctx) error
-	UpdateTag(c *fiber.Ctx) error
-	DeleteTag(c *fiber.Ctx) error
-}
-
-type TagHandlerImpl struct {
+type TagHandler struct {
 	tagService tag_service.TagService
 }
 
-func NewTagHandlerImpl(tagService tag_service.TagService) *TagHandlerImpl {
-	return &TagHandlerImpl{
+func NewTagHandler(tagService tag_service.TagService) *TagHandler {
+	return &TagHandler{
 		tagService: tagService,
 	}
 }
@@ -41,7 +32,7 @@ func NewTagHandlerImpl(tagService tag_service.TagService) *TagHandlerImpl {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/tag/{id} [get]
-func (h *TagHandlerImpl) QueryTag(c *fiber.Ctx) error {
+func (h *TagHandler) QueryTag(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -72,7 +63,7 @@ func (h *TagHandlerImpl) QueryTag(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Tag}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/tag/list [get]
-func (h *TagHandlerImpl) QueryTagList(c *fiber.Ctx) error {
+func (h *TagHandler) QueryTagList(c *fiber.Ctx) error {
 	tags, err := h.tagService.QueryTagList(c)
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError,
@@ -94,7 +85,7 @@ func (h *TagHandlerImpl) QueryTagList(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/tag/page [get]
-func (h *TagHandlerImpl) QueryTagPage(c *fiber.Ctx) error {
+func (h *TagHandler) QueryTagPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
 	if err != nil {
@@ -127,7 +118,7 @@ func (h *TagHandlerImpl) QueryTagPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/tag/create [post]
-func (h *TagHandlerImpl) CreateTag(c *fiber.Ctx) error {
+func (h *TagHandler) CreateTag(c *fiber.Ctx) error {
 	var createReq model.TagCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -157,7 +148,7 @@ func (h *TagHandlerImpl) CreateTag(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/tag//update/{id} [put]
-func (h *TagHandlerImpl) UpdateTag(c *fiber.Ctx) error {
+func (h *TagHandler) UpdateTag(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -198,7 +189,7 @@ func (h *TagHandlerImpl) UpdateTag(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/tag/delete/{id} [delete]
-func (h *TagHandlerImpl) DeleteTag(c *fiber.Ctx) error {
+func (h *TagHandler) DeleteTag(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,

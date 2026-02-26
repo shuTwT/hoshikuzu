@@ -6,11 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type RouteHandler interface {
-	GetRoutes(c *fiber.Ctx) error
-}
-
-type RouteHandlerImpl struct {
+type RouteHandler struct {
 }
 
 // @Summary 获取路由
@@ -21,10 +17,10 @@ type RouteHandlerImpl struct {
 // @Success 200 {object} model.HttpSuccess{data=[]string}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/routes [get]
-func NewRouteHandlerImpl() *RouteHandlerImpl {
-	return &RouteHandlerImpl{}
+func NewRouteHandler() *RouteHandler {
+	return &RouteHandler{}
 }
 
-func (h *RouteHandlerImpl) GetRoutes(c *fiber.Ctx) error {
+func (h *RouteHandler) GetRoutes(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("success", []string{}))
 }

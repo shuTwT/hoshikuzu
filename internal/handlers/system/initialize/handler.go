@@ -12,22 +12,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type InitializeHandler interface {
-	PreInit(c *fiber.Ctx) error
-	Initialize(c *fiber.Ctx) error
-}
-
-type InitializeHandlerImpl struct {
+type InitializeHandler struct {
 	client         *ent.Client
 	userService    user_service.UserService
 	settingService setting_service.SettingService
 }
 
-func NewInitializeHandlerImpl(client *ent.Client, userService user_service.UserService, settingService setting_service.SettingService) *InitializeHandlerImpl {
-	return &InitializeHandlerImpl{client: client, userService: userService, settingService: settingService}
+func NewInitializeHandler(client *ent.Client, userService user_service.UserService, settingService setting_service.SettingService) *InitializeHandler {
+	return &InitializeHandler{client: client, userService: userService, settingService: settingService}
 }
 
-func (h *InitializeHandlerImpl) PreInit(c *fiber.Ctx) error {
+func (h *InitializeHandler) PreInit(c *fiber.Ctx) error {
 	DBType := config.GetString(config.DATABASE_TYPE)
 	return c.JSON(model.NewSuccess("success", model.PreInitResp{DBType: DBType}))
 }
@@ -44,7 +39,7 @@ func (h *InitializeHandlerImpl) PreInit(c *fiber.Ctx) error {
 // @Failure 409 {object} model.HttpError "系统已初始化"
 // @Failure 500 {object} model.HttpError "服务器内部错误"
 // @Router /api/initialize [post]
-func (h *InitializeHandlerImpl) Initialize(c *fiber.Ctx) error {
+func (h *InitializeHandler) Initialize(c *fiber.Ctx) error {
 	var req *model.InitializeRequest
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -85,7 +80,7 @@ func (h *InitializeHandlerImpl) Initialize(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("系统初始化成功", nil))
 }
 
-func (h *InitializeHandlerImpl) initRole(c *fiber.Ctx) *ent.Role {
+func (h *InitializeHandler) initRole(c *fiber.Ctx) *ent.Role {
 	// 初始化角色
 	role := h.client.Role.Create().
 		SetID(1).

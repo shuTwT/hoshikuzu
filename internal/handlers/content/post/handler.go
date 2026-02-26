@@ -16,29 +16,12 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-type PostHandler interface {
-	ListPost(c *fiber.Ctx) error
-	ListPostPage(c *fiber.Ctx) error
-	CreatePost(c *fiber.Ctx) error
-	UpdatePostContent(c *fiber.Ctx) error
-	UpdatePostSetting(c *fiber.Ctx) error
-	PublishPost(c *fiber.Ctx) error
-	UnpublishPost(c *fiber.Ctx) error
-	QueryPost(c *fiber.Ctx) error
-	QueryPostBySlug(c *fiber.Ctx) error
-	DeletePost(c *fiber.Ctx) error
-	GetSummaryForStream(c *fiber.Ctx) error
-	GetPostMonthStats(c *fiber.Ctx) error
-	GetRandomPost(c *fiber.Ctx) error
-	SearchPosts(c *fiber.Ctx) error
-}
-
-type PostHandlerImpl struct {
+type PostHandler struct {
 	postService post_service.PostService
 }
 
-func NewPostHandlerImpl(postService post_service.PostService) *PostHandlerImpl {
-	return &PostHandlerImpl{
+func NewPostHandler(postService post_service.PostService) *PostHandler {
+	return &PostHandler{
 		postService: postService,
 	}
 }
@@ -51,7 +34,7 @@ func NewPostHandlerImpl(postService post_service.PostService) *PostHandlerImpl {
 // @Success 200 {object} model.HttpSuccess{data=[]model.PostResp}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/list [get]
-func (h *PostHandlerImpl) ListPost(c *fiber.Ctx) error {
+func (h *PostHandler) ListPost(c *fiber.Ctx) error {
 	var req model.PostListReq
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -120,7 +103,7 @@ func (h *PostHandlerImpl) ListPost(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/page [get]
-func (h *PostHandlerImpl) ListPostPage(c *fiber.Ctx) error {
+func (h *PostHandler) ListPostPage(c *fiber.Ctx) error {
 	var req model.PostPageReq
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -190,7 +173,7 @@ func (h *PostHandlerImpl) ListPostPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/create [post]
-func (h *PostHandlerImpl) CreatePost(c *fiber.Ctx) error {
+func (h *PostHandler) CreatePost(c *fiber.Ctx) error {
 	var post model.PostCreateReq
 	if err := c.BodyParser(&post); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -213,7 +196,7 @@ func (h *PostHandlerImpl) CreatePost(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/update/{id} [put]
-func (h *PostHandlerImpl) UpdatePostContent(c *fiber.Ctx) error {
+func (h *PostHandler) UpdatePostContent(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -241,7 +224,7 @@ func (h *PostHandlerImpl) UpdatePostContent(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/update/setting/{id} [put]
-func (h *PostHandlerImpl) UpdatePostSetting(c *fiber.Ctx) error {
+func (h *PostHandler) UpdatePostSetting(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -268,7 +251,7 @@ func (h *PostHandlerImpl) UpdatePostSetting(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/publish/{id} [put]
-func (h *PostHandlerImpl) PublishPost(c *fiber.Ctx) error {
+func (h *PostHandler) PublishPost(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -291,7 +274,7 @@ func (h *PostHandlerImpl) PublishPost(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/unpublish/{id} [put]
-func (h *PostHandlerImpl) UnpublishPost(c *fiber.Ctx) error {
+func (h *PostHandler) UnpublishPost(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -314,7 +297,7 @@ func (h *PostHandlerImpl) UnpublishPost(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/query/{id} [get]
-func (h *PostHandlerImpl) QueryPost(c *fiber.Ctx) error {
+func (h *PostHandler) QueryPost(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -380,7 +363,7 @@ func (h *PostHandlerImpl) QueryPost(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/posts/slug/{slug} [get]
-func (h *PostHandlerImpl) QueryPostBySlug(c *fiber.Ctx) error {
+func (h *PostHandler) QueryPostBySlug(c *fiber.Ctx) error {
 	slug := c.Params("slug")
 	if slug == "" {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Slug is required"))
@@ -449,7 +432,7 @@ func (h *PostHandlerImpl) QueryPostBySlug(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/delete/{id} [delete]
-func (h *PostHandlerImpl) DeletePost(c *fiber.Ctx) error {
+func (h *PostHandler) DeletePost(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -484,7 +467,7 @@ func simulateAIProcessing(targetText string, ch chan model.AIResponse) {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/summary/stream/{id} [get]
-func (h *PostHandlerImpl) GetSummaryForStream(c *fiber.Ctx) error {
+func (h *PostHandler) GetSummaryForStream(c *fiber.Ctx) error {
 	// postId, err := strconv.Atoi(c.Params("id"))
 	// if err != nil {
 	// 	return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -544,7 +527,7 @@ func (h *PostHandlerImpl) GetSummaryForStream(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=[]model.PostMonthStat}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/month-stats [get]
-func (h *PostHandlerImpl) GetPostMonthStats(c *fiber.Ctx) error {
+func (h *PostHandler) GetPostMonthStats(c *fiber.Ctx) error {
 	var req model.PostMonthStatsReq
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -566,7 +549,7 @@ func (h *PostHandlerImpl) GetPostMonthStats(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/random [get]
-func (h *PostHandlerImpl) GetRandomPost(c *fiber.Ctx) error {
+func (h *PostHandler) GetRandomPost(c *fiber.Ctx) error {
 	post, err := h.postService.GetRandomPost(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
@@ -589,7 +572,7 @@ func (h *PostHandlerImpl) GetRandomPost(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/post/search [get]
-func (h *PostHandlerImpl) SearchPosts(c *fiber.Ctx) error {
+func (h *PostHandler) SearchPosts(c *fiber.Ctx) error {
 	var req model.PostSearchReq
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

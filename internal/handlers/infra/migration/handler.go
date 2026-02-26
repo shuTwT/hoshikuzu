@@ -8,17 +8,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type MigrationHandler interface {
-	ImportMarkdown(c *fiber.Ctx) error
-	CheckDuplicate(c *fiber.Ctx) error
-}
-
-type MigrationHandlerImpl struct {
+type MigrationHandler struct {
 	migrationService migration_service.MigrationService
 }
 
-func NewMigrationHandlerImpl(migrationService migration_service.MigrationService) *MigrationHandlerImpl {
-	return &MigrationHandlerImpl{
+func NewMigrationHandlerImpl(migrationService migration_service.MigrationService) *MigrationHandler {
+	return &MigrationHandler{
 		migrationService: migrationService,
 	}
 }
@@ -33,7 +28,7 @@ func NewMigrationHandlerImpl(migrationService migration_service.MigrationService
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/migration/md [post]
-func (h *MigrationHandlerImpl) ImportMarkdown(c *fiber.Ctx) error {
+func (h *MigrationHandler) ImportMarkdown(c *fiber.Ctx) error {
 	form, err := c.MultipartForm()
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "无法解析表单数据"))
@@ -70,7 +65,7 @@ func (h *MigrationHandlerImpl) ImportMarkdown(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/migration/check-duplicate [post]
-func (h *MigrationHandlerImpl) CheckDuplicate(c *fiber.Ctx) error {
+func (h *MigrationHandler) CheckDuplicate(c *fiber.Ctx) error {
 	form, err := c.MultipartForm()
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "无法解析表单数据"))

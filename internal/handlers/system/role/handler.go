@@ -9,21 +9,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type RoleHandler interface {
-	ListRole(c *fiber.Ctx) error
-	ListRolePage(c *fiber.Ctx) error
-	CreateRole(c *fiber.Ctx) error
-	UpdateRole(c *fiber.Ctx) error
-	QueryRole(c *fiber.Ctx) error
-	DeleteRole(c *fiber.Ctx) error
-}
-
-type RoleHandlerImpl struct {
+type RoleHandler struct {
 	roleService role_service.RoleService
 }
 
-func NewRoleHandlerImpl(roleService role_service.RoleService) *RoleHandlerImpl {
-	return &RoleHandlerImpl{
+func NewRoleHandler(roleService role_service.RoleService) *RoleHandler {
+	return &RoleHandler{
 		roleService: roleService,
 	}
 }
@@ -36,7 +27,7 @@ func NewRoleHandlerImpl(roleService role_service.RoleService) *RoleHandlerImpl {
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Role}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/role/list [get]
-func (h *RoleHandlerImpl) ListRole(c *fiber.Ctx) error {
+func (h *RoleHandler) ListRole(c *fiber.Ctx) error {
 	roles, err := h.roleService.QueryRoleList(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError,
@@ -70,7 +61,7 @@ func (h *RoleHandlerImpl) ListRole(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/role/page [get]
-func (h *RoleHandlerImpl) ListRolePage(c *fiber.Ctx) error {
+func (h *RoleHandler) ListRolePage(c *fiber.Ctx) error {
 	var pageQuery = model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
 
@@ -116,7 +107,7 @@ func (h *RoleHandlerImpl) ListRolePage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/role/create [post]
-func (h *RoleHandlerImpl) CreateRole(c *fiber.Ctx) error {
+func (h *RoleHandler) CreateRole(c *fiber.Ctx) error {
 	var roleData model.RoleCreateReq
 	if err := c.BodyParser(&roleData); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -145,7 +136,7 @@ func (h *RoleHandlerImpl) CreateRole(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/role/update/{id} [put]
-func (h *RoleHandlerImpl) UpdateRole(c *fiber.Ctx) error {
+func (h *RoleHandler) UpdateRole(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -180,7 +171,7 @@ func (h *RoleHandlerImpl) UpdateRole(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/role/query/{id} [get]
-func (h *RoleHandlerImpl) QueryRole(c *fiber.Ctx) error {
+func (h *RoleHandler) QueryRole(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -206,7 +197,7 @@ func (h *RoleHandlerImpl) QueryRole(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/role/delete/{id} [delete]
-func (h *RoleHandlerImpl) DeleteRole(c *fiber.Ctx) error {
+func (h *RoleHandler) DeleteRole(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,

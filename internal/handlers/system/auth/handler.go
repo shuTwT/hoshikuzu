@@ -7,16 +7,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type AuthHandler interface {
-	Login(c *fiber.Ctx) error
-}
-
-type AuthHandlerImpl struct {
+type AuthHandler struct {
 	authService auth.AuthService
 }
 
-func NewAuthHandlerImpl(authService auth.AuthService) *AuthHandlerImpl {
-	return &AuthHandlerImpl{authService: authService}
+func NewAuthHandler(authService auth.AuthService) *AuthHandler {
+	return &AuthHandler{authService: authService}
 }
 
 // @Summary 用户登录
@@ -30,7 +26,7 @@ func NewAuthHandlerImpl(authService auth.AuthService) *AuthHandlerImpl {
 // @Failure 401 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/auth/login/password [post]
-func (h *AuthHandlerImpl) Login(c *fiber.Ctx) error {
+func (h *AuthHandler) Login(c *fiber.Ctx) error {
 	var req *model.LoginRequest
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(

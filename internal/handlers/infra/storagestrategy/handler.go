@@ -10,22 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type StorageStrategyHandler interface {
-	ListStorageStrategyPage(c *fiber.Ctx) error
-	ListStorageStrategy(c *fiber.Ctx) error
-	CreateStorageStrategy(c *fiber.Ctx) error
-	UpdateStorageStrategy(c *fiber.Ctx) error
-	QueryStorageStrategy(c *fiber.Ctx) error
-	DeleteStorageStrategy(c *fiber.Ctx) error
-	SetDefaultStorageStrategy(c *fiber.Ctx) error
-}
-
-type StorageStrategyHandlerImpl struct {
+type StorageStrategyHandler struct {
 	storageStrategyService storagestrategy_service.StorageStrategyService
 }
 
-func NewStorageStrategyHandlerImpl(storageStrategyService storagestrategy_service.StorageStrategyService) *StorageStrategyHandlerImpl {
-	return &StorageStrategyHandlerImpl{
+func NewStorageStrategyHandler(storageStrategyService storagestrategy_service.StorageStrategyService) *StorageStrategyHandler {
+	return &StorageStrategyHandler{
 		storageStrategyService: storageStrategyService,
 	}
 }
@@ -43,7 +33,7 @@ func NewStorageStrategyHandlerImpl(storageStrategyService storagestrategy_servic
 // @Success 200 {object} model.HttpSuccess{data=[]ent.StorageStrategy}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/storage-strategy/page [get]
-func (h *StorageStrategyHandlerImpl) ListStorageStrategyPage(c *fiber.Ctx) error {
+func (h *StorageStrategyHandler) ListStorageStrategyPage(c *fiber.Ctx) error {
 	var pageReq model.StorageStrategyPageReq
 	if err := c.QueryParser(&pageReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -88,7 +78,7 @@ func (h *StorageStrategyHandlerImpl) ListStorageStrategyPage(c *fiber.Ctx) error
 // @Success 200 {object} model.HttpSuccess{data=[]model.StorageStrategyListResp}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/storage-strategy/list [get]
-func (h *StorageStrategyHandlerImpl) ListStorageStrategy(c *fiber.Ctx) error {
+func (h *StorageStrategyHandler) ListStorageStrategy(c *fiber.Ctx) error {
 	strategies, err := h.storageStrategyService.ListStorageStrategy(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
@@ -116,7 +106,7 @@ func (h *StorageStrategyHandlerImpl) ListStorageStrategy(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/storage-strategy/create [post]
-func (h *StorageStrategyHandlerImpl) CreateStorageStrategy(c *fiber.Ctx) error {
+func (h *StorageStrategyHandler) CreateStorageStrategy(c *fiber.Ctx) error {
 	var strategy *model.StorageStrategyCreateReq
 	if err := c.BodyParser(&strategy); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -140,7 +130,7 @@ func (h *StorageStrategyHandlerImpl) CreateStorageStrategy(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/storage-strategy/update/{id} [put]
-func (h *StorageStrategyHandlerImpl) UpdateStorageStrategy(c *fiber.Ctx) error {
+func (h *StorageStrategyHandler) UpdateStorageStrategy(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -169,7 +159,7 @@ func (h *StorageStrategyHandlerImpl) UpdateStorageStrategy(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/storage-strategy/query/{id} [get]
-func (h *StorageStrategyHandlerImpl) QueryStorageStrategy(c *fiber.Ctx) error {
+func (h *StorageStrategyHandler) QueryStorageStrategy(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -192,7 +182,7 @@ func (h *StorageStrategyHandlerImpl) QueryStorageStrategy(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/storage-strategy/delete/{id} [delete]
-func (h *StorageStrategyHandlerImpl) DeleteStorageStrategy(c *fiber.Ctx) error {
+func (h *StorageStrategyHandler) DeleteStorageStrategy(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -216,7 +206,7 @@ func (h *StorageStrategyHandlerImpl) DeleteStorageStrategy(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/storage-strategy/default/{id} [put]
-func (h *StorageStrategyHandlerImpl) SetDefaultStorageStrategy(c *fiber.Ctx) error {
+func (h *StorageStrategyHandler) SetDefaultStorageStrategy(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))

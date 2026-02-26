@@ -10,20 +10,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type FlinkApplicationHandler interface {
-	CreateFlinkApplication(c *fiber.Ctx) error
-	ListFlinkApplicationPage(c *fiber.Ctx) error
-	QueryFlinkApplication(c *fiber.Ctx) error
-	ApproveFlinkApplication(c *fiber.Ctx) error
-}
-
-type FlinkApplicationHandlerImpl struct {
+type FlinkApplicationHandler struct {
 	client                  *ent.Client
 	flinkApplicationService flinkapplication_service.FlinkApplicationService
 }
 
-func NewFlinkApplicationHandlerImpl(client *ent.Client, flinkApplicationService flinkapplication_service.FlinkApplicationService) *FlinkApplicationHandlerImpl {
-	return &FlinkApplicationHandlerImpl{
+func NewFlinkApplicationHandler(client *ent.Client, flinkApplicationService flinkapplication_service.FlinkApplicationService) *FlinkApplicationHandler {
+	return &FlinkApplicationHandler{
 		client:                  client,
 		flinkApplicationService: flinkApplicationService,
 	}
@@ -38,7 +31,7 @@ func NewFlinkApplicationHandlerImpl(client *ent.Client, flinkApplicationService 
 // @Success 200 {object} model.HttpSuccess{data=ent.FLinkApplication}
 // @Failure 400 {object} model.HttpError
 // @Router /api/v1/flink-application/create [post]
-func (h *FlinkApplicationHandlerImpl) CreateFlinkApplication(c *fiber.Ctx) error {
+func (h *FlinkApplicationHandler) CreateFlinkApplication(c *fiber.Ctx) error {
 	var createReq *model.FlinkApplicationCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -60,7 +53,7 @@ func (h *FlinkApplicationHandlerImpl) CreateFlinkApplication(c *fiber.Ctx) error
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.FlinkApplicationResp]}
 // @Failure 400 {object} model.HttpError
 // @Router /api/v1/flink-application/page [get]
-func (h *FlinkApplicationHandlerImpl) ListFlinkApplicationPage(c *fiber.Ctx) error {
+func (h *FlinkApplicationHandler) ListFlinkApplicationPage(c *fiber.Ctx) error {
 	var pageQuery model.FlinkApplicationPageReq
 	if err := c.QueryParser(&pageQuery); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -104,7 +97,7 @@ func (h *FlinkApplicationHandlerImpl) ListFlinkApplicationPage(c *fiber.Ctx) err
 // @Success 200 {object} model.HttpSuccess{data=ent.FLinkApplication}
 // @Failure 400 {object} model.HttpError
 // @Router /api/v1/flink-application/query/{id} [get]
-func (h *FlinkApplicationHandlerImpl) QueryFlinkApplication(c *fiber.Ctx) error {
+func (h *FlinkApplicationHandler) QueryFlinkApplication(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -126,7 +119,7 @@ func (h *FlinkApplicationHandlerImpl) QueryFlinkApplication(c *fiber.Ctx) error 
 // @Success 200 {object} model.HttpSuccess{data=ent.FLinkApplication}
 // @Failure 400 {object} model.HttpError
 // @Router /api/v1/flink-application/approve/{id} [put]
-func (h *FlinkApplicationHandlerImpl) ApproveFlinkApplication(c *fiber.Ctx) error {
+func (h *FlinkApplicationHandler) ApproveFlinkApplication(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))

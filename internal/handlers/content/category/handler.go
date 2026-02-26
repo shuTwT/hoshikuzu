@@ -11,22 +11,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type CategoryHandler interface {
-	QueryCategory(c *fiber.Ctx) error
-	QueryCategoryList(c *fiber.Ctx) error
-	QueryCategoryPage(c *fiber.Ctx) error
-	CreateCategory(c *fiber.Ctx) error
-	UpdateCategory(c *fiber.Ctx) error
-	DeleteCategory(c *fiber.Ctx) error
-}
-
-type CategoryHandlerImpl struct {
+type CategoryHandler struct {
 	categoryService category_service.CategoryService
 	postService     post_service.PostService
 }
 
-func NewCategoryHandlerImpl(categoryService category_service.CategoryService, postService post_service.PostService) *CategoryHandlerImpl {
-	return &CategoryHandlerImpl{
+func NewCategoryHandler(categoryService category_service.CategoryService, postService post_service.PostService) *CategoryHandler {
+	return &CategoryHandler{
 		categoryService: categoryService,
 		postService:     postService,
 	}
@@ -43,7 +34,7 @@ func NewCategoryHandlerImpl(categoryService category_service.CategoryService, po
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/category/query/{id} [get]
-func (h *CategoryHandlerImpl) QueryCategory(c *fiber.Ctx) error {
+func (h *CategoryHandler) QueryCategory(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -74,7 +65,7 @@ func (h *CategoryHandlerImpl) QueryCategory(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Category}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/category/list [get]
-func (h *CategoryHandlerImpl) QueryCategoryList(c *fiber.Ctx) error {
+func (h *CategoryHandler) QueryCategoryList(c *fiber.Ctx) error {
 	categories, err := h.categoryService.QueryCategoryList(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError,
@@ -114,7 +105,7 @@ func (h *CategoryHandlerImpl) QueryCategoryList(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/category/page [get]
-func (h *CategoryHandlerImpl) QueryCategoryPage(c *fiber.Ctx) error {
+func (h *CategoryHandler) QueryCategoryPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
 	if err != nil {
@@ -165,7 +156,7 @@ func (h *CategoryHandlerImpl) QueryCategoryPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/category/create [post]
-func (h *CategoryHandlerImpl) CreateCategory(c *fiber.Ctx) error {
+func (h *CategoryHandler) CreateCategory(c *fiber.Ctx) error {
 	var createReq model.CategoryCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -195,7 +186,7 @@ func (h *CategoryHandlerImpl) CreateCategory(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/category/update/{id} [put]
-func (h *CategoryHandlerImpl) UpdateCategory(c *fiber.Ctx) error {
+func (h *CategoryHandler) UpdateCategory(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -236,7 +227,7 @@ func (h *CategoryHandlerImpl) UpdateCategory(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/category/delete/{id} [delete]
-func (h *CategoryHandlerImpl) DeleteCategory(c *fiber.Ctx) error {
+func (h *CategoryHandler) DeleteCategory(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,

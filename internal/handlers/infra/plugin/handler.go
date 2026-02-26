@@ -14,24 +14,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type PluginHandler interface {
-	CreatePlugin(c *fiber.Ctx) error
-	ListPluginPage(c *fiber.Ctx) error
-	QueryPlugin(c *fiber.Ctx) error
-	DeletePlugin(c *fiber.Ctx) error
-	StartPlugin(c *fiber.Ctx) error
-	StopPlugin(c *fiber.Ctx) error
-	RestartPlugin(c *fiber.Ctx) error
-	RegisterPlugin(c *fiber.Ctx) error
-	HeartbeatPlugin(c *fiber.Ctx) error
-}
-
-type PluginHandlerImpl struct {
+type PluginHandler struct {
 	pluginService plugin.PluginService
 }
 
-func NewPluginHandlerImpl(pluginService plugin.PluginService) *PluginHandlerImpl {
-	return &PluginHandlerImpl{pluginService: pluginService}
+func NewPluginHandler(pluginService plugin.PluginService) *PluginHandler {
+	return &PluginHandler{pluginService: pluginService}
 }
 
 // @Summary 创建插件
@@ -44,7 +32,7 @@ func NewPluginHandlerImpl(pluginService plugin.PluginService) *PluginHandlerImpl
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/create [post]
-func (h *PluginHandlerImpl) CreatePlugin(c *fiber.Ctx) error {
+func (h *PluginHandler) CreatePlugin(c *fiber.Ctx) error {
 	file, err := c.FormFile("file")
 	if err != nil {
 		slog.Error("Failed to get uploaded file", "error", err.Error())
@@ -78,7 +66,7 @@ func (h *PluginHandlerImpl) CreatePlugin(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/list [get]
-func (h *PluginHandlerImpl) ListPluginPage(c *fiber.Ctx) error {
+func (h *PluginHandler) ListPluginPage(c *fiber.Ctx) error {
 	var pageReq model.PluginPageReq
 	if err := c.QueryParser(&pageReq); err != nil {
 		slog.Error("Failed to parse query parameters", "error", err.Error())
@@ -113,7 +101,7 @@ func (h *PluginHandlerImpl) ListPluginPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/query/{id} [get]
-func (h *PluginHandlerImpl) QueryPlugin(c *fiber.Ctx) error {
+func (h *PluginHandler) QueryPlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid plugin ID", "error", err.Error())
@@ -140,7 +128,7 @@ func (h *PluginHandlerImpl) QueryPlugin(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/delete/{id} [delete]
-func (h *PluginHandlerImpl) DeletePlugin(c *fiber.Ctx) error {
+func (h *PluginHandler) DeletePlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid plugin ID", "error", err.Error())
@@ -167,7 +155,7 @@ func (h *PluginHandlerImpl) DeletePlugin(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/start/{id} [post]
-func (h *PluginHandlerImpl) StartPlugin(c *fiber.Ctx) error {
+func (h *PluginHandler) StartPlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid plugin ID", "error", err.Error())
@@ -194,7 +182,7 @@ func (h *PluginHandlerImpl) StartPlugin(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/stop/{id} [post]
-func (h *PluginHandlerImpl) StopPlugin(c *fiber.Ctx) error {
+func (h *PluginHandler) StopPlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid plugin ID", "error", err.Error())
@@ -221,7 +209,7 @@ func (h *PluginHandlerImpl) StopPlugin(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/restart/{id} [post]
-func (h *PluginHandlerImpl) RestartPlugin(c *fiber.Ctx) error {
+func (h *PluginHandler) RestartPlugin(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid plugin ID", "error", err.Error())
@@ -248,7 +236,7 @@ func (h *PluginHandlerImpl) RestartPlugin(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/register [post]
-func (h *PluginHandlerImpl) RegisterPlugin(c *fiber.Ctx) error {
+func (h *PluginHandler) RegisterPlugin(c *fiber.Ctx) error {
 	// 检查debug模式是否开启
 	if !config.GetBool(config.SERVER_DEBUG) {
 		slog.Warn("RegisterPlugin called but debug mode is not enabled")
@@ -283,7 +271,7 @@ func (h *PluginHandlerImpl) RegisterPlugin(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/plugin/heartbeat [post]
-func (h *PluginHandlerImpl) HeartbeatPlugin(c *fiber.Ctx) error {
+func (h *PluginHandler) HeartbeatPlugin(c *fiber.Ctx) error {
 	// 检查debug模式是否开启
 	if !config.GetBool(config.SERVER_DEBUG) {
 		slog.Warn("HeartbeatPlugin called but debug mode is not enabled")
@@ -308,7 +296,7 @@ func (h *PluginHandlerImpl) HeartbeatPlugin(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("插件心跳更新成功", nil))
 }
 
-func (h *PluginHandlerImpl) buildPluginResp(p *ent.Plugin) *model.PluginResp {
+func (h *PluginHandler) buildPluginResp(p *ent.Plugin) *model.PluginResp {
 	var lastStartedAt, lastStoppedAt *time.Time
 	if !p.LastStartedAt.IsZero() {
 		lastStartedAt = &p.LastStartedAt

@@ -9,19 +9,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type FriendCircleHandler interface {
-	ListFriendCircleRecordPage(c *fiber.Ctx) error
-	CreateFriendCircleRecord(c *fiber.Ctx) error
-	UpdateFriendCircleRecord(c *fiber.Ctx) error
-	DeleteFriendCircleRecord(c *fiber.Ctx) error
-}
-
-type FriendCircleHandlerImpl struct {
+type FriendCircleHandler struct {
 	friendCircleService friendcircle.FriendCircleService
 }
 
-func NewFriendCircleHandlerImpl(friendCircleService friendcircle.FriendCircleService) *FriendCircleHandlerImpl {
-	return &FriendCircleHandlerImpl{
+func NewFriendCircleHandler(friendCircleService friendcircle.FriendCircleService) *FriendCircleHandler {
+	return &FriendCircleHandler{
 		friendCircleService: friendCircleService,
 	}
 }
@@ -37,7 +30,7 @@ func NewFriendCircleHandlerImpl(friendCircleService friendcircle.FriendCircleSer
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/friend-circle/page [get]
-func (h *FriendCircleHandlerImpl) ListFriendCircleRecordPage(c *fiber.Ctx) error {
+func (h *FriendCircleHandler) ListFriendCircleRecordPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -76,7 +69,7 @@ func (h *FriendCircleHandlerImpl) ListFriendCircleRecordPage(c *fiber.Ctx) error
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/friend-circle [post]
-func (h *FriendCircleHandlerImpl) CreateFriendCircleRecord(c *fiber.Ctx) error {
+func (h *FriendCircleHandler) CreateFriendCircleRecord(c *fiber.Ctx) error {
 	var req *model.FriendCircleRecordSaveReq
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -100,7 +93,7 @@ func (h *FriendCircleHandlerImpl) CreateFriendCircleRecord(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/friend-circle/{id} [put]
-func (h *FriendCircleHandlerImpl) UpdateFriendCircleRecord(c *fiber.Ctx) error {
+func (h *FriendCircleHandler) UpdateFriendCircleRecord(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -129,7 +122,7 @@ func (h *FriendCircleHandlerImpl) UpdateFriendCircleRecord(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/friend-circle/{id} [delete]
-func (h *FriendCircleHandlerImpl) DeleteFriendCircleRecord(c *fiber.Ctx) error {
+func (h *FriendCircleHandler) DeleteFriendCircleRecord(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))

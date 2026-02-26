@@ -10,20 +10,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type FlinkGroupHandler interface {
-	ListFLinkGroup(c *fiber.Ctx) error
-	CreateFlinkGroup(c *fiber.Ctx) error
-	UpdateFlinkGroup(c *fiber.Ctx) error
-	DeleteFLinkGroup(c *fiber.Ctx) error
-}
-
-type FlinkGroupHandlerImpl struct {
+type FlinkGroupHandler struct {
 	client       *ent.Client
 	flinkService flink.FlinkService
 }
 
-func NewFlinkGroupHandlerImpl(client *ent.Client, flinkService flink.FlinkService) *FlinkGroupHandlerImpl {
-	return &FlinkGroupHandlerImpl{
+func NewFlinkGroupHandler(client *ent.Client, flinkService flink.FlinkService) *FlinkGroupHandler {
+	return &FlinkGroupHandler{
 		client:       client,
 		flinkService: flinkService,
 	}
@@ -38,7 +31,7 @@ func NewFlinkGroupHandlerImpl(client *ent.Client, flinkService flink.FlinkServic
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink-group/list [get]
-func (h *FlinkGroupHandlerImpl) ListFLinkGroup(c *fiber.Ctx) error {
+func (h *FlinkGroupHandler) ListFLinkGroup(c *fiber.Ctx) error {
 	flinkGroups, err := h.client.FLinkGroup.Query().All(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -66,7 +59,7 @@ func (h *FlinkGroupHandlerImpl) ListFLinkGroup(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink-group/create [post]
-func (h *FlinkGroupHandlerImpl) CreateFlinkGroup(c *fiber.Ctx) error {
+func (h *FlinkGroupHandler) CreateFlinkGroup(c *fiber.Ctx) error {
 	var createReq *ent.FLinkGroup
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -92,7 +85,7 @@ func (h *FlinkGroupHandlerImpl) CreateFlinkGroup(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink-group/update/{id} [put]
-func (h *FlinkGroupHandlerImpl) UpdateFlinkGroup(c *fiber.Ctx) error {
+func (h *FlinkGroupHandler) UpdateFlinkGroup(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -121,7 +114,7 @@ func (h *FlinkGroupHandlerImpl) UpdateFlinkGroup(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink-group/delete/{id} [delete]
-func (h *FlinkGroupHandlerImpl) DeleteFLinkGroup(c *fiber.Ctx) error {
+func (h *FlinkGroupHandler) DeleteFLinkGroup(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

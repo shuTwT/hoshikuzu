@@ -10,18 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2/log"
 )
 
-type SettingHandler interface {
-	GetSettings(c *fiber.Ctx) error
-	GetJsonSettingsMap(c *fiber.Ctx) error
-	SaveSettings(c *fiber.Ctx) error
-}
-
-type SettingHandlerImpl struct {
+type SettingHandler struct {
 	settingService setting_service.SettingService
 }
 
-func NewSettingHandlerImpl(settingService setting_service.SettingService) *SettingHandlerImpl {
-	return &SettingHandlerImpl{
+func NewSettingHandler(settingService setting_service.SettingService) *SettingHandler {
+	return &SettingHandler{
 		settingService: settingService,
 	}
 }
@@ -34,7 +28,7 @@ func NewSettingHandlerImpl(settingService setting_service.SettingService) *Setti
 // @Success 200 {object} model.HttpSuccess{data=map[string]string}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/settings [get]
-func (h *SettingHandlerImpl) GetSettings(c *fiber.Ctx) error {
+func (h *SettingHandler) GetSettings(c *fiber.Ctx) error {
 	ctx := c.Context()
 
 	// 获取所有系统设置
@@ -70,7 +64,7 @@ func (h *SettingHandlerImpl) GetSettings(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/settings/json/{key} [get]
-func (h *SettingHandlerImpl) GetJsonSettingsMap(c *fiber.Ctx) error {
+func (h *SettingHandler) GetJsonSettingsMap(c *fiber.Ctx) error {
 	ctx := c.Context()
 
 	key := c.Params("key")
@@ -111,7 +105,7 @@ func (h *SettingHandlerImpl) GetJsonSettingsMap(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/settings/{key} [post]
-func (h *SettingHandlerImpl) SaveSettings(c *fiber.Ctx) error {
+func (h *SettingHandler) SaveSettings(c *fiber.Ctx) error {
 	ctx := c.Context()
 
 	key := c.Params("key")

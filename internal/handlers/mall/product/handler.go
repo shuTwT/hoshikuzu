@@ -11,24 +11,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type ProductHandler interface {
-	ListProducts(c *fiber.Ctx) error
-	ListProductsPage(c *fiber.Ctx) error
-	CreateProduct(c *fiber.Ctx) error
-	UpdateProduct(c *fiber.Ctx) error
-	QueryProduct(c *fiber.Ctx) error
-	DeleteProduct(c *fiber.Ctx) error
-	BatchUpdateProducts(c *fiber.Ctx) error
-	BatchDeleteProducts(c *fiber.Ctx) error
-	SearchProducts(c *fiber.Ctx) error
-}
-
-type ProductHandlerImpl struct {
+type ProductHandler struct {
 	productService product_service.ProductService
 }
 
-func NewProductHandlerImpl(productService product_service.ProductService) *ProductHandlerImpl {
-	return &ProductHandlerImpl{
+func NewProductHandler(productService product_service.ProductService) *ProductHandler {
+	return &ProductHandler{
 		productService: productService,
 	}
 }
@@ -41,7 +29,7 @@ func NewProductHandlerImpl(productService product_service.ProductService) *Produ
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Product}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/product/list [get]
-func (h *ProductHandlerImpl) ListProducts(c *fiber.Ctx) error {
+func (h *ProductHandler) ListProducts(c *fiber.Ctx) error {
 	products, err := h.productService.ListAllProducts(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
@@ -60,7 +48,7 @@ func (h *ProductHandlerImpl) ListProducts(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[ent.Product]}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/product/page [get]
-func (h *ProductHandlerImpl) ListProductsPage(c *fiber.Ctx) error {
+func (h *ProductHandler) ListProductsPage(c *fiber.Ctx) error {
 	var pageQuery model.PageQuery
 
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -96,7 +84,7 @@ func (h *ProductHandlerImpl) ListProductsPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/product/create [post]
-func (h *ProductHandlerImpl) CreateProduct(c *fiber.Ctx) error {
+func (h *ProductHandler) CreateProduct(c *fiber.Ctx) error {
 	var req *model.ProductCreateReq
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -121,7 +109,7 @@ func (h *ProductHandlerImpl) CreateProduct(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/product/update/{id} [put]
-func (h *ProductHandlerImpl) UpdateProduct(c *fiber.Ctx) error {
+func (h *ProductHandler) UpdateProduct(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -150,7 +138,7 @@ func (h *ProductHandlerImpl) UpdateProduct(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/product/query/{id} [get]
-func (h *ProductHandlerImpl) QueryProduct(c *fiber.Ctx) error {
+func (h *ProductHandler) QueryProduct(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -174,7 +162,7 @@ func (h *ProductHandlerImpl) QueryProduct(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/product/delete/{id} [delete]
-func (h *ProductHandlerImpl) DeleteProduct(c *fiber.Ctx) error {
+func (h *ProductHandler) DeleteProduct(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -197,7 +185,7 @@ func (h *ProductHandlerImpl) DeleteProduct(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/product/batch-update [put]
-func (h *ProductHandlerImpl) BatchUpdateProducts(c *fiber.Ctx) error {
+func (h *ProductHandler) BatchUpdateProducts(c *fiber.Ctx) error {
 	var req *model.ProductBatchUpdateReq
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -220,7 +208,7 @@ func (h *ProductHandlerImpl) BatchUpdateProducts(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/product/batch-delete [delete]
-func (h *ProductHandlerImpl) BatchDeleteProducts(c *fiber.Ctx) error {
+func (h *ProductHandler) BatchDeleteProducts(c *fiber.Ctx) error {
 	var req *model.ProductBatchDeleteReq
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -246,7 +234,7 @@ func (h *ProductHandlerImpl) BatchDeleteProducts(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/product/search [get]
-func (h *ProductHandlerImpl) SearchProducts(c *fiber.Ctx) error {
+func (h *ProductHandler) SearchProducts(c *fiber.Ctx) error {
 	var req model.ProductSearchReq
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

@@ -11,21 +11,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type DocLibraryDetailHandler interface {
-	CreateDocLibraryDetail(c *fiber.Ctx) error
-	UpdateDocLibraryDetail(c *fiber.Ctx) error
-	GetDocLibraryDetailPage(c *fiber.Ctx) error
-	GetDocLibraryDetail(c *fiber.Ctx) error
-	DeleteDocLibraryDetail(c *fiber.Ctx) error
-	GetDocLibraryDetailTree(c *fiber.Ctx) error
-}
-
-type DocLibraryDetailHandlerImpl struct {
+type DocLibraryDetailHandler struct {
 	service doclibrarydetail.DocLibraryDetailService
 }
 
-func NewDocLibraryDetailHandlerImpl(service doclibrarydetail.DocLibraryDetailService) DocLibraryDetailHandler {
-	return &DocLibraryDetailHandlerImpl{service: service}
+func NewDocLibraryDetailHandler(service doclibrarydetail.DocLibraryDetailService) *DocLibraryDetailHandler {
+	return &DocLibraryDetailHandler{service: service}
 }
 
 // @Summary 创建文档库详情
@@ -38,7 +29,7 @@ func NewDocLibraryDetailHandlerImpl(service doclibrarydetail.DocLibraryDetailSer
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library-detail/create [post]
-func (h *DocLibraryDetailHandlerImpl) CreateDocLibraryDetail(c *fiber.Ctx) error {
+func (h *DocLibraryDetailHandler) CreateDocLibraryDetail(c *fiber.Ctx) error {
 	createReq := model.DocLibraryDetailCreateReq{}
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -61,7 +52,7 @@ func (h *DocLibraryDetailHandlerImpl) CreateDocLibraryDetail(c *fiber.Ctx) error
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library-detail/update/{id} [put]
-func (h *DocLibraryDetailHandlerImpl) UpdateDocLibraryDetail(c *fiber.Ctx) error {
+func (h *DocLibraryDetailHandler) UpdateDocLibraryDetail(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -89,7 +80,7 @@ func (h *DocLibraryDetailHandlerImpl) UpdateDocLibraryDetail(c *fiber.Ctx) error
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library-detail/page [get]
-func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetailPage(c *fiber.Ctx) error {
+func (h *DocLibraryDetailHandler) GetDocLibraryDetailPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -132,7 +123,7 @@ func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetailPage(c *fiber.Ctx) erro
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library-detail/query/{id} [get]
-func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetail(c *fiber.Ctx) error {
+func (h *DocLibraryDetailHandler) GetDocLibraryDetail(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -167,7 +158,7 @@ func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetail(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library-detail/delete/{id} [delete]
-func (h *DocLibraryDetailHandlerImpl) DeleteDocLibraryDetail(c *fiber.Ctx) error {
+func (h *DocLibraryDetailHandler) DeleteDocLibraryDetail(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -189,7 +180,7 @@ func (h *DocLibraryDetailHandlerImpl) DeleteDocLibraryDetail(c *fiber.Ctx) error
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library-detail/tree [get]
-func (h *DocLibraryDetailHandlerImpl) GetDocLibraryDetailTree(c *fiber.Ctx) error {
+func (h *DocLibraryDetailHandler) GetDocLibraryDetailTree(c *fiber.Ctx) error {
 	libraryID := c.QueryInt("library_id", 0)
 
 	details, err := h.service.GetDocLibraryDetailTree(c.Context(), libraryID)

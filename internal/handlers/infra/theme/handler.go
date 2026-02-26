@@ -11,22 +11,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type ThemeHandler interface {
-	UploadThemeFile(c *fiber.Ctx) error
-	CreateTheme(c *fiber.Ctx) error
-	ListThemePage(c *fiber.Ctx) error
-	QueryTheme(c *fiber.Ctx) error
-	DeleteTheme(c *fiber.Ctx) error
-	EnableTheme(c *fiber.Ctx) error
-	DisableTheme(c *fiber.Ctx) error
-}
-
-type ThemeHandlerImpl struct {
+type ThemeHandler struct {
 	themeService theme.ThemeService
 }
 
-func NewThemeHandlerImpl(themeService theme.ThemeService) *ThemeHandlerImpl {
-	return &ThemeHandlerImpl{themeService: themeService}
+func NewThemeHandler(themeService theme.ThemeService) *ThemeHandler {
+	return &ThemeHandler{themeService: themeService}
 }
 
 // @Summary 上传主题文件
@@ -39,7 +29,7 @@ func NewThemeHandlerImpl(themeService theme.ThemeService) *ThemeHandlerImpl {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/theme/upload [post]
-func (h *ThemeHandlerImpl) UploadThemeFile(c *fiber.Ctx) error {
+func (h *ThemeHandler) UploadThemeFile(c *fiber.Ctx) error {
 	file, err := c.FormFile("file")
 	if err != nil {
 		slog.Error("Failed to get uploaded file", "error", err.Error())
@@ -66,7 +56,7 @@ func (h *ThemeHandlerImpl) UploadThemeFile(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/theme/create [post]
-func (h *ThemeHandlerImpl) CreateTheme(c *fiber.Ctx) error {
+func (h *ThemeHandler) CreateTheme(c *fiber.Ctx) error {
 	var req model.CreateThemeReq
 	if err := c.BodyParser(&req); err != nil {
 		slog.Error("Failed to parse request body", "error", err.Error())
@@ -95,7 +85,7 @@ func (h *ThemeHandlerImpl) CreateTheme(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/theme/page [get]
-func (h *ThemeHandlerImpl) ListThemePage(c *fiber.Ctx) error {
+func (h *ThemeHandler) ListThemePage(c *fiber.Ctx) error {
 	var pageQuery model.PageQuery
 	if err := c.QueryParser(&pageQuery); err != nil {
 		slog.Error("Failed to parse query parameters", "error", err.Error())
@@ -131,7 +121,7 @@ func (h *ThemeHandlerImpl) ListThemePage(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/theme/query/{id} [get]
-func (h *ThemeHandlerImpl) QueryTheme(c *fiber.Ctx) error {
+func (h *ThemeHandler) QueryTheme(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid theme ID", "error", err.Error())
@@ -159,7 +149,7 @@ func (h *ThemeHandlerImpl) QueryTheme(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/theme/delete/{id} [delete]
-func (h *ThemeHandlerImpl) DeleteTheme(c *fiber.Ctx) error {
+func (h *ThemeHandler) DeleteTheme(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid theme ID", "error", err.Error())
@@ -187,7 +177,7 @@ func (h *ThemeHandlerImpl) DeleteTheme(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/theme/enable/{id} [put]
-func (h *ThemeHandlerImpl) EnableTheme(c *fiber.Ctx) error {
+func (h *ThemeHandler) EnableTheme(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid theme ID", "error", err.Error())
@@ -215,7 +205,7 @@ func (h *ThemeHandlerImpl) EnableTheme(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/theme/disable/{id} [put]
-func (h *ThemeHandlerImpl) DisableTheme(c *fiber.Ctx) error {
+func (h *ThemeHandler) DisableTheme(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid theme ID", "error", err.Error())
@@ -232,7 +222,7 @@ func (h *ThemeHandlerImpl) DisableTheme(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("主题禁用成功", nil))
 }
 
-func (h *ThemeHandlerImpl) buildThemeResp(t *ent.Theme) *model.ThemeResp {
+func (h *ThemeHandler) buildThemeResp(t *ent.Theme) *model.ThemeResp {
 	return &model.ThemeResp{
 		ID:            t.ID,
 		CreatedAt:     (model.LocalTime)(t.CreatedAt),

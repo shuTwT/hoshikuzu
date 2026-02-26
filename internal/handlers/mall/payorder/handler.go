@@ -11,22 +11,13 @@ import (
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
-type PayOrderHandler interface {
-	ListPayOrderPage(c *fiber.Ctx) error
-	UpdatePayOrder(c *fiber.Ctx) error
-	QueryPayOrder(c *fiber.Ctx) error
-	DeletePayOrder(c *fiber.Ctx) error
-	SubmitPayOrder(c *fiber.Ctx) error
-	GetTodayStats(c *fiber.Ctx) error
-}
-
-type PayOrderHandlerImpl struct {
+type PayOrderHandler struct {
 	client          *ent.Client
 	payOrderService payorder_service.PayOrderService
 }
 
-func NewPayOrderHandlerImpl(client *ent.Client, service payorder_service.PayOrderService) *PayOrderHandlerImpl {
-	return &PayOrderHandlerImpl{client: client, payOrderService: service}
+func NewPayOrderHandler(client *ent.Client, service payorder_service.PayOrderService) *PayOrderHandler {
+	return &PayOrderHandler{client: client, payOrderService: service}
 }
 
 // @Summary 获取支付订单列表
@@ -37,7 +28,7 @@ func NewPayOrderHandlerImpl(client *ent.Client, service payorder_service.PayOrde
 // @Success 200 {object} model.HttpSuccess{data=[]ent.PayOrder}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/pay-order/list [get]
-func (h *PayOrderHandlerImpl) ListPayOrderPage(c *fiber.Ctx) error {
+func (h *PayOrderHandler) ListPayOrderPage(c *fiber.Ctx) error {
 	var req model.PageQuery
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -64,7 +55,7 @@ func (h *PayOrderHandlerImpl) ListPayOrderPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/pay-order/update/{id} [put]
-func (h *PayOrderHandlerImpl) UpdatePayOrder(c *fiber.Ctx) error {
+func (h *PayOrderHandler) UpdatePayOrder(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -110,7 +101,7 @@ func (h *PayOrderHandlerImpl) UpdatePayOrder(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/pay-order/query/{id} [get]
-func (h *PayOrderHandlerImpl) QueryPayOrder(c *fiber.Ctx) error {
+func (h *PayOrderHandler) QueryPayOrder(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -142,7 +133,7 @@ func (h *PayOrderHandlerImpl) QueryPayOrder(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/pay-order/delete/{id} [delete]
-func (h *PayOrderHandlerImpl) DeletePayOrder(c *fiber.Ctx) error {
+func (h *PayOrderHandler) DeletePayOrder(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -174,7 +165,7 @@ func (h *PayOrderHandlerImpl) DeletePayOrder(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/pay-order/submit [post]
-func (h *PayOrderHandlerImpl) SubmitPayOrder(c *fiber.Ctx) error {
+func (h *PayOrderHandler) SubmitPayOrder(c *fiber.Ctx) error {
 	var req model.PayOrderSubmitReq
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -208,7 +199,7 @@ func (h *PayOrderHandlerImpl) SubmitPayOrder(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PayOrderTodayStats}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/pay-order/today-stats [get]
-func (h *PayOrderHandlerImpl) GetTodayStats(c *fiber.Ctx) error {
+func (h *PayOrderHandler) GetTodayStats(c *fiber.Ctx) error {
 	stats, err := h.payOrderService.GetTodayStats(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))

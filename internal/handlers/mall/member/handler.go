@@ -11,21 +11,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type MemberHandler interface {
-	QueryMember(c *fiber.Ctx) error
-	QueryMemberPage(c *fiber.Ctx) error
-	CreateMember(c *fiber.Ctx) error
-	UpdateMember(c *fiber.Ctx) error
-	DeleteMember(c *fiber.Ctx) error
-}
-
-type MemberHandlerImpl struct {
+type MemberHandler struct {
 	userService   user_service.UserService
 	memberService member_service.MemberService
 }
 
-func NewMemberHandlerImpl(userService user_service.UserService, memberService member_service.MemberService) *MemberHandlerImpl {
-	return &MemberHandlerImpl{
+func NewMemberHandler(userService user_service.UserService, memberService member_service.MemberService) *MemberHandler {
+	return &MemberHandler{
 		userService:   userService,
 		memberService: memberService,
 	}
@@ -42,7 +34,7 @@ func NewMemberHandlerImpl(userService user_service.UserService, memberService me
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member/query/{user_id} [get]
-func (h *MemberHandlerImpl) QueryMember(c *fiber.Ctx) error {
+func (h *MemberHandler) QueryMember(c *fiber.Ctx) error {
 	userId, err := strconv.Atoi(c.Params("user_id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -76,7 +68,7 @@ func (h *MemberHandlerImpl) QueryMember(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member/page [get]
-func (h *MemberHandlerImpl) QueryMemberPage(c *fiber.Ctx) error {
+func (h *MemberHandler) QueryMemberPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
 	if err != nil {
@@ -132,7 +124,7 @@ func (h *MemberHandlerImpl) QueryMemberPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member/create [post]
-func (h *MemberHandlerImpl) CreateMember(c *fiber.Ctx) error {
+func (h *MemberHandler) CreateMember(c *fiber.Ctx) error {
 	var createReq *model.MemberCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -162,7 +154,7 @@ func (h *MemberHandlerImpl) CreateMember(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member/update/{id} [put]
-func (h *MemberHandlerImpl) UpdateMember(c *fiber.Ctx) error {
+func (h *MemberHandler) UpdateMember(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -203,7 +195,7 @@ func (h *MemberHandlerImpl) UpdateMember(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member/delete/{id} [delete]
-func (h *MemberHandlerImpl) DeleteMember(c *fiber.Ctx) error {
+func (h *MemberHandler) DeleteMember(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,

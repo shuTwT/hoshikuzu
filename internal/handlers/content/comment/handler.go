@@ -22,19 +22,12 @@ var TWIKOO_EVENT = struct {
 	CommentSubmit:    "COMMENT_SUBMIT",
 }
 
-type CommentHandler interface {
-	ListCommentPage(c *fiber.Ctx) error
-	HandleTwikoo(c *fiber.Ctx) error
-	RecentComment(c *fiber.Ctx) error
-	GetComment(c *fiber.Ctx) error
-}
-
-type CommentHandlerImpl struct {
+type CommentHandler struct {
 	commentService comment_service.CommentService
 }
 
-func NewCommentHandlerImpl(commentService comment_service.CommentService) *CommentHandlerImpl {
-	return &CommentHandlerImpl{commentService: commentService}
+func NewCommentHandler(commentService comment_service.CommentService) *CommentHandler {
+	return &CommentHandler{commentService: commentService}
 }
 
 // @Summary 获取评论列表
@@ -48,7 +41,7 @@ func NewCommentHandlerImpl(commentService comment_service.CommentService) *Comme
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/comment/page [get]
-func (h *CommentHandlerImpl) ListCommentPage(c *fiber.Ctx) error {
+func (h *CommentHandler) ListCommentPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -72,7 +65,7 @@ func (h *CommentHandlerImpl) ListCommentPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/comment/query/{id} [get]
-func (h *CommentHandlerImpl) GetComment(c *fiber.Ctx) error {
+func (h *CommentHandler) GetComment(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -114,7 +107,7 @@ type TwikooReqBody struct {
 // @Router /api/v1/twikoo [post]
 // @Router /api/v1/twikoo [put]
 // @Router /api/v1/twikoo [delete]
-func (h *CommentHandlerImpl) HandleTwikoo(c *fiber.Ctx) error {
+func (h *CommentHandler) HandleTwikoo(c *fiber.Ctx) error {
 
 	var reqBody TwikooReqBody
 	if err := c.BodyParser(&reqBody); err != nil {
@@ -196,7 +189,7 @@ func (h *CommentHandlerImpl) HandleTwikoo(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/comment/recent [get]
-func (h *CommentHandlerImpl) RecentComment(c *fiber.Ctx) error {
+func (h *CommentHandler) RecentComment(c *fiber.Ctx) error {
 	comments, err := h.commentService.GetRecentComment(c.Context(), 10)
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))

@@ -12,21 +12,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type FileHandler interface {
-	ListFile(c *fiber.Ctx) error
-	ListFilePage(c *fiber.Ctx) error
-	QueryFile(c *fiber.Ctx) error
-	DeleteFile(c *fiber.Ctx) error
-	Upload(c *fiber.Ctx) error
-}
-
-type FileHandlerImpl struct {
+type FileHandler struct {
 	fileService    file.FileService
 	storageService storagestrategy.StorageStrategyService
 }
 
-func NewFileHandlerImpl(fileService file.FileService, storageService storagestrategy.StorageStrategyService) *FileHandlerImpl {
-	return &FileHandlerImpl{fileService: fileService, storageService: storageService}
+func NewFileHandler(fileService file.FileService, storageService storagestrategy.StorageStrategyService) *FileHandler {
+	return &FileHandler{fileService: fileService, storageService: storageService}
 }
 
 // @Summary 获取文件列表
@@ -37,7 +29,7 @@ func NewFileHandlerImpl(fileService file.FileService, storageService storagestra
 // @Success 200 {object} model.HttpSuccess{data=[]model.FileResp}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/file/list [get]
-func (h *FileHandlerImpl) ListFile(c *fiber.Ctx) error {
+func (h *FileHandler) ListFile(c *fiber.Ctx) error {
 	files, err := h.fileService.ListFile(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
@@ -79,7 +71,7 @@ func (h *FileHandlerImpl) ListFile(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/file/page [get]
-func (h *FileHandlerImpl) ListFilePage(c *fiber.Ctx) error {
+func (h *FileHandler) ListFilePage(c *fiber.Ctx) error {
 	var pageReq model.FilePageReq
 	if err := c.QueryParser(&pageReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -128,7 +120,7 @@ func (h *FileHandlerImpl) ListFilePage(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/file/query/{id} [get]
-func (h *FileHandlerImpl) QueryFile(c *fiber.Ctx) error {
+func (h *FileHandler) QueryFile(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -168,7 +160,7 @@ func (h *FileHandlerImpl) QueryFile(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/file/delete/{id} [delete]
-func (h *FileHandlerImpl) DeleteFile(c *fiber.Ctx) error {
+func (h *FileHandler) DeleteFile(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -192,7 +184,7 @@ func (h *FileHandlerImpl) DeleteFile(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/file/upload [post]
-func (h *FileHandlerImpl) Upload(c *fiber.Ctx) error {
+func (h *FileHandler) Upload(c *fiber.Ctx) error {
 	form, err := c.MultipartForm()
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

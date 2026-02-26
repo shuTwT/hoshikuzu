@@ -11,21 +11,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type ScheduleJobHandler interface {
-	CreateScheduleJob(c *fiber.Ctx) error
-	ListScheduleJobPage(c *fiber.Ctx) error
-	QueryScheduleJob(c *fiber.Ctx) error
-	UpdateScheduleJob(c *fiber.Ctx) error
-	DeleteScheduleJob(c *fiber.Ctx) error
-	ExecuteScheduleJobNow(c *fiber.Ctx) error
-}
-
-type ScheduleJobHandlerImpl struct {
+type ScheduleJobHandler struct {
 	scheduleJobService schedulejob.ScheduleJobService
 }
 
-func NewScheduleJobHandlerImpl(scheduleJobService schedulejob.ScheduleJobService) *ScheduleJobHandlerImpl {
-	return &ScheduleJobHandlerImpl{scheduleJobService: scheduleJobService}
+func NewScheduleJobHandler(scheduleJobService schedulejob.ScheduleJobService) *ScheduleJobHandler {
+	return &ScheduleJobHandler{scheduleJobService: scheduleJobService}
 }
 
 // @Summary 创建定时任务
@@ -38,7 +29,7 @@ func NewScheduleJobHandlerImpl(scheduleJobService schedulejob.ScheduleJobService
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/schedule-job/create [post]
-func (h *ScheduleJobHandlerImpl) CreateScheduleJob(c *fiber.Ctx) error {
+func (h *ScheduleJobHandler) CreateScheduleJob(c *fiber.Ctx) error {
 	var req model.CreateScheduleJobReq
 	if err := c.BodyParser(&req); err != nil {
 		slog.Error("Failed to parse request body", "error", err.Error())
@@ -67,7 +58,7 @@ func (h *ScheduleJobHandlerImpl) CreateScheduleJob(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/schedule-job/page [get]
-func (h *ScheduleJobHandlerImpl) ListScheduleJobPage(c *fiber.Ctx) error {
+func (h *ScheduleJobHandler) ListScheduleJobPage(c *fiber.Ctx) error {
 	var pageQuery model.PageQuery
 	if err := c.QueryParser(&pageQuery); err != nil {
 		slog.Error("Failed to parse query parameters", "error", err.Error())
@@ -102,7 +93,7 @@ func (h *ScheduleJobHandlerImpl) ListScheduleJobPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/schedule-job/query/{id} [get]
-func (h *ScheduleJobHandlerImpl) QueryScheduleJob(c *fiber.Ctx) error {
+func (h *ScheduleJobHandler) QueryScheduleJob(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid job ID", "error", err.Error())
@@ -130,7 +121,7 @@ func (h *ScheduleJobHandlerImpl) QueryScheduleJob(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/schedule-job/update/{id} [put]
-func (h *ScheduleJobHandlerImpl) UpdateScheduleJob(c *fiber.Ctx) error {
+func (h *ScheduleJobHandler) UpdateScheduleJob(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid job ID", "error", err.Error())
@@ -164,7 +155,7 @@ func (h *ScheduleJobHandlerImpl) UpdateScheduleJob(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/schedule-job/delete/{id} [delete]
-func (h *ScheduleJobHandlerImpl) DeleteScheduleJob(c *fiber.Ctx) error {
+func (h *ScheduleJobHandler) DeleteScheduleJob(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid job ID", "error", err.Error())
@@ -191,7 +182,7 @@ func (h *ScheduleJobHandlerImpl) DeleteScheduleJob(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/schedule-job/execute/{id} [post]
-func (h *ScheduleJobHandlerImpl) ExecuteScheduleJobNow(c *fiber.Ctx) error {
+func (h *ScheduleJobHandler) ExecuteScheduleJobNow(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		slog.Error("Invalid job ID", "error", err.Error())
@@ -208,7 +199,7 @@ func (h *ScheduleJobHandlerImpl) ExecuteScheduleJobNow(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("定时任务执行成功", nil))
 }
 
-func (*ScheduleJobHandlerImpl) buildScheduleJobResp(job *ent.ScheduleJob) *model.ScheduleJobResp {
+func (*ScheduleJobHandler) buildScheduleJobResp(job *ent.ScheduleJob) *model.ScheduleJobResp {
 	return &model.ScheduleJobResp{
 		ID:                  job.ID,
 		CreatedAt:           model.LocalTime(job.CreatedAt),

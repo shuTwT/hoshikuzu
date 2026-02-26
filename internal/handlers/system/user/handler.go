@@ -12,27 +12,13 @@ import (
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 )
 
-type UserHandler interface {
-	ListUser(c *fiber.Ctx) error
-	ListUserPage(c *fiber.Ctx) error
-	CreateUser(c *fiber.Ctx) error
-	UpdateUser(c *fiber.Ctx) error
-	QueryUser(c *fiber.Ctx) error
-	DeleteUser(c *fiber.Ctx) error
-	GetPersonalAccessTokenList(c *fiber.Ctx) error
-	GetPersonalAccessToken(c *fiber.Ctx) error
-	CreatePat(c *fiber.Ctx) error
-	GetUserProfile(c *fiber.Ctx) error
-	SearchUsers(c *fiber.Ctx) error
-}
-
-type UserHandlerImpl struct {
+type UserHandler struct {
 	userService user_service.UserService
 	roleService role_service.RoleService
 }
 
-func NewUserHandlerImpl(userService user_service.UserService, roleService role_service.RoleService) *UserHandlerImpl {
-	return &UserHandlerImpl{
+func NewUserHandler(userService user_service.UserService, roleService role_service.RoleService) *UserHandler {
+	return &UserHandler{
 		userService: userService,
 		roleService: roleService,
 	}
@@ -46,7 +32,7 @@ func NewUserHandlerImpl(userService user_service.UserService, roleService role_s
 // @Success 200 {array} ent.User
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/list [get]
-func (h *UserHandlerImpl) ListUser(c *fiber.Ctx) error {
+func (h *UserHandler) ListUser(c *fiber.Ctx) error {
 	users, err := h.userService.ListUser(c)
 	if err != nil {
 		return c.JSON(model.NewError(-1, err.Error()))
@@ -76,7 +62,7 @@ func (h *UserHandlerImpl) ListUser(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/page [get]
-func (h *UserHandlerImpl) ListUserPage(c *fiber.Ctx) error {
+func (h *UserHandler) ListUserPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
 	if err != nil {
@@ -122,7 +108,7 @@ func (h *UserHandlerImpl) ListUserPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/create [post]
-func (h *UserHandlerImpl) CreateUser(c *fiber.Ctx) error {
+func (h *UserHandler) CreateUser(c *fiber.Ctx) error {
 	var req model.UserCreateReq
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -151,7 +137,7 @@ func (h *UserHandlerImpl) CreateUser(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/update/{id} [put]
-func (h *UserHandlerImpl) UpdateUser(c *fiber.Ctx) error {
+func (h *UserHandler) UpdateUser(c *fiber.Ctx) error {
 	var err error
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -188,7 +174,7 @@ func (h *UserHandlerImpl) UpdateUser(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/query/{id} [get]
-func (h *UserHandlerImpl) QueryUser(c *fiber.Ctx) error {
+func (h *UserHandler) QueryUser(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -226,7 +212,7 @@ func (h *UserHandlerImpl) QueryUser(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/delete/{id} [delete]
-func (h *UserHandlerImpl) DeleteUser(c *fiber.Ctx) error {
+func (h *UserHandler) DeleteUser(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -253,7 +239,7 @@ func (h *UserHandlerImpl) DeleteUser(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/personal-access-token/list [get]
-func (h *UserHandlerImpl) GetPersonalAccessTokenList(c *fiber.Ctx) error {
+func (h *UserHandler) GetPersonalAccessTokenList(c *fiber.Ctx) error {
 	loginUser := middleware.GetCurrentUser(c)
 	if loginUser == nil {
 		return c.JSON(model.NewError(
@@ -292,7 +278,7 @@ func (h *UserHandlerImpl) GetPersonalAccessTokenList(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/personal-access-token/query/{id} [get]
-func (h *UserHandlerImpl) GetPersonalAccessToken(c *fiber.Ctx) error {
+func (h *UserHandler) GetPersonalAccessToken(c *fiber.Ctx) error {
 	loginUser := middleware.GetCurrentUser(c)
 	if loginUser == nil {
 		return c.JSON(model.NewError(
@@ -332,7 +318,7 @@ func (h *UserHandlerImpl) GetPersonalAccessToken(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/personal-access-token/create [post]
-func (h *UserHandlerImpl) CreatePat(c *fiber.Ctx) error {
+func (h *UserHandler) CreatePat(c *fiber.Ctx) error {
 	loginUser := middleware.GetCurrentUser(c)
 	if loginUser == nil {
 		return c.JSON(model.NewError(
@@ -369,7 +355,7 @@ func (h *UserHandlerImpl) CreatePat(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/profile [get]
-func (h *UserHandlerImpl) GetUserProfile(c *fiber.Ctx) error {
+func (h *UserHandler) GetUserProfile(c *fiber.Ctx) error {
 	loginUser := middleware.GetCurrentUser(c)
 	if loginUser == nil {
 		return c.JSON(model.NewError(
@@ -420,7 +406,7 @@ func (h *UserHandlerImpl) GetUserProfile(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/user/search [get]
-func (h *UserHandlerImpl) SearchUsers(c *fiber.Ctx) error {
+func (h *UserHandler) SearchUsers(c *fiber.Ctx) error {
 	var req model.UserSearchReq
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

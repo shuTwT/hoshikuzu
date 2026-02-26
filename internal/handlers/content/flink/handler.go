@@ -13,23 +13,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type FlinkHandler interface {
-	ListFlink(c *fiber.Ctx) error
-	ListFlinkPage(c *fiber.Ctx) error
-	CreateFlink(c *fiber.Ctx) error
-	UpdateFlink(c *fiber.Ctx) error
-	QueryFlink(c *fiber.Ctx) error
-	DeleteFlink(c *fiber.Ctx) error
-	RandomFlink(c *fiber.Ctx) error
-}
-
-type FlinkHandlerImpl struct {
+type FlinkHandler struct {
 	client       *ent.Client
 	flinkService flink_service.FlinkService
 }
 
-func NewFlinkHandlerImpl(client *ent.Client, flinkService flink_service.FlinkService) *FlinkHandlerImpl {
-	return &FlinkHandlerImpl{
+func NewFlinkHandler(client *ent.Client, flinkService flink_service.FlinkService) *FlinkHandler {
+	return &FlinkHandler{
 		client:       client,
 		flinkService: flinkService,
 	}
@@ -44,7 +34,7 @@ func NewFlinkHandlerImpl(client *ent.Client, flinkService flink_service.FlinkSer
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink/list [get]
-func (h *FlinkHandlerImpl) ListFlink(c *fiber.Ctx) error {
+func (h *FlinkHandler) ListFlink(c *fiber.Ctx) error {
 	var listPage model.FlinkListReq
 	if err := c.QueryParser(&listPage); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -93,7 +83,7 @@ func (h *FlinkHandlerImpl) ListFlink(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink/page [get]
-func (h *FlinkHandlerImpl) ListFlinkPage(c *fiber.Ctx) error {
+func (h *FlinkHandler) ListFlinkPage(c *fiber.Ctx) error {
 	var pageQuery model.FlinkPageReq
 	if err := c.QueryParser(&pageQuery); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -138,7 +128,7 @@ func (h *FlinkHandlerImpl) ListFlinkPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink/create [post]
-func (h *FlinkHandlerImpl) CreateFlink(c *fiber.Ctx) error {
+func (h *FlinkHandler) CreateFlink(c *fiber.Ctx) error {
 	var createReq *model.FlinkCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -172,7 +162,7 @@ func (h *FlinkHandlerImpl) CreateFlink(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink/update/{id} [put]
-func (h *FlinkHandlerImpl) UpdateFlink(c *fiber.Ctx) error {
+func (h *FlinkHandler) UpdateFlink(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
@@ -209,7 +199,7 @@ func (h *FlinkHandlerImpl) UpdateFlink(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink/query/{id} [get]
-func (h *FlinkHandlerImpl) QueryFlink(c *fiber.Ctx) error {
+func (h *FlinkHandler) QueryFlink(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -234,7 +224,7 @@ func (h *FlinkHandlerImpl) QueryFlink(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink/{id} [delete]
-func (h *FlinkHandlerImpl) DeleteFlink(c *fiber.Ctx) error {
+func (h *FlinkHandler) DeleteFlink(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -255,7 +245,7 @@ func (h *FlinkHandlerImpl) DeleteFlink(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/flink/random [get]
-func (h *FlinkHandlerImpl) RandomFlink(c *fiber.Ctx) error {
+func (h *FlinkHandler) RandomFlink(c *fiber.Ctx) error {
 	var req model.FlinkRandomReq
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

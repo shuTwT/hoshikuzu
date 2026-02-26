@@ -10,21 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type MemberLevelHandler interface {
-	QueryMemberLevel(c *fiber.Ctx) error
-	QueryMemberLevelList(c *fiber.Ctx) error
-	QueryMemberLevelPage(c *fiber.Ctx) error
-	CreateMemberLevel(c *fiber.Ctx) error
-	UpdateMemberLevel(c *fiber.Ctx) error
-	DeleteMemberLevel(c *fiber.Ctx) error
-}
-
-type MemberLevelHandlerImpl struct {
+type MemberLevelHandler struct {
 	memberLevelService memberlevel_service.MemberLevelService
 }
 
-func NewMemberLevelHandlerImpl(memberLevelService memberlevel_service.MemberLevelService) *MemberLevelHandlerImpl {
-	return &MemberLevelHandlerImpl{
+func NewMemberLevelHandler(memberLevelService memberlevel_service.MemberLevelService) *MemberLevelHandler {
+	return &MemberLevelHandler{
 		memberLevelService: memberLevelService,
 	}
 }
@@ -40,7 +31,7 @@ func NewMemberLevelHandlerImpl(memberLevelService memberlevel_service.MemberLeve
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member-level/query/{id} [get]
-func (h *MemberLevelHandlerImpl) QueryMemberLevel(c *fiber.Ctx) error {
+func (h *MemberLevelHandler) QueryMemberLevel(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -71,7 +62,7 @@ func (h *MemberLevelHandlerImpl) QueryMemberLevel(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=[]model.MemberLevelResp}
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member-level/list [get]
-func (h *MemberLevelHandlerImpl) QueryMemberLevelList(c *fiber.Ctx) error {
+func (h *MemberLevelHandler) QueryMemberLevelList(c *fiber.Ctx) error {
 	memberLevels, err := h.memberLevelService.QueryMemberLevelList(c)
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError,
@@ -93,7 +84,7 @@ func (h *MemberLevelHandlerImpl) QueryMemberLevelList(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member-level/page [get]
-func (h *MemberLevelHandlerImpl) QueryMemberLevelPage(c *fiber.Ctx) error {
+func (h *MemberLevelHandler) QueryMemberLevelPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
 	if err != nil {
@@ -126,7 +117,7 @@ func (h *MemberLevelHandlerImpl) QueryMemberLevelPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member-level/create [post]
-func (h *MemberLevelHandlerImpl) CreateMemberLevel(c *fiber.Ctx) error {
+func (h *MemberLevelHandler) CreateMemberLevel(c *fiber.Ctx) error {
 	var createReq *model.MemberLevelCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -156,7 +147,7 @@ func (h *MemberLevelHandlerImpl) CreateMemberLevel(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member-level/update/{id} [put]
-func (h *MemberLevelHandlerImpl) UpdateMemberLevel(c *fiber.Ctx) error {
+func (h *MemberLevelHandler) UpdateMemberLevel(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -197,7 +188,7 @@ func (h *MemberLevelHandlerImpl) UpdateMemberLevel(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/member-level/delete/{id} [delete]
-func (h *MemberLevelHandlerImpl) DeleteMemberLevel(c *fiber.Ctx) error {
+func (h *MemberLevelHandler) DeleteMemberLevel(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,

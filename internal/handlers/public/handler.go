@@ -1,11 +1,8 @@
 package public
 
-type PublicHandler interface {
+type PublicHandler struct {
 }
 
-type PublicHandlerImpl struct {
-}
-
-func NewPublicHandlerImpl() *PublicHandlerImpl {
-	return &PublicHandlerImpl{}
+func NewPublicHandler() *PublicHandler {
+	return &PublicHandler{}
 }

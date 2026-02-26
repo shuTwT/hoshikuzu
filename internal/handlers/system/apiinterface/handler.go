@@ -8,16 +8,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type ApiInterfaceHandler interface {
-	ListApiRoutesPage(c *fiber.Ctx) error
-}
-
-type ApiInterfaceHandlerImpl struct {
+type ApiInterfaceHandler struct {
 	apiInterfaceService api_interface_service.ApiInterfaceService
 }
 
-func NewApiInterfaceHandlerImpl(apiInterfaceService api_interface_service.ApiInterfaceService) *ApiInterfaceHandlerImpl {
-	return &ApiInterfaceHandlerImpl{
+func NewApiInterfaceHandler(apiInterfaceService api_interface_service.ApiInterfaceService) *ApiInterfaceHandler {
+	return &ApiInterfaceHandler{
 		apiInterfaceService: apiInterfaceService,
 	}
 }
@@ -33,7 +29,7 @@ func NewApiInterfaceHandlerImpl(apiInterfaceService api_interface_service.ApiInt
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/api-interface/page [get]
-func (h *ApiInterfaceHandlerImpl) ListApiRoutesPage(ctx *fiber.Ctx) error {
+func (h *ApiInterfaceHandler) ListApiRoutesPage(ctx *fiber.Ctx) error {
 	var req model.PageQuery
 	if err := ctx.QueryParser(&req); err != nil {
 		return ctx.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

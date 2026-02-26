@@ -8,16 +8,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type CommonHandler interface {
-	GetHomeStatistics(c *fiber.Ctx) error
-}
-
-type CommonHandlerImpl struct {
+type CommonHandler struct {
 	commonService common_service.CommonService
 }
 
-func NewCommonHandlerImpl(commonService common_service.CommonService) *CommonHandlerImpl {
-	return &CommonHandlerImpl{
+func NewCommonHandler(commonService common_service.CommonService) *CommonHandler {
+	return &CommonHandler{
 		commonService: commonService,
 	}
 }
@@ -31,6 +27,6 @@ func NewCommonHandlerImpl(commonService common_service.CommonService) *CommonHan
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/common/statistic [get]
-func (h *CommonHandlerImpl) GetHomeStatistics(c *fiber.Ctx) error {
+func (h *CommonHandler) GetHomeStatistics(c *fiber.Ctx) error {
 	return c.JSON(model.NewSuccess("统计信息获取成功", h.commonService.GetHomeStatistic(c.Context())))
 }

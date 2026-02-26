@@ -10,20 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type EssayHandler interface {
-	CreateEssay(c *fiber.Ctx) error
-	UpdateEssay(c *fiber.Ctx) error
-	GetEssayPage(c *fiber.Ctx) error
-	ListEssay(c *fiber.Ctx) error
-	DeleteEssay(c *fiber.Ctx) error
-}
-
-type EssayHandlerImpl struct {
+type EssayHandler struct {
 	service essay.EssayService
 }
 
-func NewEssayHandlerImpl(service essay.EssayService) EssayHandler {
-	return &EssayHandlerImpl{service: service}
+func NewEssayHandler(service essay.EssayService) *EssayHandler {
+	return &EssayHandler{service: service}
 }
 
 // @Summary 创建说说
@@ -36,7 +28,7 @@ func NewEssayHandlerImpl(service essay.EssayService) EssayHandler {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/essay/create [post]
-func (h *EssayHandlerImpl) CreateEssay(c *fiber.Ctx) error {
+func (h *EssayHandler) CreateEssay(c *fiber.Ctx) error {
 	createReq := &model.EssayCreateReq{}
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -60,7 +52,7 @@ func (h *EssayHandlerImpl) CreateEssay(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/essay/update/{id} [put]
-func (h *EssayHandlerImpl) UpdateEssay(c *fiber.Ctx) error {
+func (h *EssayHandler) UpdateEssay(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -87,7 +79,7 @@ func (h *EssayHandlerImpl) UpdateEssay(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/essay/page [get]
-func (h *EssayHandlerImpl) GetEssayPage(c *fiber.Ctx) error {
+func (h *EssayHandler) GetEssayPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -122,7 +114,7 @@ func (h *EssayHandlerImpl) GetEssayPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/essay/list [get]
-func (h *EssayHandlerImpl) ListEssay(c *fiber.Ctx) error {
+func (h *EssayHandler) ListEssay(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 10)
 	essays, err := h.service.GetEssayList(c.Context(), limit)
 	if err != nil {
@@ -151,7 +143,7 @@ func (h *EssayHandlerImpl) ListEssay(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/essay/delete/{id} [delete]
-func (h *EssayHandlerImpl) DeleteEssay(c *fiber.Ctx) error {
+func (h *EssayHandler) DeleteEssay(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

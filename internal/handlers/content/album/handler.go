@@ -10,21 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type AlbumHandler interface {
-	ListAlbum(c *fiber.Ctx) error
-	ListAlbumPage(c *fiber.Ctx) error
-	CreateAlbum(c *fiber.Ctx) error
-	UpdateAlbum(c *fiber.Ctx) error
-	QueryAlbum(c *fiber.Ctx) error
-	DeleteAlbum(c *fiber.Ctx) error
-}
-
-type AlbumHandlerImpl struct {
+type AlbumHandler struct {
 	albumService album.AlbumService
 }
 
-func NewAlbumHandlerImpl(albumService album.AlbumService) *AlbumHandlerImpl {
-	return &AlbumHandlerImpl{
+func NewAlbumHandler(albumService album.AlbumService) *AlbumHandler {
+	return &AlbumHandler{
 		albumService: albumService,
 	}
 }
@@ -38,7 +29,7 @@ func NewAlbumHandlerImpl(albumService album.AlbumService) *AlbumHandlerImpl {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/album/list [get]
-func (h *AlbumHandlerImpl) ListAlbum(c *fiber.Ctx) error {
+func (h *AlbumHandler) ListAlbum(c *fiber.Ctx) error {
 	albums, err := h.albumService.ListAlbum(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -57,7 +48,7 @@ func (h *AlbumHandlerImpl) ListAlbum(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/album/page [get]
-func (h *AlbumHandlerImpl) ListAlbumPage(c *fiber.Ctx) error {
+func (h *AlbumHandler) ListAlbumPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -85,7 +76,7 @@ func (h *AlbumHandlerImpl) ListAlbumPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/album/create [post]
-func (h *AlbumHandlerImpl) CreateAlbum(c *fiber.Ctx) error {
+func (h *AlbumHandler) CreateAlbum(c *fiber.Ctx) error {
 	var album *model.AlbumCreateReq
 	if err := c.BodyParser(&album); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -110,7 +101,7 @@ func (h *AlbumHandlerImpl) CreateAlbum(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/album/update/{id} [put]
-func (h *AlbumHandlerImpl) UpdateAlbum(c *fiber.Ctx) error {
+func (h *AlbumHandler) UpdateAlbum(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -140,7 +131,7 @@ func (h *AlbumHandlerImpl) UpdateAlbum(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/album/query/{id} [get]
-func (h *AlbumHandlerImpl) QueryAlbum(c *fiber.Ctx) error {
+func (h *AlbumHandler) QueryAlbum(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -165,7 +156,7 @@ func (h *AlbumHandlerImpl) QueryAlbum(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/album/delete/{id} [delete]
-func (h *AlbumHandlerImpl) DeleteAlbum(c *fiber.Ctx) error {
+func (h *AlbumHandler) DeleteAlbum(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,

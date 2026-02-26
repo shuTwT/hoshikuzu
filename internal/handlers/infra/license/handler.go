@@ -11,21 +11,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type LicenseHandler interface {
-	ListLicensePage(c *fiber.Ctx) error
-	QueryLicense(c *fiber.Ctx) error
-	CreateLicense(c *fiber.Ctx) error
-	UpdateLicense(c *fiber.Ctx) error
-	DeleteLicense(c *fiber.Ctx) error
-	VerifyLicense(c *fiber.Ctx) error
-}
-
-type LicenseHandlerImpl struct {
+type LicenseHandler struct {
 	licenseService license.LicenseService
 }
 
-func NewLicenseHandlerImpl(licenseService license.LicenseService) *LicenseHandlerImpl {
-	return &LicenseHandlerImpl{licenseService: licenseService}
+func NewLicenseHandler(licenseService license.LicenseService) *LicenseHandler {
+	return &LicenseHandler{licenseService: licenseService}
 }
 
 // @Summary 获取授权分页列表
@@ -42,7 +33,7 @@ func NewLicenseHandlerImpl(licenseService license.LicenseService) *LicenseHandle
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/license/page [get]
-func (h *LicenseHandlerImpl) ListLicensePage(c *fiber.Ctx) error {
+func (h *LicenseHandler) ListLicensePage(c *fiber.Ctx) error {
 	var pageReq model.LicensePageReq
 	if err := c.QueryParser(&pageReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -85,7 +76,7 @@ func (h *LicenseHandlerImpl) ListLicensePage(c *fiber.Ctx) error {
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/license/query/{id} [get]
-func (h *LicenseHandlerImpl) QueryLicense(c *fiber.Ctx) error {
+func (h *LicenseHandler) QueryLicense(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -119,7 +110,7 @@ func (h *LicenseHandlerImpl) QueryLicense(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/license/create [post]
-func (h *LicenseHandlerImpl) CreateLicense(c *fiber.Ctx) error {
+func (h *LicenseHandler) CreateLicense(c *fiber.Ctx) error {
 	var req *model.LicenseCreateReq
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -159,7 +150,7 @@ func (h *LicenseHandlerImpl) CreateLicense(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/license/update/{id} [put]
-func (h *LicenseHandlerImpl) UpdateLicense(c *fiber.Ctx) error {
+func (h *LicenseHandler) UpdateLicense(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -198,7 +189,7 @@ func (h *LicenseHandlerImpl) UpdateLicense(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/license/delete/{id} [delete]
-func (h *LicenseHandlerImpl) DeleteLicense(c *fiber.Ctx) error {
+func (h *LicenseHandler) DeleteLicense(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -221,7 +212,7 @@ func (h *LicenseHandlerImpl) DeleteLicense(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/license/verify [post]
-func (h *LicenseHandlerImpl) VerifyLicense(c *fiber.Ctx) error {
+func (h *LicenseHandler) VerifyLicense(c *fiber.Ctx) error {
 	var req *model.LicenseVerifyReq
 	if err := c.BodyParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))

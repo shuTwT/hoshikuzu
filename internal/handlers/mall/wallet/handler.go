@@ -10,18 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type WalletHandler interface {
-	QueryWallet(c *fiber.Ctx) error
-	QueryWalletPage(c *fiber.Ctx) error
-	UpdateWallet(c *fiber.Ctx) error
-}
-
-type WalletHandlerImpl struct {
+type WalletHandler struct {
 	walletService wallet_service.WalletService
 }
 
-func NewWalletHandlerImpl(walletService wallet_service.WalletService) *WalletHandlerImpl {
-	return &WalletHandlerImpl{
+func NewWalletHandler(walletService wallet_service.WalletService) *WalletHandler {
+	return &WalletHandler{
 		walletService: walletService,
 	}
 }
@@ -37,7 +31,7 @@ func NewWalletHandlerImpl(walletService wallet_service.WalletService) *WalletHan
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/wallet/query/{user_id} [get]
-func (h *WalletHandlerImpl) QueryWallet(c *fiber.Ctx) error {
+func (h *WalletHandler) QueryWallet(c *fiber.Ctx) error {
 	userId, err := strconv.Atoi(c.Params("user_id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,
@@ -71,7 +65,7 @@ func (h *WalletHandlerImpl) QueryWallet(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/wallet/page [get]
-func (h *WalletHandlerImpl) QueryWalletPage(c *fiber.Ctx) error {
+func (h *WalletHandler) QueryWalletPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
 	if err != nil {
@@ -105,7 +99,7 @@ func (h *WalletHandlerImpl) QueryWalletPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/wallet/update/{id} [put]
-func (h *WalletHandlerImpl) UpdateWallet(c *fiber.Ctx) error {
+func (h *WalletHandler) UpdateWallet(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest,

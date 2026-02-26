@@ -9,21 +9,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type DocLibraryHandler interface {
-	CreateDocLibrary(c *fiber.Ctx) error
-	UpdateDocLibrary(c *fiber.Ctx) error
-	GetDocLibraryPage(c *fiber.Ctx) error
-	GetDocLibrary(c *fiber.Ctx) error
-	DeleteDocLibrary(c *fiber.Ctx) error
-	GetDocLibraryList(c *fiber.Ctx) error
-}
-
-type DocLibraryHandlerImpl struct {
+type DocLibraryHandler struct {
 	service doclibrary.DocLibraryService
 }
 
-func NewDocLibraryHandlerImpl(service doclibrary.DocLibraryService) DocLibraryHandler {
-	return &DocLibraryHandlerImpl{service: service}
+func NewDocLibraryHandler(service doclibrary.DocLibraryService) *DocLibraryHandler {
+	return &DocLibraryHandler{service: service}
 }
 
 // @Summary 创建文档库
@@ -36,7 +27,7 @@ func NewDocLibraryHandlerImpl(service doclibrary.DocLibraryService) DocLibraryHa
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library/create [post]
-func (h *DocLibraryHandlerImpl) CreateDocLibrary(c *fiber.Ctx) error {
+func (h *DocLibraryHandler) CreateDocLibrary(c *fiber.Ctx) error {
 	createReq := &model.DocLibraryCreateReq{}
 	if err := c.BodyParser(&createReq); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -59,7 +50,7 @@ func (h *DocLibraryHandlerImpl) CreateDocLibrary(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library/update/{id} [put]
-func (h *DocLibraryHandlerImpl) UpdateDocLibrary(c *fiber.Ctx) error {
+func (h *DocLibraryHandler) UpdateDocLibrary(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -86,7 +77,7 @@ func (h *DocLibraryHandlerImpl) UpdateDocLibrary(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library/page [get]
-func (h *DocLibraryHandlerImpl) GetDocLibraryPage(c *fiber.Ctx) error {
+func (h *DocLibraryHandler) GetDocLibraryPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -124,7 +115,7 @@ func (h *DocLibraryHandlerImpl) GetDocLibraryPage(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library/query/{id} [get]
-func (h *DocLibraryHandlerImpl) GetDocLibrary(c *fiber.Ctx) error {
+func (h *DocLibraryHandler) GetDocLibrary(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -156,7 +147,7 @@ func (h *DocLibraryHandlerImpl) GetDocLibrary(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library/delete/{id} [delete]
-func (h *DocLibraryHandlerImpl) DeleteDocLibrary(c *fiber.Ctx) error {
+func (h *DocLibraryHandler) DeleteDocLibrary(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
@@ -177,7 +168,7 @@ func (h *DocLibraryHandlerImpl) DeleteDocLibrary(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
 // @Router /api/v1/doc-library/list [get]
-func (h *DocLibraryHandlerImpl) GetDocLibraryList(c *fiber.Ctx) error {
+func (h *DocLibraryHandler) GetDocLibraryList(c *fiber.Ctx) error {
 	libraries, err := h.service.GetDocLibraryList(c.Context())
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
