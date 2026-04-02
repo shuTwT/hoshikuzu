@@ -1368,54 +1368,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/comment/recent": {
-            "get": {
-                "description": "获取最近评论",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/评论"
-                ],
-                "summary": "获取最近评论",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {}
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/common/statistic": {
             "get": {
                 "description": "获取首页统计信息，包括文章数量、评论数量、相册数量、照片数量",
@@ -3683,6 +3635,24 @@ const docTemplate = `{
                         "description": "每页数量",
                         "name": "size",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "文件名称",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "文件类型",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "存储策略ID",
+                        "name": "storage_strategy_id",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -3875,58 +3845,6 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/model.FlinkApplicationUpdateReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/ent.FLinkApplication"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/flink-application/create": {
-            "post": {
-                "description": "创建一个新的友链申请",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/友链申请"
-                ],
-                "summary": "创建友链申请",
-                "parameters": [
-                    {
-                        "description": "友链申请创建请求",
-                        "name": "req",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.FlinkApplicationCreateReq"
                         }
                     }
                 ],
@@ -4487,53 +4405,6 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/ent.FLink"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/flink/random": {
-            "get": {
-                "description": "随机查询Flink",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/友链"
-                ],
-                "summary": "随机查询Flink",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -5400,6 +5271,24 @@ const docTemplate = `{
                         "default": 10,
                         "description": "每页数量",
                         "name": "size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "域名",
+                        "name": "domain",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "客户名称",
+                        "name": "customer_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "状态",
+                        "name": "status",
                         "in": "query"
                     }
                 ],
@@ -6840,6 +6729,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/pay-order/today-stats": {
+            "get": {
+                "description": "获取今日支付订单统计信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "后台管理接口/支付订单"
+                ],
+                "summary": "获取今日统计",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PayOrderTodayStats"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/pay-order/update/{id}": {
             "put": {
                 "description": "更新指定支付订单的信息",
@@ -7005,64 +6935,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/plugin/heartbeat": {
-            "post": {
-                "description": "更新插件的心跳时间",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/插件"
-                ],
-                "summary": "插件心跳",
-                "parameters": [
-                    {
-                        "description": "插件心跳信息",
-                        "name": "heartbeatInfo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.PluginHeartbeatReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/plugin/list": {
             "get": {
                 "description": "获取所有插件的分页列表",
@@ -7089,6 +6961,36 @@ const docTemplate = `{
                         "default": 10,
                         "description": "每页数量",
                         "name": "size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "插件名称",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "插件标识",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "状态",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "是否启用",
+                        "name": "enabled",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "是否自动启动",
+                        "name": "auto_start",
                         "in": "query"
                     }
                 ],
@@ -7161,64 +7063,6 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/model.PluginResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/plugin/register": {
-            "post": {
-                "description": "注册新插件到系统",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/插件"
-                ],
-                "summary": "注册插件",
-                "parameters": [
-                    {
-                        "description": "插件注册信息",
-                        "name": "pluginInfo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.PluginRegisterReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object"
                                         }
                                     }
                                 }
@@ -7566,58 +7410,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/post/month-stats": {
-            "get": {
-                "description": "获取每个月份的文章数量统计",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/文章"
-                ],
-                "summary": "获取文章月份统计",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "返回数据条数限制",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/model.PostMonthStat"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/post/page": {
             "get": {
                 "description": "查询文章分页列表",
@@ -7772,176 +7564,6 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/ent.Post"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/post/random": {
-            "get": {
-                "description": "随机获取一篇文章",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/文章"
-                ],
-                "summary": "随机获取一篇文章",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/ent.Post"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/post/search": {
-            "get": {
-                "description": "根据查询参数搜索文章",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/文章"
-                ],
-                "summary": "搜索文章",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "搜索查询",
-                        "name": "query",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "返回数据条数限制",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "返回数据偏移量",
-                        "name": "offset",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/model.PageResult-model_PostSearchResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/post/summary/stream/{id}": {
-            "get": {
-                "description": "获取指定文章的摘要流",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/文章"
-                ],
-                "summary": "获取文章摘要流",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "文章ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/model.AIResponse"
                                         }
                                     }
                                 }
@@ -8136,68 +7758,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/posts/slug/{slug}": {
-            "get": {
-                "description": "根据Slug查询指定文章",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/文章"
-                ],
-                "summary": "根据Slug查询文章",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "文章Slug",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/model.PostResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/model.HttpError"
                         }
@@ -8596,7 +8156,1407 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/product/search": {
+        "/api/v1/product/update/{id}": {
+            "put": {
+                "description": "更新指定商品",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "后台管理接口/商品"
+                ],
+                "summary": "更新商品",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "商品ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "商品更新请求",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ProductUpdateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/ent.Product"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/album-photo/list": {
+            "get": {
+                "description": "查询所有相册照片",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/相册照片"
+                ],
+                "summary": "查询相册照片列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ent.AlbumPhoto"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/album-photo/page": {
+            "get": {
+                "description": "查询所有相册照片分页列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/相册照片"
+                ],
+                "summary": "查询相册照片分页列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-ent_AlbumPhoto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/album/list": {
+            "get": {
+                "description": "查询所有相册",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/相册"
+                ],
+                "summary": "查询相册列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ent.Album"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/album/page": {
+            "get": {
+                "description": "查询相册列表分页",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/相册"
+                ],
+                "summary": "查询相册列表分页",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-ent_Album"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/category/list": {
+            "get": {
+                "description": "查询所有分类的列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/分类"
+                ],
+                "summary": "查询分类列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ent.Category"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/category/page": {
+            "get": {
+                "description": "查询所有分类的分页列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/分类"
+                ],
+                "summary": "查询分类分页列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-ent_Category"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/comment/recent": {
+            "get": {
+                "description": "获取最近评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/评论"
+                ],
+                "summary": "获取最近评论",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/essay/list": {
+            "get": {
+                "description": "获取说说列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/说说"
+                ],
+                "summary": "获取说说列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "数量限制",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.EssayResp"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/essay/page": {
+            "get": {
+                "description": "获取说说分页列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/说说"
+                ],
+                "summary": "获取说说分页列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-model_EssayResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/flink-application/create": {
+            "post": {
+                "description": "创建一个新的友链申请",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/友链申请"
+                ],
+                "summary": "创建友链申请",
+                "parameters": [
+                    {
+                        "description": "友链申请创建请求",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.FlinkApplicationCreateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/ent.FLinkApplication"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/flink-group/list": {
+            "get": {
+                "description": "查询友链组列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/友链组"
+                ],
+                "summary": "查询友链组列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.FlinkGroupResp"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/flink/list": {
+            "get": {
+                "description": "获取所有Flink",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/友链"
+                ],
+                "summary": "获取所有Flink",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.FlinkResp"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/flink/page": {
+            "get": {
+                "description": "获取Flink分页列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/友链"
+                ],
+                "summary": "获取Flink分页列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-model_FlinkResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/flink/random": {
+            "get": {
+                "description": "随机查询Flink",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/友链"
+                ],
+                "summary": "随机查询Flink",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/ent.FLink"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/friend-circle-record/page": {
+            "get": {
+                "description": "获取朋友圈记录分页列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/友链朋友圈"
+                ],
+                "summary": "获取朋友圈记录分页列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-model_FriendCircleRecordResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/plugin/heartbeat": {
+            "post": {
+                "description": "更新插件的心跳时间",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/插件"
+                ],
+                "summary": "插件心跳",
+                "parameters": [
+                    {
+                        "description": "插件心跳信息",
+                        "name": "heartbeatInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PluginHeartbeatReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/plugin/register": {
+            "post": {
+                "description": "注册新插件到系统",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/插件"
+                ],
+                "summary": "注册插件",
+                "parameters": [
+                    {
+                        "description": "插件注册信息",
+                        "name": "pluginInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PluginRegisterReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/post/list": {
+            "get": {
+                "description": "查询所有文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/文章"
+                ],
+                "summary": "查询所有文章",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.PostResp"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/post/month-stats": {
+            "get": {
+                "description": "获取每个月份的文章数量统计",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/文章"
+                ],
+                "summary": "获取文章月份统计",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "返回数据条数限制",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.PostMonthStat"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/post/page": {
+            "get": {
+                "description": "查询文章分页列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/文章"
+                ],
+                "summary": "查询文章分页列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-model_PostResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/post/random": {
+            "get": {
+                "description": "随机获取一篇文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/文章"
+                ],
+                "summary": "随机获取一篇文章",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/ent.Post"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/post/search": {
+            "get": {
+                "description": "根据查询参数搜索文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/文章"
+                ],
+                "summary": "搜索文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "搜索查询",
+                        "name": "query",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "返回数据条数限制",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "返回数据偏移量",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-model_PostSearchResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/post/slug/{slug}": {
+            "get": {
+                "description": "根据Slug查询指定文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/文章"
+                ],
+                "summary": "根据Slug查询文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "文章Slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PostResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/post/{id}/summary/stream": {
+            "get": {
+                "description": "获取指定文章的摘要流",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/文章"
+                ],
+                "summary": "获取文章摘要流",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "文章ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.AIResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/product/search": {
             "get": {
                 "description": "根据搜索条件查询商品",
                 "consumes": [
@@ -8606,7 +9566,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "后台管理接口/商品"
+                    "公开接口/商品"
                 ],
                 "summary": "搜索商品",
                 "parameters": [
@@ -8671,9 +9631,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/product/update/{id}": {
-            "put": {
-                "description": "更新指定商品",
+        "/api/v1/public/tag/list": {
+            "get": {
+                "description": "查询所有标签",
                 "consumes": [
                     "application/json"
                 ],
@@ -8681,24 +9641,403 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "后台管理接口/商品"
+                    "公开接口/标签"
                 ],
-                "summary": "更新商品",
+                "summary": "查询标签列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ent.Tag"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/tag/page": {
+            "get": {
+                "description": "查询标签分页列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/标签"
+                ],
+                "summary": "查询标签分页",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "商品ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
+                        "description": "返回数据条数限制",
+                        "name": "limit",
+                        "in": "query"
                     },
                     {
-                        "description": "商品更新请求",
-                        "name": "product",
+                        "type": "integer",
+                        "description": "返回数据偏移量",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-ent_Tag"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/twikoo": {
+            "get": {
+                "description": "处理Twikoo评论事件，包括获取配置、获取评论、获取评论数量、提交评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/评论"
+                ],
+                "summary": "处理Twikoo评论事件",
+                "parameters": [
+                    {
+                        "description": "Twikoo请求体",
+                        "name": "twikoo_req_body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.ProductUpdateReq"
+                            "$ref": "#/definitions/model.TwikooReqBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "处理Twikoo评论事件，包括获取配置、获取评论、获取评论数量、提交评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/评论"
+                ],
+                "summary": "处理Twikoo评论事件",
+                "parameters": [
+                    {
+                        "description": "Twikoo请求体",
+                        "name": "twikoo_req_body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TwikooReqBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "处理Twikoo评论事件，包括获取配置、获取评论、获取评论数量、提交评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/评论"
+                ],
+                "summary": "处理Twikoo评论事件",
+                "parameters": [
+                    {
+                        "description": "Twikoo请求体",
+                        "name": "twikoo_req_body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TwikooReqBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "处理Twikoo评论事件，包括获取配置、获取评论、获取评论数量、提交评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/评论"
+                ],
+                "summary": "处理Twikoo评论事件",
+                "parameters": [
+                    {
+                        "description": "Twikoo请求体",
+                        "name": "twikoo_req_body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TwikooReqBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/user/search": {
+            "get": {
+                "description": "查询所有用户的分页列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/用户"
+                ],
+                "summary": "查询用户分页列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.PageResult-model_UserSearchResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/public/visit": {
+            "post": {
+                "description": "处理访客访问请求，记录访问日志",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公开接口/访客访问"
+                ],
+                "summary": "处理访客访问",
+                "parameters": [
+                    {
+                        "description": "访客访问请求",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.VisitLogReq"
                         }
                     }
                 ],
@@ -8714,7 +10053,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ent.Product"
+                                            "$ref": "#/definitions/ent.VisitLog"
                                         }
                                     }
                                 }
@@ -9815,50 +11154,6 @@ const docTemplate = `{
         },
         "/api/v1/storage-strategy/list": {
             "get": {
-                "description": "获取所有存储策略的列表",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "后台管理接口/存储策略"
-                ],
-                "summary": "获取存储策略列表",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/ent.StorageStrategy"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/storage-strategy/list-all": {
-            "get": {
                 "description": "获取所有存储策略的列表，包括默认策略",
                 "consumes": [
                     "application/json"
@@ -9885,6 +11180,84 @@ const docTemplate = `{
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/definitions/model.StorageStrategyListResp"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/storage-strategy/page": {
+            "get": {
+                "description": "获取所有存储策略的分页",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "后台管理接口/存储策略"
+                ],
+                "summary": "获取存储策略分页",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "策略名称",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "存储类型",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "是否默认",
+                        "name": "master",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.HttpSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ent.StorageStrategy"
                                             }
                                         }
                                     }
@@ -10808,224 +12181,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/twikoo": {
-            "get": {
-                "description": "处理Twikoo评论事件，包括获取配置、获取评论、获取评论数量、提交评论",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/评论"
-                ],
-                "summary": "处理Twikoo评论事件",
-                "parameters": [
-                    {
-                        "description": "Twikoo请求体",
-                        "name": "twikoo_req_body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/comment.TwikooReqBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {}
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "处理Twikoo评论事件，包括获取配置、获取评论、获取评论数量、提交评论",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/评论"
-                ],
-                "summary": "处理Twikoo评论事件",
-                "parameters": [
-                    {
-                        "description": "Twikoo请求体",
-                        "name": "twikoo_req_body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/comment.TwikooReqBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {}
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "处理Twikoo评论事件，包括获取配置、获取评论、获取评论数量、提交评论",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/评论"
-                ],
-                "summary": "处理Twikoo评论事件",
-                "parameters": [
-                    {
-                        "description": "Twikoo请求体",
-                        "name": "twikoo_req_body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/comment.TwikooReqBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {}
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "处理Twikoo评论事件，包括获取配置、获取评论、获取评论数量、提交评论",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/评论"
-                ],
-                "summary": "处理Twikoo评论事件",
-                "parameters": [
-                    {
-                        "description": "Twikoo请求体",
-                        "name": "twikoo_req_body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/comment.TwikooReqBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {}
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/user/create": {
             "post": {
                 "description": "创建一个新用户",
@@ -11451,69 +12606,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/search": {
-            "get": {
-                "description": "查询所有用户的分页列表",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "后台管理接口/用户"
-                ],
-                "summary": "查询用户分页列表",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "default": 1,
-                        "description": "页码",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "default": 10,
-                        "description": "每页数量",
-                        "name": "page_size",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/model.PageResult-model_UserSearchResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/user/update/{id}": {
             "put": {
                 "description": "更新指定用户的信息",
@@ -11674,64 +12766,6 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/visit/handle": {
-            "post": {
-                "description": "处理访客访问请求，记录访问日志",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公开接口/访客访问"
-                ],
-                "summary": "处理访客访问",
-                "parameters": [
-                    {
-                        "description": "访客访问请求",
-                        "name": "req",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.VisitLogReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.HttpSuccess"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/ent.VisitLog"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/model.HttpError"
                         }
@@ -12038,53 +13072,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "comment.TwikooReqBody": {
-            "type": "object",
-            "properties": {
-                "accessToken": {
-                    "type": "string"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "envId": {
-                    "type": "string"
-                },
-                "event": {
-                    "type": "string"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "includeReply": {
-                    "type": "boolean"
-                },
-                "link": {
-                    "type": "string"
-                },
-                "mail": {
-                    "type": "string"
-                },
-                "nick": {
-                    "type": "string"
-                },
-                "region": {
-                    "type": "string"
-                },
-                "ua": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                },
-                "urls": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
         "ent.Album": {
             "type": "object",
             "properties": {
@@ -12814,8 +13801,12 @@ const docTemplate = `{
                     "description": "订单描述",
                     "type": "string"
                 },
+                "channel_fee_price": {
+                    "description": "渠道手续费金额,单位分",
+                    "type": "integer"
+                },
                 "channel_type": {
-                    "description": "支付渠道ID",
+                    "description": "支付渠道类型",
                     "type": "string"
                 },
                 "created_at": {
@@ -12834,6 +13825,10 @@ const docTemplate = `{
                     "description": "ID of the ent.",
                     "type": "integer"
                 },
+                "merchant_order_id": {
+                    "description": "系统内部商户订单号，按规则生成，唯一",
+                    "type": "string"
+                },
                 "notify_url": {
                     "description": "异步通知地址",
                     "type": "string"
@@ -12842,13 +13837,21 @@ const docTemplate = `{
                     "description": "支付订单ID",
                     "type": "string"
                 },
+                "order_price": {
+                    "description": "订单金额,单位分",
+                    "type": "integer"
+                },
                 "out_trade_no": {
-                    "description": "商户订单号",
+                    "description": "外部订单号,对应支付渠道那里的",
                     "type": "string"
                 },
                 "pay_url": {
                     "description": "支付链接",
                     "type": "string"
+                },
+                "price": {
+                    "description": "支付金额,单位分",
+                    "type": "integer"
                 },
                 "raw": {
                     "description": "原始响应",
@@ -12864,10 +13867,6 @@ const docTemplate = `{
                 },
                 "subject": {
                     "description": "订单标题",
-                    "type": "string"
-                },
-                "total_fee": {
-                    "description": "订单金额",
                     "type": "string"
                 },
                 "updated_at": {
@@ -15691,6 +16690,23 @@ const docTemplate = `{
                 }
             }
         },
+        "model.PayOrderTodayStats": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "pending": {
+                    "type": "integer"
+                },
+                "success_rate": {
+                    "type": "number"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "model.PersonalAccessTokenCreateReq": {
             "type": "object",
             "properties": {
@@ -16563,9 +17579,6 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "next_run_time": {
-                    "type": "string"
-                },
                 "type": {
                     "type": "string"
                 },
@@ -16801,6 +17814,53 @@ const docTemplate = `{
                 }
             }
         },
+        "model.TwikooReqBody": {
+            "type": "object",
+            "properties": {
+                "accessToken": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "envId": {
+                    "type": "string"
+                },
+                "event": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "includeReply": {
+                    "type": "boolean"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "mail": {
+                    "type": "string"
+                },
+                "nick": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "ua": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "urls": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "model.UpdateScheduleJobReq": {
             "type": "object",
             "properties": {
@@ -16931,23 +17991,31 @@ const docTemplate = `{
         },
         "model.VisitLogReq": {
             "type": "object",
+            "required": [
+                "duration",
+                "event",
+                "page_title",
+                "referer",
+                "source",
+                "url_path"
+            ],
             "properties": {
-                "browser": {
+                "duration": {
+                    "type": "integer"
+                },
+                "event": {
                     "type": "string"
                 },
-                "device": {
+                "page_title": {
                     "type": "string"
                 },
-                "ip": {
+                "referer": {
                     "type": "string"
                 },
-                "os": {
+                "source": {
                     "type": "string"
                 },
-                "path": {
-                    "type": "string"
-                },
-                "user_agent": {
+                "url_path": {
                     "type": "string"
                 }
             }

@@ -62,7 +62,7 @@ func NewPublicHandler(visitService visit.VisitService, commentService comment.Co
 // @Success 200 {object} model.HttpSuccess{data=ent.VisitLog}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/public/handle [post]
+// @Router /api/v1/public/visit [post]
 func (h *PublicHandler) HandleVisitor(c *fiber.Ctx) error {
 	ip := c.IP()
 	userAgent := c.Context().UserAgent()
@@ -78,13 +78,13 @@ func (h *PublicHandler) HandleVisitor(c *fiber.Ctx) error {
 // @Tags 公开接口/评论
 // @Accept json
 // @Produce json
-// @Param twikoo_req_body body TwikooReqBody true "Twikoo请求体"
+// @Param twikoo_req_body body model.TwikooReqBody true "Twikoo请求体"
 // @Success 200 {object} model.HttpSuccess{data=interface{}}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/twikoo [get]
-// @Router /api/v1/twikoo [post]
-// @Router /api/v1/twikoo [put]
+// @Router /api/v1/public/twikoo [get]
+// @Router /api/v1/public/twikoo [post]
+// @Router /api/v1/public/twikoo [put]
 // @Router /api/v1/public/twikoo [delete]
 func (h *PublicHandler) HandleTwikoo(c *fiber.Ctx) error {
 
@@ -167,7 +167,7 @@ func (h *PublicHandler) HandleTwikoo(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=[]interface{}}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/public/recent-comment [get]
+// @Router /api/v1/public/comment/recent [get]
 func (h *PublicHandler) RecentComment(c *fiber.Ctx) error {
 	comments, err := h.commentService.GetRecentComment(c.Context(), 10)
 	if err != nil {
@@ -191,7 +191,7 @@ func (h *PublicHandler) RecentComment(c *fiber.Ctx) error {
 
 // @Summary 查询相册列表
 // @Description 查询所有相册
-// @Tags 后台管理接口/相册
+// @Tags 公开接口/相册
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Album}
@@ -208,7 +208,7 @@ func (h *PublicHandler) ListAlbum(c *fiber.Ctx) error {
 
 // @Summary 查询相册列表分页
 // @Description 查询相册列表分页
-// @Tags 后台管理接口/相册
+// @Tags 公开接口/相册
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -237,7 +237,7 @@ func (h *PublicHandler) ListAlbumPage(c *fiber.Ctx) error {
 
 // @Summary 查询相册照片列表
 // @Description 查询所有相册照片
-// @Tags 后台管理接口/相册照片
+// @Tags 公开接口/相册照片
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.AlbumPhoto}
@@ -254,7 +254,7 @@ func (h *PublicHandler) ListAlbumPhoto(c *fiber.Ctx) error {
 
 // @Summary 查询相册照片分页列表
 // @Description 查询所有相册照片分页列表
-// @Tags 后台管理接口/相册照片
+// @Tags 公开接口/相册照片
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -283,7 +283,7 @@ func (h *PublicHandler) ListAlbumPhotoPage(c *fiber.Ctx) error {
 
 // @Summary 获取所有Flink
 // @Description 获取所有Flink
-// @Tags 后台管理接口/友链
+// @Tags 公开接口/友链
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.FlinkResp}
@@ -330,7 +330,7 @@ func (h *PublicHandler) ListFlink(c *fiber.Ctx) error {
 
 // @Summary 获取Flink分页列表
 // @Description 获取Flink分页列表
-// @Tags 后台管理接口/友链
+// @Tags 公开接口/友链
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -376,7 +376,7 @@ func (h *PublicHandler) ListFlinkPage(c *fiber.Ctx) error {
 
 // @Summary 查询友链组列表
 // @Description 查询友链组列表
-// @Tags 后台管理接口/友链组
+// @Tags 公开接口/友链组
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.FlinkGroupResp}
@@ -403,7 +403,7 @@ func (h *PublicHandler) ListFLinkGroup(c *fiber.Ctx) error {
 
 // @Summary 获取朋友圈记录分页列表
 // @Description 获取朋友圈记录分页列表
-// @Tags 后台管理接口/友链朋友圈
+// @Tags 公开接口/友链朋友圈
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -411,7 +411,7 @@ func (h *PublicHandler) ListFLinkGroup(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.FriendCircleRecordResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/public/friend-circle/page [get]
+// @Router /api/v1/public/friend-circle-record/page [get]
 func (h *PublicHandler) ListFriendCircleRecordPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -444,7 +444,7 @@ func (h *PublicHandler) ListFriendCircleRecordPage(c *fiber.Ctx) error {
 
 // @Summary 获取说说分页列表
 // @Description 获取说说分页列表
-// @Tags 后台管理接口/说说
+// @Tags 公开接口/说说
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -452,7 +452,7 @@ func (h *PublicHandler) ListFriendCircleRecordPage(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.EssayResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/essay/page [get]
+// @Router /api/v1/public/essay/page [get]
 func (h *PublicHandler) GetEssayPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	if err := c.QueryParser(&pageQuery); err != nil {
@@ -480,14 +480,14 @@ func (h *PublicHandler) GetEssayPage(c *fiber.Ctx) error {
 
 // @Summary 获取说说列表
 // @Description 获取说说列表
-// @Tags 后台管理接口/说说
+// @Tags 公开接口/说说
 // @Accept json
 // @Produce json
 // @Param limit query int false "数量限制" default(10)
 // @Success 200 {object} model.HttpSuccess{data=[]model.EssayResp}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/essay/list [get]
+// @Router /api/v1/public/essay/list [get]
 func (h *PublicHandler) ListEssay(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 10)
 	essays, err := h.essayService.GetEssayList(c.Context(), limit)
@@ -509,12 +509,12 @@ func (h *PublicHandler) ListEssay(c *fiber.Ctx) error {
 
 // @Summary 查询所有文章
 // @Description 查询所有文章
-// @Tags 后台管理接口/文章
+// @Tags 公开接口/文章
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]model.PostResp}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/post/list [get]
+// @Router /api/v1/public/post/list [get]
 func (h *PublicHandler) ListPost(c *fiber.Ctx) error {
 	var req model.PostListReq
 	if err := c.QueryParser(&req); err != nil {
@@ -575,7 +575,7 @@ func (h *PublicHandler) ListPost(c *fiber.Ctx) error {
 
 // @Summary 查询文章分页列表
 // @Description 查询文章分页列表
-// @Tags 后台管理接口/文章
+// @Tags 公开接口/文章
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -583,7 +583,7 @@ func (h *PublicHandler) ListPost(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.PostResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/post/page [get]
+// @Router /api/v1/public/post/page [get]
 func (h *PublicHandler) ListPostPage(c *fiber.Ctx) error {
 	var req model.PostPageReq
 	if err := c.QueryParser(&req); err != nil {
@@ -666,7 +666,7 @@ func simulateAIProcessing(targetText string, ch chan model.AIResponse) {
 // @Success 200 {object} model.HttpSuccess{data=model.AIResponse}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/post/summary/stream/{id} [get]
+// @Router /api/v1/public/post/{id}/summary/stream [get]
 func (h *PublicHandler) GetSummaryForStream(c *fiber.Ctx) error {
 	// postId, err := strconv.Atoi(c.Params("id"))
 	// if err != nil {
@@ -726,7 +726,7 @@ func (h *PublicHandler) GetSummaryForStream(c *fiber.Ctx) error {
 // @Param limit query int false "返回数据条数限制"
 // @Success 200 {object} model.HttpSuccess{data=[]model.PostMonthStat}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/post/month-stats [get]
+// @Router /api/v1/public/post/month-stats [get]
 func (h *PublicHandler) GetPostMonthStats(c *fiber.Ctx) error {
 	var req model.PostMonthStatsReq
 	if err := c.QueryParser(&req); err != nil {
@@ -748,7 +748,7 @@ func (h *PublicHandler) GetPostMonthStats(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=ent.Post}
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/post/random [get]
+// @Router /api/v1/public/post/random [get]
 func (h *PublicHandler) GetRandomPost(c *fiber.Ctx) error {
 	post, err := h.postService.GetRandomPost(c.Context())
 	if err != nil {
@@ -771,7 +771,7 @@ func (h *PublicHandler) GetRandomPost(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.PostSearchResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/post/search [get]
+// @Router /api/v1/public/post/search [get]
 func (h *PublicHandler) SearchPosts(c *fiber.Ctx) error {
 	var req model.PostSearchReq
 	if err := c.QueryParser(&req); err != nil {
@@ -800,7 +800,7 @@ func (h *PublicHandler) SearchPosts(c *fiber.Ctx) error {
 // @Failure 400 {object} model.HttpError
 // @Failure 404 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/posts/slug/{slug} [get]
+// @Router /api/v1/public/post/slug/{slug} [get]
 func (h *PublicHandler) QueryPostBySlug(c *fiber.Ctx) error {
 	slug := c.Params("slug")
 	if slug == "" {
@@ -862,12 +862,12 @@ func (h *PublicHandler) QueryPostBySlug(c *fiber.Ctx) error {
 
 // @Summary 查询分类列表
 // @Description 查询所有分类的列表
-// @Tags 后台管理接口/分类
+// @Tags 公开接口/分类
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Category}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/category/list [get]
+// @Router /api/v1/public/category/list [get]
 func (h *PublicHandler) QueryCategoryList(c *fiber.Ctx) error {
 	categories, err := h.categoryService.QueryCategoryList(c.Context())
 	if err != nil {
@@ -899,7 +899,7 @@ func (h *PublicHandler) QueryCategoryList(c *fiber.Ctx) error {
 
 // @Summary 查询分类分页列表
 // @Description 查询所有分类的分页列表
-// @Tags 后台管理接口/分类
+// @Tags 公开接口/分类
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -907,7 +907,7 @@ func (h *PublicHandler) QueryCategoryList(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[ent.Category]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/category/page [get]
+// @Router /api/v1/public/category/page [get]
 func (h *PublicHandler) QueryCategoryPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
@@ -951,12 +951,12 @@ func (h *PublicHandler) QueryCategoryPage(c *fiber.Ctx) error {
 
 // @Summary 查询标签列表
 // @Description 查询所有标签
-// @Tags 后台管理接口/标签
+// @Tags 公开接口/标签
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.HttpSuccess{data=[]ent.Tag}
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/tag/list [get]
+// @Router /api/v1/public/tag/list [get]
 func (h *PublicHandler) QueryTagList(c *fiber.Ctx) error {
 	tags, err := h.tagService.QueryTagList(c)
 	if err != nil {
@@ -970,7 +970,7 @@ func (h *PublicHandler) QueryTagList(c *fiber.Ctx) error {
 
 // @Summary 查询标签分页
 // @Description 查询标签分页列表
-// @Tags 后台管理接口/标签
+// @Tags 公开接口/标签
 // @Accept json
 // @Produce json
 // @Param limit query int false "返回数据条数限制"
@@ -978,7 +978,7 @@ func (h *PublicHandler) QueryTagList(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[ent.Tag]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/tag/page [get]
+// @Router /api/v1/public/tag/page [get]
 func (h *PublicHandler) QueryTagPage(c *fiber.Ctx) error {
 	pageQuery := model.PageQuery{}
 	err := c.QueryParser(&pageQuery)
@@ -1004,7 +1004,7 @@ func (h *PublicHandler) QueryTagPage(c *fiber.Ctx) error {
 
 // @Summary 查询用户分页列表
 // @Description 查询所有用户的分页列表
-// @Tags 后台管理接口/用户
+// @Tags 公开接口/用户
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1)
@@ -1012,7 +1012,7 @@ func (h *PublicHandler) QueryTagPage(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.UserSearchResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/user/search [get]
+// @Router /api/v1/public/user/search [get]
 func (h *PublicHandler) SearchUsers(c *fiber.Ctx) error {
 	var req model.UserSearchReq
 	if err := c.QueryParser(&req); err != nil {
@@ -1039,7 +1039,7 @@ func (h *PublicHandler) SearchUsers(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=ent.FLink}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/flink/random [get]
+// @Router /api/v1/public/flink/random [get]
 func (h *PublicHandler) RandomFlink(c *fiber.Ctx) error {
 	var req model.FlinkRandomReq
 	if err := c.QueryParser(&req); err != nil {
@@ -1057,7 +1057,7 @@ func (h *PublicHandler) RandomFlink(c *fiber.Ctx) error {
 
 // @Summary 搜索商品
 // @Description 根据搜索条件查询商品
-// @Tags 后台管理接口/商品
+// @Tags 公开接口/商品
 // @Accept json
 // @Produce json
 // @Param name query string false "商品名称"
@@ -1067,7 +1067,7 @@ func (h *PublicHandler) RandomFlink(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.ProductSearchResp]}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/product/search [get]
+// @Router /api/v1/public/product/search [get]
 func (h *PublicHandler) SearchProducts(c *fiber.Ctx) error {
 	var req model.ProductSearchReq
 	if err := c.QueryParser(&req); err != nil {
@@ -1094,7 +1094,7 @@ func (h *PublicHandler) SearchProducts(c *fiber.Ctx) error {
 // @Param req body model.FlinkApplicationCreateReq true "友链申请创建请求"
 // @Success 200 {object} model.HttpSuccess{data=ent.FLinkApplication}
 // @Failure 400 {object} model.HttpError
-// @Router /api/v1/flink-application/create [post]
+// @Router /api/v1/public/flink-application/create [post]
 func (h *PublicHandler) CreateFlinkApplication(c *fiber.Ctx) error {
 	var createReq *model.FlinkApplicationCreateReq
 	if err := c.BodyParser(&createReq); err != nil {
@@ -1116,7 +1116,7 @@ func (h *PublicHandler) CreateFlinkApplication(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=nil}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/plugin/register [post]
+// @Router /api/v1/public/plugin/register [post]
 func (h *PublicHandler) RegisterPlugin(c *fiber.Ctx) error {
 	// 检查debug模式是否开启
 	if !config.GetBool(config.SERVER_DEBUG) {
@@ -1151,7 +1151,7 @@ func (h *PublicHandler) RegisterPlugin(c *fiber.Ctx) error {
 // @Success 200 {object} model.HttpSuccess{data=nil}
 // @Failure 400 {object} model.HttpError
 // @Failure 500 {object} model.HttpError
-// @Router /api/v1/plugin/heartbeat [post]
+// @Router /api/v1/public/plugin/heartbeat [post]
 func (h *PublicHandler) HeartbeatPlugin(c *fiber.Ctx) error {
 	// 检查debug模式是否开启
 	if !config.GetBool(config.SERVER_DEBUG) {
