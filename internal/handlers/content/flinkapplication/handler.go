@@ -22,27 +22,6 @@ func NewFlinkApplicationHandler(client *ent.Client, flinkApplicationService flin
 	}
 }
 
-// @Summary 创建友链申请
-// @Description 创建一个新的友链申请
-// @Tags 公开接口/友链申请
-// @Accept json
-// @Produce json
-// @Param req body model.FlinkApplicationCreateReq true "友链申请创建请求"
-// @Success 200 {object} model.HttpSuccess{data=ent.FLinkApplication}
-// @Failure 400 {object} model.HttpError
-// @Router /api/v1/flink-application/create [post]
-func (h *FlinkApplicationHandler) CreateFlinkApplication(c *fiber.Ctx) error {
-	var createReq *model.FlinkApplicationCreateReq
-	if err := c.BodyParser(&createReq); err != nil {
-		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
-	}
-	application, err := h.flinkApplicationService.CreateFlinkApplication(c.Context(), createReq)
-	if err != nil {
-		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
-	}
-	return c.JSON(model.NewSuccess("success", application))
-}
-
 // @Summary 获取友链申请分页列表
 // @Description 获取友链申请分页列表
 // @Tags 后台管理接口/友链申请

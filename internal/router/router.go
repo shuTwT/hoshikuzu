@@ -311,65 +311,65 @@ func initPublicRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 	publicApi := router.Group("/public")
 	{
 		// 访问统计接口
-		publicApi.Post("/visit", handlerMap.VisitHandler.HandleVisitor)
+		publicApi.Post("/visit", handlerMap.PublicHandler.HandleVisitor)
 		// twikoo 接口
-		publicApi.All("/twikoo", handlerMap.CommentHandler.HandleTwikoo)
+		publicApi.All("/twikoo", handlerMap.PublicHandler.HandleTwikoo)
 		// 最近评论接口
-		publicApi.Get("/comment/recent", handlerMap.CommentHandler.RecentComment)
+		publicApi.Get("/comment/recent", handlerMap.PublicHandler.RecentComment)
 		// 相册列表接口
-		publicApi.Get("/album/list", handlerMap.AlbumHandler.ListAlbum)
+		publicApi.Get("/album/list", handlerMap.PublicHandler.ListAlbum)
 		// 相册分页接口
-		publicApi.Get("/album/page", handlerMap.AlbumHandler.ListAlbumPage)
+		publicApi.Get("/album/page", handlerMap.PublicHandler.ListAlbumPage)
 		// 相册照片列表接口
-		publicApi.Get("/album-photo/list", handlerMap.AlbumPhotoHandler.ListAlbumPhoto)
+		publicApi.Get("/album-photo/list", handlerMap.PublicHandler.ListAlbumPhoto)
 		// 相册照片分页接口
-		publicApi.Get("/album-photo/page", handlerMap.AlbumPhotoHandler.ListAlbumPhotoPage)
+		publicApi.Get("/album-photo/page", handlerMap.PublicHandler.ListAlbumPhotoPage)
 		// 友链列表接口
-		publicApi.Get("/flink/list", handlerMap.FlinkHandler.ListFlink)
+		publicApi.Get("/flink/list", handlerMap.PublicHandler.ListFlink)
 		// 友链分页接口
-		publicApi.Get("/flink/page", handlerMap.FlinkHandler.ListFlinkPage)
+		publicApi.Get("/flink/page", handlerMap.PublicHandler.ListFlinkPage)
 		// 友链分组列表接口
-		publicApi.Get("/flink-group/list", handlerMap.FlinkGroupHandler.ListFLinkGroup)
+		publicApi.Get("/flink-group/list", handlerMap.PublicHandler.ListFLinkGroup)
 		// 朋友圈记录分页接口
-		publicApi.Get("/friend-circle-record/page", handlerMap.FriendCircleHandler.ListFriendCircleRecordPage)
+		publicApi.Get("/friend-circle-record/page", handlerMap.PublicHandler.ListFriendCircleRecordPage)
 		// 说说(随笔、瞬间)列表接口
-		publicApi.Get("/essay/list", handlerMap.EssayHandler.ListEssay)
+		publicApi.Get("/essay/list", handlerMap.PublicHandler.ListEssay)
 		// 说说(随笔、瞬间)分页接口
-		publicApi.Get("/essay/page", handlerMap.EssayHandler.GetEssayPage)
+		publicApi.Get("/essay/page", handlerMap.PublicHandler.GetEssayPage)
 		// 文章列表接口
-		publicApi.Get("/post/list", handlerMap.PostHandler.ListPost)
+		publicApi.Get("/post/list", handlerMap.PublicHandler.ListPost)
 		// 文章分页接口
-		publicApi.Get("/post/page", handlerMap.PostHandler.ListPostPage)
+		publicApi.Get("/post/page", handlerMap.PublicHandler.ListPostPage)
 		// 文章搜索接口
-		publicApi.Get("/post/search", handlerMap.PostHandler.SearchPosts)
+		publicApi.Get("/post/search", handlerMap.PublicHandler.SearchPosts)
 		// 文章月统计接口
-		publicApi.Get("/post/month-stats", handlerMap.PostHandler.GetPostMonthStats)
+		publicApi.Get("/post/month-stats", handlerMap.PublicHandler.GetPostMonthStats)
 		// 随机文章接口
-		publicApi.Get("/post/random", handlerMap.PostHandler.GetRandomPost)
+		publicApi.Get("/post/random", handlerMap.PublicHandler.GetRandomPost)
 		// 文章详情接口
-		publicApi.Get("/post/slug/:slug", handlerMap.PostHandler.QueryPostBySlug)
+		publicApi.Get("/post/slug/:slug", handlerMap.PublicHandler.QueryPostBySlug)
 		// 分类列表接口
-		publicApi.Get("/category/list", handlerMap.CategoryHandler.QueryCategoryList)
+		publicApi.Get("/category/list", handlerMap.PublicHandler.QueryCategoryList)
 		// 分类分页接口
-		publicApi.Get("/category/page", handlerMap.CategoryHandler.QueryCategoryPage)
+		publicApi.Get("/category/page", handlerMap.PublicHandler.QueryCategoryPage)
 		// 标签列表接口
-		publicApi.Get("/tag/list", handlerMap.TagHandler.QueryTagList)
+		publicApi.Get("/tag/list", handlerMap.PublicHandler.QueryTagList)
 		// 标签分页接口
-		publicApi.Get("/tag/page", handlerMap.TagHandler.QueryTagPage)
+		publicApi.Get("/tag/page", handlerMap.PublicHandler.QueryTagPage)
 		// 用户搜索接口
-		publicApi.Get("/user/search", handlerMap.UserHandler.SearchUsers)
+		publicApi.Get("/user/search", handlerMap.PublicHandler.SearchUsers)
 		// 随机友链接口
-		publicApi.Get("/flink/random", handlerMap.FlinkHandler.RandomFlink)
+		publicApi.Get("/flink/random", handlerMap.PublicHandler.RandomFlink)
 		// 文章摘要接口
-		publicApi.Get("/post/:id/summary/stream", handlerMap.PostHandler.GetSummaryForStream)
+		publicApi.Get("/post/:id/summary/stream", handlerMap.PublicHandler.GetSummaryForStream)
 		// 商品搜索接口
-		publicApi.Get("/product/search", handlerMap.ProductHandler.SearchProducts)
+		publicApi.Get("/product/search", handlerMap.PublicHandler.SearchProducts)
 		// 友链申请接口
-		publicApi.Post("/flink-application/create", handlerMap.FlinkApplicationHandler.CreateFlinkApplication)
+		publicApi.Post("/flink-application/create", handlerMap.PublicHandler.CreateFlinkApplication)
 		// 插件注册接口，仅在debug模式下生效，不需要认证
-		publicApi.Post("/plugin/register", handlerMap.PluginHandler.RegisterPlugin)
+		publicApi.Post("/plugin/register", handlerMap.PublicHandler.RegisterPlugin)
 		// 插件心跳接口，仅在debug模式下生效，不需要认证
-		publicApi.Post("/plugin/heartbeat", handlerMap.PluginHandler.HeartbeatPlugin)
+		publicApi.Post("/plugin/heartbeat", handlerMap.PublicHandler.HeartbeatPlugin)
 	}
 }
 

@@ -220,34 +220,3 @@ func (h *ProductHandler) BatchDeleteProducts(c *fiber.Ctx) error {
 
 	return c.JSON(model.NewSuccess("success", nil))
 }
-
-// @Summary 搜索商品
-// @Description 根据搜索条件查询商品
-// @Tags 后台管理接口/商品
-// @Accept json
-// @Produce json
-// @Param name query string false "商品名称"
-// @Param category_id query int false "商品分类ID"
-// @Param page query int false "页码" default(1)
-// @Param size query int false "每页数量" default(10)
-// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.ProductSearchResp]}
-// @Failure 400 {object} model.HttpError
-// @Failure 500 {object} model.HttpError
-// @Router /api/v1/product/search [get]
-func (h *ProductHandler) SearchProducts(c *fiber.Ctx) error {
-	var req model.ProductSearchReq
-	if err := c.QueryParser(&req); err != nil {
-		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
-	}
-
-	results, total, err := h.productService.SearchProducts(c.Context(), req)
-	if err != nil {
-		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
-	}
-
-	pageResult := model.PageResult[*model.ProductSearchResp]{
-		Total:   int64(total),
-		Records: results,
-	}
-	return c.JSON(model.NewSuccess("success", pageResult))
-}

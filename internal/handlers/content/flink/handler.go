@@ -9,7 +9,6 @@ import (
 	flink_service "github.com/shuTwT/hoshikuzu/internal/services/content/flink"
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
-	"entgo.io/ent/dialect/sql"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -234,28 +233,4 @@ func (h *FlinkHandler) DeleteFlink(c *fiber.Ctx) error {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 	return c.JSON(model.NewSuccess("success", nil))
-}
-
-// @Summary 随机查询Flink
-// @Description 随机查询Flink
-// @Tags 公开接口/友链
-// @Accept json
-// @Produce json
-// @Success 200 {object} model.HttpSuccess{data=ent.FLink}
-// @Failure 400 {object} model.HttpError
-// @Failure 500 {object} model.HttpError
-// @Router /api/v1/flink/random [get]
-func (h *FlinkHandler) RandomFlink(c *fiber.Ctx) error {
-	var req model.FlinkRandomReq
-	if err := c.QueryParser(&req); err != nil {
-		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
-	}
-	flink, err := h.client.FLink.Query().
-		Order(sql.OrderByRand()).
-		Limit(req.Limit).
-		All(c.Context())
-	if err != nil {
-		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
-	}
-	return c.JSON(model.NewSuccess("success", flink))
 }

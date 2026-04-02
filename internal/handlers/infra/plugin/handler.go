@@ -8,7 +8,6 @@ import (
 
 	"github.com/shuTwT/hoshikuzu/ent"
 	"github.com/shuTwT/hoshikuzu/internal/services/infra/plugin"
-	"github.com/shuTwT/hoshikuzu/pkg/config"
 	"github.com/shuTwT/hoshikuzu/pkg/domain/model"
 
 	"github.com/gofiber/fiber/v2"
@@ -224,76 +223,6 @@ func (h *PluginHandler) RestartPlugin(c *fiber.Ctx) error {
 
 	slog.Info("Plugin restarted successfully", "plugin_id", id)
 	return c.JSON(model.NewSuccess("插件重启成功", nil))
-}
-
-// @Summary 注册插件
-// @Description 注册新插件到系统
-// @Tags 公开接口/插件
-// @Accept json
-// @Produce json
-// @Param pluginInfo body model.PluginRegisterReq true "插件注册信息"
-// @Success 200 {object} model.HttpSuccess{data=nil}
-// @Failure 400 {object} model.HttpError
-// @Failure 500 {object} model.HttpError
-// @Router /api/v1/plugin/register [post]
-func (h *PluginHandler) RegisterPlugin(c *fiber.Ctx) error {
-	// 检查debug模式是否开启
-	if !config.GetBool(config.SERVER_DEBUG) {
-		slog.Warn("RegisterPlugin called but debug mode is not enabled")
-		return c.JSON(model.NewError(fiber.StatusForbidden, "此接口仅在debug模式下可用"))
-	}
-
-	// 接收插件注册信息
-	var pluginInfo model.PluginRegisterReq
-	if err := c.BodyParser(&pluginInfo); err != nil {
-		slog.Error("Failed to parse plugin registration info", "error", err.Error())
-		return c.JSON(model.NewError(fiber.StatusBadRequest, "解析插件注册信息失败"))
-	}
-
-	// 调用服务层方法存储插件注册信息
-	err := h.pluginService.RegisterPlugin(c.Context(), &pluginInfo)
-	if err != nil {
-		slog.Error("Failed to register plugin", "error", err.Error())
-		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
-	}
-
-	slog.Info("Plugin registered successfully", "plugin_name", pluginInfo.Name)
-	return c.JSON(model.NewSuccess("插件注册成功", nil))
-}
-
-// @Summary 插件心跳
-// @Description 更新插件的心跳时间
-// @Tags 公开接口/插件
-// @Accept json
-// @Produce json
-// @Param heartbeatInfo body model.PluginHeartbeatReq true "插件心跳信息"
-// @Success 200 {object} model.HttpSuccess{data=nil}
-// @Failure 400 {object} model.HttpError
-// @Failure 500 {object} model.HttpError
-// @Router /api/v1/plugin/heartbeat [post]
-func (h *PluginHandler) HeartbeatPlugin(c *fiber.Ctx) error {
-	// 检查debug模式是否开启
-	if !config.GetBool(config.SERVER_DEBUG) {
-		slog.Warn("HeartbeatPlugin called but debug mode is not enabled")
-		return c.JSON(model.NewError(fiber.StatusForbidden, "此接口仅在debug模式下可用"))
-	}
-
-	// 接收插件心跳信息
-	var heartbeatInfo model.PluginHeartbeatReq
-	if err := c.BodyParser(&heartbeatInfo); err != nil {
-		slog.Error("Failed to parse plugin heartbeat info", "error", err.Error())
-		return c.JSON(model.NewError(fiber.StatusBadRequest, "解析插件心跳信息失败"))
-	}
-
-	// 调用服务层方法更新插件的心跳时间
-	err := h.pluginService.HeartbeatPlugin(c.Context(), &heartbeatInfo)
-	if err != nil {
-		slog.Error("Failed to update plugin heartbeat", "plugin_name", heartbeatInfo.Name, "error", err.Error())
-		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
-	}
-
-	slog.Info("Plugin heartbeat updated successfully", "plugin_name", heartbeatInfo.Name)
-	return c.JSON(model.NewSuccess("插件心跳更新成功", nil))
 }
 
 func (h *PluginHandler) buildPluginResp(p *ent.Plugin) *model.PluginResp {

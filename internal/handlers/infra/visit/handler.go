@@ -17,26 +17,6 @@ func NewVisitHandler(visitService visit.VisitService) *VisitHandler {
 	return &VisitHandler{visitService: visitService}
 }
 
-// @Summary 处理访客访问
-// @Description 处理访客访问请求，记录访问日志
-// @Tags 公开接口/访客访问
-// @Accept json
-// @Produce json
-// @Param req body model.VisitLogReq true "访客访问请求"
-// @Success 200 {object} model.HttpSuccess{data=ent.VisitLog}
-// @Failure 400 {object} model.HttpError
-// @Failure 500 {object} model.HttpError
-// @Router /api/v1/visit/handle [post]
-func (h *VisitHandler) HandleVisitor(c *fiber.Ctx) error {
-	ip := c.IP()
-	userAgent := c.Context().UserAgent()
-	var req model.VisitLogReq
-	if err := c.BodyParser(&req); err != nil {
-		return err
-	}
-	return h.visitService.CreateVisitLog(c.Context(), ip, userAgent, req)
-}
-
 // @Summary 查询访客访问日志分页
 // @Description 查询访客访问日志的分页列表
 // @Tags 后台管理接口/访客访问

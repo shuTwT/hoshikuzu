@@ -125,7 +125,22 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 	pluginHandler := plugin_handler.NewPluginHandler(serviceMap.PluginService)
 	scheduleJobHandler := schedulejob_handler.NewScheduleJobHandler(serviceMap.ScheduleJobService)
 	themeHandler := theme_handler.NewThemeHandler(serviceMap.ThemeService)
-	publicHandler := public_handler.NewPublicHandler()
+	publicHandler := public_handler.NewPublicHandler(
+		serviceMap.VisitService,
+		serviceMap.CommentService,
+		serviceMap.AlbumService,
+		serviceMap.AlbumPhotoService,
+		serviceMap.FlinkService,
+		db,
+		serviceMap.FriendCircleService,
+		serviceMap.EssayService,
+		serviceMap.PostService,
+		serviceMap.CategoryService,
+		serviceMap.TagService,
+		serviceMap.UserService,
+		serviceMap.ProductService,
+		serviceMap.FlinkApplicationService,
+		serviceMap.PluginService)
 
 	handlerMap := HandlerMap{
 		AlbumHandler:            albumHandler,

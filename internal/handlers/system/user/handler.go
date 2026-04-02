@@ -394,32 +394,3 @@ func (h *UserHandler) GetUserProfile(c *fiber.Ctx) error {
 
 	return c.JSON(model.NewSuccess("success", result))
 }
-
-// @Summary 查询用户分页列表
-// @Description 查询所有用户的分页列表
-// @Tags 后台管理接口/用户
-// @Accept json
-// @Produce json
-// @Param page query int false "页码" default(1)
-// @Param page_size query int false "每页数量" default(10)
-// @Success 200 {object} model.HttpSuccess{data=model.PageResult[model.UserSearchResp]}
-// @Failure 400 {object} model.HttpError
-// @Failure 500 {object} model.HttpError
-// @Router /api/v1/user/search [get]
-func (h *UserHandler) SearchUsers(c *fiber.Ctx) error {
-	var req model.UserSearchReq
-	if err := c.QueryParser(&req); err != nil {
-		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
-	}
-
-	results, total, err := h.userService.SearchUsers(c.Context(), req)
-	if err != nil {
-		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
-	}
-
-	pageResult := model.PageResult[*model.UserSearchResp]{
-		Total:   int64(total),
-		Records: results,
-	}
-	return c.JSON(model.NewSuccess("success", pageResult))
-}

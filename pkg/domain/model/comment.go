@@ -33,3 +33,31 @@ type CommentResp struct {
 	IPLocation *string   `json:"ip_location,omitempty"`
 	Pinned     bool      `json:"pinned"`
 }
+
+var TWIKOO_EVENT = struct {
+	GetConfig        string
+	CommentGET       string
+	GetCommentsCount string
+	CommentSubmit    string
+}{
+	GetConfig:        "GET_CONFIG",
+	CommentGET:       "COMMENT_GET",
+	GetCommentsCount: "GET_COMMENTS_COUNT",
+	CommentSubmit:    "COMMENT_SUBMIT",
+}
+
+type TwikooReqBody struct {
+	AccessToken  *string   `json:"accessToken"`
+	Event        string    `json:"event"`
+	Url          *string   `json:"url"`
+	EnvId        *string   `json:"envId"`
+	IncludeReply *bool     `json:"includeReply"`
+	Region       *string   `json:"region"`
+	Urls         *[]string `json:"urls"`
+	Comment      *string   `json:"comment"`
+	Href         *string   `json:"href"`
+	Link         *string   `json:"link"`
+	Mail         *string   `json:"mail"`
+	Nick         *string   `json:"nick"`
+	UA           *string   `json:"ua"`
+}
