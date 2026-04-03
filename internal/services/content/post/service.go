@@ -71,6 +71,14 @@ func (s *PostServiceImpl) QueryPostList(c context.Context, req model.PostListReq
 		query.Where(post.IsPinToTop(*req.IsPinToTop))
 	}
 
+	if req.Status != nil {
+		query.Where(post.StatusEQ(post.Status(*req.Status)))
+	}
+
+	if req.IsVisible != nil {
+		query.Where(post.IsVisible(*req.IsVisible))
+	}
+
 	query = query.
 		WithCategories().
 		WithTags().
@@ -120,6 +128,14 @@ func (s *PostServiceImpl) QueryPostPage(c context.Context, req model.PostPageReq
 		startDate := time.Date(*req.Year, time.Month(*req.Month), 1, 0, 0, 0, 0, time.UTC)
 		endDate := time.Date(*req.Year, time.Month(*req.Month)+1, 1, 0, 0, 0, 0, time.UTC)
 		query.Where(post.PublishedAtGTE(startDate), post.PublishedAtLT(endDate))
+	}
+
+	if req.Status != nil {
+		query.Where(post.StatusEQ(post.Status(*req.Status)))
+	}
+
+	if req.IsVisible != nil {
+		query.Where(post.IsVisible(*req.IsVisible))
 	}
 
 	count, err := query.Count(c)
@@ -244,8 +260,10 @@ func (s *PostServiceImpl) GetPostCount(c context.Context) (int, error) {
 }
 
 func (s *PostServiceImpl) GetPostMonthStats(c context.Context, req model.PostMonthStatsReq) ([]model.PostMonthStat, error) {
-	posts, err := s.client.Post.Query().
-		Order(ent.Desc(post.FieldCreatedAt)).
+	posts, err := s.client.Post.Query().Where(
+		post.StatusEQ("published"),
+		post.IsVisible(true),
+	).Order(ent.Desc(post.FieldCreatedAt)).
 		All(c)
 	if err != nil {
 		return nil, err
@@ -279,7 +297,10 @@ func (s *PostServiceImpl) GetPostMonthStats(c context.Context, req model.PostMon
 }
 
 func (s *PostServiceImpl) GetRandomPost(c context.Context) (*ent.Post, error) {
-	count, err := s.client.Post.Query().Count(c)
+	count, err := s.client.Post.Query().Where(
+		post.StatusEQ("published"),
+		post.IsVisible(true),
+	).Count(c)
 	if err != nil {
 		return nil, err
 	}
@@ -290,8 +311,10 @@ func (s *PostServiceImpl) GetRandomPost(c context.Context) (*ent.Post, error) {
 
 	offset := rand.IntN(count)
 
-	post, err := s.client.Post.Query().
-		WithCategories().
+	post, err := s.client.Post.Query().Where(
+		post.StatusEQ("published"),
+		post.IsVisible(true),
+	).WithCategories().
 		WithTags().
 		Order(ent.Asc(post.FieldID)).
 		Offset(offset).

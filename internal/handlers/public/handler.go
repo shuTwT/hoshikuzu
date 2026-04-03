@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	"github.com/aws/smithy-go/ptr"
 	"github.com/gofiber/fiber/v2"
 	"github.com/shuTwT/hoshikuzu/ent"
 	"github.com/shuTwT/hoshikuzu/internal/infra/logger"
@@ -520,6 +521,9 @@ func (h *PublicHandler) ListPost(c *fiber.Ctx) error {
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
 	}
+	status := "published"
+	req.Status = &status
+	req.IsVisible = ptr.Bool(true)
 	posts, err := h.postService.QueryPostList(c.Context(), req)
 	postResps := make([]*model.PostResp, 0, len(posts))
 	for _, post := range posts {
@@ -589,6 +593,9 @@ func (h *PublicHandler) ListPostPage(c *fiber.Ctx) error {
 	if err := c.QueryParser(&req); err != nil {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, err.Error()))
 	}
+	status := "published"
+	req.Status = &status
+	req.IsVisible = ptr.Bool(true)
 	posts, count, err := h.postService.QueryPostPage(c.Context(), req)
 	if err != nil {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))

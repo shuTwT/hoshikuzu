@@ -5,24 +5,28 @@ import (
 )
 
 type PostPageReq struct {
-	Page         int    `json:"page" query:"page" form:"page" validate:"required,min=1"`
-	Size         int    `json:"page_size" query:"page_size" form:"page_size" validate:"required,min=1,max=100"`
-	CategoryID   *int   `json:"category_id" query:"category_id" form:"category_id"`
-	TagID        *int   `json:"tag_id" query:"tag_id" form:"tag_id"`
-	Title        string `json:"title" query:"title" form:"title"`
-	CategoryName string `json:"category_name" query:"category_name" form:"category_name"`
-	TagName      string `json:"tag_name" query:"tag_name" form:"tag_name"`
-	Year         *int   `json:"year" query:"year" form:"year"`
-	Month        *int   `json:"month" query:"month" form:"month"`
+	Page         int     `json:"page" query:"page" form:"page" validate:"required,min=1"`
+	Size         int     `json:"page_size" query:"page_size" form:"page_size" validate:"required,min=1,max=100"`
+	CategoryID   *int    `json:"category_id" query:"category_id" form:"category_id"`
+	TagID        *int    `json:"tag_id" query:"tag_id" form:"tag_id"`
+	Title        string  `json:"title" query:"title" form:"title"`
+	CategoryName string  `json:"category_name" query:"category_name" form:"category_name"`
+	TagName      string  `json:"tag_name" query:"tag_name" form:"tag_name"`
+	Year         *int    `json:"year" query:"year" form:"year"`
+	Month        *int    `json:"month" query:"month" form:"month"`
+	Status       *string `json:"status" query:"status" form:"status"`
+	IsVisible    *bool   `json:"is_visible" query:"is_visible" form:"is_visible"`
 }
 
 type PostListReq struct {
-	CategoryName string `json:"category_name" query:"category_name" form:"category_name"`
-	TagName      string `json:"tag_name" query:"tag_name" form:"tag_name"`
-	Year         *int   `json:"year" query:"year" form:"year"`
-	Month        *int   `json:"month" query:"month" form:"month"`
-	Limit        *int   `json:"limit" query:"limit" form:"limit" validate:"omitempty,min=1,max=100"`
-	IsPinToTop   *bool  `json:"is_pin_to_top" query:"is_pin_to_top" form:"is_pin_to_top"`
+	CategoryName string  `json:"category_name" query:"category_name" form:"category_name"`
+	TagName      string  `json:"tag_name" query:"tag_name" form:"tag_name"`
+	Year         *int    `json:"year" query:"year" form:"year"`
+	Month        *int    `json:"month" query:"month" form:"month"`
+	Limit        *int    `json:"limit" query:"limit" form:"limit" validate:"omitempty,min=1,max=100"`
+	IsPinToTop   *bool   `json:"is_pin_to_top" query:"is_pin_to_top" form:"is_pin_to_top"`
+	Status       *string `json:"status" query:"status" form:"status"`
+	IsVisible    *bool   `json:"is_visible" query:"is_visible" form:"is_visible"`
 }
 
 // PostCreateReq represents the request body for creating a post.

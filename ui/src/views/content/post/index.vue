@@ -235,11 +235,11 @@ const columns: DataTableColumns<any> = [
             editPost(row)
             break
           case 'publish':
-            if(row.status==='publish'){
+            if(row.status==='draft'){
                publishPost(row).then(()=>{
                 onSearch()
                })
-            } else{
+            } else if(row.status==='published'){
               unpublishPost(row).then(()=>{
                 onSearch()
               })
