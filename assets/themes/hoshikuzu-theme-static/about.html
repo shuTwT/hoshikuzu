@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于 - 静态主题示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>关于这个主题</h1>
+        <p>这是一个示例静态主题，展示了 Hoshikuzu 对纯静态主题的支持。</p>
+        <p>静态主题的特点：</p>
+        <ul>
+            <li>无需服务器端模板渲染</li>
+            <li>可以直接使用 HTML/CSS/JavaScript</li>
+            <li>支持使用任何前端框架（Vue、React 等）构建后直接部署</li>
+            <li>加载速度更快</li>
+        </ul>
+        <div style="margin-top: 40px; text-align: center;">
+            <p><a href="index.html">返回首页</a></p>
+        </div>
+    </div>
+</body>
+</html>

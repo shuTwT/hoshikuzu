@@ -384,10 +384,10 @@ func Initialize(router *fiber.App, handlerMap handlers.HandlerMap, dbClient *ent
 	}
 
 	api := router.Group("/api")
-	initPublicRouter(api, handlerMap)
-	{
 
+	{
 		apiV1 := api.Group("/v1")
+		initPublicRouter(apiV1, handlerMap)
 		{
 
 			// 路由列表接口

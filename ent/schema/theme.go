@@ -17,7 +17,7 @@ func (Theme) Mixin() []ent.Mixin {
 
 func (Theme) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("type").Default("internal").Comment("主题类型: internal-内部主题, external-外部主题"),
+		field.String("type").Default("internal").Comment("主题类型: internal-内部主题, external-外部主题, static-静态主题"),
 		field.String("name").NotEmpty().Unique().MaxLen(100).Comment("主题名称，唯一标识"),
 		field.String("display_name").NotEmpty().MaxLen(100).Comment("显示名称"),
 		field.String("description").MaxLen(500).Optional().Comment("主题描述"),

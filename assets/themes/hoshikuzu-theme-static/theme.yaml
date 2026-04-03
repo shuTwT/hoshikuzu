@@ -1,0 +1,10 @@
+type: theme
+name: hoshikuzu-theme-static
+display-name: 静态主题示例
+description: 一个简单的静态主题示例
+author:
+  name: Hoshikuzu
+  email: hoshikuzu@example.com
+version: v0.0.1
+require: "*"
+license: MIT

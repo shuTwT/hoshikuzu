@@ -21,7 +21,7 @@ type Theme struct {
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	// 主题类型: internal-内部主题, external-外部主题
+	// 主题类型: internal-内部主题, external-外部主题, static-静态主题
 	Type string `json:"type,omitempty"`
 	// 主题名称，唯一标识
 	Name string `json:"name,omitempty"`

@@ -31,7 +31,7 @@ export interface ThemePageParams {
 }
 
 export interface CreateThemeParams {
-  type: 'internal' | 'external'
+  type: 'internal' | 'external' | 'static'
   file_path?: string
   name?: string
   display_name?: string

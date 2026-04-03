@@ -1,0 +1,5 @@
+settings:
+  - name: site_name
+    type: string
+    default: "我的静态网站"
+    description: "网站名称"

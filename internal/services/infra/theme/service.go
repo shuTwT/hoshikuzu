@@ -122,6 +122,8 @@ func (s *ThemeServiceImpl) CreateTheme(ctx context.Context, req *model.CreateThe
 		return s.createInternalTheme(ctx, req)
 	} else if req.Type == "external" {
 		return s.createExternalTheme(ctx, req)
+	} else if req.Type == "static" {
+		return s.createStaticTheme(ctx, req)
 	}
 
 	return nil, errors.New("无效的主题类型")
@@ -352,6 +354,168 @@ func (s *ThemeServiceImpl) DeleteTheme(ctx context.Context, id int) error {
 	}
 
 	return nil
+}
+
+func (s *ThemeServiceImpl) createStaticTheme(ctx context.Context, req *model.CreateThemeReq) (*ent.Theme, error) {
+	if req.FilePath == "" {
+		return nil, errors.New("文件路径不能为空")
+	}
+
+	if _, err := os.Stat(req.FilePath); os.IsNotExist(err) {
+		return nil, errors.New("文件不存在")
+	}
+
+	zipReader, err := zip.OpenReader(req.FilePath)
+	if err != nil {
+		return nil, fmt.Errorf("打开压缩包失败: %w", err)
+	}
+	defer zipReader.Close()
+
+	var themeConfigContent []byte
+	var settingConfigContent []byte
+	themeDir := ""
+
+	for _, f := range zipReader.File {
+		if f.Name == "theme.yaml" {
+			rc, err := f.Open()
+			if err != nil {
+				return nil, fmt.Errorf("打开theme.yaml文件失败: %w", err)
+			}
+			themeConfigContent, err = io.ReadAll(rc)
+			rc.Close()
+			if err != nil {
+				return nil, fmt.Errorf("读取theme.yaml文件失败: %w", err)
+			}
+		} else if f.Name == "setting.yaml" {
+			rc, err := f.Open()
+			if err != nil {
+				return nil, fmt.Errorf("打开setting.yaml文件失败: %w", err)
+			}
+			settingConfigContent, err = io.ReadAll(rc)
+			rc.Close()
+			if err != nil {
+				return nil, fmt.Errorf("读取setting.yaml文件失败: %w", err)
+			}
+		} else if strings.HasSuffix(f.Name, "/") {
+			if themeDir == "" {
+				themeDir = strings.TrimSuffix(f.Name, "/")
+			}
+		}
+	}
+
+	if themeConfigContent == nil {
+		return nil, errors.New("压缩包中未找到 theme.yaml 文件")
+	}
+
+	if settingConfigContent == nil {
+		return nil, errors.New("压缩包中未找到 setting.yaml 文件")
+	}
+
+	var themeConfig model.ThemeConfig
+	if err := yaml.Unmarshal(themeConfigContent, &themeConfig); err != nil {
+		return nil, fmt.Errorf("解析theme.yaml文件失败: %w", err)
+	}
+
+	if err := validateThemeConfig(&themeConfig); err != nil {
+		return nil, err
+	}
+
+	exists, err := s.client.Theme.Query().Where(theme_ent.Name(themeConfig.Name)).Exist(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("检查主题是否存在失败: %w", err)
+	}
+	if exists {
+		return nil, fmt.Errorf("主题 '%s' 已存在", themeConfig.Name)
+	}
+
+	themesDir := "./data/themes"
+	if err := os.MkdirAll(themesDir, 0755); err != nil {
+		return nil, fmt.Errorf("创建主题目录失败: %w", err)
+	}
+
+	targetDir := filepath.Join(themesDir, themeConfig.Name)
+	if err := os.RemoveAll(targetDir); err != nil {
+		return nil, fmt.Errorf("清理旧主题目录失败: %w", err)
+	}
+
+	for _, f := range zipReader.File {
+		targetPath := filepath.Join(targetDir, f.Name)
+		if f.FileInfo().IsDir() {
+			if err := os.MkdirAll(targetPath, f.Mode()); err != nil {
+				return nil, fmt.Errorf("创建目录失败: %w", err)
+			}
+		} else {
+			if err := os.MkdirAll(filepath.Dir(targetPath), 0755); err != nil {
+				return nil, fmt.Errorf("创建父目录失败: %w", err)
+			}
+			rc, err := f.Open()
+			if err != nil {
+				return nil, fmt.Errorf("打开压缩文件失败: %w", err)
+			}
+			defer rc.Close()
+
+			outFile, err := os.OpenFile(targetPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
+			if err != nil {
+				return nil, fmt.Errorf("创建文件失败: %w", err)
+			}
+			defer outFile.Close()
+
+			if _, err := io.Copy(outFile, rc); err != nil {
+				return nil, fmt.Errorf("解压文件失败: %w", err)
+			}
+		}
+	}
+
+	os.Remove(req.FilePath)
+
+	builder := s.client.Theme.Create().
+		SetType("static").
+		SetName(themeConfig.Name).
+		SetDisplayName(themeConfig.DisplayName).
+		SetVersion(themeConfig.Version).
+		SetRequire(themeConfig.Require).
+		SetPath(targetDir).
+		SetEnabled(false)
+
+	if themeConfig.Description != "" {
+		builder.SetDescription(themeConfig.Description)
+	}
+	if themeConfig.Author != nil {
+		if themeConfig.Author.Name != "" {
+			builder.SetAuthorName(themeConfig.Author.Name)
+		}
+		if themeConfig.Author.Email != "" {
+			builder.SetAuthorEmail(themeConfig.Author.Email)
+		}
+	}
+	if themeConfig.Logo != "" {
+		builder.SetLogo(themeConfig.Logo)
+	}
+	if themeConfig.Homepage != "" {
+		builder.SetHomepage(themeConfig.Homepage)
+	}
+	if themeConfig.Repo != "" {
+		builder.SetRepo(themeConfig.Repo)
+	}
+	if themeConfig.Issue != "" {
+		builder.SetIssue(themeConfig.Issue)
+	}
+	if themeConfig.SettingName != "" {
+		builder.SetSettingName(themeConfig.SettingName)
+	}
+	if themeConfig.ConfigMapName != "" {
+		builder.SetConfigMapName(themeConfig.ConfigMapName)
+	}
+	if themeConfig.License != "" {
+		builder.SetLicense(themeConfig.License)
+	}
+
+	themeEntity, err := builder.Save(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("保存主题信息失败: %w", err)
+	}
+
+	return themeEntity, nil
 }
 
 func (s *ThemeServiceImpl) EnableTheme(ctx context.Context, id int) error {

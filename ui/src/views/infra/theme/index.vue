@@ -39,7 +39,7 @@ const columns: DataTableColumns<any> = [
     key: 'type',
     width: 100,
     render: (row) => {
-      return row.type === 'internal' ? '内部主题' : '外部主题'
+      return row.type === 'internal' ? '内部主题' : row.type === 'static' ? '静态主题' : '外部主题'
     },
   },
   {

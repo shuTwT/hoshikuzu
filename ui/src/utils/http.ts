@@ -47,6 +47,12 @@ class HttpService {
     HttpService.axiosInstance.interceptors.request.use(async (config):Promise<any> => {
       /** 白名单不添加token */
       const whiteList = ['/refresh-token', '/login']
+      
+      // 如果数据是 FormData，删除 Content-Type 让浏览器自动设置
+      if (config.data instanceof FormData && config.headers) {
+        delete config.headers['Content-Type']
+      }
+      
       return whiteList.some((url) => config.url?.endsWith(url))
         ? config
         : new Promise((resolve) => {

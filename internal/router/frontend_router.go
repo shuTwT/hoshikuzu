@@ -111,6 +111,17 @@ func initFrontendRoutes(app *fiber.App, serviceMap pkg.ServiceMap) {
 			return c.Next()
 		}
 
+		if theme != nil && theme.Type == "static" {
+			path := c.Path()
+			if len(path) >= 4 && path[:4] == "/api" {
+				return c.Next()
+			}
+			if len(path) >= 8 && path[:8] == "/console" {
+				return c.Next()
+			}
+			return serveStaticTheme(c, theme)
+		}
+
 		c.Locals("theme", theme)
 		return c.Next()
 	})
@@ -126,12 +137,29 @@ func initFrontendRoutes(app *fiber.App, serviceMap pkg.ServiceMap) {
 	app.Get("/404", renderTemplate(serviceMap, "404.html"))
 
 	app.Use(func(c *fiber.Ctx) error {
+		theme := c.Locals("theme")
+		if theme == nil {
+			ctx := context.Background()
+			var err error
+			theme, err = serviceMap.ThemeService.GetEnabledTheme(ctx)
+			if err != nil {
+				log.Printf("获取启用主题失败: %v", err)
+				return c.Redirect("/404")
+			}
+		}
+
+		themeEntity := theme.(*ent.Theme)
+		log.Printf("%s", themeEntity.Type)
+
 		path := c.Path()
 		if len(path) >= 4 && path[:4] == "/api" {
 			return c.Next()
 		}
 		if len(path) >= 8 && path[:8] == "/console" {
 			return c.Next()
+		}
+		if themeEntity.Type == "static" {
+			return serveStaticTheme(c, themeEntity)
 		}
 		return c.Redirect("/404")
 	})
@@ -201,4 +229,71 @@ func getTemplateTitle(templateName string) string {
 		return title
 	}
 	return "页面"
+}
+
+func serveStaticTheme(c *fiber.Ctx, theme *ent.Theme) error {
+	path := c.Path()
+
+	if path == "/" {
+		path = "/index.html"
+	}
+
+	filePath := filepath.Join(theme.Path, path)
+
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		if filepath.Ext(path) == "" {
+			indexPath := filepath.Join(theme.Path, path, "index.html")
+			if _, err := os.Stat(indexPath); err == nil {
+				filePath = indexPath
+			} else {
+				return c.Status(fiber.StatusNotFound).SendString("页面未找到")
+			}
+		} else {
+			return c.Status(fiber.StatusNotFound).SendString("文件未找到")
+		}
+	}
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		log.Printf("打开文件失败: %v", err)
+		return c.Status(fiber.StatusInternalServerError).SendString("打开文件失败")
+	}
+	defer file.Close()
+
+	stat, err := file.Stat()
+	if err != nil {
+		log.Printf("获取文件信息失败: %v", err)
+		return c.Status(fiber.StatusInternalServerError).SendString("获取文件信息失败")
+	}
+
+	if stat.IsDir() {
+		indexPath := filepath.Join(filePath, "index.html")
+		if _, err := os.Stat(indexPath); err == nil {
+			filePath = indexPath
+			file, err = os.Open(filePath)
+			if err != nil {
+				log.Printf("打开index.html失败: %v", err)
+				return c.Status(fiber.StatusInternalServerError).SendString("打开文件失败")
+			}
+			defer file.Close()
+		} else {
+			return c.Status(fiber.StatusNotFound).SendString("目录未找到index.html")
+		}
+	}
+
+	ext := filepath.Ext(filePath)
+	contentType := mime.TypeByExtension(ext)
+	if contentType == "" {
+		contentType = "application/octet-stream"
+	}
+
+	c.Set("Content-Type", contentType)
+
+	_, err = io.Copy(c.Response().BodyWriter(), file)
+	if err != nil {
+		log.Printf("发送文件失败: %v", err)
+		return c.Status(fiber.StatusInternalServerError).SendString("发送文件失败")
+	}
+
+	return nil
 }

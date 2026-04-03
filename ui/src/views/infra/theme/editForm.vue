@@ -5,17 +5,17 @@
         <n-radio-group v-model:value="formData.type">
           <n-radio value="internal">内部主题</n-radio>
           <n-radio value="external">外部主题</n-radio>
+          <n-radio value="static">静态主题</n-radio>
         </n-radio-group>
       </n-form-item>
       
-      <template v-if="formData.type === 'internal'">
+      <template v-if="formData.type === 'internal' || formData.type === 'static'">
         <n-form-item label="上传文件" path="file">
           <n-upload
             accept=".zip"
             :max="1"
             :custom-request="handleUploadFile"
-            :show-file-list="true"
-            :file-list="fileList"
+            v-model:file-list="fileList"
           >
             <n-button>选择文件</n-button>
           </n-upload>
@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInst } from 'naive-ui'
+import type { FormInst, UploadFileInfo } from 'naive-ui'
 import { NUpload, NButton, NForm, NFormItem, NInput, NRadioGroup, NRadio, type UploadCustomRequestOptions } from 'naive-ui'
 import * as themeApi from '@/api/infra/theme'
 
@@ -65,29 +65,55 @@ const emit = defineEmits(['success', 'error'])
 const formRef = ref<FormInst | null>(null)
 const formData = ref(props.formInline)
 const uploadedFilePath = ref('')
-const fileList = ref<any[]>([])
+const fileList = ref<UploadFileInfo[]>([])
+
+watch(() => formData.value.type, (newType, oldType) => {
+  if (oldType && newType !== oldType) {
+    uploadedFilePath.value = ''
+    fileList.value = []
+  }
+})
 
 const handleUploadFile = ({ file, onFinish, onError }: UploadCustomRequestOptions) => {
+  console.log('开始上传文件:', file.name)
+  
+  if (!file.file) {
+    window.$message?.error('文件无效')
+    onError?.()
+    return
+  }
+  
   const formDataUpload = new FormData()
-  formDataUpload.append('file', file.file as File)  
+  formDataUpload.append('file', file.file)  
+  
   themeApi.uploadThemeFile(formDataUpload).then(res => {
+    console.log('上传响应:', res)
+    console.log('文件路径:', res.data.file_path)
+    
+    if (!res.data || !res.data.file_path) {
+      window.$message?.error('服务器返回数据格式错误')
+      onError?.()
+      return
+    }
+    
     window.$message?.success('文件上传成功')
     uploadedFilePath.value = res.data.file_path
-    fileList.value = [{
-      id: Date.now(),
-      name: file.name,
-      status: 'finished'
-    }]
-    onFinish()
+    onFinish?.()
   }).catch(err => {
+    console.error('上传失败:', err)
     window.$message?.error('文件上传失败')
-    onError()
+    onError?.()
     emit('error')
   })
 }
 
 const getData = () => {
   return new Promise((resolve, reject) => {
+    console.log('getData 被调用')
+    console.log('当前主题类型:', formData.value.type)
+    console.log('已上传文件路径:', uploadedFilePath.value)
+    console.log('文件列表:', fileList.value)
+    
     if (formRef.value) {
       formRef.value?.validate((errors) => {
         if (!errors) {
@@ -99,6 +125,16 @@ const getData = () => {
             
             resolve({
               type: 'internal',
+              file_path: uploadedFilePath.value
+            })
+          } else if (formData.value.type === 'static') {
+            if (!uploadedFilePath.value) {
+              reject(new Error('请先上传主题文件'))
+              return
+            }
+            
+            resolve({
+              type: 'static',
               file_path: uploadedFilePath.value
             })
           } else if (formData.value.type === 'external') {

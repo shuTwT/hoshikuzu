@@ -23,7 +23,7 @@ type ThemeAuthor struct {
 }
 
 type CreateThemeReq struct {
-	Type        string `json:"type" validate:"required,oneof=internal external"`
+	Type        string `json:"type" validate:"required,oneof=internal external static"`
 	FilePath    string `json:"file_path,omitempty"`
 	Name        string `json:"name,omitempty"`
 	DisplayName string `json:"display_name,omitempty"`
