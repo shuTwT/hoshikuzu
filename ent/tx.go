@@ -26,10 +26,6 @@ type Tx struct {
 	Coupon *CouponClient
 	// CouponUsage is the client for interacting with the CouponUsage builders.
 	CouponUsage *CouponUsageClient
-	// DocLibrary is the client for interacting with the DocLibrary builders.
-	DocLibrary *DocLibraryClient
-	// DocLibraryDetail is the client for interacting with the DocLibraryDetail builders.
-	DocLibraryDetail *DocLibraryDetailClient
 	// Essay is the client for interacting with the Essay builders.
 	Essay *EssayClient
 	// FLink is the client for interacting with the FLink builders.
@@ -42,14 +38,14 @@ type Tx struct {
 	File *FileClient
 	// FriendCircleRecord is the client for interacting with the FriendCircleRecord builders.
 	FriendCircleRecord *FriendCircleRecordClient
-	// KnowledgeBase is the client for interacting with the KnowledgeBase builders.
-	KnowledgeBase *KnowledgeBaseClient
 	// License is the client for interacting with the License builders.
 	License *LicenseClient
 	// Member is the client for interacting with the Member builders.
 	Member *MemberClient
 	// MemberLevel is the client for interacting with the MemberLevel builders.
 	MemberLevel *MemberLevelClient
+	// Menu is the client for interacting with the Menu builders.
+	Menu *MenuClient
 	// Notification is the client for interacting with the Notification builders.
 	Notification *NotificationClient
 	// Oauth2AccessToken is the client for interacting with the Oauth2AccessToken builders.
@@ -226,18 +222,16 @@ func (tx *Tx) init() {
 	tx.Comment = NewCommentClient(tx.config)
 	tx.Coupon = NewCouponClient(tx.config)
 	tx.CouponUsage = NewCouponUsageClient(tx.config)
-	tx.DocLibrary = NewDocLibraryClient(tx.config)
-	tx.DocLibraryDetail = NewDocLibraryDetailClient(tx.config)
 	tx.Essay = NewEssayClient(tx.config)
 	tx.FLink = NewFLinkClient(tx.config)
 	tx.FLinkApplication = NewFLinkApplicationClient(tx.config)
 	tx.FLinkGroup = NewFLinkGroupClient(tx.config)
 	tx.File = NewFileClient(tx.config)
 	tx.FriendCircleRecord = NewFriendCircleRecordClient(tx.config)
-	tx.KnowledgeBase = NewKnowledgeBaseClient(tx.config)
 	tx.License = NewLicenseClient(tx.config)
 	tx.Member = NewMemberClient(tx.config)
 	tx.MemberLevel = NewMemberLevelClient(tx.config)
+	tx.Menu = NewMenuClient(tx.config)
 	tx.Notification = NewNotificationClient(tx.config)
 	tx.Oauth2AccessToken = NewOauth2AccessTokenClient(tx.config)
 	tx.Oauth2Code = NewOauth2CodeClient(tx.config)

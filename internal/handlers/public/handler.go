@@ -21,6 +21,7 @@ import (
 	"github.com/shuTwT/hoshikuzu/internal/services/content/flink"
 	"github.com/shuTwT/hoshikuzu/internal/services/content/flinkapplication"
 	"github.com/shuTwT/hoshikuzu/internal/services/content/friendcircle"
+	"github.com/shuTwT/hoshikuzu/internal/services/content/menu"
 	"github.com/shuTwT/hoshikuzu/internal/services/content/post"
 	"github.com/shuTwT/hoshikuzu/internal/services/content/tag"
 	"github.com/shuTwT/hoshikuzu/internal/services/infra/plugin"
@@ -48,10 +49,11 @@ type PublicHandler struct {
 	productService          product.ProductService
 	flinkApplicationService flinkapplication.FlinkApplicationService
 	pluginService           plugin.PluginService
+	menuService             menu.MenuService
 }
 
-func NewPublicHandler(visitService visit.VisitService, commentService comment.CommentService, albumService album.AlbumService, albumPhotoService albumphoto.AlbumPhotoService, flinkService flink.FlinkService, client *ent.Client, friendCircleService friendcircle.FriendCircleService, essayService essay.EssayService, postService post.PostService, categoryService category.CategoryService, tagService tag.TagService, userService user.UserService, productService product.ProductService, flinkApplicationService flinkapplication.FlinkApplicationService, pluginService plugin.PluginService) *PublicHandler {
-	return &PublicHandler{visitService: visitService, commentService: commentService, albumService: albumService, albumPhotoService: albumPhotoService, flinkService: flinkService, client: client, friendCircleService: friendCircleService, essayService: essayService, postService: postService, categoryService: categoryService, tagService: tagService, userService: userService, productService: productService, flinkApplicationService: flinkApplicationService, pluginService: pluginService}
+func NewPublicHandler(visitService visit.VisitService, commentService comment.CommentService, albumService album.AlbumService, albumPhotoService albumphoto.AlbumPhotoService, flinkService flink.FlinkService, client *ent.Client, friendCircleService friendcircle.FriendCircleService, essayService essay.EssayService, postService post.PostService, categoryService category.CategoryService, tagService tag.TagService, userService user.UserService, productService product.ProductService, flinkApplicationService flinkapplication.FlinkApplicationService, pluginService plugin.PluginService, menuService menu.MenuService) *PublicHandler {
+	return &PublicHandler{visitService: visitService, commentService: commentService, albumService: albumService, albumPhotoService: albumPhotoService, flinkService: flinkService, client: client, friendCircleService: friendCircleService, essayService: essayService, postService: postService, categoryService: categoryService, tagService: tagService, userService: userService, productService: productService, flinkApplicationService: flinkApplicationService, pluginService: pluginService, menuService: menuService}
 }
 
 // @Summary 处理访客访问
@@ -1182,4 +1184,21 @@ func (h *PublicHandler) HeartbeatPlugin(c *fiber.Ctx) error {
 
 	slog.Info("Plugin heartbeat updated successfully", "plugin_name", heartbeatInfo.Name)
 	return c.JSON(model.NewSuccess("插件心跳更新成功", nil))
+}
+
+// @Summary 获取前台菜单列表
+// @Description 获取所有可见的前台菜单，用于前端导航栏展示
+// @Tags 公开接口/菜单
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.HttpSuccess{data=[]model.MenuResp}
+// @Failure 500 {object} model.HttpError
+// @Router /api/v1/public/menu/list [get]
+func (h *PublicHandler) GetMenuList(c *fiber.Ctx) error {
+	menus, err := h.menuService.QueryMenuList(c)
+	if err != nil {
+		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
+	}
+
+	return c.JSON(model.NewSuccess("success", menus))
 }

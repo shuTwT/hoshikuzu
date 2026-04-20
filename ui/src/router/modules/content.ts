@@ -113,31 +113,11 @@ export default [
                 },
             },
             {
-                path: '/content/doclibrary',
-                name: 'DocLibraryManagement',
-                component: () => import('@/views/content/doclibrary/index.vue'),
+                path: '/content/menu',
+                name: 'MenuManagement',
+                component: () => import('@/views/content/menu/index.vue'),
                 meta: {
-                    title: '文档库管理',
-                    showLink: true,
-                    roles: ['admin', 'common'],
-                },
-            },
-            {
-                path: '/content/doclibrarydetail',
-                name: 'DocLibraryDetailManagement',
-                component: () => import('@/views/content/doclibrarydetail/index.vue'),
-                meta: {
-                    title: '文档详情管理',
-                    showLink: true,
-                    roles: ['admin', 'common'],
-                },
-            },
-            {
-                path: '/content/knowledgebase',
-                name: 'KnowledgeBaseManagement',
-                component: () => import('@/views/content/knowledgebase/index.vue'),
-                meta: {
-                    title: '知识库管理',
+                    title: '前台菜单管理',
                     showLink: true,
                     roles: ['admin', 'common'],
                 },

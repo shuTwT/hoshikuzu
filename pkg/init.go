@@ -13,13 +13,11 @@ import (
 	albumphoto_service "github.com/shuTwT/hoshikuzu/internal/services/content/albumphoto"
 	category_service "github.com/shuTwT/hoshikuzu/internal/services/content/category"
 	comment_service "github.com/shuTwT/hoshikuzu/internal/services/content/comment"
-	doclibrary_service "github.com/shuTwT/hoshikuzu/internal/services/content/doclibrary"
-	doclibrarydetail_service "github.com/shuTwT/hoshikuzu/internal/services/content/doclibrarydetail"
 	essay_service "github.com/shuTwT/hoshikuzu/internal/services/content/essay"
 	flink_service "github.com/shuTwT/hoshikuzu/internal/services/content/flink"
 	flinkapplication_service "github.com/shuTwT/hoshikuzu/internal/services/content/flinkapplication"
 	friend_circle_service "github.com/shuTwT/hoshikuzu/internal/services/content/friendcircle"
-	knowledgebase_service "github.com/shuTwT/hoshikuzu/internal/services/content/knowledgebase"
+	menu_service "github.com/shuTwT/hoshikuzu/internal/services/content/menu"
 	post_service "github.com/shuTwT/hoshikuzu/internal/services/content/post"
 	tag_service "github.com/shuTwT/hoshikuzu/internal/services/content/tag"
 	file_service "github.com/shuTwT/hoshikuzu/internal/services/infra/file"
@@ -118,15 +116,13 @@ type ServiceMap struct {
 	CommonService           common_service.CommonService
 	CouponService           coupon_service.CouponService
 	CouponUsageService      couponusage_service.CouponUsageService
-	DocLibraryService       doclibrary_service.DocLibraryService
-	DocLibraryDetailService doclibrarydetail_service.DocLibraryDetailService
 	EssayService            essay_service.EssayService
 	FileService             file_service.FileService
 	FlinkService            flink_service.FlinkService
 	FlinkApplicationService flinkapplication_service.FlinkApplicationService
 	LicenseService          license_service.LicenseService
 	FriendCircleService     friend_circle_service.FriendCircleService
-	KnowledgeBaseService    knowledgebase_service.KnowledgeBaseService
+	MenuService             menu_service.MenuService
 	MemberLevelService      memberlevel_service.MemberLevelService
 	MemberService           member_service.MemberService
 	MigrationService        migration_service.MigrationService
@@ -158,15 +154,13 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 	commonService := common_service.NewCommonServiceImpl(db, user_service.NewUserServiceImpl(db), post_service.NewPostServiceImpl(db), comment_service.NewCommentServiceImpl(db))
 	couponService := coupon_service.NewCouponServiceImpl(db)
 	couponUsageService := couponusage_service.NewCouponUsageServiceImpl(db)
-	doclibraryService := doclibrary_service.NewDocLibraryServiceImpl(db)
-	doclibrarydetailService := doclibrarydetail_service.NewDocLibraryDetailServiceImpl(db)
 	essayService := essay_service.NewEssayServiceImpl(db)
 	fileService := file_service.NewFileServiceImpl(db)
 	licenseService := license_service.NewLicenseServiceImpl(db)
 	flinkService := flink_service.NewFlinkServiceImpl(db)
 	flinkApplicationService := flinkapplication_service.NewFlinkApplicationServiceImpl(db)
 	friendCircleService := friend_circle_service.NewFriendCircleServiceImpl(db)
-	knowledgeBaseService := knowledgebase_service.NewKnowledgeBaseServiceImpl(db)
+	menuService := menu_service.NewMenuServiceImpl(db)
 	memberLevelService := memberlevel_service.NewMemberLevelServiceImpl(db)
 	memberService := member_service.NewMemberServiceImpl(db)
 	payOderService := payorder_service.NewPayOrderServiceImpl(db)
@@ -198,15 +192,13 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 		CommonService:           commonService,
 		CouponService:           couponService,
 		CouponUsageService:      couponUsageService,
-		DocLibraryService:       doclibraryService,
-		DocLibraryDetailService: doclibrarydetailService,
 		EssayService:            essayService,
 		FileService:             fileService,
 		FlinkService:            flinkService,
 		FlinkApplicationService: flinkApplicationService,
 		FriendCircleService:     friendCircleService,
-		KnowledgeBaseService:    knowledgeBaseService,
 		LicenseService:          licenseService,
+		MenuService:             menuService,
 		MemberLevelService:      memberLevelService,
 		MemberService:           memberService,
 		MigrationService:        migrationService,

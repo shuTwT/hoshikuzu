@@ -154,51 +154,6 @@ var (
 		Columns:    CouponUsagesColumns,
 		PrimaryKey: []*schema.Column{CouponUsagesColumns[0]},
 	}
-	// DocLibrariesColumns holds the columns for the "doc_libraries" table.
-	DocLibrariesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "name", Type: field.TypeString},
-		{Name: "alias", Type: field.TypeString},
-		{Name: "description", Type: field.TypeString, Nullable: true},
-		{Name: "source", Type: field.TypeEnum, Enums: []string{"git", "openapi", "llms_txt", "website"}},
-		{Name: "url", Type: field.TypeString},
-	}
-	// DocLibrariesTable holds the schema information for the "doc_libraries" table.
-	DocLibrariesTable = &schema.Table{
-		Name:       "doc_libraries",
-		Columns:    DocLibrariesColumns,
-		PrimaryKey: []*schema.Column{DocLibrariesColumns[0]},
-	}
-	// DocLibraryDetailsColumns holds the columns for the "doc_library_details" table.
-	DocLibraryDetailsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "title", Type: field.TypeString},
-		{Name: "version", Type: field.TypeString, Nullable: true},
-		{Name: "content", Type: field.TypeString, Size: 2147483647},
-		{Name: "parent_id", Type: field.TypeInt, Nullable: true},
-		{Name: "path", Type: field.TypeString, Nullable: true},
-		{Name: "url", Type: field.TypeString, Nullable: true},
-		{Name: "language", Type: field.TypeString, Nullable: true, Default: "zh"},
-		{Name: "library_id", Type: field.TypeInt, Nullable: true},
-	}
-	// DocLibraryDetailsTable holds the schema information for the "doc_library_details" table.
-	DocLibraryDetailsTable = &schema.Table{
-		Name:       "doc_library_details",
-		Columns:    DocLibraryDetailsColumns,
-		PrimaryKey: []*schema.Column{DocLibraryDetailsColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "doc_library_details_doc_libraries_details",
-				Columns:    []*schema.Column{DocLibraryDetailsColumns[10]},
-				RefColumns: []*schema.Column{DocLibrariesColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-		},
-	}
 	// EssaysColumns holds the columns for the "essays" table.
 	EssaysColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -333,23 +288,6 @@ var (
 		Columns:    FriendCircleRecordsColumns,
 		PrimaryKey: []*schema.Column{FriendCircleRecordsColumns[0]},
 	}
-	// KnowledgeBasesColumns holds the columns for the "knowledge_bases" table.
-	KnowledgeBasesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "name", Type: field.TypeString, Unique: true},
-		{Name: "model_provider", Type: field.TypeEnum, Enums: []string{"openai", "anthropic", "google", "azure", "cohere", "huggingface", "local"}},
-		{Name: "model", Type: field.TypeString},
-		{Name: "vector_dimension", Type: field.TypeInt},
-		{Name: "max_batch_document_count", Type: field.TypeInt},
-	}
-	// KnowledgeBasesTable holds the schema information for the "knowledge_bases" table.
-	KnowledgeBasesTable = &schema.Table{
-		Name:       "knowledge_bases",
-		Columns:    KnowledgeBasesColumns,
-		PrimaryKey: []*schema.Column{KnowledgeBasesColumns[0]},
-	}
 	// LicensesColumns holds the columns for the "licenses" table.
 	LicensesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -424,6 +362,26 @@ var (
 		Name:       "member_levels",
 		Columns:    MemberLevelsColumns,
 		PrimaryKey: []*schema.Column{MemberLevelsColumns[0]},
+	}
+	// MenusColumns holds the columns for the "menus" table.
+	MenusColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString, Size: 100},
+		{Name: "title", Type: field.TypeString, Size: 200, Default: ""},
+		{Name: "path", Type: field.TypeString, Size: 500, Default: ""},
+		{Name: "icon", Type: field.TypeString, Nullable: true, Size: 100},
+		{Name: "parent_id", Type: field.TypeInt, Default: 0},
+		{Name: "sort_order", Type: field.TypeInt, Default: 0},
+		{Name: "visible", Type: field.TypeBool, Default: true},
+		{Name: "target", Type: field.TypeString, Size: 20, Default: "_self"},
+	}
+	// MenusTable holds the schema information for the "menus" table.
+	MenusTable = &schema.Table{
+		Name:       "menus",
+		Columns:    MenusColumns,
+		PrimaryKey: []*schema.Column{MenusColumns[0]},
 	}
 	// NotificationsColumns holds the columns for the "notifications" table.
 	NotificationsColumns = []*schema.Column{
@@ -920,18 +878,16 @@ var (
 		CommentsTable,
 		CouponsTable,
 		CouponUsagesTable,
-		DocLibrariesTable,
-		DocLibraryDetailsTable,
 		EssaysTable,
 		FlinksTable,
 		FlinkApplicationsTable,
 		FlinkGroupsTable,
 		FilesTable,
 		FriendCircleRecordsTable,
-		KnowledgeBasesTable,
 		LicensesTable,
 		MembersTable,
 		MemberLevelsTable,
+		MenusTable,
 		NotificationsTable,
 		Oauth2accessTokensTable,
 		Oauth2codesTable,
@@ -957,7 +913,6 @@ var (
 )
 
 func init() {
-	DocLibraryDetailsTable.ForeignKeys[0].RefTable = DocLibrariesTable
 	FlinksTable.ForeignKeys[0].RefTable = FlinkGroupsTable
 	FilesTable.ForeignKeys[0].RefTable = StorageStrategiesTable
 	MembersTable.ForeignKeys[0].RefTable = MemberLevelsTable

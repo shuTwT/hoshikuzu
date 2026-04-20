@@ -6,14 +6,12 @@ import (
 	albumphoto_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/albumphoto"
 	category_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/category"
 	comment_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/comment"
-	doclibrary_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/doclibrary"
-	doclibrarydetail_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/doclibrarydetail"
 	essay_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/essay"
 	flink_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/flink"
 	flinkapplication_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/flinkapplication"
 	flinkgroup_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/flinkgroup"
 	friendcircle_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/friendcircle"
-	knowledgebase_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/knowledgebase"
+	menu_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/menu"
 	post_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/post"
 	tag_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/tag"
 	file_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/file"
@@ -54,8 +52,6 @@ type HandlerMap struct {
 	CommonHandler           *common_handler.CommonHandler
 	CouponHandler           *coupon_handler.CouponHandler
 	CouponUsageHandler      *couponusage_handler.CouponUsageHandler
-	DocLibraryHandler       *doclibrary_handler.DocLibraryHandler
-	DocLibraryDetailHandler *doclibrarydetail_handler.DocLibraryDetailHandler
 	FileHandler             *file_handler.FileHandler
 	LicenseHandler          *license_handler.LicenseHandler
 	FlinkHandler            *flink_handler.FlinkHandler
@@ -63,9 +59,9 @@ type HandlerMap struct {
 	FlinkGroupHandler       *flinkgroup_handler.FlinkGroupHandler
 	FriendCircleHandler     *friendcircle_handler.FriendCircleHandler
 	InitializeHandler       *initialize_handler.InitializeHandler
-	KnowledgeBaseHandler    *knowledgebase_handler.KnowledgeBaseHandler
 	MemberHandler           *member_handler.MemberHandler
 	MemberLevelHandler      *memberlevel_handler.MemberLevelHandler
+	MenuHandler             *menu_handler.MenuHandler
 	MigrationHandler        *migration_handler.MigrationHandler
 	NotificationHandler     *notification_handler.NotificationHandler
 	PayOrderHandler         *payorder_handler.PayOrderHandler
@@ -96,8 +92,6 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 	commonHandler := common_handler.NewCommonHandler(serviceMap.CommonService)
 	couponHandler := coupon_handler.NewCouponHandler(serviceMap.CouponService)
 	couponUsageHandler := couponusage_handler.NewCouponUsageHandler(serviceMap.CouponUsageService)
-	doclibraryHandler := doclibrary_handler.NewDocLibraryHandler(serviceMap.DocLibraryService)
-	doclibrarydetailHandler := doclibrarydetail_handler.NewDocLibraryDetailHandler(serviceMap.DocLibraryDetailService)
 	fileHandler := file_handler.NewFileHandler(serviceMap.FileService, serviceMap.StorageStrategyService)
 	licenseHandler := license_handler.NewLicenseHandler(serviceMap.LicenseService)
 	flinkHandler := flink_handler.NewFlinkHandler(db, serviceMap.FlinkService)
@@ -105,7 +99,7 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 	flinkGroupHandler := flinkgroup_handler.NewFlinkGroupHandler(db, serviceMap.FlinkService)
 	friendCircleHandler := friendcircle_handler.NewFriendCircleHandler(serviceMap.FriendCircleService)
 	initializeHandler := initialize_handler.NewInitializeHandler(db, serviceMap.UserService, serviceMap.SettingService)
-	knowledgeBaseHandler := knowledgebase_handler.NewKnowledgeBaseHandler(serviceMap.KnowledgeBaseService)
+	menuHandler := menu_handler.NewMenuHandler(serviceMap.MenuService)
 	payOrderHandler := payorder_handler.NewPayOrderHandler(db, serviceMap.PayOrderService)
 	postHandler := post_handler.NewPostHandler(serviceMap.PostService)
 	productHandler := product_handler.NewProductHandler(serviceMap.ProductService)
@@ -140,7 +134,8 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 		serviceMap.UserService,
 		serviceMap.ProductService,
 		serviceMap.FlinkApplicationService,
-		serviceMap.PluginService)
+		serviceMap.PluginService,
+		serviceMap.MenuService)
 
 	handlerMap := HandlerMap{
 		AlbumHandler:            albumHandler,
@@ -152,18 +147,16 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 		CommonHandler:           commonHandler,
 		CouponHandler:           couponHandler,
 		CouponUsageHandler:      couponUsageHandler,
-		DocLibraryHandler:       doclibraryHandler,
-		DocLibraryDetailHandler: doclibrarydetailHandler,
 		FileHandler:             fileHandler,
 		FlinkHandler:            flinkHandler,
 		FlinkApplicationHandler: flinkApplicationHandler,
 		FlinkGroupHandler:       flinkGroupHandler,
 		FriendCircleHandler:     friendCircleHandler,
 		InitializeHandler:       initializeHandler,
-		KnowledgeBaseHandler:    knowledgeBaseHandler,
 		LicenseHandler:          licenseHandler,
 		MemberHandler:           memberHandler,
 		MemberLevelHandler:      memberLevelHandler,
+		MenuHandler:             menuHandler,
 		MigrationHandler:        migrationHandler,
 		NotificationHandler:     notificationHandler,
 		PayOrderHandler:         payOrderHandler,

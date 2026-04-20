@@ -18,18 +18,16 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/comment"
 	"github.com/shuTwT/hoshikuzu/ent/coupon"
 	"github.com/shuTwT/hoshikuzu/ent/couponusage"
-	"github.com/shuTwT/hoshikuzu/ent/doclibrary"
-	"github.com/shuTwT/hoshikuzu/ent/doclibrarydetail"
 	"github.com/shuTwT/hoshikuzu/ent/essay"
 	"github.com/shuTwT/hoshikuzu/ent/file"
 	"github.com/shuTwT/hoshikuzu/ent/flink"
 	"github.com/shuTwT/hoshikuzu/ent/flinkapplication"
 	"github.com/shuTwT/hoshikuzu/ent/flinkgroup"
 	"github.com/shuTwT/hoshikuzu/ent/friendcirclerecord"
-	"github.com/shuTwT/hoshikuzu/ent/knowledgebase"
 	"github.com/shuTwT/hoshikuzu/ent/license"
 	"github.com/shuTwT/hoshikuzu/ent/member"
 	"github.com/shuTwT/hoshikuzu/ent/memberlevel"
+	"github.com/shuTwT/hoshikuzu/ent/menu"
 	"github.com/shuTwT/hoshikuzu/ent/notification"
 	"github.com/shuTwT/hoshikuzu/ent/oauth2accesstoken"
 	"github.com/shuTwT/hoshikuzu/ent/oauth2code"
@@ -68,18 +66,16 @@ const (
 	TypeComment             = "Comment"
 	TypeCoupon              = "Coupon"
 	TypeCouponUsage         = "CouponUsage"
-	TypeDocLibrary          = "DocLibrary"
-	TypeDocLibraryDetail    = "DocLibraryDetail"
 	TypeEssay               = "Essay"
 	TypeFLink               = "FLink"
 	TypeFLinkApplication    = "FLinkApplication"
 	TypeFLinkGroup          = "FLinkGroup"
 	TypeFile                = "File"
 	TypeFriendCircleRecord  = "FriendCircleRecord"
-	TypeKnowledgeBase       = "KnowledgeBase"
 	TypeLicense             = "License"
 	TypeMember              = "Member"
 	TypeMemberLevel         = "MemberLevel"
+	TypeMenu                = "Menu"
 	TypeNotification        = "Notification"
 	TypeOauth2AccessToken   = "Oauth2AccessToken"
 	TypeOauth2Code          = "Oauth2Code"
@@ -6957,1803 +6953,6 @@ func (m *CouponUsageMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown CouponUsage edge %s", name)
 }
 
-// DocLibraryMutation represents an operation that mutates the DocLibrary nodes in the graph.
-type DocLibraryMutation struct {
-	config
-	op             Op
-	typ            string
-	id             *int
-	created_at     *time.Time
-	updated_at     *time.Time
-	name           *string
-	alias          *string
-	description    *string
-	source         *doclibrary.Source
-	url            *string
-	clearedFields  map[string]struct{}
-	details        map[int]struct{}
-	removeddetails map[int]struct{}
-	cleareddetails bool
-	done           bool
-	oldValue       func(context.Context) (*DocLibrary, error)
-	predicates     []predicate.DocLibrary
-}
-
-var _ ent.Mutation = (*DocLibraryMutation)(nil)
-
-// doclibraryOption allows management of the mutation configuration using functional options.
-type doclibraryOption func(*DocLibraryMutation)
-
-// newDocLibraryMutation creates new mutation for the DocLibrary entity.
-func newDocLibraryMutation(c config, op Op, opts ...doclibraryOption) *DocLibraryMutation {
-	m := &DocLibraryMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeDocLibrary,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withDocLibraryID sets the ID field of the mutation.
-func withDocLibraryID(id int) doclibraryOption {
-	return func(m *DocLibraryMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *DocLibrary
-		)
-		m.oldValue = func(ctx context.Context) (*DocLibrary, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().DocLibrary.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withDocLibrary sets the old DocLibrary of the mutation.
-func withDocLibrary(node *DocLibrary) doclibraryOption {
-	return func(m *DocLibraryMutation) {
-		m.oldValue = func(context.Context) (*DocLibrary, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m DocLibraryMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m DocLibraryMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of DocLibrary entities.
-func (m *DocLibraryMutation) SetID(id int) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *DocLibraryMutation) ID() (id int, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *DocLibraryMutation) IDs(ctx context.Context) ([]int, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []int{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().DocLibrary.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *DocLibraryMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *DocLibraryMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the DocLibrary entity.
-// If the DocLibrary object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *DocLibraryMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *DocLibraryMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *DocLibraryMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the DocLibrary entity.
-// If the DocLibrary object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *DocLibraryMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetName sets the "name" field.
-func (m *DocLibraryMutation) SetName(s string) {
-	m.name = &s
-}
-
-// Name returns the value of the "name" field in the mutation.
-func (m *DocLibraryMutation) Name() (r string, exists bool) {
-	v := m.name
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldName returns the old "name" field's value of the DocLibrary entity.
-// If the DocLibrary object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryMutation) OldName(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldName is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldName requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldName: %w", err)
-	}
-	return oldValue.Name, nil
-}
-
-// ResetName resets all changes to the "name" field.
-func (m *DocLibraryMutation) ResetName() {
-	m.name = nil
-}
-
-// SetAlias sets the "alias" field.
-func (m *DocLibraryMutation) SetAlias(s string) {
-	m.alias = &s
-}
-
-// Alias returns the value of the "alias" field in the mutation.
-func (m *DocLibraryMutation) Alias() (r string, exists bool) {
-	v := m.alias
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAlias returns the old "alias" field's value of the DocLibrary entity.
-// If the DocLibrary object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryMutation) OldAlias(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAlias is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAlias requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAlias: %w", err)
-	}
-	return oldValue.Alias, nil
-}
-
-// ResetAlias resets all changes to the "alias" field.
-func (m *DocLibraryMutation) ResetAlias() {
-	m.alias = nil
-}
-
-// SetDescription sets the "description" field.
-func (m *DocLibraryMutation) SetDescription(s string) {
-	m.description = &s
-}
-
-// Description returns the value of the "description" field in the mutation.
-func (m *DocLibraryMutation) Description() (r string, exists bool) {
-	v := m.description
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDescription returns the old "description" field's value of the DocLibrary entity.
-// If the DocLibrary object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryMutation) OldDescription(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDescription requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
-	}
-	return oldValue.Description, nil
-}
-
-// ClearDescription clears the value of the "description" field.
-func (m *DocLibraryMutation) ClearDescription() {
-	m.description = nil
-	m.clearedFields[doclibrary.FieldDescription] = struct{}{}
-}
-
-// DescriptionCleared returns if the "description" field was cleared in this mutation.
-func (m *DocLibraryMutation) DescriptionCleared() bool {
-	_, ok := m.clearedFields[doclibrary.FieldDescription]
-	return ok
-}
-
-// ResetDescription resets all changes to the "description" field.
-func (m *DocLibraryMutation) ResetDescription() {
-	m.description = nil
-	delete(m.clearedFields, doclibrary.FieldDescription)
-}
-
-// SetSource sets the "source" field.
-func (m *DocLibraryMutation) SetSource(d doclibrary.Source) {
-	m.source = &d
-}
-
-// Source returns the value of the "source" field in the mutation.
-func (m *DocLibraryMutation) Source() (r doclibrary.Source, exists bool) {
-	v := m.source
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSource returns the old "source" field's value of the DocLibrary entity.
-// If the DocLibrary object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryMutation) OldSource(ctx context.Context) (v doclibrary.Source, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSource is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSource requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSource: %w", err)
-	}
-	return oldValue.Source, nil
-}
-
-// ResetSource resets all changes to the "source" field.
-func (m *DocLibraryMutation) ResetSource() {
-	m.source = nil
-}
-
-// SetURL sets the "url" field.
-func (m *DocLibraryMutation) SetURL(s string) {
-	m.url = &s
-}
-
-// URL returns the value of the "url" field in the mutation.
-func (m *DocLibraryMutation) URL() (r string, exists bool) {
-	v := m.url
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldURL returns the old "url" field's value of the DocLibrary entity.
-// If the DocLibrary object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryMutation) OldURL(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldURL is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldURL requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldURL: %w", err)
-	}
-	return oldValue.URL, nil
-}
-
-// ResetURL resets all changes to the "url" field.
-func (m *DocLibraryMutation) ResetURL() {
-	m.url = nil
-}
-
-// AddDetailIDs adds the "details" edge to the DocLibraryDetail entity by ids.
-func (m *DocLibraryMutation) AddDetailIDs(ids ...int) {
-	if m.details == nil {
-		m.details = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.details[ids[i]] = struct{}{}
-	}
-}
-
-// ClearDetails clears the "details" edge to the DocLibraryDetail entity.
-func (m *DocLibraryMutation) ClearDetails() {
-	m.cleareddetails = true
-}
-
-// DetailsCleared reports if the "details" edge to the DocLibraryDetail entity was cleared.
-func (m *DocLibraryMutation) DetailsCleared() bool {
-	return m.cleareddetails
-}
-
-// RemoveDetailIDs removes the "details" edge to the DocLibraryDetail entity by IDs.
-func (m *DocLibraryMutation) RemoveDetailIDs(ids ...int) {
-	if m.removeddetails == nil {
-		m.removeddetails = make(map[int]struct{})
-	}
-	for i := range ids {
-		delete(m.details, ids[i])
-		m.removeddetails[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedDetails returns the removed IDs of the "details" edge to the DocLibraryDetail entity.
-func (m *DocLibraryMutation) RemovedDetailsIDs() (ids []int) {
-	for id := range m.removeddetails {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// DetailsIDs returns the "details" edge IDs in the mutation.
-func (m *DocLibraryMutation) DetailsIDs() (ids []int) {
-	for id := range m.details {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetDetails resets all changes to the "details" edge.
-func (m *DocLibraryMutation) ResetDetails() {
-	m.details = nil
-	m.cleareddetails = false
-	m.removeddetails = nil
-}
-
-// Where appends a list predicates to the DocLibraryMutation builder.
-func (m *DocLibraryMutation) Where(ps ...predicate.DocLibrary) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the DocLibraryMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *DocLibraryMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.DocLibrary, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *DocLibraryMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *DocLibraryMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (DocLibrary).
-func (m *DocLibraryMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *DocLibraryMutation) Fields() []string {
-	fields := make([]string, 0, 7)
-	if m.created_at != nil {
-		fields = append(fields, doclibrary.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, doclibrary.FieldUpdatedAt)
-	}
-	if m.name != nil {
-		fields = append(fields, doclibrary.FieldName)
-	}
-	if m.alias != nil {
-		fields = append(fields, doclibrary.FieldAlias)
-	}
-	if m.description != nil {
-		fields = append(fields, doclibrary.FieldDescription)
-	}
-	if m.source != nil {
-		fields = append(fields, doclibrary.FieldSource)
-	}
-	if m.url != nil {
-		fields = append(fields, doclibrary.FieldURL)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *DocLibraryMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case doclibrary.FieldCreatedAt:
-		return m.CreatedAt()
-	case doclibrary.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case doclibrary.FieldName:
-		return m.Name()
-	case doclibrary.FieldAlias:
-		return m.Alias()
-	case doclibrary.FieldDescription:
-		return m.Description()
-	case doclibrary.FieldSource:
-		return m.Source()
-	case doclibrary.FieldURL:
-		return m.URL()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *DocLibraryMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case doclibrary.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case doclibrary.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case doclibrary.FieldName:
-		return m.OldName(ctx)
-	case doclibrary.FieldAlias:
-		return m.OldAlias(ctx)
-	case doclibrary.FieldDescription:
-		return m.OldDescription(ctx)
-	case doclibrary.FieldSource:
-		return m.OldSource(ctx)
-	case doclibrary.FieldURL:
-		return m.OldURL(ctx)
-	}
-	return nil, fmt.Errorf("unknown DocLibrary field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *DocLibraryMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case doclibrary.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case doclibrary.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case doclibrary.FieldName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetName(v)
-		return nil
-	case doclibrary.FieldAlias:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetAlias(v)
-		return nil
-	case doclibrary.FieldDescription:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDescription(v)
-		return nil
-	case doclibrary.FieldSource:
-		v, ok := value.(doclibrary.Source)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSource(v)
-		return nil
-	case doclibrary.FieldURL:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetURL(v)
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibrary field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *DocLibraryMutation) AddedFields() []string {
-	return nil
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *DocLibraryMutation) AddedField(name string) (ent.Value, bool) {
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *DocLibraryMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown DocLibrary numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *DocLibraryMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(doclibrary.FieldDescription) {
-		fields = append(fields, doclibrary.FieldDescription)
-	}
-	return fields
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *DocLibraryMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *DocLibraryMutation) ClearField(name string) error {
-	switch name {
-	case doclibrary.FieldDescription:
-		m.ClearDescription()
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibrary nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *DocLibraryMutation) ResetField(name string) error {
-	switch name {
-	case doclibrary.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case doclibrary.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case doclibrary.FieldName:
-		m.ResetName()
-		return nil
-	case doclibrary.FieldAlias:
-		m.ResetAlias()
-		return nil
-	case doclibrary.FieldDescription:
-		m.ResetDescription()
-		return nil
-	case doclibrary.FieldSource:
-		m.ResetSource()
-		return nil
-	case doclibrary.FieldURL:
-		m.ResetURL()
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibrary field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *DocLibraryMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.details != nil {
-		edges = append(edges, doclibrary.EdgeDetails)
-	}
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *DocLibraryMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case doclibrary.EdgeDetails:
-		ids := make([]ent.Value, 0, len(m.details))
-		for id := range m.details {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *DocLibraryMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.removeddetails != nil {
-		edges = append(edges, doclibrary.EdgeDetails)
-	}
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *DocLibraryMutation) RemovedIDs(name string) []ent.Value {
-	switch name {
-	case doclibrary.EdgeDetails:
-		ids := make([]ent.Value, 0, len(m.removeddetails))
-		for id := range m.removeddetails {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *DocLibraryMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.cleareddetails {
-		edges = append(edges, doclibrary.EdgeDetails)
-	}
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *DocLibraryMutation) EdgeCleared(name string) bool {
-	switch name {
-	case doclibrary.EdgeDetails:
-		return m.cleareddetails
-	}
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *DocLibraryMutation) ClearEdge(name string) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown DocLibrary unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *DocLibraryMutation) ResetEdge(name string) error {
-	switch name {
-	case doclibrary.EdgeDetails:
-		m.ResetDetails()
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibrary edge %s", name)
-}
-
-// DocLibraryDetailMutation represents an operation that mutates the DocLibraryDetail nodes in the graph.
-type DocLibraryDetailMutation struct {
-	config
-	op             Op
-	typ            string
-	id             *int
-	created_at     *time.Time
-	updated_at     *time.Time
-	title          *string
-	version        *string
-	content        *string
-	parent_id      *int
-	addparent_id   *int
-	_path          *string
-	url            *string
-	language       *string
-	clearedFields  map[string]struct{}
-	library        *int
-	clearedlibrary bool
-	done           bool
-	oldValue       func(context.Context) (*DocLibraryDetail, error)
-	predicates     []predicate.DocLibraryDetail
-}
-
-var _ ent.Mutation = (*DocLibraryDetailMutation)(nil)
-
-// doclibrarydetailOption allows management of the mutation configuration using functional options.
-type doclibrarydetailOption func(*DocLibraryDetailMutation)
-
-// newDocLibraryDetailMutation creates new mutation for the DocLibraryDetail entity.
-func newDocLibraryDetailMutation(c config, op Op, opts ...doclibrarydetailOption) *DocLibraryDetailMutation {
-	m := &DocLibraryDetailMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeDocLibraryDetail,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withDocLibraryDetailID sets the ID field of the mutation.
-func withDocLibraryDetailID(id int) doclibrarydetailOption {
-	return func(m *DocLibraryDetailMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *DocLibraryDetail
-		)
-		m.oldValue = func(ctx context.Context) (*DocLibraryDetail, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().DocLibraryDetail.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withDocLibraryDetail sets the old DocLibraryDetail of the mutation.
-func withDocLibraryDetail(node *DocLibraryDetail) doclibrarydetailOption {
-	return func(m *DocLibraryDetailMutation) {
-		m.oldValue = func(context.Context) (*DocLibraryDetail, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m DocLibraryDetailMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m DocLibraryDetailMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of DocLibraryDetail entities.
-func (m *DocLibraryDetailMutation) SetID(id int) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *DocLibraryDetailMutation) ID() (id int, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *DocLibraryDetailMutation) IDs(ctx context.Context) ([]int, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []int{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().DocLibraryDetail.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *DocLibraryDetailMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *DocLibraryDetailMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *DocLibraryDetailMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *DocLibraryDetailMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *DocLibraryDetailMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *DocLibraryDetailMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetTitle sets the "title" field.
-func (m *DocLibraryDetailMutation) SetTitle(s string) {
-	m.title = &s
-}
-
-// Title returns the value of the "title" field in the mutation.
-func (m *DocLibraryDetailMutation) Title() (r string, exists bool) {
-	v := m.title
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTitle returns the old "title" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldTitle(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTitle is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTitle requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTitle: %w", err)
-	}
-	return oldValue.Title, nil
-}
-
-// ResetTitle resets all changes to the "title" field.
-func (m *DocLibraryDetailMutation) ResetTitle() {
-	m.title = nil
-}
-
-// SetVersion sets the "version" field.
-func (m *DocLibraryDetailMutation) SetVersion(s string) {
-	m.version = &s
-}
-
-// Version returns the value of the "version" field in the mutation.
-func (m *DocLibraryDetailMutation) Version() (r string, exists bool) {
-	v := m.version
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldVersion returns the old "version" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldVersion(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldVersion is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldVersion requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldVersion: %w", err)
-	}
-	return oldValue.Version, nil
-}
-
-// ClearVersion clears the value of the "version" field.
-func (m *DocLibraryDetailMutation) ClearVersion() {
-	m.version = nil
-	m.clearedFields[doclibrarydetail.FieldVersion] = struct{}{}
-}
-
-// VersionCleared returns if the "version" field was cleared in this mutation.
-func (m *DocLibraryDetailMutation) VersionCleared() bool {
-	_, ok := m.clearedFields[doclibrarydetail.FieldVersion]
-	return ok
-}
-
-// ResetVersion resets all changes to the "version" field.
-func (m *DocLibraryDetailMutation) ResetVersion() {
-	m.version = nil
-	delete(m.clearedFields, doclibrarydetail.FieldVersion)
-}
-
-// SetContent sets the "content" field.
-func (m *DocLibraryDetailMutation) SetContent(s string) {
-	m.content = &s
-}
-
-// Content returns the value of the "content" field in the mutation.
-func (m *DocLibraryDetailMutation) Content() (r string, exists bool) {
-	v := m.content
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldContent returns the old "content" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldContent(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldContent is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldContent requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldContent: %w", err)
-	}
-	return oldValue.Content, nil
-}
-
-// ResetContent resets all changes to the "content" field.
-func (m *DocLibraryDetailMutation) ResetContent() {
-	m.content = nil
-}
-
-// SetParentID sets the "parent_id" field.
-func (m *DocLibraryDetailMutation) SetParentID(i int) {
-	m.parent_id = &i
-	m.addparent_id = nil
-}
-
-// ParentID returns the value of the "parent_id" field in the mutation.
-func (m *DocLibraryDetailMutation) ParentID() (r int, exists bool) {
-	v := m.parent_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldParentID returns the old "parent_id" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldParentID(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldParentID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldParentID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldParentID: %w", err)
-	}
-	return oldValue.ParentID, nil
-}
-
-// AddParentID adds i to the "parent_id" field.
-func (m *DocLibraryDetailMutation) AddParentID(i int) {
-	if m.addparent_id != nil {
-		*m.addparent_id += i
-	} else {
-		m.addparent_id = &i
-	}
-}
-
-// AddedParentID returns the value that was added to the "parent_id" field in this mutation.
-func (m *DocLibraryDetailMutation) AddedParentID() (r int, exists bool) {
-	v := m.addparent_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (m *DocLibraryDetailMutation) ClearParentID() {
-	m.parent_id = nil
-	m.addparent_id = nil
-	m.clearedFields[doclibrarydetail.FieldParentID] = struct{}{}
-}
-
-// ParentIDCleared returns if the "parent_id" field was cleared in this mutation.
-func (m *DocLibraryDetailMutation) ParentIDCleared() bool {
-	_, ok := m.clearedFields[doclibrarydetail.FieldParentID]
-	return ok
-}
-
-// ResetParentID resets all changes to the "parent_id" field.
-func (m *DocLibraryDetailMutation) ResetParentID() {
-	m.parent_id = nil
-	m.addparent_id = nil
-	delete(m.clearedFields, doclibrarydetail.FieldParentID)
-}
-
-// SetPath sets the "path" field.
-func (m *DocLibraryDetailMutation) SetPath(s string) {
-	m._path = &s
-}
-
-// Path returns the value of the "path" field in the mutation.
-func (m *DocLibraryDetailMutation) Path() (r string, exists bool) {
-	v := m._path
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPath returns the old "path" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldPath(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPath is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPath requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPath: %w", err)
-	}
-	return oldValue.Path, nil
-}
-
-// ClearPath clears the value of the "path" field.
-func (m *DocLibraryDetailMutation) ClearPath() {
-	m._path = nil
-	m.clearedFields[doclibrarydetail.FieldPath] = struct{}{}
-}
-
-// PathCleared returns if the "path" field was cleared in this mutation.
-func (m *DocLibraryDetailMutation) PathCleared() bool {
-	_, ok := m.clearedFields[doclibrarydetail.FieldPath]
-	return ok
-}
-
-// ResetPath resets all changes to the "path" field.
-func (m *DocLibraryDetailMutation) ResetPath() {
-	m._path = nil
-	delete(m.clearedFields, doclibrarydetail.FieldPath)
-}
-
-// SetURL sets the "url" field.
-func (m *DocLibraryDetailMutation) SetURL(s string) {
-	m.url = &s
-}
-
-// URL returns the value of the "url" field in the mutation.
-func (m *DocLibraryDetailMutation) URL() (r string, exists bool) {
-	v := m.url
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldURL returns the old "url" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldURL(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldURL is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldURL requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldURL: %w", err)
-	}
-	return oldValue.URL, nil
-}
-
-// ClearURL clears the value of the "url" field.
-func (m *DocLibraryDetailMutation) ClearURL() {
-	m.url = nil
-	m.clearedFields[doclibrarydetail.FieldURL] = struct{}{}
-}
-
-// URLCleared returns if the "url" field was cleared in this mutation.
-func (m *DocLibraryDetailMutation) URLCleared() bool {
-	_, ok := m.clearedFields[doclibrarydetail.FieldURL]
-	return ok
-}
-
-// ResetURL resets all changes to the "url" field.
-func (m *DocLibraryDetailMutation) ResetURL() {
-	m.url = nil
-	delete(m.clearedFields, doclibrarydetail.FieldURL)
-}
-
-// SetLanguage sets the "language" field.
-func (m *DocLibraryDetailMutation) SetLanguage(s string) {
-	m.language = &s
-}
-
-// Language returns the value of the "language" field in the mutation.
-func (m *DocLibraryDetailMutation) Language() (r string, exists bool) {
-	v := m.language
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldLanguage returns the old "language" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldLanguage(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldLanguage is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldLanguage requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldLanguage: %w", err)
-	}
-	return oldValue.Language, nil
-}
-
-// ClearLanguage clears the value of the "language" field.
-func (m *DocLibraryDetailMutation) ClearLanguage() {
-	m.language = nil
-	m.clearedFields[doclibrarydetail.FieldLanguage] = struct{}{}
-}
-
-// LanguageCleared returns if the "language" field was cleared in this mutation.
-func (m *DocLibraryDetailMutation) LanguageCleared() bool {
-	_, ok := m.clearedFields[doclibrarydetail.FieldLanguage]
-	return ok
-}
-
-// ResetLanguage resets all changes to the "language" field.
-func (m *DocLibraryDetailMutation) ResetLanguage() {
-	m.language = nil
-	delete(m.clearedFields, doclibrarydetail.FieldLanguage)
-}
-
-// SetLibraryID sets the "library_id" field.
-func (m *DocLibraryDetailMutation) SetLibraryID(i int) {
-	m.library = &i
-}
-
-// LibraryID returns the value of the "library_id" field in the mutation.
-func (m *DocLibraryDetailMutation) LibraryID() (r int, exists bool) {
-	v := m.library
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldLibraryID returns the old "library_id" field's value of the DocLibraryDetail entity.
-// If the DocLibraryDetail object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DocLibraryDetailMutation) OldLibraryID(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldLibraryID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldLibraryID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldLibraryID: %w", err)
-	}
-	return oldValue.LibraryID, nil
-}
-
-// ClearLibraryID clears the value of the "library_id" field.
-func (m *DocLibraryDetailMutation) ClearLibraryID() {
-	m.library = nil
-	m.clearedFields[doclibrarydetail.FieldLibraryID] = struct{}{}
-}
-
-// LibraryIDCleared returns if the "library_id" field was cleared in this mutation.
-func (m *DocLibraryDetailMutation) LibraryIDCleared() bool {
-	_, ok := m.clearedFields[doclibrarydetail.FieldLibraryID]
-	return ok
-}
-
-// ResetLibraryID resets all changes to the "library_id" field.
-func (m *DocLibraryDetailMutation) ResetLibraryID() {
-	m.library = nil
-	delete(m.clearedFields, doclibrarydetail.FieldLibraryID)
-}
-
-// ClearLibrary clears the "library" edge to the DocLibrary entity.
-func (m *DocLibraryDetailMutation) ClearLibrary() {
-	m.clearedlibrary = true
-	m.clearedFields[doclibrarydetail.FieldLibraryID] = struct{}{}
-}
-
-// LibraryCleared reports if the "library" edge to the DocLibrary entity was cleared.
-func (m *DocLibraryDetailMutation) LibraryCleared() bool {
-	return m.LibraryIDCleared() || m.clearedlibrary
-}
-
-// LibraryIDs returns the "library" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// LibraryID instead. It exists only for internal usage by the builders.
-func (m *DocLibraryDetailMutation) LibraryIDs() (ids []int) {
-	if id := m.library; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetLibrary resets all changes to the "library" edge.
-func (m *DocLibraryDetailMutation) ResetLibrary() {
-	m.library = nil
-	m.clearedlibrary = false
-}
-
-// Where appends a list predicates to the DocLibraryDetailMutation builder.
-func (m *DocLibraryDetailMutation) Where(ps ...predicate.DocLibraryDetail) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the DocLibraryDetailMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *DocLibraryDetailMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.DocLibraryDetail, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *DocLibraryDetailMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *DocLibraryDetailMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (DocLibraryDetail).
-func (m *DocLibraryDetailMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *DocLibraryDetailMutation) Fields() []string {
-	fields := make([]string, 0, 10)
-	if m.created_at != nil {
-		fields = append(fields, doclibrarydetail.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, doclibrarydetail.FieldUpdatedAt)
-	}
-	if m.title != nil {
-		fields = append(fields, doclibrarydetail.FieldTitle)
-	}
-	if m.version != nil {
-		fields = append(fields, doclibrarydetail.FieldVersion)
-	}
-	if m.content != nil {
-		fields = append(fields, doclibrarydetail.FieldContent)
-	}
-	if m.parent_id != nil {
-		fields = append(fields, doclibrarydetail.FieldParentID)
-	}
-	if m._path != nil {
-		fields = append(fields, doclibrarydetail.FieldPath)
-	}
-	if m.url != nil {
-		fields = append(fields, doclibrarydetail.FieldURL)
-	}
-	if m.language != nil {
-		fields = append(fields, doclibrarydetail.FieldLanguage)
-	}
-	if m.library != nil {
-		fields = append(fields, doclibrarydetail.FieldLibraryID)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *DocLibraryDetailMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case doclibrarydetail.FieldCreatedAt:
-		return m.CreatedAt()
-	case doclibrarydetail.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case doclibrarydetail.FieldTitle:
-		return m.Title()
-	case doclibrarydetail.FieldVersion:
-		return m.Version()
-	case doclibrarydetail.FieldContent:
-		return m.Content()
-	case doclibrarydetail.FieldParentID:
-		return m.ParentID()
-	case doclibrarydetail.FieldPath:
-		return m.Path()
-	case doclibrarydetail.FieldURL:
-		return m.URL()
-	case doclibrarydetail.FieldLanguage:
-		return m.Language()
-	case doclibrarydetail.FieldLibraryID:
-		return m.LibraryID()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *DocLibraryDetailMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case doclibrarydetail.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case doclibrarydetail.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case doclibrarydetail.FieldTitle:
-		return m.OldTitle(ctx)
-	case doclibrarydetail.FieldVersion:
-		return m.OldVersion(ctx)
-	case doclibrarydetail.FieldContent:
-		return m.OldContent(ctx)
-	case doclibrarydetail.FieldParentID:
-		return m.OldParentID(ctx)
-	case doclibrarydetail.FieldPath:
-		return m.OldPath(ctx)
-	case doclibrarydetail.FieldURL:
-		return m.OldURL(ctx)
-	case doclibrarydetail.FieldLanguage:
-		return m.OldLanguage(ctx)
-	case doclibrarydetail.FieldLibraryID:
-		return m.OldLibraryID(ctx)
-	}
-	return nil, fmt.Errorf("unknown DocLibraryDetail field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *DocLibraryDetailMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case doclibrarydetail.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case doclibrarydetail.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case doclibrarydetail.FieldTitle:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTitle(v)
-		return nil
-	case doclibrarydetail.FieldVersion:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetVersion(v)
-		return nil
-	case doclibrarydetail.FieldContent:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetContent(v)
-		return nil
-	case doclibrarydetail.FieldParentID:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetParentID(v)
-		return nil
-	case doclibrarydetail.FieldPath:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPath(v)
-		return nil
-	case doclibrarydetail.FieldURL:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetURL(v)
-		return nil
-	case doclibrarydetail.FieldLanguage:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetLanguage(v)
-		return nil
-	case doclibrarydetail.FieldLibraryID:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetLibraryID(v)
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibraryDetail field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *DocLibraryDetailMutation) AddedFields() []string {
-	var fields []string
-	if m.addparent_id != nil {
-		fields = append(fields, doclibrarydetail.FieldParentID)
-	}
-	return fields
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *DocLibraryDetailMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case doclibrarydetail.FieldParentID:
-		return m.AddedParentID()
-	}
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *DocLibraryDetailMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	case doclibrarydetail.FieldParentID:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddParentID(v)
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibraryDetail numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *DocLibraryDetailMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(doclibrarydetail.FieldVersion) {
-		fields = append(fields, doclibrarydetail.FieldVersion)
-	}
-	if m.FieldCleared(doclibrarydetail.FieldParentID) {
-		fields = append(fields, doclibrarydetail.FieldParentID)
-	}
-	if m.FieldCleared(doclibrarydetail.FieldPath) {
-		fields = append(fields, doclibrarydetail.FieldPath)
-	}
-	if m.FieldCleared(doclibrarydetail.FieldURL) {
-		fields = append(fields, doclibrarydetail.FieldURL)
-	}
-	if m.FieldCleared(doclibrarydetail.FieldLanguage) {
-		fields = append(fields, doclibrarydetail.FieldLanguage)
-	}
-	if m.FieldCleared(doclibrarydetail.FieldLibraryID) {
-		fields = append(fields, doclibrarydetail.FieldLibraryID)
-	}
-	return fields
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *DocLibraryDetailMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *DocLibraryDetailMutation) ClearField(name string) error {
-	switch name {
-	case doclibrarydetail.FieldVersion:
-		m.ClearVersion()
-		return nil
-	case doclibrarydetail.FieldParentID:
-		m.ClearParentID()
-		return nil
-	case doclibrarydetail.FieldPath:
-		m.ClearPath()
-		return nil
-	case doclibrarydetail.FieldURL:
-		m.ClearURL()
-		return nil
-	case doclibrarydetail.FieldLanguage:
-		m.ClearLanguage()
-		return nil
-	case doclibrarydetail.FieldLibraryID:
-		m.ClearLibraryID()
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibraryDetail nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *DocLibraryDetailMutation) ResetField(name string) error {
-	switch name {
-	case doclibrarydetail.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case doclibrarydetail.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case doclibrarydetail.FieldTitle:
-		m.ResetTitle()
-		return nil
-	case doclibrarydetail.FieldVersion:
-		m.ResetVersion()
-		return nil
-	case doclibrarydetail.FieldContent:
-		m.ResetContent()
-		return nil
-	case doclibrarydetail.FieldParentID:
-		m.ResetParentID()
-		return nil
-	case doclibrarydetail.FieldPath:
-		m.ResetPath()
-		return nil
-	case doclibrarydetail.FieldURL:
-		m.ResetURL()
-		return nil
-	case doclibrarydetail.FieldLanguage:
-		m.ResetLanguage()
-		return nil
-	case doclibrarydetail.FieldLibraryID:
-		m.ResetLibraryID()
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibraryDetail field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *DocLibraryDetailMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.library != nil {
-		edges = append(edges, doclibrarydetail.EdgeLibrary)
-	}
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *DocLibraryDetailMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case doclibrarydetail.EdgeLibrary:
-		if id := m.library; id != nil {
-			return []ent.Value{*id}
-		}
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *DocLibraryDetailMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *DocLibraryDetailMutation) RemovedIDs(name string) []ent.Value {
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *DocLibraryDetailMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.clearedlibrary {
-		edges = append(edges, doclibrarydetail.EdgeLibrary)
-	}
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *DocLibraryDetailMutation) EdgeCleared(name string) bool {
-	switch name {
-	case doclibrarydetail.EdgeLibrary:
-		return m.clearedlibrary
-	}
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *DocLibraryDetailMutation) ClearEdge(name string) error {
-	switch name {
-	case doclibrarydetail.EdgeLibrary:
-		m.ClearLibrary()
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibraryDetail unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *DocLibraryDetailMutation) ResetEdge(name string) error {
-	switch name {
-	case doclibrarydetail.EdgeLibrary:
-		m.ResetLibrary()
-		return nil
-	}
-	return fmt.Errorf("unknown DocLibraryDetail edge %s", name)
-}
-
 // EssayMutation represents an operation that mutates the Essay nodes in the graph.
 type EssayMutation struct {
 	config
@@ -14393,731 +12592,6 @@ func (m *FriendCircleRecordMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown FriendCircleRecord edge %s", name)
 }
 
-// KnowledgeBaseMutation represents an operation that mutates the KnowledgeBase nodes in the graph.
-type KnowledgeBaseMutation struct {
-	config
-	op                          Op
-	typ                         string
-	id                          *int
-	created_at                  *time.Time
-	updated_at                  *time.Time
-	name                        *string
-	model_provider              *knowledgebase.ModelProvider
-	model                       *string
-	vector_dimension            *int
-	addvector_dimension         *int
-	max_batch_document_count    *int
-	addmax_batch_document_count *int
-	clearedFields               map[string]struct{}
-	done                        bool
-	oldValue                    func(context.Context) (*KnowledgeBase, error)
-	predicates                  []predicate.KnowledgeBase
-}
-
-var _ ent.Mutation = (*KnowledgeBaseMutation)(nil)
-
-// knowledgebaseOption allows management of the mutation configuration using functional options.
-type knowledgebaseOption func(*KnowledgeBaseMutation)
-
-// newKnowledgeBaseMutation creates new mutation for the KnowledgeBase entity.
-func newKnowledgeBaseMutation(c config, op Op, opts ...knowledgebaseOption) *KnowledgeBaseMutation {
-	m := &KnowledgeBaseMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeKnowledgeBase,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withKnowledgeBaseID sets the ID field of the mutation.
-func withKnowledgeBaseID(id int) knowledgebaseOption {
-	return func(m *KnowledgeBaseMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *KnowledgeBase
-		)
-		m.oldValue = func(ctx context.Context) (*KnowledgeBase, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().KnowledgeBase.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withKnowledgeBase sets the old KnowledgeBase of the mutation.
-func withKnowledgeBase(node *KnowledgeBase) knowledgebaseOption {
-	return func(m *KnowledgeBaseMutation) {
-		m.oldValue = func(context.Context) (*KnowledgeBase, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m KnowledgeBaseMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m KnowledgeBaseMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of KnowledgeBase entities.
-func (m *KnowledgeBaseMutation) SetID(id int) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *KnowledgeBaseMutation) ID() (id int, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *KnowledgeBaseMutation) IDs(ctx context.Context) ([]int, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []int{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().KnowledgeBase.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *KnowledgeBaseMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *KnowledgeBaseMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the KnowledgeBase entity.
-// If the KnowledgeBase object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KnowledgeBaseMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *KnowledgeBaseMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *KnowledgeBaseMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *KnowledgeBaseMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the KnowledgeBase entity.
-// If the KnowledgeBase object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KnowledgeBaseMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *KnowledgeBaseMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetName sets the "name" field.
-func (m *KnowledgeBaseMutation) SetName(s string) {
-	m.name = &s
-}
-
-// Name returns the value of the "name" field in the mutation.
-func (m *KnowledgeBaseMutation) Name() (r string, exists bool) {
-	v := m.name
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldName returns the old "name" field's value of the KnowledgeBase entity.
-// If the KnowledgeBase object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KnowledgeBaseMutation) OldName(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldName is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldName requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldName: %w", err)
-	}
-	return oldValue.Name, nil
-}
-
-// ResetName resets all changes to the "name" field.
-func (m *KnowledgeBaseMutation) ResetName() {
-	m.name = nil
-}
-
-// SetModelProvider sets the "model_provider" field.
-func (m *KnowledgeBaseMutation) SetModelProvider(kp knowledgebase.ModelProvider) {
-	m.model_provider = &kp
-}
-
-// ModelProvider returns the value of the "model_provider" field in the mutation.
-func (m *KnowledgeBaseMutation) ModelProvider() (r knowledgebase.ModelProvider, exists bool) {
-	v := m.model_provider
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldModelProvider returns the old "model_provider" field's value of the KnowledgeBase entity.
-// If the KnowledgeBase object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KnowledgeBaseMutation) OldModelProvider(ctx context.Context) (v knowledgebase.ModelProvider, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldModelProvider is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldModelProvider requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldModelProvider: %w", err)
-	}
-	return oldValue.ModelProvider, nil
-}
-
-// ResetModelProvider resets all changes to the "model_provider" field.
-func (m *KnowledgeBaseMutation) ResetModelProvider() {
-	m.model_provider = nil
-}
-
-// SetModel sets the "model" field.
-func (m *KnowledgeBaseMutation) SetModel(s string) {
-	m.model = &s
-}
-
-// Model returns the value of the "model" field in the mutation.
-func (m *KnowledgeBaseMutation) Model() (r string, exists bool) {
-	v := m.model
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldModel returns the old "model" field's value of the KnowledgeBase entity.
-// If the KnowledgeBase object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KnowledgeBaseMutation) OldModel(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldModel is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldModel requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldModel: %w", err)
-	}
-	return oldValue.Model, nil
-}
-
-// ResetModel resets all changes to the "model" field.
-func (m *KnowledgeBaseMutation) ResetModel() {
-	m.model = nil
-}
-
-// SetVectorDimension sets the "vector_dimension" field.
-func (m *KnowledgeBaseMutation) SetVectorDimension(i int) {
-	m.vector_dimension = &i
-	m.addvector_dimension = nil
-}
-
-// VectorDimension returns the value of the "vector_dimension" field in the mutation.
-func (m *KnowledgeBaseMutation) VectorDimension() (r int, exists bool) {
-	v := m.vector_dimension
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldVectorDimension returns the old "vector_dimension" field's value of the KnowledgeBase entity.
-// If the KnowledgeBase object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KnowledgeBaseMutation) OldVectorDimension(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldVectorDimension is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldVectorDimension requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldVectorDimension: %w", err)
-	}
-	return oldValue.VectorDimension, nil
-}
-
-// AddVectorDimension adds i to the "vector_dimension" field.
-func (m *KnowledgeBaseMutation) AddVectorDimension(i int) {
-	if m.addvector_dimension != nil {
-		*m.addvector_dimension += i
-	} else {
-		m.addvector_dimension = &i
-	}
-}
-
-// AddedVectorDimension returns the value that was added to the "vector_dimension" field in this mutation.
-func (m *KnowledgeBaseMutation) AddedVectorDimension() (r int, exists bool) {
-	v := m.addvector_dimension
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetVectorDimension resets all changes to the "vector_dimension" field.
-func (m *KnowledgeBaseMutation) ResetVectorDimension() {
-	m.vector_dimension = nil
-	m.addvector_dimension = nil
-}
-
-// SetMaxBatchDocumentCount sets the "max_batch_document_count" field.
-func (m *KnowledgeBaseMutation) SetMaxBatchDocumentCount(i int) {
-	m.max_batch_document_count = &i
-	m.addmax_batch_document_count = nil
-}
-
-// MaxBatchDocumentCount returns the value of the "max_batch_document_count" field in the mutation.
-func (m *KnowledgeBaseMutation) MaxBatchDocumentCount() (r int, exists bool) {
-	v := m.max_batch_document_count
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldMaxBatchDocumentCount returns the old "max_batch_document_count" field's value of the KnowledgeBase entity.
-// If the KnowledgeBase object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KnowledgeBaseMutation) OldMaxBatchDocumentCount(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldMaxBatchDocumentCount is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldMaxBatchDocumentCount requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldMaxBatchDocumentCount: %w", err)
-	}
-	return oldValue.MaxBatchDocumentCount, nil
-}
-
-// AddMaxBatchDocumentCount adds i to the "max_batch_document_count" field.
-func (m *KnowledgeBaseMutation) AddMaxBatchDocumentCount(i int) {
-	if m.addmax_batch_document_count != nil {
-		*m.addmax_batch_document_count += i
-	} else {
-		m.addmax_batch_document_count = &i
-	}
-}
-
-// AddedMaxBatchDocumentCount returns the value that was added to the "max_batch_document_count" field in this mutation.
-func (m *KnowledgeBaseMutation) AddedMaxBatchDocumentCount() (r int, exists bool) {
-	v := m.addmax_batch_document_count
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetMaxBatchDocumentCount resets all changes to the "max_batch_document_count" field.
-func (m *KnowledgeBaseMutation) ResetMaxBatchDocumentCount() {
-	m.max_batch_document_count = nil
-	m.addmax_batch_document_count = nil
-}
-
-// Where appends a list predicates to the KnowledgeBaseMutation builder.
-func (m *KnowledgeBaseMutation) Where(ps ...predicate.KnowledgeBase) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the KnowledgeBaseMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *KnowledgeBaseMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.KnowledgeBase, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *KnowledgeBaseMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *KnowledgeBaseMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (KnowledgeBase).
-func (m *KnowledgeBaseMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *KnowledgeBaseMutation) Fields() []string {
-	fields := make([]string, 0, 7)
-	if m.created_at != nil {
-		fields = append(fields, knowledgebase.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, knowledgebase.FieldUpdatedAt)
-	}
-	if m.name != nil {
-		fields = append(fields, knowledgebase.FieldName)
-	}
-	if m.model_provider != nil {
-		fields = append(fields, knowledgebase.FieldModelProvider)
-	}
-	if m.model != nil {
-		fields = append(fields, knowledgebase.FieldModel)
-	}
-	if m.vector_dimension != nil {
-		fields = append(fields, knowledgebase.FieldVectorDimension)
-	}
-	if m.max_batch_document_count != nil {
-		fields = append(fields, knowledgebase.FieldMaxBatchDocumentCount)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *KnowledgeBaseMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case knowledgebase.FieldCreatedAt:
-		return m.CreatedAt()
-	case knowledgebase.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case knowledgebase.FieldName:
-		return m.Name()
-	case knowledgebase.FieldModelProvider:
-		return m.ModelProvider()
-	case knowledgebase.FieldModel:
-		return m.Model()
-	case knowledgebase.FieldVectorDimension:
-		return m.VectorDimension()
-	case knowledgebase.FieldMaxBatchDocumentCount:
-		return m.MaxBatchDocumentCount()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *KnowledgeBaseMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case knowledgebase.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case knowledgebase.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case knowledgebase.FieldName:
-		return m.OldName(ctx)
-	case knowledgebase.FieldModelProvider:
-		return m.OldModelProvider(ctx)
-	case knowledgebase.FieldModel:
-		return m.OldModel(ctx)
-	case knowledgebase.FieldVectorDimension:
-		return m.OldVectorDimension(ctx)
-	case knowledgebase.FieldMaxBatchDocumentCount:
-		return m.OldMaxBatchDocumentCount(ctx)
-	}
-	return nil, fmt.Errorf("unknown KnowledgeBase field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *KnowledgeBaseMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case knowledgebase.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case knowledgebase.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case knowledgebase.FieldName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetName(v)
-		return nil
-	case knowledgebase.FieldModelProvider:
-		v, ok := value.(knowledgebase.ModelProvider)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetModelProvider(v)
-		return nil
-	case knowledgebase.FieldModel:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetModel(v)
-		return nil
-	case knowledgebase.FieldVectorDimension:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetVectorDimension(v)
-		return nil
-	case knowledgebase.FieldMaxBatchDocumentCount:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetMaxBatchDocumentCount(v)
-		return nil
-	}
-	return fmt.Errorf("unknown KnowledgeBase field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *KnowledgeBaseMutation) AddedFields() []string {
-	var fields []string
-	if m.addvector_dimension != nil {
-		fields = append(fields, knowledgebase.FieldVectorDimension)
-	}
-	if m.addmax_batch_document_count != nil {
-		fields = append(fields, knowledgebase.FieldMaxBatchDocumentCount)
-	}
-	return fields
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *KnowledgeBaseMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case knowledgebase.FieldVectorDimension:
-		return m.AddedVectorDimension()
-	case knowledgebase.FieldMaxBatchDocumentCount:
-		return m.AddedMaxBatchDocumentCount()
-	}
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *KnowledgeBaseMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	case knowledgebase.FieldVectorDimension:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddVectorDimension(v)
-		return nil
-	case knowledgebase.FieldMaxBatchDocumentCount:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddMaxBatchDocumentCount(v)
-		return nil
-	}
-	return fmt.Errorf("unknown KnowledgeBase numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *KnowledgeBaseMutation) ClearedFields() []string {
-	return nil
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *KnowledgeBaseMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *KnowledgeBaseMutation) ClearField(name string) error {
-	return fmt.Errorf("unknown KnowledgeBase nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *KnowledgeBaseMutation) ResetField(name string) error {
-	switch name {
-	case knowledgebase.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case knowledgebase.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case knowledgebase.FieldName:
-		m.ResetName()
-		return nil
-	case knowledgebase.FieldModelProvider:
-		m.ResetModelProvider()
-		return nil
-	case knowledgebase.FieldModel:
-		m.ResetModel()
-		return nil
-	case knowledgebase.FieldVectorDimension:
-		m.ResetVectorDimension()
-		return nil
-	case knowledgebase.FieldMaxBatchDocumentCount:
-		m.ResetMaxBatchDocumentCount()
-		return nil
-	}
-	return fmt.Errorf("unknown KnowledgeBase field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *KnowledgeBaseMutation) AddedEdges() []string {
-	edges := make([]string, 0, 0)
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *KnowledgeBaseMutation) AddedIDs(name string) []ent.Value {
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *KnowledgeBaseMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 0)
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *KnowledgeBaseMutation) RemovedIDs(name string) []ent.Value {
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *KnowledgeBaseMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 0)
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *KnowledgeBaseMutation) EdgeCleared(name string) bool {
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *KnowledgeBaseMutation) ClearEdge(name string) error {
-	return fmt.Errorf("unknown KnowledgeBase unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *KnowledgeBaseMutation) ResetEdge(name string) error {
-	return fmt.Errorf("unknown KnowledgeBase edge %s", name)
-}
-
 // LicenseMutation represents an operation that mutates the License nodes in the graph.
 type LicenseMutation struct {
 	config
@@ -18182,6 +15656,915 @@ func (m *MemberLevelMutation) ResetEdge(name string) error {
 		return nil
 	}
 	return fmt.Errorf("unknown MemberLevel edge %s", name)
+}
+
+// MenuMutation represents an operation that mutates the Menu nodes in the graph.
+type MenuMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	created_at    *time.Time
+	updated_at    *time.Time
+	name          *string
+	title         *string
+	_path         *string
+	icon          *string
+	parent_id     *int
+	addparent_id  *int
+	sort_order    *int
+	addsort_order *int
+	visible       *bool
+	target        *string
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*Menu, error)
+	predicates    []predicate.Menu
+}
+
+var _ ent.Mutation = (*MenuMutation)(nil)
+
+// menuOption allows management of the mutation configuration using functional options.
+type menuOption func(*MenuMutation)
+
+// newMenuMutation creates new mutation for the Menu entity.
+func newMenuMutation(c config, op Op, opts ...menuOption) *MenuMutation {
+	m := &MenuMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeMenu,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withMenuID sets the ID field of the mutation.
+func withMenuID(id int) menuOption {
+	return func(m *MenuMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *Menu
+		)
+		m.oldValue = func(ctx context.Context) (*Menu, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().Menu.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withMenu sets the old Menu of the mutation.
+func withMenu(node *Menu) menuOption {
+	return func(m *MenuMutation) {
+		m.oldValue = func(context.Context) (*Menu, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m MenuMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m MenuMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Menu entities.
+func (m *MenuMutation) SetID(id int) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *MenuMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *MenuMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().Menu.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *MenuMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *MenuMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *MenuMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *MenuMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *MenuMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *MenuMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetName sets the "name" field.
+func (m *MenuMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *MenuMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *MenuMutation) ResetName() {
+	m.name = nil
+}
+
+// SetTitle sets the "title" field.
+func (m *MenuMutation) SetTitle(s string) {
+	m.title = &s
+}
+
+// Title returns the value of the "title" field in the mutation.
+func (m *MenuMutation) Title() (r string, exists bool) {
+	v := m.title
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTitle returns the old "title" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldTitle(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTitle is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTitle requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTitle: %w", err)
+	}
+	return oldValue.Title, nil
+}
+
+// ResetTitle resets all changes to the "title" field.
+func (m *MenuMutation) ResetTitle() {
+	m.title = nil
+}
+
+// SetPath sets the "path" field.
+func (m *MenuMutation) SetPath(s string) {
+	m._path = &s
+}
+
+// Path returns the value of the "path" field in the mutation.
+func (m *MenuMutation) Path() (r string, exists bool) {
+	v := m._path
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPath returns the old "path" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldPath(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPath is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPath requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPath: %w", err)
+	}
+	return oldValue.Path, nil
+}
+
+// ResetPath resets all changes to the "path" field.
+func (m *MenuMutation) ResetPath() {
+	m._path = nil
+}
+
+// SetIcon sets the "icon" field.
+func (m *MenuMutation) SetIcon(s string) {
+	m.icon = &s
+}
+
+// Icon returns the value of the "icon" field in the mutation.
+func (m *MenuMutation) Icon() (r string, exists bool) {
+	v := m.icon
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIcon returns the old "icon" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldIcon(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIcon is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIcon requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIcon: %w", err)
+	}
+	return oldValue.Icon, nil
+}
+
+// ClearIcon clears the value of the "icon" field.
+func (m *MenuMutation) ClearIcon() {
+	m.icon = nil
+	m.clearedFields[menu.FieldIcon] = struct{}{}
+}
+
+// IconCleared returns if the "icon" field was cleared in this mutation.
+func (m *MenuMutation) IconCleared() bool {
+	_, ok := m.clearedFields[menu.FieldIcon]
+	return ok
+}
+
+// ResetIcon resets all changes to the "icon" field.
+func (m *MenuMutation) ResetIcon() {
+	m.icon = nil
+	delete(m.clearedFields, menu.FieldIcon)
+}
+
+// SetParentID sets the "parent_id" field.
+func (m *MenuMutation) SetParentID(i int) {
+	m.parent_id = &i
+	m.addparent_id = nil
+}
+
+// ParentID returns the value of the "parent_id" field in the mutation.
+func (m *MenuMutation) ParentID() (r int, exists bool) {
+	v := m.parent_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldParentID returns the old "parent_id" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldParentID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldParentID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldParentID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldParentID: %w", err)
+	}
+	return oldValue.ParentID, nil
+}
+
+// AddParentID adds i to the "parent_id" field.
+func (m *MenuMutation) AddParentID(i int) {
+	if m.addparent_id != nil {
+		*m.addparent_id += i
+	} else {
+		m.addparent_id = &i
+	}
+}
+
+// AddedParentID returns the value that was added to the "parent_id" field in this mutation.
+func (m *MenuMutation) AddedParentID() (r int, exists bool) {
+	v := m.addparent_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetParentID resets all changes to the "parent_id" field.
+func (m *MenuMutation) ResetParentID() {
+	m.parent_id = nil
+	m.addparent_id = nil
+}
+
+// SetSortOrder sets the "sort_order" field.
+func (m *MenuMutation) SetSortOrder(i int) {
+	m.sort_order = &i
+	m.addsort_order = nil
+}
+
+// SortOrder returns the value of the "sort_order" field in the mutation.
+func (m *MenuMutation) SortOrder() (r int, exists bool) {
+	v := m.sort_order
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSortOrder returns the old "sort_order" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldSortOrder(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSortOrder is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSortOrder requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSortOrder: %w", err)
+	}
+	return oldValue.SortOrder, nil
+}
+
+// AddSortOrder adds i to the "sort_order" field.
+func (m *MenuMutation) AddSortOrder(i int) {
+	if m.addsort_order != nil {
+		*m.addsort_order += i
+	} else {
+		m.addsort_order = &i
+	}
+}
+
+// AddedSortOrder returns the value that was added to the "sort_order" field in this mutation.
+func (m *MenuMutation) AddedSortOrder() (r int, exists bool) {
+	v := m.addsort_order
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetSortOrder resets all changes to the "sort_order" field.
+func (m *MenuMutation) ResetSortOrder() {
+	m.sort_order = nil
+	m.addsort_order = nil
+}
+
+// SetVisible sets the "visible" field.
+func (m *MenuMutation) SetVisible(b bool) {
+	m.visible = &b
+}
+
+// Visible returns the value of the "visible" field in the mutation.
+func (m *MenuMutation) Visible() (r bool, exists bool) {
+	v := m.visible
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldVisible returns the old "visible" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldVisible(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldVisible is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldVisible requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldVisible: %w", err)
+	}
+	return oldValue.Visible, nil
+}
+
+// ResetVisible resets all changes to the "visible" field.
+func (m *MenuMutation) ResetVisible() {
+	m.visible = nil
+}
+
+// SetTarget sets the "target" field.
+func (m *MenuMutation) SetTarget(s string) {
+	m.target = &s
+}
+
+// Target returns the value of the "target" field in the mutation.
+func (m *MenuMutation) Target() (r string, exists bool) {
+	v := m.target
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTarget returns the old "target" field's value of the Menu entity.
+// If the Menu object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MenuMutation) OldTarget(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTarget is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTarget requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTarget: %w", err)
+	}
+	return oldValue.Target, nil
+}
+
+// ResetTarget resets all changes to the "target" field.
+func (m *MenuMutation) ResetTarget() {
+	m.target = nil
+}
+
+// Where appends a list predicates to the MenuMutation builder.
+func (m *MenuMutation) Where(ps ...predicate.Menu) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the MenuMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *MenuMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.Menu, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *MenuMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *MenuMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (Menu).
+func (m *MenuMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *MenuMutation) Fields() []string {
+	fields := make([]string, 0, 10)
+	if m.created_at != nil {
+		fields = append(fields, menu.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, menu.FieldUpdatedAt)
+	}
+	if m.name != nil {
+		fields = append(fields, menu.FieldName)
+	}
+	if m.title != nil {
+		fields = append(fields, menu.FieldTitle)
+	}
+	if m._path != nil {
+		fields = append(fields, menu.FieldPath)
+	}
+	if m.icon != nil {
+		fields = append(fields, menu.FieldIcon)
+	}
+	if m.parent_id != nil {
+		fields = append(fields, menu.FieldParentID)
+	}
+	if m.sort_order != nil {
+		fields = append(fields, menu.FieldSortOrder)
+	}
+	if m.visible != nil {
+		fields = append(fields, menu.FieldVisible)
+	}
+	if m.target != nil {
+		fields = append(fields, menu.FieldTarget)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *MenuMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case menu.FieldCreatedAt:
+		return m.CreatedAt()
+	case menu.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case menu.FieldName:
+		return m.Name()
+	case menu.FieldTitle:
+		return m.Title()
+	case menu.FieldPath:
+		return m.Path()
+	case menu.FieldIcon:
+		return m.Icon()
+	case menu.FieldParentID:
+		return m.ParentID()
+	case menu.FieldSortOrder:
+		return m.SortOrder()
+	case menu.FieldVisible:
+		return m.Visible()
+	case menu.FieldTarget:
+		return m.Target()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *MenuMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case menu.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case menu.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case menu.FieldName:
+		return m.OldName(ctx)
+	case menu.FieldTitle:
+		return m.OldTitle(ctx)
+	case menu.FieldPath:
+		return m.OldPath(ctx)
+	case menu.FieldIcon:
+		return m.OldIcon(ctx)
+	case menu.FieldParentID:
+		return m.OldParentID(ctx)
+	case menu.FieldSortOrder:
+		return m.OldSortOrder(ctx)
+	case menu.FieldVisible:
+		return m.OldVisible(ctx)
+	case menu.FieldTarget:
+		return m.OldTarget(ctx)
+	}
+	return nil, fmt.Errorf("unknown Menu field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *MenuMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case menu.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case menu.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case menu.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case menu.FieldTitle:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTitle(v)
+		return nil
+	case menu.FieldPath:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPath(v)
+		return nil
+	case menu.FieldIcon:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIcon(v)
+		return nil
+	case menu.FieldParentID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetParentID(v)
+		return nil
+	case menu.FieldSortOrder:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSortOrder(v)
+		return nil
+	case menu.FieldVisible:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetVisible(v)
+		return nil
+	case menu.FieldTarget:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTarget(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Menu field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *MenuMutation) AddedFields() []string {
+	var fields []string
+	if m.addparent_id != nil {
+		fields = append(fields, menu.FieldParentID)
+	}
+	if m.addsort_order != nil {
+		fields = append(fields, menu.FieldSortOrder)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *MenuMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case menu.FieldParentID:
+		return m.AddedParentID()
+	case menu.FieldSortOrder:
+		return m.AddedSortOrder()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *MenuMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case menu.FieldParentID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddParentID(v)
+		return nil
+	case menu.FieldSortOrder:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddSortOrder(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Menu numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *MenuMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(menu.FieldIcon) {
+		fields = append(fields, menu.FieldIcon)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *MenuMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *MenuMutation) ClearField(name string) error {
+	switch name {
+	case menu.FieldIcon:
+		m.ClearIcon()
+		return nil
+	}
+	return fmt.Errorf("unknown Menu nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *MenuMutation) ResetField(name string) error {
+	switch name {
+	case menu.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case menu.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case menu.FieldName:
+		m.ResetName()
+		return nil
+	case menu.FieldTitle:
+		m.ResetTitle()
+		return nil
+	case menu.FieldPath:
+		m.ResetPath()
+		return nil
+	case menu.FieldIcon:
+		m.ResetIcon()
+		return nil
+	case menu.FieldParentID:
+		m.ResetParentID()
+		return nil
+	case menu.FieldSortOrder:
+		m.ResetSortOrder()
+		return nil
+	case menu.FieldVisible:
+		m.ResetVisible()
+		return nil
+	case menu.FieldTarget:
+		m.ResetTarget()
+		return nil
+	}
+	return fmt.Errorf("unknown Menu field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *MenuMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *MenuMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *MenuMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *MenuMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *MenuMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *MenuMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *MenuMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown Menu unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *MenuMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown Menu edge %s", name)
 }
 
 // NotificationMutation represents an operation that mutates the Notification nodes in the graph.

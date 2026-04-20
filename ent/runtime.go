@@ -12,18 +12,16 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/comment"
 	"github.com/shuTwT/hoshikuzu/ent/coupon"
 	"github.com/shuTwT/hoshikuzu/ent/couponusage"
-	"github.com/shuTwT/hoshikuzu/ent/doclibrary"
-	"github.com/shuTwT/hoshikuzu/ent/doclibrarydetail"
 	"github.com/shuTwT/hoshikuzu/ent/essay"
 	"github.com/shuTwT/hoshikuzu/ent/file"
 	"github.com/shuTwT/hoshikuzu/ent/flink"
 	"github.com/shuTwT/hoshikuzu/ent/flinkapplication"
 	"github.com/shuTwT/hoshikuzu/ent/flinkgroup"
 	"github.com/shuTwT/hoshikuzu/ent/friendcirclerecord"
-	"github.com/shuTwT/hoshikuzu/ent/knowledgebase"
 	"github.com/shuTwT/hoshikuzu/ent/license"
 	"github.com/shuTwT/hoshikuzu/ent/member"
 	"github.com/shuTwT/hoshikuzu/ent/memberlevel"
+	"github.com/shuTwT/hoshikuzu/ent/menu"
 	"github.com/shuTwT/hoshikuzu/ent/notification"
 	"github.com/shuTwT/hoshikuzu/ent/oauth2accesstoken"
 	"github.com/shuTwT/hoshikuzu/ent/oauth2code"
@@ -351,40 +349,6 @@ func init() {
 	couponusageDescRemark := couponusageFields[7].Descriptor()
 	// couponusage.RemarkValidator is a validator for the "remark" field. It is called by the builders before save.
 	couponusage.RemarkValidator = couponusageDescRemark.Validators[0].(func(string) error)
-	doclibraryMixin := schema.DocLibrary{}.Mixin()
-	doclibraryMixinFields0 := doclibraryMixin[0].Fields()
-	_ = doclibraryMixinFields0
-	doclibraryFields := schema.DocLibrary{}.Fields()
-	_ = doclibraryFields
-	// doclibraryDescCreatedAt is the schema descriptor for created_at field.
-	doclibraryDescCreatedAt := doclibraryMixinFields0[1].Descriptor()
-	// doclibrary.DefaultCreatedAt holds the default value on creation for the created_at field.
-	doclibrary.DefaultCreatedAt = doclibraryDescCreatedAt.Default.(func() time.Time)
-	// doclibraryDescUpdatedAt is the schema descriptor for updated_at field.
-	doclibraryDescUpdatedAt := doclibraryMixinFields0[2].Descriptor()
-	// doclibrary.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	doclibrary.DefaultUpdatedAt = doclibraryDescUpdatedAt.Default.(func() time.Time)
-	// doclibrary.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	doclibrary.UpdateDefaultUpdatedAt = doclibraryDescUpdatedAt.UpdateDefault.(func() time.Time)
-	doclibrarydetailMixin := schema.DocLibraryDetail{}.Mixin()
-	doclibrarydetailMixinFields0 := doclibrarydetailMixin[0].Fields()
-	_ = doclibrarydetailMixinFields0
-	doclibrarydetailFields := schema.DocLibraryDetail{}.Fields()
-	_ = doclibrarydetailFields
-	// doclibrarydetailDescCreatedAt is the schema descriptor for created_at field.
-	doclibrarydetailDescCreatedAt := doclibrarydetailMixinFields0[1].Descriptor()
-	// doclibrarydetail.DefaultCreatedAt holds the default value on creation for the created_at field.
-	doclibrarydetail.DefaultCreatedAt = doclibrarydetailDescCreatedAt.Default.(func() time.Time)
-	// doclibrarydetailDescUpdatedAt is the schema descriptor for updated_at field.
-	doclibrarydetailDescUpdatedAt := doclibrarydetailMixinFields0[2].Descriptor()
-	// doclibrarydetail.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	doclibrarydetail.DefaultUpdatedAt = doclibrarydetailDescUpdatedAt.Default.(func() time.Time)
-	// doclibrarydetail.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	doclibrarydetail.UpdateDefaultUpdatedAt = doclibrarydetailDescUpdatedAt.UpdateDefault.(func() time.Time)
-	// doclibrarydetailDescLanguage is the schema descriptor for language field.
-	doclibrarydetailDescLanguage := doclibrarydetailFields[6].Descriptor()
-	// doclibrarydetail.DefaultLanguage holds the default value on creation for the language field.
-	doclibrarydetail.DefaultLanguage = doclibrarydetailDescLanguage.Default.(string)
 	essayMixin := schema.Essay{}.Mixin()
 	essayMixinFields0 := essayMixin[0].Fields()
 	_ = essayMixinFields0
@@ -607,37 +571,6 @@ func init() {
 	friendcirclerecord.DefaultUpdatedAt = friendcirclerecordDescUpdatedAt.Default.(func() time.Time)
 	// friendcirclerecord.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	friendcirclerecord.UpdateDefaultUpdatedAt = friendcirclerecordDescUpdatedAt.UpdateDefault.(func() time.Time)
-	knowledgebaseMixin := schema.KnowledgeBase{}.Mixin()
-	knowledgebaseMixinFields0 := knowledgebaseMixin[0].Fields()
-	_ = knowledgebaseMixinFields0
-	knowledgebaseFields := schema.KnowledgeBase{}.Fields()
-	_ = knowledgebaseFields
-	// knowledgebaseDescCreatedAt is the schema descriptor for created_at field.
-	knowledgebaseDescCreatedAt := knowledgebaseMixinFields0[1].Descriptor()
-	// knowledgebase.DefaultCreatedAt holds the default value on creation for the created_at field.
-	knowledgebase.DefaultCreatedAt = knowledgebaseDescCreatedAt.Default.(func() time.Time)
-	// knowledgebaseDescUpdatedAt is the schema descriptor for updated_at field.
-	knowledgebaseDescUpdatedAt := knowledgebaseMixinFields0[2].Descriptor()
-	// knowledgebase.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	knowledgebase.DefaultUpdatedAt = knowledgebaseDescUpdatedAt.Default.(func() time.Time)
-	// knowledgebase.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	knowledgebase.UpdateDefaultUpdatedAt = knowledgebaseDescUpdatedAt.UpdateDefault.(func() time.Time)
-	// knowledgebaseDescName is the schema descriptor for name field.
-	knowledgebaseDescName := knowledgebaseFields[0].Descriptor()
-	// knowledgebase.NameValidator is a validator for the "name" field. It is called by the builders before save.
-	knowledgebase.NameValidator = knowledgebaseDescName.Validators[0].(func(string) error)
-	// knowledgebaseDescModel is the schema descriptor for model field.
-	knowledgebaseDescModel := knowledgebaseFields[2].Descriptor()
-	// knowledgebase.ModelValidator is a validator for the "model" field. It is called by the builders before save.
-	knowledgebase.ModelValidator = knowledgebaseDescModel.Validators[0].(func(string) error)
-	// knowledgebaseDescVectorDimension is the schema descriptor for vector_dimension field.
-	knowledgebaseDescVectorDimension := knowledgebaseFields[3].Descriptor()
-	// knowledgebase.VectorDimensionValidator is a validator for the "vector_dimension" field. It is called by the builders before save.
-	knowledgebase.VectorDimensionValidator = knowledgebaseDescVectorDimension.Validators[0].(func(int) error)
-	// knowledgebaseDescMaxBatchDocumentCount is the schema descriptor for max_batch_document_count field.
-	knowledgebaseDescMaxBatchDocumentCount := knowledgebaseFields[4].Descriptor()
-	// knowledgebase.MaxBatchDocumentCountValidator is a validator for the "max_batch_document_count" field. It is called by the builders before save.
-	knowledgebase.MaxBatchDocumentCountValidator = knowledgebaseDescMaxBatchDocumentCount.Validators[0].(func(int) error)
 	licenseMixin := schema.License{}.Mixin()
 	licenseMixinFields0 := licenseMixin[0].Fields()
 	_ = licenseMixinFields0
@@ -797,6 +730,73 @@ func init() {
 	memberlevelDescSortOrder := memberlevelFields[8].Descriptor()
 	// memberlevel.DefaultSortOrder holds the default value on creation for the sort_order field.
 	memberlevel.DefaultSortOrder = memberlevelDescSortOrder.Default.(int)
+	menuMixin := schema.Menu{}.Mixin()
+	menuMixinFields0 := menuMixin[0].Fields()
+	_ = menuMixinFields0
+	menuFields := schema.Menu{}.Fields()
+	_ = menuFields
+	// menuDescCreatedAt is the schema descriptor for created_at field.
+	menuDescCreatedAt := menuMixinFields0[1].Descriptor()
+	// menu.DefaultCreatedAt holds the default value on creation for the created_at field.
+	menu.DefaultCreatedAt = menuDescCreatedAt.Default.(func() time.Time)
+	// menuDescUpdatedAt is the schema descriptor for updated_at field.
+	menuDescUpdatedAt := menuMixinFields0[2].Descriptor()
+	// menu.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	menu.DefaultUpdatedAt = menuDescUpdatedAt.Default.(func() time.Time)
+	// menu.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	menu.UpdateDefaultUpdatedAt = menuDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// menuDescName is the schema descriptor for name field.
+	menuDescName := menuFields[0].Descriptor()
+	// menu.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	menu.NameValidator = func() func(string) error {
+		validators := menuDescName.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(name string) error {
+			for _, fn := range fns {
+				if err := fn(name); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// menuDescTitle is the schema descriptor for title field.
+	menuDescTitle := menuFields[1].Descriptor()
+	// menu.DefaultTitle holds the default value on creation for the title field.
+	menu.DefaultTitle = menuDescTitle.Default.(string)
+	// menu.TitleValidator is a validator for the "title" field. It is called by the builders before save.
+	menu.TitleValidator = menuDescTitle.Validators[0].(func(string) error)
+	// menuDescPath is the schema descriptor for path field.
+	menuDescPath := menuFields[2].Descriptor()
+	// menu.DefaultPath holds the default value on creation for the path field.
+	menu.DefaultPath = menuDescPath.Default.(string)
+	// menu.PathValidator is a validator for the "path" field. It is called by the builders before save.
+	menu.PathValidator = menuDescPath.Validators[0].(func(string) error)
+	// menuDescIcon is the schema descriptor for icon field.
+	menuDescIcon := menuFields[3].Descriptor()
+	// menu.IconValidator is a validator for the "icon" field. It is called by the builders before save.
+	menu.IconValidator = menuDescIcon.Validators[0].(func(string) error)
+	// menuDescParentID is the schema descriptor for parent_id field.
+	menuDescParentID := menuFields[4].Descriptor()
+	// menu.DefaultParentID holds the default value on creation for the parent_id field.
+	menu.DefaultParentID = menuDescParentID.Default.(int)
+	// menuDescSortOrder is the schema descriptor for sort_order field.
+	menuDescSortOrder := menuFields[5].Descriptor()
+	// menu.DefaultSortOrder holds the default value on creation for the sort_order field.
+	menu.DefaultSortOrder = menuDescSortOrder.Default.(int)
+	// menuDescVisible is the schema descriptor for visible field.
+	menuDescVisible := menuFields[6].Descriptor()
+	// menu.DefaultVisible holds the default value on creation for the visible field.
+	menu.DefaultVisible = menuDescVisible.Default.(bool)
+	// menuDescTarget is the schema descriptor for target field.
+	menuDescTarget := menuFields[7].Descriptor()
+	// menu.DefaultTarget holds the default value on creation for the target field.
+	menu.DefaultTarget = menuDescTarget.Default.(string)
+	// menu.TargetValidator is a validator for the "target" field. It is called by the builders before save.
+	menu.TargetValidator = menuDescTarget.Validators[0].(func(string) error)
 	notificationMixin := schema.Notification{}.Mixin()
 	notificationMixinFields0 := notificationMixin[0].Fields()
 	_ = notificationMixinFields0

@@ -19,18 +19,16 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/comment"
 	"github.com/shuTwT/hoshikuzu/ent/coupon"
 	"github.com/shuTwT/hoshikuzu/ent/couponusage"
-	"github.com/shuTwT/hoshikuzu/ent/doclibrary"
-	"github.com/shuTwT/hoshikuzu/ent/doclibrarydetail"
 	"github.com/shuTwT/hoshikuzu/ent/essay"
 	"github.com/shuTwT/hoshikuzu/ent/file"
 	"github.com/shuTwT/hoshikuzu/ent/flink"
 	"github.com/shuTwT/hoshikuzu/ent/flinkapplication"
 	"github.com/shuTwT/hoshikuzu/ent/flinkgroup"
 	"github.com/shuTwT/hoshikuzu/ent/friendcirclerecord"
-	"github.com/shuTwT/hoshikuzu/ent/knowledgebase"
 	"github.com/shuTwT/hoshikuzu/ent/license"
 	"github.com/shuTwT/hoshikuzu/ent/member"
 	"github.com/shuTwT/hoshikuzu/ent/memberlevel"
+	"github.com/shuTwT/hoshikuzu/ent/menu"
 	"github.com/shuTwT/hoshikuzu/ent/notification"
 	"github.com/shuTwT/hoshikuzu/ent/oauth2accesstoken"
 	"github.com/shuTwT/hoshikuzu/ent/oauth2code"
@@ -117,18 +115,16 @@ func checkColumn(t, c string) error {
 			comment.Table:             comment.ValidColumn,
 			coupon.Table:              coupon.ValidColumn,
 			couponusage.Table:         couponusage.ValidColumn,
-			doclibrary.Table:          doclibrary.ValidColumn,
-			doclibrarydetail.Table:    doclibrarydetail.ValidColumn,
 			essay.Table:               essay.ValidColumn,
 			flink.Table:               flink.ValidColumn,
 			flinkapplication.Table:    flinkapplication.ValidColumn,
 			flinkgroup.Table:          flinkgroup.ValidColumn,
 			file.Table:                file.ValidColumn,
 			friendcirclerecord.Table:  friendcirclerecord.ValidColumn,
-			knowledgebase.Table:       knowledgebase.ValidColumn,
 			license.Table:             license.ValidColumn,
 			member.Table:              member.ValidColumn,
 			memberlevel.Table:         memberlevel.ValidColumn,
+			menu.Table:                menu.ValidColumn,
 			notification.Table:        notification.ValidColumn,
 			oauth2accesstoken.Table:   oauth2accesstoken.ValidColumn,
 			oauth2code.Table:          oauth2code.ValidColumn,

@@ -127,38 +127,20 @@ func initContentRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 		tagApi.Put("/update/:id", handlerMap.TagHandler.UpdateTag)
 		tagApi.Delete("/delete/:id", handlerMap.TagHandler.DeleteTag)
 	}
-	docLibraryApi := router.Group("/doclibrary")
-	{
-		docLibraryApi.Get("/list", handlerMap.DocLibraryHandler.GetDocLibraryList)
-		docLibraryApi.Get("/page", handlerMap.DocLibraryHandler.GetDocLibraryPage)
-		docLibraryApi.Post("/create", handlerMap.DocLibraryHandler.CreateDocLibrary)
-		docLibraryApi.Put("/update/:id", handlerMap.DocLibraryHandler.UpdateDocLibrary)
-		docLibraryApi.Get("/query/:id", handlerMap.DocLibraryHandler.GetDocLibrary)
-		docLibraryApi.Delete("/delete/:id", handlerMap.DocLibraryHandler.DeleteDocLibrary)
-	}
-	docLibraryDetailApi := router.Group("/doclibrarydetail")
-	{
-		docLibraryDetailApi.Get("/page", handlerMap.DocLibraryDetailHandler.GetDocLibraryDetailPage)
-		docLibraryDetailApi.Post("/create", handlerMap.DocLibraryDetailHandler.CreateDocLibraryDetail)
-		docLibraryDetailApi.Put("/update/:id", handlerMap.DocLibraryDetailHandler.UpdateDocLibraryDetail)
-		docLibraryDetailApi.Get("/query/:id", handlerMap.DocLibraryDetailHandler.GetDocLibraryDetail)
-		docLibraryDetailApi.Delete("/delete/:id", handlerMap.DocLibraryDetailHandler.DeleteDocLibraryDetail)
-		docLibraryDetailApi.Get("/tree", handlerMap.DocLibraryDetailHandler.GetDocLibraryDetailTree)
-	}
-	knowledgeBaseApi := router.Group("/knowledgebase")
-	{
-		knowledgeBaseApi.Get("/list", handlerMap.KnowledgeBaseHandler.GetKnowledgeBaseList)
-		knowledgeBaseApi.Get("/page", handlerMap.KnowledgeBaseHandler.GetKnowledgeBasePage)
-		knowledgeBaseApi.Post("/create", handlerMap.KnowledgeBaseHandler.CreateKnowledgeBase)
-		knowledgeBaseApi.Put("/update/:id", handlerMap.KnowledgeBaseHandler.UpdateKnowledgeBase)
-		knowledgeBaseApi.Get("/query/:id", handlerMap.KnowledgeBaseHandler.GetKnowledgeBase)
-		knowledgeBaseApi.Delete("/delete/:id", handlerMap.KnowledgeBaseHandler.DeleteKnowledgeBase)
-	}
 	flinkApplicationApi := router.Group("/flink-application")
 	{
 		flinkApplicationApi.Get("/page", handlerMap.FlinkApplicationHandler.ListFlinkApplicationPage)
 		flinkApplicationApi.Get("/query/:id", handlerMap.FlinkApplicationHandler.QueryFlinkApplication)
 		flinkApplicationApi.Put("/update/:id", handlerMap.FlinkApplicationHandler.ApproveFlinkApplication)
+	}
+	menuApi := router.Group("/menu")
+	{
+		menuApi.Get("/query/:id", handlerMap.MenuHandler.QueryMenu)
+		menuApi.Get("/list", handlerMap.MenuHandler.QueryMenuList)
+		menuApi.Get("/page", handlerMap.MenuHandler.QueryMenuPage)
+		menuApi.Post("/create", handlerMap.MenuHandler.CreateMenu)
+		menuApi.Put("/update/:id", handlerMap.MenuHandler.UpdateMenu)
+		menuApi.Delete("/delete/:id", handlerMap.MenuHandler.DeleteMenu)
 	}
 }
 
@@ -366,6 +348,8 @@ func initPublicRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 		publicApi.Get("/product/search", handlerMap.PublicHandler.SearchProducts)
 		// 友链申请接口
 		publicApi.Post("/flink-application/create", handlerMap.PublicHandler.CreateFlinkApplication)
+		// 前台菜单列表接口
+		publicApi.Get("/menu/list", handlerMap.PublicHandler.GetMenuList)
 		// 插件注册接口，仅在debug模式下生效，不需要认证
 		publicApi.Post("/plugin/register", handlerMap.PublicHandler.RegisterPlugin)
 		// 插件心跳接口，仅在debug模式下生效，不需要认证

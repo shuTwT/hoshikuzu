@@ -93,30 +93,6 @@ func (f CouponUsageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CouponUsageMutation", m)
 }
 
-// The DocLibraryFunc type is an adapter to allow the use of ordinary
-// function as DocLibrary mutator.
-type DocLibraryFunc func(context.Context, *ent.DocLibraryMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f DocLibraryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.DocLibraryMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DocLibraryMutation", m)
-}
-
-// The DocLibraryDetailFunc type is an adapter to allow the use of ordinary
-// function as DocLibraryDetail mutator.
-type DocLibraryDetailFunc func(context.Context, *ent.DocLibraryDetailMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f DocLibraryDetailFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.DocLibraryDetailMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DocLibraryDetailMutation", m)
-}
-
 // The EssayFunc type is an adapter to allow the use of ordinary
 // function as Essay mutator.
 type EssayFunc func(context.Context, *ent.EssayMutation) (ent.Value, error)
@@ -189,18 +165,6 @@ func (f FriendCircleRecordFunc) Mutate(ctx context.Context, m ent.Mutation) (ent
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FriendCircleRecordMutation", m)
 }
 
-// The KnowledgeBaseFunc type is an adapter to allow the use of ordinary
-// function as KnowledgeBase mutator.
-type KnowledgeBaseFunc func(context.Context, *ent.KnowledgeBaseMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f KnowledgeBaseFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.KnowledgeBaseMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.KnowledgeBaseMutation", m)
-}
-
 // The LicenseFunc type is an adapter to allow the use of ordinary
 // function as License mutator.
 type LicenseFunc func(context.Context, *ent.LicenseMutation) (ent.Value, error)
@@ -235,6 +199,18 @@ func (f MemberLevelFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.MemberLevelMutation", m)
+}
+
+// The MenuFunc type is an adapter to allow the use of ordinary
+// function as Menu mutator.
+type MenuFunc func(context.Context, *ent.MenuMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f MenuFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.MenuMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.MenuMutation", m)
 }
 
 // The NotificationFunc type is an adapter to allow the use of ordinary

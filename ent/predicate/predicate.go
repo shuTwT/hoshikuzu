@@ -27,12 +27,6 @@ type Coupon func(*sql.Selector)
 // CouponUsage is the predicate function for couponusage builders.
 type CouponUsage func(*sql.Selector)
 
-// DocLibrary is the predicate function for doclibrary builders.
-type DocLibrary func(*sql.Selector)
-
-// DocLibraryDetail is the predicate function for doclibrarydetail builders.
-type DocLibraryDetail func(*sql.Selector)
-
 // Essay is the predicate function for essay builders.
 type Essay func(*sql.Selector)
 
@@ -51,9 +45,6 @@ type File func(*sql.Selector)
 // FriendCircleRecord is the predicate function for friendcirclerecord builders.
 type FriendCircleRecord func(*sql.Selector)
 
-// KnowledgeBase is the predicate function for knowledgebase builders.
-type KnowledgeBase func(*sql.Selector)
-
 // License is the predicate function for license builders.
 type License func(*sql.Selector)
 
@@ -62,6 +53,9 @@ type Member func(*sql.Selector)
 
 // MemberLevel is the predicate function for memberlevel builders.
 type MemberLevel func(*sql.Selector)
+
+// Menu is the predicate function for menu builders.
+type Menu func(*sql.Selector)
 
 // Notification is the predicate function for notification builders.
 type Notification func(*sql.Selector)
