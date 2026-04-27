@@ -67,7 +67,7 @@ watch(
 </template>
 <style scoped>
 .header-nav {
-  height: 64px;
+  height: var(--pro-layout-nav-height,64px);
   background-color: #fff;
   position: absolute;
   top: 0;

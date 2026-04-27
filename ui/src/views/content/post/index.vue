@@ -447,7 +447,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="post-page">
+  <div class="p-6">
     <n-card title="文章管理" class="post-card">
       <!-- 头部操作栏 -->
       <div class="header-section">
@@ -525,9 +525,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.post-page {
-  padding: 16px;
-}
 
 .post-card {
   max-width: 1600px;

@@ -57,6 +57,8 @@ window.$notification = notification
   position: relative;
   height: 100%;
   width: 100%;
+  --pro-layout-nav-height:64px;
+  --pro-layout-footer-height:48px;
 }
 
 
