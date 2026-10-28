@@ -36,6 +36,12 @@ const (
 	AI_CONFIG_ENCRYPTION_KEY = "ai.config_encryption_key"
 )
 
+// 认证密钥的占位默认值。默认配置文件也会写入这两个值，因此仅凭"已配置"无法判断是否安全。
+const (
+	defaultAuthTokenSecret = "your-secret-key"
+	defaultAuthPatSecret   = "your-pat-secret"
+)
+
 func Init() {
 	viper.SetDefault(DATABASE_TYPE, "sqlite")
 	viper.SetDefault(DATABASE_URL, "file:./data/sql.db?cache=shared&_fk=1")
@@ -44,8 +50,8 @@ func Init() {
 	viper.SetDefault(SERVER_DEBUG, false)
 	viper.SetDefault(SERVER_TRUSTED_PROXIES, []string{"127.0.0.1"})
 	viper.SetDefault(SWAGGER_ENABLE, true)
-	viper.SetDefault(AUTH_TOKEN_SECRET, "your-secret-key")
-	viper.SetDefault(AUTH_PAT_SECRET, "your-pat-secret")
+	viper.SetDefault(AUTH_TOKEN_SECRET, defaultAuthTokenSecret)
+	viper.SetDefault(AUTH_PAT_SECRET, defaultAuthPatSecret)
 	// Redis 相关
 	viper.SetDefault(Redis_Enable, false)
 	viper.SetDefault(REDIS_ADDR, "localhost:6379")
@@ -79,6 +85,24 @@ func Init() {
 	} else {
 		logger.Info("已加载配置文件", "config_file", viper.ConfigFileUsed())
 		ensureAIEncryptionKey()
+	}
+
+	warnInsecureAuthSecrets()
+}
+
+// warnInsecureAuthSecrets 认证密钥为空或仍是占位默认值时打印警告：任何人都可以用公开的默认值伪造登录令牌。
+func warnInsecureAuthSecrets() {
+	secrets := []struct {
+		key          string
+		defaultValue string
+	}{
+		{AUTH_TOKEN_SECRET, defaultAuthTokenSecret},
+		{AUTH_PAT_SECRET, defaultAuthPatSecret},
+	}
+	for _, s := range secrets {
+		if v := viper.GetString(s.key); v == "" || v == s.defaultValue {
+			logger.Warn("认证密钥未配置或仍为默认值，令牌可被伪造，请在配置文件中设置随机密钥", "config_key", s.key)
+		}
 	}
 }
 

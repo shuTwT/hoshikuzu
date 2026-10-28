@@ -1,7 +1,9 @@
 package payorder_handler
 
 import (
+	"errors"
 	"html"
+	"log/slog"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -327,9 +329,9 @@ func (h *PayOrderHandler) MockPayPage(c *fiber.Ctx) error {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
 	}
 
-	order, err := h.client.PayOrder.Get(c.Context(), id)
+	order, err := h.payOrderService.GetMockPayOrder(c.Context(), id)
 	if err != nil {
-		return c.JSON(model.NewError(fiber.StatusNotFound, "订单不存在"))
+		return mockPayError(c, err)
 	}
 
 	returnURL := "/orders.html"
@@ -349,7 +351,7 @@ func (h *PayOrderHandler) MockPayPage(c *fiber.Ctx) error {
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>模拟支付 - ` + subject + `</title>
+<title>模拟支付 - ` + subjectHTML + `</title>
 <style>
   body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f6f8; margin: 0; }
   .box { max-width: 420px; margin: 80px auto; background: #fff; border-radius: 10px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
@@ -418,7 +420,7 @@ func (h *PayOrderHandler) MockPaySuccess(c *fiber.Ctx) error {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
 	}
 	if err := h.payOrderService.MockPaySuccess(c.Context(), id); err != nil {
-		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
+		return mockPayError(c, err)
 	}
 	return c.JSON(model.NewSuccess("模拟支付成功", nil))
 }
@@ -435,7 +437,7 @@ func (h *PayOrderHandler) MockPayFail(c *fiber.Ctx) error {
 		return c.JSON(model.NewError(fiber.StatusBadRequest, "Invalid ID format"))
 	}
 	if err := h.payOrderService.MockPayFail(c.Context(), id); err != nil {
-		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
+		return mockPayError(c, err)
 	}
 	return c.JSON(model.NewSuccess("模拟支付失败", nil))
 }
@@ -476,6 +478,19 @@ func (h *PayOrderHandler) GetTodayStats(c *fiber.Ctx) error {
 		return c.JSON(model.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 	return c.JSON(model.NewSuccess("success", stats))
+}
+
+// mockPayError 模拟支付接口的错误响应：未开启或订单不符时返回 403/404 业务码，不暴露内部错误细节。
+func mockPayError(c *fiber.Ctx, err error) error {
+	switch {
+	case errors.Is(err, model.ErrMockPayDisabled):
+		return c.JSON(model.NewError(fiber.StatusForbidden, err.Error()))
+	case errors.Is(err, model.ErrMockPayOrderInvalid):
+		return c.JSON(model.NewError(fiber.StatusNotFound, err.Error()))
+	default:
+		slog.Error("模拟支付处理失败", "error", err)
+		return c.JSON(model.NewError(fiber.StatusInternalServerError, "模拟支付处理失败"))
+	}
 }
 
 // orderIDHtml mock 支付页展示用：优先商户订单号，缺省用订单ID。

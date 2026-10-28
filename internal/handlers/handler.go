@@ -107,7 +107,7 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 	flinkApplicationHandler := flinkapplication_handler.NewFlinkApplicationHandler(db, serviceMap.FlinkApplicationService)
 	flinkGroupHandler := flinkgroup_handler.NewFlinkGroupHandler(db, serviceMap.FlinkService)
 	friendCircleHandler := friendcircle_handler.NewFriendCircleHandler(serviceMap.FriendCircleService)
-	initializeHandler := initialize_handler.NewInitializeHandler(db, serviceMap.UserService, serviceMap.SettingService)
+	initializeHandler := initialize_handler.NewInitializeHandler(serviceMap.InitializeService)
 	mailHandler := mail_handler.NewMailHandler(serviceMap.MailService)
 	mailTemplateHandler := mailtemplate_handler.NewMailTemplateHandler(serviceMap.MailTemplateService)
 	menuHandler := menu_handler.NewMenuHandler(serviceMap.MenuService)

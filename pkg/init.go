@@ -45,6 +45,7 @@ import (
 	wallet_service "github.com/shuTwT/hoshikuzu/internal/services/mall/wallet"
 	auth_service "github.com/shuTwT/hoshikuzu/internal/services/system/auth"
 	common_service "github.com/shuTwT/hoshikuzu/internal/services/system/common"
+	initialize_service "github.com/shuTwT/hoshikuzu/internal/services/system/initialize"
 	notification_service "github.com/shuTwT/hoshikuzu/internal/services/system/notification"
 	role_service "github.com/shuTwT/hoshikuzu/internal/services/system/role"
 	setting_service "github.com/shuTwT/hoshikuzu/internal/services/system/setting"
@@ -143,6 +144,7 @@ type ServiceMap struct {
 	ProductService          product_service.ProductService
 	RoleService             role_service.RoleService
 	ScheduleJobService      schedulejob_service.ScheduleJobService
+	InitializeService       initialize_service.InitializeService
 	SettingService          setting_service.SettingService
 	SmsTemplateService      smstemplate_service.SmsTemplateService
 	StorageStrategyService  storagestrategy_service.StorageStrategyService
@@ -195,6 +197,7 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 	themeService := theme_service.NewThemeServiceImpl(db, settingService)
 	tagService := tag_service.NewTagServiceImpl(db)
 	userService := user_service.NewUserServiceImpl(db)
+	initializeService := initialize_service.NewInitializeServiceImpl(db, userService)
 	visitService := visit_service.NewVisitServiceImpl(db)
 	walletService := wallet_service.NewWalletServiceImpl(db)
 	migrationService := migration_service.NewMigrationServiceImpl(db)
@@ -234,6 +237,7 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 		ProductService:          productService,
 		RoleService:             roleService,
 		ScheduleJobService:      scheduleJobService,
+		InitializeService:       initializeService,
 		SettingService:          settingService,
 		SmsTemplateService:      smsTemplateService,
 		StorageStrategyService:  storageStrategyService,

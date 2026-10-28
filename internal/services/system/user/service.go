@@ -23,6 +23,7 @@ type UserService interface {
 	ListUserPage(c *fiber.Ctx, pageQuery model.PageQuery) (int, []*ent.User, error)
 	QueryUserById(ctx context.Context, id int) (*ent.User, error)
 	CreateUser(ctx context.Context, req model.UserCreateReq) (*ent.User, error)
+	CreateUserWithTx(ctx context.Context, tx *ent.Tx, req model.UserCreateReq) (*ent.User, error)
 	UpdateUser(ctx context.Context, id int, req model.UserUpdateReq) (*ent.User, error)
 	UpdateProfile(ctx context.Context, userId int, req model.UpdateProfileReq) error
 	GetUserCount(ctx context.Context) (int, error)
@@ -88,9 +89,37 @@ func (s *UserServiceImpl) QueryUserById(ctx context.Context, id int) (*ent.User,
 }
 
 func (s *UserServiceImpl) CreateUser(ctx context.Context, req model.UserCreateReq) (*ent.User, error) {
+	// 使用事务创建用户和钱包
+	tx, err := s.client.Tx(ctx)
+	if err != nil {
+		return nil, err
+	}
 
+	defer func() {
+		if p := recover(); p != nil {
+			_ = tx.Rollback()
+			panic(p)
+		}
+	}()
+
+	createdUser, err := s.CreateUserWithTx(ctx, tx, req)
+	if err != nil {
+		_ = tx.Rollback()
+		return nil, err
+	}
+
+	// 提交事务
+	if err = tx.Commit(); err != nil {
+		return nil, err
+	}
+
+	return createdUser, nil
+}
+
+// CreateUserWithTx 在调用方的事务中创建用户及其钱包、会员，事务的提交与回滚由调用方负责。
+func (s *UserServiceImpl) CreateUserWithTx(ctx context.Context, tx *ent.Tx, req model.UserCreateReq) (*ent.User, error) {
 	// 检查邮箱是否已存在
-	exists, err := s.client.User.Query().
+	exists, err := tx.User.Query().
 		Where(user.EmailEQ(req.Email)).
 		Exist(ctx)
 	if err != nil {
@@ -102,7 +131,7 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req model.UserCreateRe
 
 	// 如果提供了手机号，检查手机号是否已存在
 	if req.PhoneNumber != "" {
-		exists, err = s.client.User.Query().
+		exists, err = tx.User.Query().
 			Where(user.PhoneNumberEQ(req.PhoneNumber)).
 			Exist(ctx)
 		if err != nil {
@@ -118,19 +147,6 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req model.UserCreateRe
 		return nil, err
 	}
 
-	// 使用事务创建用户和钱包
-	tx, err := s.client.Tx(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	defer func() {
-		if p := recover(); p != nil {
-			_ = tx.Rollback()
-			panic(p)
-		}
-	}()
-
 	// 创建用户
 	createdUser, err := tx.User.Create().
 		SetName(req.Name).
@@ -139,35 +155,24 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req model.UserCreateRe
 		SetEmail(req.Email).
 		SetRoleID(req.RoleID).
 		Save(ctx)
-
 	if err != nil {
-		_ = tx.Rollback()
 		return nil, err
 	}
 
 	// 为用户创建钱包
-	_, err = tx.Wallet.Create().
+	if _, err = tx.Wallet.Create().
 		SetUserID(createdUser.ID).
-		Save(ctx)
-	if err != nil {
-		_ = tx.Rollback()
+		Save(ctx); err != nil {
 		return nil, err
 	}
 
 	// 为用户创建会员
 	memberNo := fmt.Sprintf("M%06d", createdUser.ID)
-	_, err = tx.Member.Create().
+	if _, err = tx.Member.Create().
 		SetUserID(createdUser.ID).
 		SetMemberLevel(1).
 		SetMemberNo(memberNo).
-		Save(ctx)
-	if err != nil {
-		_ = tx.Rollback()
-		return nil, err
-	}
-
-	// 提交事务
-	if err = tx.Commit(); err != nil {
+		Save(ctx); err != nil {
 		return nil, err
 	}
 

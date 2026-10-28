@@ -47,3 +47,17 @@ var (
 	// ErrPromptImageURLEmpty 提示词图片地址为空
 	ErrPromptImageURLEmpty = errors.New("提示词图片地址不能为空")
 )
+
+// 模拟支付相关业务错误
+var (
+	// ErrMockPayDisabled 模拟支付未开启
+	ErrMockPayDisabled = errors.New("模拟支付未开启")
+	// ErrMockPayOrderInvalid 订单不是待支付的模拟支付订单
+	ErrMockPayOrderInvalid = errors.New("订单不是待支付的模拟支付订单")
+)
+
+// 系统初始化相关业务错误
+var (
+	// ErrSystemInitialized 系统已初始化
+	ErrSystemInitialized = errors.New("系统已初始化，请勿重复操作")
+)

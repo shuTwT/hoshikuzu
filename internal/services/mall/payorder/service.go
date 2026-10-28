@@ -27,6 +27,7 @@ type PayOrderService interface {
 	CloseTimeoutOrders(ctx context.Context) error
 	RefundOrder(ctx context.Context, orderID int, req *model.PayOrderRefundReq) (*model.PayOrderRefundResp, error)
 	RechargePayOrder(ctx context.Context, userID int, req *model.PayOrderRechargeReq) (*model.PayOrderSubmitResp, error)
+	GetMockPayOrder(ctx context.Context, orderID int) (*ent.PayOrder, error)
 	MockPaySuccess(ctx context.Context, orderID int) error
 	MockPayFail(ctx context.Context, orderID int) error
 	GetPayMethods(ctx context.Context, userID int) (*model.PayMethodResp, error)
@@ -317,21 +318,59 @@ func (s *PayOrderServiceImpl) submitToEpay(ctx context.Context, order *ent.PayOr
 	return payURL, resp.TradeNO, nil
 }
 
+// GetMockPayOrder 查询模拟支付订单：要求支付设置开启了模拟支付，且订单是通过模拟支付下单的。
+// 模拟支付接口是公开的，所有入口都必须先经过这里的校验。
+func (s *PayOrderServiceImpl) GetMockPayOrder(ctx context.Context, orderID int) (*ent.PayOrder, error) {
+	ps, err := s.loadPaymentSettings(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, model.ErrMockPayDisabled
+		}
+		return nil, err
+	}
+	if !ps.EnableMockPay {
+		return nil, model.ErrMockPayDisabled
+	}
+
+	order, err := s.db.PayOrder.Get(ctx, orderID)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, model.ErrMockPayOrderInvalid
+		}
+		return nil, err
+	}
+	if order.OrderID == nil || *order.OrderID != fmt.Sprintf("MOCK%d", order.ID) {
+		return nil, model.ErrMockPayOrderInvalid
+	}
+	return order, nil
+}
+
 // MockPaySuccess 模拟支付成功：复用真实支付成功的履约逻辑（幂等，含文章购买记录/充值入账积分）。
 func (s *PayOrderServiceImpl) MockPaySuccess(ctx context.Context, orderID int) error {
-	order, err := s.db.PayOrder.Get(ctx, orderID)
+	order, err := s.GetMockPayOrder(ctx, orderID)
 	if err != nil {
 		return err
 	}
 	if order.State == "2" {
 		return nil
 	}
+	if order.State != "1" {
+		return model.ErrMockPayOrderInvalid
+	}
 	return s.handlePaySuccess(ctx, order, fmt.Sprintf("MOCK%d", order.ID))
 }
 
-// MockPayFail 模拟支付失败：订单置为失败状态。
+// MockPayFail 模拟支付失败：待支付订单置为失败状态。
 func (s *PayOrderServiceImpl) MockPayFail(ctx context.Context, orderID int) error {
-	_, err := s.db.PayOrder.UpdateOneID(orderID).
+	order, err := s.GetMockPayOrder(ctx, orderID)
+	if err != nil {
+		return err
+	}
+	if order.State != "1" {
+		return model.ErrMockPayOrderInvalid
+	}
+	_, err = s.db.PayOrder.UpdateOneID(orderID).
+		Where(payorder.State("1")).
 		SetState("3").
 		SetErrorMsg("模拟支付失败").
 		Save(ctx)
