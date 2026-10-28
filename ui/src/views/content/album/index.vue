@@ -135,7 +135,8 @@ onMounted(()=>{
               <n-button type="primary" style="margin-right: 5px;" @click="openAlbumDialog('新增')"> <i class="fas fa-plus mr-2"></i>新增相册 </n-button>
               <n-button @click="onSearchAlbum()">刷新</n-button>
             </template>
-            <ul class="space-y-2">
+            <n-empty v-if="albumList.length === 0" description="暂无相册" class="py-10" />
+            <ul v-else class="space-y-2">
               <!-- 示例相册 -->
               <li
                 v-for="(item,index) in albumList"
@@ -156,7 +157,8 @@ onMounted(()=>{
               <n-button type="primary" @click="openAlbumPhotoDialog('新增')" style="margin-right: 5px;"> <i class="fas fa-upload mr-2"></i>新增 </n-button>
               <n-button @click="onSearchAlbumPhoto()">刷新</n-button>
             </template>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <n-empty v-if="albumPhotoList.length === 0" description="暂无相片" class="py-16" />
+            <div v-else class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               <!-- 示例照片卡片 -->
               <div v-for="(item,index) in albumPhotoList" :key="index" class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm overflow-hidden">
                 <n-image

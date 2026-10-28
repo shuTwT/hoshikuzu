@@ -97,6 +97,15 @@ func initContentRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 		albumPhotoApi.Get("/query/:id", handlerMap.AlbumPhotoHandler.QueryAlbumPhoto)
 		albumPhotoApi.Delete("/delete/:id", handlerMap.AlbumPhotoHandler.DeleteAlbumPhoto)
 	}
+	promptApi := router.Group("/prompt")
+	{
+		promptApi.Get("/page", handlerMap.PromptHandler.ListPromptPage)
+		promptApi.Post("/create", handlerMap.PromptHandler.CreatePrompt)
+		promptApi.Put("/update/:id", handlerMap.PromptHandler.UpdatePrompt)
+		promptApi.Get("/query/:id", handlerMap.PromptHandler.QueryPrompt)
+		promptApi.Delete("/delete/:id", handlerMap.PromptHandler.DeletePrompt)
+	}
+	router.Get("/prompt-tag/list", handlerMap.PromptHandler.ListPromptTag)
 	flinkApi := router.Group("/flink")
 	{
 		flinkApi.Get("/list", handlerMap.FlinkHandler.ListFlink)

@@ -227,7 +227,7 @@ const handleDelete = async (row: any) => {
 
 const onSearchCategory = async () => {
   const res = await useApi(apiClient.api.v1FlinkGroupListList)
-  flinkGroups.value = res.data
+  flinkGroups.value = res.data || []
 }
 const onSearchFlink = async () => {
   try {
@@ -236,7 +236,7 @@ const onSearchFlink = async () => {
       size: 5,
       group_id: currentFlinkGroup.value,
     })
-    dataList.value = res.data.records
+    dataList.value = res.data.records || []
   } catch { }
 }
 
@@ -288,7 +288,8 @@ onMounted(async () => {
               </n-button>
               <n-button @click="onSearchCategory()">刷新</n-button>
             </template>
-            <ul class="space-y-2">
+            <n-empty v-if="flinkGroups.length === 0" description="暂无分类" class="py-10" />
+            <ul v-else class="space-y-2">
               <!-- 示例相册 -->
               <li v-for="(item, index) in flinkGroups" :key="index" :class="{ active: item.id == currentFlinkGroup }"
                 class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 flink-group-item"
@@ -314,7 +315,11 @@ onMounted(async () => {
               </div>
             </template>
             <n-data-table :loading="loading" :columns="columns" :data="dataList" :pagination="{ pageSize: 10 }"
-              :remote="true" />
+              :remote="true">
+              <template #empty>
+                <n-empty description="暂无友链" />
+              </template>
+            </n-data-table>
           </n-card>
         </n-gi>
       </n-grid>

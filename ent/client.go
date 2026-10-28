@@ -46,6 +46,9 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/post"
 	"github.com/shuTwT/hoshikuzu/ent/postpurchase"
 	"github.com/shuTwT/hoshikuzu/ent/product"
+	"github.com/shuTwT/hoshikuzu/ent/prompt"
+	"github.com/shuTwT/hoshikuzu/ent/promptimage"
+	"github.com/shuTwT/hoshikuzu/ent/prompttag"
 	"github.com/shuTwT/hoshikuzu/ent/refreshtoken"
 	"github.com/shuTwT/hoshikuzu/ent/role"
 	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
@@ -127,6 +130,12 @@ type Client struct {
 	PostPurchase *PostPurchaseClient
 	// Product is the client for interacting with the Product builders.
 	Product *ProductClient
+	// Prompt is the client for interacting with the Prompt builders.
+	Prompt *PromptClient
+	// PromptImage is the client for interacting with the PromptImage builders.
+	PromptImage *PromptImageClient
+	// PromptTag is the client for interacting with the PromptTag builders.
+	PromptTag *PromptTagClient
 	// RefreshToken is the client for interacting with the RefreshToken builders.
 	RefreshToken *RefreshTokenClient
 	// Role is the client for interacting with the Role builders.
@@ -193,6 +202,9 @@ func (c *Client) init() {
 	c.Post = NewPostClient(c.config)
 	c.PostPurchase = NewPostPurchaseClient(c.config)
 	c.Product = NewProductClient(c.config)
+	c.Prompt = NewPromptClient(c.config)
+	c.PromptImage = NewPromptImageClient(c.config)
+	c.PromptTag = NewPromptTagClient(c.config)
 	c.RefreshToken = NewRefreshTokenClient(c.config)
 	c.Role = NewRoleClient(c.config)
 	c.ScheduleJob = NewScheduleJobClient(c.config)
@@ -328,6 +340,9 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Post:                NewPostClient(cfg),
 		PostPurchase:        NewPostPurchaseClient(cfg),
 		Product:             NewProductClient(cfg),
+		Prompt:              NewPromptClient(cfg),
+		PromptImage:         NewPromptImageClient(cfg),
+		PromptTag:           NewPromptTagClient(cfg),
 		RefreshToken:        NewRefreshTokenClient(cfg),
 		Role:                NewRoleClient(cfg),
 		ScheduleJob:         NewScheduleJobClient(cfg),
@@ -390,6 +405,9 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Post:                NewPostClient(cfg),
 		PostPurchase:        NewPostPurchaseClient(cfg),
 		Product:             NewProductClient(cfg),
+		Prompt:              NewPromptClient(cfg),
+		PromptImage:         NewPromptImageClient(cfg),
+		PromptTag:           NewPromptTagClient(cfg),
 		RefreshToken:        NewRefreshTokenClient(cfg),
 		Role:                NewRoleClient(cfg),
 		ScheduleJob:         NewScheduleJobClient(cfg),
@@ -436,9 +454,10 @@ func (c *Client) Use(hooks ...Hook) {
 		c.FLinkApplication, c.FLinkGroup, c.File, c.FriendCircleRecord, c.License,
 		c.MailTemplate, c.Member, c.MemberLevel, c.Menu, c.Notification,
 		c.Oauth2AccessToken, c.Oauth2Code, c.Oauth2RefreshToken, c.PayOrder,
-		c.PersonalAccessToken, c.Plugin, c.Post, c.PostPurchase, c.Product,
-		c.RefreshToken, c.Role, c.ScheduleJob, c.Setting, c.SmsTemplate,
-		c.StorageStrategy, c.Tag, c.Theme, c.User, c.VisitLog, c.Wallet, c.WebHook,
+		c.PersonalAccessToken, c.Plugin, c.Post, c.PostPurchase, c.Product, c.Prompt,
+		c.PromptImage, c.PromptTag, c.RefreshToken, c.Role, c.ScheduleJob, c.Setting,
+		c.SmsTemplate, c.StorageStrategy, c.Tag, c.Theme, c.User, c.VisitLog, c.Wallet,
+		c.WebHook,
 	} {
 		n.Use(hooks...)
 	}
@@ -453,9 +472,10 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.FLinkApplication, c.FLinkGroup, c.File, c.FriendCircleRecord, c.License,
 		c.MailTemplate, c.Member, c.MemberLevel, c.Menu, c.Notification,
 		c.Oauth2AccessToken, c.Oauth2Code, c.Oauth2RefreshToken, c.PayOrder,
-		c.PersonalAccessToken, c.Plugin, c.Post, c.PostPurchase, c.Product,
-		c.RefreshToken, c.Role, c.ScheduleJob, c.Setting, c.SmsTemplate,
-		c.StorageStrategy, c.Tag, c.Theme, c.User, c.VisitLog, c.Wallet, c.WebHook,
+		c.PersonalAccessToken, c.Plugin, c.Post, c.PostPurchase, c.Product, c.Prompt,
+		c.PromptImage, c.PromptTag, c.RefreshToken, c.Role, c.ScheduleJob, c.Setting,
+		c.SmsTemplate, c.StorageStrategy, c.Tag, c.Theme, c.User, c.VisitLog, c.Wallet,
+		c.WebHook,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -526,6 +546,12 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.PostPurchase.mutate(ctx, m)
 	case *ProductMutation:
 		return c.Product.mutate(ctx, m)
+	case *PromptMutation:
+		return c.Prompt.mutate(ctx, m)
+	case *PromptImageMutation:
+		return c.PromptImage.mutate(ctx, m)
+	case *PromptTagMutation:
+		return c.PromptTag.mutate(ctx, m)
 	case *RefreshTokenMutation:
 		return c.RefreshToken.mutate(ctx, m)
 	case *RoleMutation:
@@ -4998,6 +5024,469 @@ func (c *ProductClient) mutate(ctx context.Context, m *ProductMutation) (Value, 
 	}
 }
 
+// PromptClient is a client for the Prompt schema.
+type PromptClient struct {
+	config
+}
+
+// NewPromptClient returns a client for the Prompt from the given config.
+func NewPromptClient(c config) *PromptClient {
+	return &PromptClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `prompt.Hooks(f(g(h())))`.
+func (c *PromptClient) Use(hooks ...Hook) {
+	c.hooks.Prompt = append(c.hooks.Prompt, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `prompt.Intercept(f(g(h())))`.
+func (c *PromptClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Prompt = append(c.inters.Prompt, interceptors...)
+}
+
+// Create returns a builder for creating a Prompt entity.
+func (c *PromptClient) Create() *PromptCreate {
+	mutation := newPromptMutation(c.config, OpCreate)
+	return &PromptCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Prompt entities.
+func (c *PromptClient) CreateBulk(builders ...*PromptCreate) *PromptCreateBulk {
+	return &PromptCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *PromptClient) MapCreateBulk(slice any, setFunc func(*PromptCreate, int)) *PromptCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &PromptCreateBulk{err: fmt.Errorf("calling to PromptClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*PromptCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &PromptCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Prompt.
+func (c *PromptClient) Update() *PromptUpdate {
+	mutation := newPromptMutation(c.config, OpUpdate)
+	return &PromptUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PromptClient) UpdateOne(_m *Prompt) *PromptUpdateOne {
+	mutation := newPromptMutation(c.config, OpUpdateOne, withPrompt(_m))
+	return &PromptUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PromptClient) UpdateOneID(id int) *PromptUpdateOne {
+	mutation := newPromptMutation(c.config, OpUpdateOne, withPromptID(id))
+	return &PromptUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Prompt.
+func (c *PromptClient) Delete() *PromptDelete {
+	mutation := newPromptMutation(c.config, OpDelete)
+	return &PromptDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PromptClient) DeleteOne(_m *Prompt) *PromptDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *PromptClient) DeleteOneID(id int) *PromptDeleteOne {
+	builder := c.Delete().Where(prompt.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PromptDeleteOne{builder}
+}
+
+// Query returns a query builder for Prompt.
+func (c *PromptClient) Query() *PromptQuery {
+	return &PromptQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypePrompt},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Prompt entity by its id.
+func (c *PromptClient) Get(ctx context.Context, id int) (*Prompt, error) {
+	return c.Query().Where(prompt.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PromptClient) GetX(ctx context.Context, id int) *Prompt {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryImages queries the images edge of a Prompt.
+func (c *PromptClient) QueryImages(_m *Prompt) *PromptImageQuery {
+	query := (&PromptImageClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(prompt.Table, prompt.FieldID, id),
+			sqlgraph.To(promptimage.Table, promptimage.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, prompt.ImagesTable, prompt.ImagesColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryTags queries the tags edge of a Prompt.
+func (c *PromptClient) QueryTags(_m *Prompt) *PromptTagQuery {
+	query := (&PromptTagClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(prompt.Table, prompt.FieldID, id),
+			sqlgraph.To(prompttag.Table, prompttag.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, false, prompt.TagsTable, prompt.TagsPrimaryKey...),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *PromptClient) Hooks() []Hook {
+	return c.hooks.Prompt
+}
+
+// Interceptors returns the client interceptors.
+func (c *PromptClient) Interceptors() []Interceptor {
+	return c.inters.Prompt
+}
+
+func (c *PromptClient) mutate(ctx context.Context, m *PromptMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&PromptCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&PromptUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&PromptUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&PromptDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Prompt mutation op: %q", m.Op())
+	}
+}
+
+// PromptImageClient is a client for the PromptImage schema.
+type PromptImageClient struct {
+	config
+}
+
+// NewPromptImageClient returns a client for the PromptImage from the given config.
+func NewPromptImageClient(c config) *PromptImageClient {
+	return &PromptImageClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `promptimage.Hooks(f(g(h())))`.
+func (c *PromptImageClient) Use(hooks ...Hook) {
+	c.hooks.PromptImage = append(c.hooks.PromptImage, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `promptimage.Intercept(f(g(h())))`.
+func (c *PromptImageClient) Intercept(interceptors ...Interceptor) {
+	c.inters.PromptImage = append(c.inters.PromptImage, interceptors...)
+}
+
+// Create returns a builder for creating a PromptImage entity.
+func (c *PromptImageClient) Create() *PromptImageCreate {
+	mutation := newPromptImageMutation(c.config, OpCreate)
+	return &PromptImageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PromptImage entities.
+func (c *PromptImageClient) CreateBulk(builders ...*PromptImageCreate) *PromptImageCreateBulk {
+	return &PromptImageCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *PromptImageClient) MapCreateBulk(slice any, setFunc func(*PromptImageCreate, int)) *PromptImageCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &PromptImageCreateBulk{err: fmt.Errorf("calling to PromptImageClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*PromptImageCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &PromptImageCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PromptImage.
+func (c *PromptImageClient) Update() *PromptImageUpdate {
+	mutation := newPromptImageMutation(c.config, OpUpdate)
+	return &PromptImageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PromptImageClient) UpdateOne(_m *PromptImage) *PromptImageUpdateOne {
+	mutation := newPromptImageMutation(c.config, OpUpdateOne, withPromptImage(_m))
+	return &PromptImageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PromptImageClient) UpdateOneID(id int) *PromptImageUpdateOne {
+	mutation := newPromptImageMutation(c.config, OpUpdateOne, withPromptImageID(id))
+	return &PromptImageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PromptImage.
+func (c *PromptImageClient) Delete() *PromptImageDelete {
+	mutation := newPromptImageMutation(c.config, OpDelete)
+	return &PromptImageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PromptImageClient) DeleteOne(_m *PromptImage) *PromptImageDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *PromptImageClient) DeleteOneID(id int) *PromptImageDeleteOne {
+	builder := c.Delete().Where(promptimage.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PromptImageDeleteOne{builder}
+}
+
+// Query returns a query builder for PromptImage.
+func (c *PromptImageClient) Query() *PromptImageQuery {
+	return &PromptImageQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypePromptImage},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a PromptImage entity by its id.
+func (c *PromptImageClient) Get(ctx context.Context, id int) (*PromptImage, error) {
+	return c.Query().Where(promptimage.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PromptImageClient) GetX(ctx context.Context, id int) *PromptImage {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryPrompt queries the prompt edge of a PromptImage.
+func (c *PromptImageClient) QueryPrompt(_m *PromptImage) *PromptQuery {
+	query := (&PromptClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(promptimage.Table, promptimage.FieldID, id),
+			sqlgraph.To(prompt.Table, prompt.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, promptimage.PromptTable, promptimage.PromptColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *PromptImageClient) Hooks() []Hook {
+	return c.hooks.PromptImage
+}
+
+// Interceptors returns the client interceptors.
+func (c *PromptImageClient) Interceptors() []Interceptor {
+	return c.inters.PromptImage
+}
+
+func (c *PromptImageClient) mutate(ctx context.Context, m *PromptImageMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&PromptImageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&PromptImageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&PromptImageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&PromptImageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown PromptImage mutation op: %q", m.Op())
+	}
+}
+
+// PromptTagClient is a client for the PromptTag schema.
+type PromptTagClient struct {
+	config
+}
+
+// NewPromptTagClient returns a client for the PromptTag from the given config.
+func NewPromptTagClient(c config) *PromptTagClient {
+	return &PromptTagClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `prompttag.Hooks(f(g(h())))`.
+func (c *PromptTagClient) Use(hooks ...Hook) {
+	c.hooks.PromptTag = append(c.hooks.PromptTag, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `prompttag.Intercept(f(g(h())))`.
+func (c *PromptTagClient) Intercept(interceptors ...Interceptor) {
+	c.inters.PromptTag = append(c.inters.PromptTag, interceptors...)
+}
+
+// Create returns a builder for creating a PromptTag entity.
+func (c *PromptTagClient) Create() *PromptTagCreate {
+	mutation := newPromptTagMutation(c.config, OpCreate)
+	return &PromptTagCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PromptTag entities.
+func (c *PromptTagClient) CreateBulk(builders ...*PromptTagCreate) *PromptTagCreateBulk {
+	return &PromptTagCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *PromptTagClient) MapCreateBulk(slice any, setFunc func(*PromptTagCreate, int)) *PromptTagCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &PromptTagCreateBulk{err: fmt.Errorf("calling to PromptTagClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*PromptTagCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &PromptTagCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PromptTag.
+func (c *PromptTagClient) Update() *PromptTagUpdate {
+	mutation := newPromptTagMutation(c.config, OpUpdate)
+	return &PromptTagUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PromptTagClient) UpdateOne(_m *PromptTag) *PromptTagUpdateOne {
+	mutation := newPromptTagMutation(c.config, OpUpdateOne, withPromptTag(_m))
+	return &PromptTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PromptTagClient) UpdateOneID(id int) *PromptTagUpdateOne {
+	mutation := newPromptTagMutation(c.config, OpUpdateOne, withPromptTagID(id))
+	return &PromptTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PromptTag.
+func (c *PromptTagClient) Delete() *PromptTagDelete {
+	mutation := newPromptTagMutation(c.config, OpDelete)
+	return &PromptTagDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PromptTagClient) DeleteOne(_m *PromptTag) *PromptTagDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *PromptTagClient) DeleteOneID(id int) *PromptTagDeleteOne {
+	builder := c.Delete().Where(prompttag.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PromptTagDeleteOne{builder}
+}
+
+// Query returns a query builder for PromptTag.
+func (c *PromptTagClient) Query() *PromptTagQuery {
+	return &PromptTagQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypePromptTag},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a PromptTag entity by its id.
+func (c *PromptTagClient) Get(ctx context.Context, id int) (*PromptTag, error) {
+	return c.Query().Where(prompttag.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PromptTagClient) GetX(ctx context.Context, id int) *PromptTag {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryPrompts queries the prompts edge of a PromptTag.
+func (c *PromptTagClient) QueryPrompts(_m *PromptTag) *PromptQuery {
+	query := (&PromptClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(prompttag.Table, prompttag.FieldID, id),
+			sqlgraph.To(prompt.Table, prompt.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, prompttag.PromptsTable, prompttag.PromptsPrimaryKey...),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *PromptTagClient) Hooks() []Hook {
+	return c.hooks.PromptTag
+}
+
+// Interceptors returns the client interceptors.
+func (c *PromptTagClient) Interceptors() []Interceptor {
+	return c.inters.PromptTag
+}
+
+func (c *PromptTagClient) mutate(ctx context.Context, m *PromptTagMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&PromptTagCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&PromptTagUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&PromptTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&PromptTagDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown PromptTag mutation op: %q", m.Op())
+	}
+}
+
 // RefreshTokenClient is a client for the RefreshToken schema.
 type RefreshTokenClient struct {
 	config
@@ -6729,17 +7218,17 @@ type (
 		Comment, Coupon, CouponUsage, Essay, FLink, FLinkApplication, FLinkGroup, File,
 		FriendCircleRecord, License, MailTemplate, Member, MemberLevel, Menu,
 		Notification, Oauth2AccessToken, Oauth2Code, Oauth2RefreshToken, PayOrder,
-		PersonalAccessToken, Plugin, Post, PostPurchase, Product, RefreshToken, Role,
-		ScheduleJob, Setting, SmsTemplate, StorageStrategy, Tag, Theme, User, VisitLog,
-		Wallet, WebHook []ent.Hook
+		PersonalAccessToken, Plugin, Post, PostPurchase, Product, Prompt, PromptImage,
+		PromptTag, RefreshToken, Role, ScheduleJob, Setting, SmsTemplate,
+		StorageStrategy, Tag, Theme, User, VisitLog, Wallet, WebHook []ent.Hook
 	}
 	inters struct {
 		AIChatMessage, AIChatSession, AIModel, AIProvider, Album, AlbumPhoto, Category,
 		Comment, Coupon, CouponUsage, Essay, FLink, FLinkApplication, FLinkGroup, File,
 		FriendCircleRecord, License, MailTemplate, Member, MemberLevel, Menu,
 		Notification, Oauth2AccessToken, Oauth2Code, Oauth2RefreshToken, PayOrder,
-		PersonalAccessToken, Plugin, Post, PostPurchase, Product, RefreshToken, Role,
-		ScheduleJob, Setting, SmsTemplate, StorageStrategy, Tag, Theme, User, VisitLog,
-		Wallet, WebHook []ent.Interceptor
+		PersonalAccessToken, Plugin, Post, PostPurchase, Product, Prompt, PromptImage,
+		PromptTag, RefreshToken, Role, ScheduleJob, Setting, SmsTemplate,
+		StorageStrategy, Tag, Theme, User, VisitLog, Wallet, WebHook []ent.Interceptor
 	}
 )

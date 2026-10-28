@@ -39,3 +39,11 @@ var (
 	// ErrMailTemplateCodeExists 邮件模板编码已存在
 	ErrMailTemplateCodeExists = errors.New("邮件模板编码已存在")
 )
+
+// 提示词画廊相关业务错误
+var (
+	// ErrPromptNotFound 提示词不存在
+	ErrPromptNotFound = errors.New("提示词不存在")
+	// ErrPromptImageURLEmpty 提示词图片地址为空
+	ErrPromptImageURLEmpty = errors.New("提示词图片地址不能为空")
+)

@@ -74,6 +74,12 @@ type Tx struct {
 	PostPurchase *PostPurchaseClient
 	// Product is the client for interacting with the Product builders.
 	Product *ProductClient
+	// Prompt is the client for interacting with the Prompt builders.
+	Prompt *PromptClient
+	// PromptImage is the client for interacting with the PromptImage builders.
+	PromptImage *PromptImageClient
+	// PromptTag is the client for interacting with the PromptTag builders.
+	PromptTag *PromptTagClient
 	// RefreshToken is the client for interacting with the RefreshToken builders.
 	RefreshToken *RefreshTokenClient
 	// Role is the client for interacting with the Role builders.
@@ -260,6 +266,9 @@ func (tx *Tx) init() {
 	tx.Post = NewPostClient(tx.config)
 	tx.PostPurchase = NewPostPurchaseClient(tx.config)
 	tx.Product = NewProductClient(tx.config)
+	tx.Prompt = NewPromptClient(tx.config)
+	tx.PromptImage = NewPromptImageClient(tx.config)
+	tx.PromptTag = NewPromptTagClient(tx.config)
 	tx.RefreshToken = NewRefreshTokenClient(tx.config)
 	tx.Role = NewRoleClient(tx.config)
 	tx.ScheduleJob = NewScheduleJobClient(tx.config)

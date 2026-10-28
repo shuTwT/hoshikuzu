@@ -22,6 +22,7 @@ import (
 	friend_circle_service "github.com/shuTwT/hoshikuzu/internal/services/content/friendcircle"
 	menu_service "github.com/shuTwT/hoshikuzu/internal/services/content/menu"
 	post_service "github.com/shuTwT/hoshikuzu/internal/services/content/post"
+	prompt_service "github.com/shuTwT/hoshikuzu/internal/services/content/prompt"
 	tag_service "github.com/shuTwT/hoshikuzu/internal/services/content/tag"
 	file_service "github.com/shuTwT/hoshikuzu/internal/services/infra/file"
 	license_service "github.com/shuTwT/hoshikuzu/internal/services/infra/license"
@@ -115,6 +116,7 @@ type ServiceMap struct {
 	AIService               ai_service.AIService
 	AlbumService            album_service.AlbumService
 	AlbumPhotoService       albumphoto_service.AlbumPhotoService
+	PromptService           prompt_service.PromptService
 	AuthService             auth_service.AuthService
 	CategoryService         category_service.CategoryService
 	CommentService          comment_service.CommentService
@@ -155,6 +157,7 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 
 	albumService := album_service.NewAlbumServiceImpl(db)
 	albumPhotoService := albumphoto_service.NewAlbumPhotoServiceImpl(db)
+	promptService := prompt_service.NewPromptServiceImpl(db)
 	authService := auth_service.NewAuthServiceImpl(db)
 	categoryService := category_service.NewCategoryServiceImpl(db)
 	commentService := comment_service.NewCommentServiceImpl(db)
@@ -204,6 +207,7 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 		AIService:               aiService,
 		AlbumService:            albumService,
 		AlbumPhotoService:       albumPhotoService,
+		PromptService:           promptService,
 		AuthService:             authService,
 		CategoryService:         categoryService,
 		CommentService:          commentService,

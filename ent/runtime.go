@@ -36,6 +36,9 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/post"
 	"github.com/shuTwT/hoshikuzu/ent/postpurchase"
 	"github.com/shuTwT/hoshikuzu/ent/product"
+	"github.com/shuTwT/hoshikuzu/ent/prompt"
+	"github.com/shuTwT/hoshikuzu/ent/promptimage"
+	"github.com/shuTwT/hoshikuzu/ent/prompttag"
 	"github.com/shuTwT/hoshikuzu/ent/refreshtoken"
 	"github.com/shuTwT/hoshikuzu/ent/role"
 	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
@@ -1782,6 +1785,111 @@ func init() {
 	productDescSortOrder := productFields[24].Descriptor()
 	// product.DefaultSortOrder holds the default value on creation for the sort_order field.
 	product.DefaultSortOrder = productDescSortOrder.Default.(int)
+	promptMixin := schema.Prompt{}.Mixin()
+	promptMixinFields0 := promptMixin[0].Fields()
+	_ = promptMixinFields0
+	promptFields := schema.Prompt{}.Fields()
+	_ = promptFields
+	// promptDescCreatedAt is the schema descriptor for created_at field.
+	promptDescCreatedAt := promptMixinFields0[1].Descriptor()
+	// prompt.DefaultCreatedAt holds the default value on creation for the created_at field.
+	prompt.DefaultCreatedAt = promptDescCreatedAt.Default.(func() time.Time)
+	// promptDescUpdatedAt is the schema descriptor for updated_at field.
+	promptDescUpdatedAt := promptMixinFields0[2].Descriptor()
+	// prompt.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	prompt.DefaultUpdatedAt = promptDescUpdatedAt.Default.(func() time.Time)
+	// prompt.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	prompt.UpdateDefaultUpdatedAt = promptDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// promptDescTitle is the schema descriptor for title field.
+	promptDescTitle := promptFields[0].Descriptor()
+	// prompt.TitleValidator is a validator for the "title" field. It is called by the builders before save.
+	prompt.TitleValidator = func() func(string) error {
+		validators := promptDescTitle.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(title string) error {
+			for _, fn := range fns {
+				if err := fn(title); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// promptDescContent is the schema descriptor for content field.
+	promptDescContent := promptFields[1].Descriptor()
+	// prompt.ContentValidator is a validator for the "content" field. It is called by the builders before save.
+	prompt.ContentValidator = promptDescContent.Validators[0].(func(string) error)
+	// promptDescDescription is the schema descriptor for description field.
+	promptDescDescription := promptFields[3].Descriptor()
+	// prompt.DescriptionValidator is a validator for the "description" field. It is called by the builders before save.
+	prompt.DescriptionValidator = promptDescDescription.Validators[0].(func(string) error)
+	// promptDescSort is the schema descriptor for sort field.
+	promptDescSort := promptFields[4].Descriptor()
+	// prompt.DefaultSort holds the default value on creation for the sort field.
+	prompt.DefaultSort = promptDescSort.Default.(int)
+	promptimageMixin := schema.PromptImage{}.Mixin()
+	promptimageMixinFields0 := promptimageMixin[0].Fields()
+	_ = promptimageMixinFields0
+	promptimageFields := schema.PromptImage{}.Fields()
+	_ = promptimageFields
+	// promptimageDescCreatedAt is the schema descriptor for created_at field.
+	promptimageDescCreatedAt := promptimageMixinFields0[1].Descriptor()
+	// promptimage.DefaultCreatedAt holds the default value on creation for the created_at field.
+	promptimage.DefaultCreatedAt = promptimageDescCreatedAt.Default.(func() time.Time)
+	// promptimageDescUpdatedAt is the schema descriptor for updated_at field.
+	promptimageDescUpdatedAt := promptimageMixinFields0[2].Descriptor()
+	// promptimage.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	promptimage.DefaultUpdatedAt = promptimageDescUpdatedAt.Default.(func() time.Time)
+	// promptimage.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	promptimage.UpdateDefaultUpdatedAt = promptimageDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// promptimageDescImageURL is the schema descriptor for image_url field.
+	promptimageDescImageURL := promptimageFields[1].Descriptor()
+	// promptimage.ImageURLValidator is a validator for the "image_url" field. It is called by the builders before save.
+	promptimage.ImageURLValidator = promptimageDescImageURL.Validators[0].(func(string) error)
+	// promptimageDescModelName is the schema descriptor for model_name field.
+	promptimageDescModelName := promptimageFields[2].Descriptor()
+	// promptimage.ModelNameValidator is a validator for the "model_name" field. It is called by the builders before save.
+	promptimage.ModelNameValidator = promptimageDescModelName.Validators[0].(func(string) error)
+	// promptimageDescSort is the schema descriptor for sort field.
+	promptimageDescSort := promptimageFields[3].Descriptor()
+	// promptimage.DefaultSort holds the default value on creation for the sort field.
+	promptimage.DefaultSort = promptimageDescSort.Default.(int)
+	prompttagMixin := schema.PromptTag{}.Mixin()
+	prompttagMixinFields0 := prompttagMixin[0].Fields()
+	_ = prompttagMixinFields0
+	prompttagFields := schema.PromptTag{}.Fields()
+	_ = prompttagFields
+	// prompttagDescCreatedAt is the schema descriptor for created_at field.
+	prompttagDescCreatedAt := prompttagMixinFields0[1].Descriptor()
+	// prompttag.DefaultCreatedAt holds the default value on creation for the created_at field.
+	prompttag.DefaultCreatedAt = prompttagDescCreatedAt.Default.(func() time.Time)
+	// prompttagDescUpdatedAt is the schema descriptor for updated_at field.
+	prompttagDescUpdatedAt := prompttagMixinFields0[2].Descriptor()
+	// prompttag.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	prompttag.DefaultUpdatedAt = prompttagDescUpdatedAt.Default.(func() time.Time)
+	// prompttag.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	prompttag.UpdateDefaultUpdatedAt = prompttagDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// prompttagDescName is the schema descriptor for name field.
+	prompttagDescName := prompttagFields[0].Descriptor()
+	// prompttag.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	prompttag.NameValidator = func() func(string) error {
+		validators := prompttagDescName.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(name string) error {
+			for _, fn := range fns {
+				if err := fn(name); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	refreshtokenMixin := schema.RefreshToken{}.Mixin()
 	refreshtokenMixinFields0 := refreshtokenMixin[0].Fields()
 	_ = refreshtokenMixinFields0

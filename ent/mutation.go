@@ -43,6 +43,9 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/postpurchase"
 	"github.com/shuTwT/hoshikuzu/ent/predicate"
 	"github.com/shuTwT/hoshikuzu/ent/product"
+	"github.com/shuTwT/hoshikuzu/ent/prompt"
+	"github.com/shuTwT/hoshikuzu/ent/promptimage"
+	"github.com/shuTwT/hoshikuzu/ent/prompttag"
 	"github.com/shuTwT/hoshikuzu/ent/refreshtoken"
 	"github.com/shuTwT/hoshikuzu/ent/role"
 	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
@@ -97,6 +100,9 @@ const (
 	TypePost                = "Post"
 	TypePostPurchase        = "PostPurchase"
 	TypeProduct             = "Product"
+	TypePrompt              = "Prompt"
+	TypePromptImage         = "PromptImage"
+	TypePromptTag           = "PromptTag"
 	TypeRefreshToken        = "RefreshToken"
 	TypeRole                = "Role"
 	TypeScheduleJob         = "ScheduleJob"
@@ -32638,6 +32644,2162 @@ func (m *ProductMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *ProductMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Product edge %s", name)
+}
+
+// PromptMutation represents an operation that mutates the Prompt nodes in the graph.
+type PromptMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *int
+	created_at      *time.Time
+	updated_at      *time.Time
+	title           *string
+	content         *string
+	negative_prompt *string
+	description     *string
+	sort            *int
+	addsort         *int
+	clearedFields   map[string]struct{}
+	images          map[int]struct{}
+	removedimages   map[int]struct{}
+	clearedimages   bool
+	tags            map[int]struct{}
+	removedtags     map[int]struct{}
+	clearedtags     bool
+	done            bool
+	oldValue        func(context.Context) (*Prompt, error)
+	predicates      []predicate.Prompt
+}
+
+var _ ent.Mutation = (*PromptMutation)(nil)
+
+// promptOption allows management of the mutation configuration using functional options.
+type promptOption func(*PromptMutation)
+
+// newPromptMutation creates new mutation for the Prompt entity.
+func newPromptMutation(c config, op Op, opts ...promptOption) *PromptMutation {
+	m := &PromptMutation{
+		config:        c,
+		op:            op,
+		typ:           TypePrompt,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withPromptID sets the ID field of the mutation.
+func withPromptID(id int) promptOption {
+	return func(m *PromptMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *Prompt
+		)
+		m.oldValue = func(ctx context.Context) (*Prompt, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().Prompt.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withPrompt sets the old Prompt of the mutation.
+func withPrompt(node *Prompt) promptOption {
+	return func(m *PromptMutation) {
+		m.oldValue = func(context.Context) (*Prompt, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m PromptMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m PromptMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Prompt entities.
+func (m *PromptMutation) SetID(id int) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *PromptMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *PromptMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().Prompt.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *PromptMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *PromptMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the Prompt entity.
+// If the Prompt object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *PromptMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *PromptMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *PromptMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the Prompt entity.
+// If the Prompt object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *PromptMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetTitle sets the "title" field.
+func (m *PromptMutation) SetTitle(s string) {
+	m.title = &s
+}
+
+// Title returns the value of the "title" field in the mutation.
+func (m *PromptMutation) Title() (r string, exists bool) {
+	v := m.title
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTitle returns the old "title" field's value of the Prompt entity.
+// If the Prompt object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptMutation) OldTitle(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTitle is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTitle requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTitle: %w", err)
+	}
+	return oldValue.Title, nil
+}
+
+// ResetTitle resets all changes to the "title" field.
+func (m *PromptMutation) ResetTitle() {
+	m.title = nil
+}
+
+// SetContent sets the "content" field.
+func (m *PromptMutation) SetContent(s string) {
+	m.content = &s
+}
+
+// Content returns the value of the "content" field in the mutation.
+func (m *PromptMutation) Content() (r string, exists bool) {
+	v := m.content
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldContent returns the old "content" field's value of the Prompt entity.
+// If the Prompt object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptMutation) OldContent(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldContent is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldContent requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldContent: %w", err)
+	}
+	return oldValue.Content, nil
+}
+
+// ResetContent resets all changes to the "content" field.
+func (m *PromptMutation) ResetContent() {
+	m.content = nil
+}
+
+// SetNegativePrompt sets the "negative_prompt" field.
+func (m *PromptMutation) SetNegativePrompt(s string) {
+	m.negative_prompt = &s
+}
+
+// NegativePrompt returns the value of the "negative_prompt" field in the mutation.
+func (m *PromptMutation) NegativePrompt() (r string, exists bool) {
+	v := m.negative_prompt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNegativePrompt returns the old "negative_prompt" field's value of the Prompt entity.
+// If the Prompt object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptMutation) OldNegativePrompt(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNegativePrompt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNegativePrompt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNegativePrompt: %w", err)
+	}
+	return oldValue.NegativePrompt, nil
+}
+
+// ClearNegativePrompt clears the value of the "negative_prompt" field.
+func (m *PromptMutation) ClearNegativePrompt() {
+	m.negative_prompt = nil
+	m.clearedFields[prompt.FieldNegativePrompt] = struct{}{}
+}
+
+// NegativePromptCleared returns if the "negative_prompt" field was cleared in this mutation.
+func (m *PromptMutation) NegativePromptCleared() bool {
+	_, ok := m.clearedFields[prompt.FieldNegativePrompt]
+	return ok
+}
+
+// ResetNegativePrompt resets all changes to the "negative_prompt" field.
+func (m *PromptMutation) ResetNegativePrompt() {
+	m.negative_prompt = nil
+	delete(m.clearedFields, prompt.FieldNegativePrompt)
+}
+
+// SetDescription sets the "description" field.
+func (m *PromptMutation) SetDescription(s string) {
+	m.description = &s
+}
+
+// Description returns the value of the "description" field in the mutation.
+func (m *PromptMutation) Description() (r string, exists bool) {
+	v := m.description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "description" field's value of the Prompt entity.
+// If the Prompt object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptMutation) OldDescription(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ClearDescription clears the value of the "description" field.
+func (m *PromptMutation) ClearDescription() {
+	m.description = nil
+	m.clearedFields[prompt.FieldDescription] = struct{}{}
+}
+
+// DescriptionCleared returns if the "description" field was cleared in this mutation.
+func (m *PromptMutation) DescriptionCleared() bool {
+	_, ok := m.clearedFields[prompt.FieldDescription]
+	return ok
+}
+
+// ResetDescription resets all changes to the "description" field.
+func (m *PromptMutation) ResetDescription() {
+	m.description = nil
+	delete(m.clearedFields, prompt.FieldDescription)
+}
+
+// SetSort sets the "sort" field.
+func (m *PromptMutation) SetSort(i int) {
+	m.sort = &i
+	m.addsort = nil
+}
+
+// Sort returns the value of the "sort" field in the mutation.
+func (m *PromptMutation) Sort() (r int, exists bool) {
+	v := m.sort
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSort returns the old "sort" field's value of the Prompt entity.
+// If the Prompt object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptMutation) OldSort(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSort is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSort requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSort: %w", err)
+	}
+	return oldValue.Sort, nil
+}
+
+// AddSort adds i to the "sort" field.
+func (m *PromptMutation) AddSort(i int) {
+	if m.addsort != nil {
+		*m.addsort += i
+	} else {
+		m.addsort = &i
+	}
+}
+
+// AddedSort returns the value that was added to the "sort" field in this mutation.
+func (m *PromptMutation) AddedSort() (r int, exists bool) {
+	v := m.addsort
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetSort resets all changes to the "sort" field.
+func (m *PromptMutation) ResetSort() {
+	m.sort = nil
+	m.addsort = nil
+}
+
+// AddImageIDs adds the "images" edge to the PromptImage entity by ids.
+func (m *PromptMutation) AddImageIDs(ids ...int) {
+	if m.images == nil {
+		m.images = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.images[ids[i]] = struct{}{}
+	}
+}
+
+// ClearImages clears the "images" edge to the PromptImage entity.
+func (m *PromptMutation) ClearImages() {
+	m.clearedimages = true
+}
+
+// ImagesCleared reports if the "images" edge to the PromptImage entity was cleared.
+func (m *PromptMutation) ImagesCleared() bool {
+	return m.clearedimages
+}
+
+// RemoveImageIDs removes the "images" edge to the PromptImage entity by IDs.
+func (m *PromptMutation) RemoveImageIDs(ids ...int) {
+	if m.removedimages == nil {
+		m.removedimages = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.images, ids[i])
+		m.removedimages[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedImages returns the removed IDs of the "images" edge to the PromptImage entity.
+func (m *PromptMutation) RemovedImagesIDs() (ids []int) {
+	for id := range m.removedimages {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ImagesIDs returns the "images" edge IDs in the mutation.
+func (m *PromptMutation) ImagesIDs() (ids []int) {
+	for id := range m.images {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetImages resets all changes to the "images" edge.
+func (m *PromptMutation) ResetImages() {
+	m.images = nil
+	m.clearedimages = false
+	m.removedimages = nil
+}
+
+// AddTagIDs adds the "tags" edge to the PromptTag entity by ids.
+func (m *PromptMutation) AddTagIDs(ids ...int) {
+	if m.tags == nil {
+		m.tags = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.tags[ids[i]] = struct{}{}
+	}
+}
+
+// ClearTags clears the "tags" edge to the PromptTag entity.
+func (m *PromptMutation) ClearTags() {
+	m.clearedtags = true
+}
+
+// TagsCleared reports if the "tags" edge to the PromptTag entity was cleared.
+func (m *PromptMutation) TagsCleared() bool {
+	return m.clearedtags
+}
+
+// RemoveTagIDs removes the "tags" edge to the PromptTag entity by IDs.
+func (m *PromptMutation) RemoveTagIDs(ids ...int) {
+	if m.removedtags == nil {
+		m.removedtags = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.tags, ids[i])
+		m.removedtags[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedTags returns the removed IDs of the "tags" edge to the PromptTag entity.
+func (m *PromptMutation) RemovedTagsIDs() (ids []int) {
+	for id := range m.removedtags {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// TagsIDs returns the "tags" edge IDs in the mutation.
+func (m *PromptMutation) TagsIDs() (ids []int) {
+	for id := range m.tags {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetTags resets all changes to the "tags" edge.
+func (m *PromptMutation) ResetTags() {
+	m.tags = nil
+	m.clearedtags = false
+	m.removedtags = nil
+}
+
+// Where appends a list predicates to the PromptMutation builder.
+func (m *PromptMutation) Where(ps ...predicate.Prompt) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the PromptMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *PromptMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.Prompt, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *PromptMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *PromptMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (Prompt).
+func (m *PromptMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *PromptMutation) Fields() []string {
+	fields := make([]string, 0, 7)
+	if m.created_at != nil {
+		fields = append(fields, prompt.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, prompt.FieldUpdatedAt)
+	}
+	if m.title != nil {
+		fields = append(fields, prompt.FieldTitle)
+	}
+	if m.content != nil {
+		fields = append(fields, prompt.FieldContent)
+	}
+	if m.negative_prompt != nil {
+		fields = append(fields, prompt.FieldNegativePrompt)
+	}
+	if m.description != nil {
+		fields = append(fields, prompt.FieldDescription)
+	}
+	if m.sort != nil {
+		fields = append(fields, prompt.FieldSort)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *PromptMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case prompt.FieldCreatedAt:
+		return m.CreatedAt()
+	case prompt.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case prompt.FieldTitle:
+		return m.Title()
+	case prompt.FieldContent:
+		return m.Content()
+	case prompt.FieldNegativePrompt:
+		return m.NegativePrompt()
+	case prompt.FieldDescription:
+		return m.Description()
+	case prompt.FieldSort:
+		return m.Sort()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *PromptMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case prompt.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case prompt.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case prompt.FieldTitle:
+		return m.OldTitle(ctx)
+	case prompt.FieldContent:
+		return m.OldContent(ctx)
+	case prompt.FieldNegativePrompt:
+		return m.OldNegativePrompt(ctx)
+	case prompt.FieldDescription:
+		return m.OldDescription(ctx)
+	case prompt.FieldSort:
+		return m.OldSort(ctx)
+	}
+	return nil, fmt.Errorf("unknown Prompt field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PromptMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case prompt.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case prompt.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case prompt.FieldTitle:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTitle(v)
+		return nil
+	case prompt.FieldContent:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetContent(v)
+		return nil
+	case prompt.FieldNegativePrompt:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNegativePrompt(v)
+		return nil
+	case prompt.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	case prompt.FieldSort:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSort(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Prompt field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *PromptMutation) AddedFields() []string {
+	var fields []string
+	if m.addsort != nil {
+		fields = append(fields, prompt.FieldSort)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *PromptMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case prompt.FieldSort:
+		return m.AddedSort()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PromptMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case prompt.FieldSort:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddSort(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Prompt numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *PromptMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(prompt.FieldNegativePrompt) {
+		fields = append(fields, prompt.FieldNegativePrompt)
+	}
+	if m.FieldCleared(prompt.FieldDescription) {
+		fields = append(fields, prompt.FieldDescription)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *PromptMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *PromptMutation) ClearField(name string) error {
+	switch name {
+	case prompt.FieldNegativePrompt:
+		m.ClearNegativePrompt()
+		return nil
+	case prompt.FieldDescription:
+		m.ClearDescription()
+		return nil
+	}
+	return fmt.Errorf("unknown Prompt nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *PromptMutation) ResetField(name string) error {
+	switch name {
+	case prompt.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case prompt.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case prompt.FieldTitle:
+		m.ResetTitle()
+		return nil
+	case prompt.FieldContent:
+		m.ResetContent()
+		return nil
+	case prompt.FieldNegativePrompt:
+		m.ResetNegativePrompt()
+		return nil
+	case prompt.FieldDescription:
+		m.ResetDescription()
+		return nil
+	case prompt.FieldSort:
+		m.ResetSort()
+		return nil
+	}
+	return fmt.Errorf("unknown Prompt field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *PromptMutation) AddedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.images != nil {
+		edges = append(edges, prompt.EdgeImages)
+	}
+	if m.tags != nil {
+		edges = append(edges, prompt.EdgeTags)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *PromptMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case prompt.EdgeImages:
+		ids := make([]ent.Value, 0, len(m.images))
+		for id := range m.images {
+			ids = append(ids, id)
+		}
+		return ids
+	case prompt.EdgeTags:
+		ids := make([]ent.Value, 0, len(m.tags))
+		for id := range m.tags {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *PromptMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.removedimages != nil {
+		edges = append(edges, prompt.EdgeImages)
+	}
+	if m.removedtags != nil {
+		edges = append(edges, prompt.EdgeTags)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *PromptMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case prompt.EdgeImages:
+		ids := make([]ent.Value, 0, len(m.removedimages))
+		for id := range m.removedimages {
+			ids = append(ids, id)
+		}
+		return ids
+	case prompt.EdgeTags:
+		ids := make([]ent.Value, 0, len(m.removedtags))
+		for id := range m.removedtags {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *PromptMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.clearedimages {
+		edges = append(edges, prompt.EdgeImages)
+	}
+	if m.clearedtags {
+		edges = append(edges, prompt.EdgeTags)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *PromptMutation) EdgeCleared(name string) bool {
+	switch name {
+	case prompt.EdgeImages:
+		return m.clearedimages
+	case prompt.EdgeTags:
+		return m.clearedtags
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *PromptMutation) ClearEdge(name string) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown Prompt unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *PromptMutation) ResetEdge(name string) error {
+	switch name {
+	case prompt.EdgeImages:
+		m.ResetImages()
+		return nil
+	case prompt.EdgeTags:
+		m.ResetTags()
+		return nil
+	}
+	return fmt.Errorf("unknown Prompt edge %s", name)
+}
+
+// PromptImageMutation represents an operation that mutates the PromptImage nodes in the graph.
+type PromptImageMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	created_at    *time.Time
+	updated_at    *time.Time
+	image_url     *string
+	model_name    *string
+	sort          *int
+	addsort       *int
+	clearedFields map[string]struct{}
+	prompt        *int
+	clearedprompt bool
+	done          bool
+	oldValue      func(context.Context) (*PromptImage, error)
+	predicates    []predicate.PromptImage
+}
+
+var _ ent.Mutation = (*PromptImageMutation)(nil)
+
+// promptimageOption allows management of the mutation configuration using functional options.
+type promptimageOption func(*PromptImageMutation)
+
+// newPromptImageMutation creates new mutation for the PromptImage entity.
+func newPromptImageMutation(c config, op Op, opts ...promptimageOption) *PromptImageMutation {
+	m := &PromptImageMutation{
+		config:        c,
+		op:            op,
+		typ:           TypePromptImage,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withPromptImageID sets the ID field of the mutation.
+func withPromptImageID(id int) promptimageOption {
+	return func(m *PromptImageMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *PromptImage
+		)
+		m.oldValue = func(ctx context.Context) (*PromptImage, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().PromptImage.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withPromptImage sets the old PromptImage of the mutation.
+func withPromptImage(node *PromptImage) promptimageOption {
+	return func(m *PromptImageMutation) {
+		m.oldValue = func(context.Context) (*PromptImage, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m PromptImageMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m PromptImageMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of PromptImage entities.
+func (m *PromptImageMutation) SetID(id int) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *PromptImageMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *PromptImageMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().PromptImage.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *PromptImageMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *PromptImageMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the PromptImage entity.
+// If the PromptImage object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptImageMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *PromptImageMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *PromptImageMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *PromptImageMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the PromptImage entity.
+// If the PromptImage object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptImageMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *PromptImageMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetPromptID sets the "prompt_id" field.
+func (m *PromptImageMutation) SetPromptID(i int) {
+	m.prompt = &i
+}
+
+// PromptID returns the value of the "prompt_id" field in the mutation.
+func (m *PromptImageMutation) PromptID() (r int, exists bool) {
+	v := m.prompt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPromptID returns the old "prompt_id" field's value of the PromptImage entity.
+// If the PromptImage object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptImageMutation) OldPromptID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPromptID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPromptID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPromptID: %w", err)
+	}
+	return oldValue.PromptID, nil
+}
+
+// ResetPromptID resets all changes to the "prompt_id" field.
+func (m *PromptImageMutation) ResetPromptID() {
+	m.prompt = nil
+}
+
+// SetImageURL sets the "image_url" field.
+func (m *PromptImageMutation) SetImageURL(s string) {
+	m.image_url = &s
+}
+
+// ImageURL returns the value of the "image_url" field in the mutation.
+func (m *PromptImageMutation) ImageURL() (r string, exists bool) {
+	v := m.image_url
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldImageURL returns the old "image_url" field's value of the PromptImage entity.
+// If the PromptImage object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptImageMutation) OldImageURL(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldImageURL is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldImageURL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldImageURL: %w", err)
+	}
+	return oldValue.ImageURL, nil
+}
+
+// ResetImageURL resets all changes to the "image_url" field.
+func (m *PromptImageMutation) ResetImageURL() {
+	m.image_url = nil
+}
+
+// SetModelName sets the "model_name" field.
+func (m *PromptImageMutation) SetModelName(s string) {
+	m.model_name = &s
+}
+
+// ModelName returns the value of the "model_name" field in the mutation.
+func (m *PromptImageMutation) ModelName() (r string, exists bool) {
+	v := m.model_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldModelName returns the old "model_name" field's value of the PromptImage entity.
+// If the PromptImage object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptImageMutation) OldModelName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldModelName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldModelName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldModelName: %w", err)
+	}
+	return oldValue.ModelName, nil
+}
+
+// ClearModelName clears the value of the "model_name" field.
+func (m *PromptImageMutation) ClearModelName() {
+	m.model_name = nil
+	m.clearedFields[promptimage.FieldModelName] = struct{}{}
+}
+
+// ModelNameCleared returns if the "model_name" field was cleared in this mutation.
+func (m *PromptImageMutation) ModelNameCleared() bool {
+	_, ok := m.clearedFields[promptimage.FieldModelName]
+	return ok
+}
+
+// ResetModelName resets all changes to the "model_name" field.
+func (m *PromptImageMutation) ResetModelName() {
+	m.model_name = nil
+	delete(m.clearedFields, promptimage.FieldModelName)
+}
+
+// SetSort sets the "sort" field.
+func (m *PromptImageMutation) SetSort(i int) {
+	m.sort = &i
+	m.addsort = nil
+}
+
+// Sort returns the value of the "sort" field in the mutation.
+func (m *PromptImageMutation) Sort() (r int, exists bool) {
+	v := m.sort
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSort returns the old "sort" field's value of the PromptImage entity.
+// If the PromptImage object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptImageMutation) OldSort(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSort is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSort requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSort: %w", err)
+	}
+	return oldValue.Sort, nil
+}
+
+// AddSort adds i to the "sort" field.
+func (m *PromptImageMutation) AddSort(i int) {
+	if m.addsort != nil {
+		*m.addsort += i
+	} else {
+		m.addsort = &i
+	}
+}
+
+// AddedSort returns the value that was added to the "sort" field in this mutation.
+func (m *PromptImageMutation) AddedSort() (r int, exists bool) {
+	v := m.addsort
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetSort resets all changes to the "sort" field.
+func (m *PromptImageMutation) ResetSort() {
+	m.sort = nil
+	m.addsort = nil
+}
+
+// ClearPrompt clears the "prompt" edge to the Prompt entity.
+func (m *PromptImageMutation) ClearPrompt() {
+	m.clearedprompt = true
+	m.clearedFields[promptimage.FieldPromptID] = struct{}{}
+}
+
+// PromptCleared reports if the "prompt" edge to the Prompt entity was cleared.
+func (m *PromptImageMutation) PromptCleared() bool {
+	return m.clearedprompt
+}
+
+// PromptIDs returns the "prompt" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// PromptID instead. It exists only for internal usage by the builders.
+func (m *PromptImageMutation) PromptIDs() (ids []int) {
+	if id := m.prompt; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetPrompt resets all changes to the "prompt" edge.
+func (m *PromptImageMutation) ResetPrompt() {
+	m.prompt = nil
+	m.clearedprompt = false
+}
+
+// Where appends a list predicates to the PromptImageMutation builder.
+func (m *PromptImageMutation) Where(ps ...predicate.PromptImage) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the PromptImageMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *PromptImageMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.PromptImage, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *PromptImageMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *PromptImageMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (PromptImage).
+func (m *PromptImageMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *PromptImageMutation) Fields() []string {
+	fields := make([]string, 0, 6)
+	if m.created_at != nil {
+		fields = append(fields, promptimage.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, promptimage.FieldUpdatedAt)
+	}
+	if m.prompt != nil {
+		fields = append(fields, promptimage.FieldPromptID)
+	}
+	if m.image_url != nil {
+		fields = append(fields, promptimage.FieldImageURL)
+	}
+	if m.model_name != nil {
+		fields = append(fields, promptimage.FieldModelName)
+	}
+	if m.sort != nil {
+		fields = append(fields, promptimage.FieldSort)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *PromptImageMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case promptimage.FieldCreatedAt:
+		return m.CreatedAt()
+	case promptimage.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case promptimage.FieldPromptID:
+		return m.PromptID()
+	case promptimage.FieldImageURL:
+		return m.ImageURL()
+	case promptimage.FieldModelName:
+		return m.ModelName()
+	case promptimage.FieldSort:
+		return m.Sort()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *PromptImageMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case promptimage.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case promptimage.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case promptimage.FieldPromptID:
+		return m.OldPromptID(ctx)
+	case promptimage.FieldImageURL:
+		return m.OldImageURL(ctx)
+	case promptimage.FieldModelName:
+		return m.OldModelName(ctx)
+	case promptimage.FieldSort:
+		return m.OldSort(ctx)
+	}
+	return nil, fmt.Errorf("unknown PromptImage field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PromptImageMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case promptimage.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case promptimage.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case promptimage.FieldPromptID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPromptID(v)
+		return nil
+	case promptimage.FieldImageURL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetImageURL(v)
+		return nil
+	case promptimage.FieldModelName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetModelName(v)
+		return nil
+	case promptimage.FieldSort:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSort(v)
+		return nil
+	}
+	return fmt.Errorf("unknown PromptImage field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *PromptImageMutation) AddedFields() []string {
+	var fields []string
+	if m.addsort != nil {
+		fields = append(fields, promptimage.FieldSort)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *PromptImageMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case promptimage.FieldSort:
+		return m.AddedSort()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PromptImageMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case promptimage.FieldSort:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddSort(v)
+		return nil
+	}
+	return fmt.Errorf("unknown PromptImage numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *PromptImageMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(promptimage.FieldModelName) {
+		fields = append(fields, promptimage.FieldModelName)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *PromptImageMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *PromptImageMutation) ClearField(name string) error {
+	switch name {
+	case promptimage.FieldModelName:
+		m.ClearModelName()
+		return nil
+	}
+	return fmt.Errorf("unknown PromptImage nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *PromptImageMutation) ResetField(name string) error {
+	switch name {
+	case promptimage.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case promptimage.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case promptimage.FieldPromptID:
+		m.ResetPromptID()
+		return nil
+	case promptimage.FieldImageURL:
+		m.ResetImageURL()
+		return nil
+	case promptimage.FieldModelName:
+		m.ResetModelName()
+		return nil
+	case promptimage.FieldSort:
+		m.ResetSort()
+		return nil
+	}
+	return fmt.Errorf("unknown PromptImage field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *PromptImageMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.prompt != nil {
+		edges = append(edges, promptimage.EdgePrompt)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *PromptImageMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case promptimage.EdgePrompt:
+		if id := m.prompt; id != nil {
+			return []ent.Value{*id}
+		}
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *PromptImageMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *PromptImageMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *PromptImageMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.clearedprompt {
+		edges = append(edges, promptimage.EdgePrompt)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *PromptImageMutation) EdgeCleared(name string) bool {
+	switch name {
+	case promptimage.EdgePrompt:
+		return m.clearedprompt
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *PromptImageMutation) ClearEdge(name string) error {
+	switch name {
+	case promptimage.EdgePrompt:
+		m.ClearPrompt()
+		return nil
+	}
+	return fmt.Errorf("unknown PromptImage unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *PromptImageMutation) ResetEdge(name string) error {
+	switch name {
+	case promptimage.EdgePrompt:
+		m.ResetPrompt()
+		return nil
+	}
+	return fmt.Errorf("unknown PromptImage edge %s", name)
+}
+
+// PromptTagMutation represents an operation that mutates the PromptTag nodes in the graph.
+type PromptTagMutation struct {
+	config
+	op             Op
+	typ            string
+	id             *int
+	created_at     *time.Time
+	updated_at     *time.Time
+	name           *string
+	clearedFields  map[string]struct{}
+	prompts        map[int]struct{}
+	removedprompts map[int]struct{}
+	clearedprompts bool
+	done           bool
+	oldValue       func(context.Context) (*PromptTag, error)
+	predicates     []predicate.PromptTag
+}
+
+var _ ent.Mutation = (*PromptTagMutation)(nil)
+
+// prompttagOption allows management of the mutation configuration using functional options.
+type prompttagOption func(*PromptTagMutation)
+
+// newPromptTagMutation creates new mutation for the PromptTag entity.
+func newPromptTagMutation(c config, op Op, opts ...prompttagOption) *PromptTagMutation {
+	m := &PromptTagMutation{
+		config:        c,
+		op:            op,
+		typ:           TypePromptTag,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withPromptTagID sets the ID field of the mutation.
+func withPromptTagID(id int) prompttagOption {
+	return func(m *PromptTagMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *PromptTag
+		)
+		m.oldValue = func(ctx context.Context) (*PromptTag, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().PromptTag.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withPromptTag sets the old PromptTag of the mutation.
+func withPromptTag(node *PromptTag) prompttagOption {
+	return func(m *PromptTagMutation) {
+		m.oldValue = func(context.Context) (*PromptTag, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m PromptTagMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m PromptTagMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of PromptTag entities.
+func (m *PromptTagMutation) SetID(id int) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *PromptTagMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *PromptTagMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().PromptTag.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *PromptTagMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *PromptTagMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the PromptTag entity.
+// If the PromptTag object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptTagMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *PromptTagMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *PromptTagMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *PromptTagMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the PromptTag entity.
+// If the PromptTag object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptTagMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *PromptTagMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetName sets the "name" field.
+func (m *PromptTagMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *PromptTagMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the PromptTag entity.
+// If the PromptTag object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromptTagMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *PromptTagMutation) ResetName() {
+	m.name = nil
+}
+
+// AddPromptIDs adds the "prompts" edge to the Prompt entity by ids.
+func (m *PromptTagMutation) AddPromptIDs(ids ...int) {
+	if m.prompts == nil {
+		m.prompts = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.prompts[ids[i]] = struct{}{}
+	}
+}
+
+// ClearPrompts clears the "prompts" edge to the Prompt entity.
+func (m *PromptTagMutation) ClearPrompts() {
+	m.clearedprompts = true
+}
+
+// PromptsCleared reports if the "prompts" edge to the Prompt entity was cleared.
+func (m *PromptTagMutation) PromptsCleared() bool {
+	return m.clearedprompts
+}
+
+// RemovePromptIDs removes the "prompts" edge to the Prompt entity by IDs.
+func (m *PromptTagMutation) RemovePromptIDs(ids ...int) {
+	if m.removedprompts == nil {
+		m.removedprompts = make(map[int]struct{})
+	}
+	for i := range ids {
+		delete(m.prompts, ids[i])
+		m.removedprompts[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedPrompts returns the removed IDs of the "prompts" edge to the Prompt entity.
+func (m *PromptTagMutation) RemovedPromptsIDs() (ids []int) {
+	for id := range m.removedprompts {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// PromptsIDs returns the "prompts" edge IDs in the mutation.
+func (m *PromptTagMutation) PromptsIDs() (ids []int) {
+	for id := range m.prompts {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetPrompts resets all changes to the "prompts" edge.
+func (m *PromptTagMutation) ResetPrompts() {
+	m.prompts = nil
+	m.clearedprompts = false
+	m.removedprompts = nil
+}
+
+// Where appends a list predicates to the PromptTagMutation builder.
+func (m *PromptTagMutation) Where(ps ...predicate.PromptTag) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the PromptTagMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *PromptTagMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.PromptTag, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *PromptTagMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *PromptTagMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (PromptTag).
+func (m *PromptTagMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *PromptTagMutation) Fields() []string {
+	fields := make([]string, 0, 3)
+	if m.created_at != nil {
+		fields = append(fields, prompttag.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, prompttag.FieldUpdatedAt)
+	}
+	if m.name != nil {
+		fields = append(fields, prompttag.FieldName)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *PromptTagMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case prompttag.FieldCreatedAt:
+		return m.CreatedAt()
+	case prompttag.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case prompttag.FieldName:
+		return m.Name()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *PromptTagMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case prompttag.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case prompttag.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case prompttag.FieldName:
+		return m.OldName(ctx)
+	}
+	return nil, fmt.Errorf("unknown PromptTag field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PromptTagMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case prompttag.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case prompttag.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case prompttag.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	}
+	return fmt.Errorf("unknown PromptTag field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *PromptTagMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *PromptTagMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PromptTagMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown PromptTag numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *PromptTagMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *PromptTagMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *PromptTagMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown PromptTag nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *PromptTagMutation) ResetField(name string) error {
+	switch name {
+	case prompttag.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case prompttag.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case prompttag.FieldName:
+		m.ResetName()
+		return nil
+	}
+	return fmt.Errorf("unknown PromptTag field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *PromptTagMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.prompts != nil {
+		edges = append(edges, prompttag.EdgePrompts)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *PromptTagMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case prompttag.EdgePrompts:
+		ids := make([]ent.Value, 0, len(m.prompts))
+		for id := range m.prompts {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *PromptTagMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.removedprompts != nil {
+		edges = append(edges, prompttag.EdgePrompts)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *PromptTagMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case prompttag.EdgePrompts:
+		ids := make([]ent.Value, 0, len(m.removedprompts))
+		for id := range m.removedprompts {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *PromptTagMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.clearedprompts {
+		edges = append(edges, prompttag.EdgePrompts)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *PromptTagMutation) EdgeCleared(name string) bool {
+	switch name {
+	case prompttag.EdgePrompts:
+		return m.clearedprompts
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *PromptTagMutation) ClearEdge(name string) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown PromptTag unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *PromptTagMutation) ResetEdge(name string) error {
+	switch name {
+	case prompttag.EdgePrompts:
+		m.ResetPrompts()
+		return nil
+	}
+	return fmt.Errorf("unknown PromptTag edge %s", name)
 }
 
 // RefreshTokenMutation represents an operation that mutates the RefreshToken nodes in the graph.

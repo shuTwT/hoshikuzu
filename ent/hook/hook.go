@@ -381,6 +381,42 @@ func (f ProductFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, err
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ProductMutation", m)
 }
 
+// The PromptFunc type is an adapter to allow the use of ordinary
+// function as Prompt mutator.
+type PromptFunc func(context.Context, *ent.PromptMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f PromptFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.PromptMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PromptMutation", m)
+}
+
+// The PromptImageFunc type is an adapter to allow the use of ordinary
+// function as PromptImage mutator.
+type PromptImageFunc func(context.Context, *ent.PromptImageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f PromptImageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.PromptImageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PromptImageMutation", m)
+}
+
+// The PromptTagFunc type is an adapter to allow the use of ordinary
+// function as PromptTag mutator.
+type PromptTagFunc func(context.Context, *ent.PromptTagMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f PromptTagFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.PromptTagMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PromptTagMutation", m)
+}
+
 // The RefreshTokenFunc type is an adapter to allow the use of ordinary
 // function as RefreshToken mutator.
 type RefreshTokenFunc func(context.Context, *ent.RefreshTokenMutation) (ent.Value, error)

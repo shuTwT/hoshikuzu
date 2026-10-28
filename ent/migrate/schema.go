@@ -763,6 +763,60 @@ var (
 		Columns:    ProductsColumns,
 		PrimaryKey: []*schema.Column{ProductsColumns[0]},
 	}
+	// PromptsColumns holds the columns for the "prompts" table.
+	PromptsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "title", Type: field.TypeString, Size: 255},
+		{Name: "content", Type: field.TypeString, Size: 2147483647},
+		{Name: "negative_prompt", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 500},
+		{Name: "sort", Type: field.TypeInt, Default: 0},
+	}
+	// PromptsTable holds the schema information for the "prompts" table.
+	PromptsTable = &schema.Table{
+		Name:       "prompts",
+		Columns:    PromptsColumns,
+		PrimaryKey: []*schema.Column{PromptsColumns[0]},
+	}
+	// PromptImagesColumns holds the columns for the "prompt_images" table.
+	PromptImagesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "image_url", Type: field.TypeString},
+		{Name: "model_name", Type: field.TypeString, Nullable: true, Size: 100},
+		{Name: "sort", Type: field.TypeInt, Default: 0},
+		{Name: "prompt_id", Type: field.TypeInt},
+	}
+	// PromptImagesTable holds the schema information for the "prompt_images" table.
+	PromptImagesTable = &schema.Table{
+		Name:       "prompt_images",
+		Columns:    PromptImagesColumns,
+		PrimaryKey: []*schema.Column{PromptImagesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "prompt_images_prompts_images",
+				Columns:    []*schema.Column{PromptImagesColumns[6]},
+				RefColumns: []*schema.Column{PromptsColumns[0]},
+				OnDelete:   schema.Cascade,
+			},
+		},
+	}
+	// PromptTagsColumns holds the columns for the "prompt_tags" table.
+	PromptTagsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString, Unique: true, Size: 50},
+	}
+	// PromptTagsTable holds the schema information for the "prompt_tags" table.
+	PromptTagsTable = &schema.Table{
+		Name:       "prompt_tags",
+		Columns:    PromptTagsColumns,
+		PrimaryKey: []*schema.Column{PromptTagsColumns[0]},
+	}
 	// RefreshTokensColumns holds the columns for the "refresh_tokens" table.
 	RefreshTokensColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -1057,6 +1111,31 @@ var (
 			},
 		},
 	}
+	// PromptTagRelationsColumns holds the columns for the "prompt_tag_relations" table.
+	PromptTagRelationsColumns = []*schema.Column{
+		{Name: "prompt_id", Type: field.TypeInt},
+		{Name: "prompt_tag_id", Type: field.TypeInt},
+	}
+	// PromptTagRelationsTable holds the schema information for the "prompt_tag_relations" table.
+	PromptTagRelationsTable = &schema.Table{
+		Name:       "prompt_tag_relations",
+		Columns:    PromptTagRelationsColumns,
+		PrimaryKey: []*schema.Column{PromptTagRelationsColumns[0], PromptTagRelationsColumns[1]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "prompt_tag_relations_prompt_id",
+				Columns:    []*schema.Column{PromptTagRelationsColumns[0]},
+				RefColumns: []*schema.Column{PromptsColumns[0]},
+				OnDelete:   schema.Cascade,
+			},
+			{
+				Symbol:     "prompt_tag_relations_prompt_tag_id",
+				Columns:    []*schema.Column{PromptTagRelationsColumns[1]},
+				RefColumns: []*schema.Column{PromptTagsColumns[0]},
+				OnDelete:   schema.Cascade,
+			},
+		},
+	}
 	// TagPostsColumns holds the columns for the "tag_posts" table.
 	TagPostsColumns = []*schema.Column{
 		{Name: "tag_id", Type: field.TypeInt},
@@ -1115,6 +1194,9 @@ var (
 		PostsTable,
 		PostPurchasesTable,
 		ProductsTable,
+		PromptsTable,
+		PromptImagesTable,
+		PromptTagsTable,
 		RefreshTokensTable,
 		RolesTable,
 		ScheduleJobsTable,
@@ -1128,6 +1210,7 @@ var (
 		WalletsTable,
 		WebHooksTable,
 		CategoryPostsTable,
+		PromptTagRelationsTable,
 		TagPostsTable,
 	}
 )
@@ -1147,10 +1230,13 @@ func init() {
 	PostPurchasesTable.ForeignKeys[0].RefTable = UsersTable
 	PostPurchasesTable.ForeignKeys[1].RefTable = PostsTable
 	PostPurchasesTable.ForeignKeys[2].RefTable = PayOrdersTable
+	PromptImagesTable.ForeignKeys[0].RefTable = PromptsTable
 	UsersTable.ForeignKeys[0].RefTable = RolesTable
 	WalletsTable.ForeignKeys[0].RefTable = UsersTable
 	CategoryPostsTable.ForeignKeys[0].RefTable = CategoriesTable
 	CategoryPostsTable.ForeignKeys[1].RefTable = PostsTable
+	PromptTagRelationsTable.ForeignKeys[0].RefTable = PromptsTable
+	PromptTagRelationsTable.ForeignKeys[1].RefTable = PromptTagsTable
 	TagPostsTable.ForeignKeys[0].RefTable = TagsTable
 	TagPostsTable.ForeignKeys[1].RefTable = PostsTable
 }

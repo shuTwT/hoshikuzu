@@ -63,6 +63,16 @@ export default [
                 },
             },
             {
+                path: '/content/prompt',
+                name: 'PromptGalleryManagement',
+                component: () => import('@/views/content/prompt/index.vue'),
+                meta: {
+                    title: '提示词画廊',
+                    showLink: true,
+                    roles: ['admin', 'common'],
+                },
+            },
+            {
                 path: '/content/comment',
                 name: 'CommentManagement',
                 component: () => import('@/views/content/comment/index.vue'),

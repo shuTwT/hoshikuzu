@@ -14,6 +14,7 @@ import (
 	friendcircle_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/friendcircle"
 	menu_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/menu"
 	post_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/post"
+	prompt_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/prompt"
 	tag_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/tag"
 	file_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/file"
 	license_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/license"
@@ -49,6 +50,7 @@ type HandlerMap struct {
 	AIHandler               *ai_handler.AIHandler
 	AlbumHandler            *album_handler.AlbumHandler
 	AlbumPhotoHandler       *albumphoto_handler.AlbumPhotoHandler
+	PromptHandler           *prompt_handler.PromptHandler
 	AuthHandler             *auth_handler.AuthHandler
 	CategoryHandler         *category_handler.CategoryHandler
 	CommentHandler          *comment_handler.CommentHandler
@@ -92,6 +94,7 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 	aiHandler := ai_handler.NewAIHandler(serviceMap.AIService, db)
 	albumHandler := album_handler.NewAlbumHandler(serviceMap.AlbumService)
 	albnumPhotoHandler := albumphoto_handler.NewAlbumPhotoHandler(serviceMap.AlbumPhotoService)
+	promptHandler := prompt_handler.NewPromptHandler(serviceMap.PromptService)
 	authHandler := auth_handler.NewAuthHandler(serviceMap.AuthService)
 	categoryHandler := category_handler.NewCategoryHandler(serviceMap.CategoryService, serviceMap.PostService)
 	commentHandler := comment_handler.NewCommentHandler(serviceMap.CommentService)
@@ -152,6 +155,7 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 		AIHandler:               aiHandler,
 		AlbumHandler:            albumHandler,
 		AlbumPhotoHandler:       albnumPhotoHandler,
+		PromptHandler:           promptHandler,
 		AuthHandler:             authHandler,
 		CategoryHandler:         categoryHandler,
 		CommentHandler:          commentHandler,

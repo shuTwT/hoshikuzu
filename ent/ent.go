@@ -43,6 +43,9 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/post"
 	"github.com/shuTwT/hoshikuzu/ent/postpurchase"
 	"github.com/shuTwT/hoshikuzu/ent/product"
+	"github.com/shuTwT/hoshikuzu/ent/prompt"
+	"github.com/shuTwT/hoshikuzu/ent/promptimage"
+	"github.com/shuTwT/hoshikuzu/ent/prompttag"
 	"github.com/shuTwT/hoshikuzu/ent/refreshtoken"
 	"github.com/shuTwT/hoshikuzu/ent/role"
 	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
@@ -146,6 +149,9 @@ func checkColumn(t, c string) error {
 			post.Table:                post.ValidColumn,
 			postpurchase.Table:        postpurchase.ValidColumn,
 			product.Table:             product.ValidColumn,
+			prompt.Table:              prompt.ValidColumn,
+			promptimage.Table:         promptimage.ValidColumn,
+			prompttag.Table:           prompttag.ValidColumn,
 			refreshtoken.Table:        refreshtoken.ValidColumn,
 			role.Table:                role.ValidColumn,
 			schedulejob.Table:         schedulejob.ValidColumn,

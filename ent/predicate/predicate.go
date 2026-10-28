@@ -99,6 +99,15 @@ type PostPurchase func(*sql.Selector)
 // Product is the predicate function for product builders.
 type Product func(*sql.Selector)
 
+// Prompt is the predicate function for prompt builders.
+type Prompt func(*sql.Selector)
+
+// PromptImage is the predicate function for promptimage builders.
+type PromptImage func(*sql.Selector)
+
+// PromptTag is the predicate function for prompttag builders.
+type PromptTag func(*sql.Selector)
+
 // RefreshToken is the predicate function for refreshtoken builders.
 type RefreshToken func(*sql.Selector)
 
