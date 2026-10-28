@@ -57,6 +57,9 @@ type FriendCircleRecord func(*sql.Selector)
 // License is the predicate function for license builders.
 type License func(*sql.Selector)
 
+// MailTemplate is the predicate function for mailtemplate builders.
+type MailTemplate func(*sql.Selector)
+
 // Member is the predicate function for member builders.
 type Member func(*sql.Selector)
 
@@ -107,6 +110,9 @@ type ScheduleJob func(*sql.Selector)
 
 // Setting is the predicate function for setting builders.
 type Setting func(*sql.Selector)
+
+// SmsTemplate is the predicate function for smstemplate builders.
+type SmsTemplate func(*sql.Selector)
 
 // StorageStrategy is the predicate function for storagestrategy builders.
 type StorageStrategy func(*sql.Selector)

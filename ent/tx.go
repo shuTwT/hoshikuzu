@@ -46,6 +46,8 @@ type Tx struct {
 	FriendCircleRecord *FriendCircleRecordClient
 	// License is the client for interacting with the License builders.
 	License *LicenseClient
+	// MailTemplate is the client for interacting with the MailTemplate builders.
+	MailTemplate *MailTemplateClient
 	// Member is the client for interacting with the Member builders.
 	Member *MemberClient
 	// MemberLevel is the client for interacting with the MemberLevel builders.
@@ -80,6 +82,8 @@ type Tx struct {
 	ScheduleJob *ScheduleJobClient
 	// Setting is the client for interacting with the Setting builders.
 	Setting *SettingClient
+	// SmsTemplate is the client for interacting with the SmsTemplate builders.
+	SmsTemplate *SmsTemplateClient
 	// StorageStrategy is the client for interacting with the StorageStrategy builders.
 	StorageStrategy *StorageStrategyClient
 	// Tag is the client for interacting with the Tag builders.
@@ -242,6 +246,7 @@ func (tx *Tx) init() {
 	tx.File = NewFileClient(tx.config)
 	tx.FriendCircleRecord = NewFriendCircleRecordClient(tx.config)
 	tx.License = NewLicenseClient(tx.config)
+	tx.MailTemplate = NewMailTemplateClient(tx.config)
 	tx.Member = NewMemberClient(tx.config)
 	tx.MemberLevel = NewMemberLevelClient(tx.config)
 	tx.Menu = NewMenuClient(tx.config)
@@ -259,6 +264,7 @@ func (tx *Tx) init() {
 	tx.Role = NewRoleClient(tx.config)
 	tx.ScheduleJob = NewScheduleJobClient(tx.config)
 	tx.Setting = NewSettingClient(tx.config)
+	tx.SmsTemplate = NewSmsTemplateClient(tx.config)
 	tx.StorageStrategy = NewStorageStrategyClient(tx.config)
 	tx.Tag = NewTagClient(tx.config)
 	tx.Theme = NewThemeClient(tx.config)

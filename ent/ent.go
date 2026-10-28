@@ -29,6 +29,7 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/flinkgroup"
 	"github.com/shuTwT/hoshikuzu/ent/friendcirclerecord"
 	"github.com/shuTwT/hoshikuzu/ent/license"
+	"github.com/shuTwT/hoshikuzu/ent/mailtemplate"
 	"github.com/shuTwT/hoshikuzu/ent/member"
 	"github.com/shuTwT/hoshikuzu/ent/memberlevel"
 	"github.com/shuTwT/hoshikuzu/ent/menu"
@@ -46,6 +47,7 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/role"
 	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
 	"github.com/shuTwT/hoshikuzu/ent/setting"
+	"github.com/shuTwT/hoshikuzu/ent/smstemplate"
 	"github.com/shuTwT/hoshikuzu/ent/storagestrategy"
 	"github.com/shuTwT/hoshikuzu/ent/tag"
 	"github.com/shuTwT/hoshikuzu/ent/theme"
@@ -130,6 +132,7 @@ func checkColumn(t, c string) error {
 			file.Table:                file.ValidColumn,
 			friendcirclerecord.Table:  friendcirclerecord.ValidColumn,
 			license.Table:             license.ValidColumn,
+			mailtemplate.Table:        mailtemplate.ValidColumn,
 			member.Table:              member.ValidColumn,
 			memberlevel.Table:         memberlevel.ValidColumn,
 			menu.Table:                menu.ValidColumn,
@@ -147,6 +150,7 @@ func checkColumn(t, c string) error {
 			role.Table:                role.ValidColumn,
 			schedulejob.Table:         schedulejob.ValidColumn,
 			setting.Table:             setting.ValidColumn,
+			smstemplate.Table:         smstemplate.ValidColumn,
 			storagestrategy.Table:     storagestrategy.ValidColumn,
 			tag.Table:                 tag.ValidColumn,
 			theme.Table:               theme.ValidColumn,

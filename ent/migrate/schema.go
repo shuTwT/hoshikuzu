@@ -383,6 +383,25 @@ var (
 		Columns:    LicensesColumns,
 		PrimaryKey: []*schema.Column{LicensesColumns[0]},
 	}
+	// MailTemplatesColumns holds the columns for the "mail_templates" table.
+	MailTemplatesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString, Size: 100},
+		{Name: "code", Type: field.TypeString, Unique: true, Size: 100},
+		{Name: "subject", Type: field.TypeString, Size: 200},
+		{Name: "content", Type: field.TypeString, Size: 5000},
+		{Name: "content_type", Type: field.TypeString, Size: 10, Default: "html"},
+		{Name: "enabled", Type: field.TypeBool, Default: true},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Size: 255},
+	}
+	// MailTemplatesTable holds the schema information for the "mail_templates" table.
+	MailTemplatesTable = &schema.Table{
+		Name:       "mail_templates",
+		Columns:    MailTemplatesColumns,
+		PrimaryKey: []*schema.Column{MailTemplatesColumns[0]},
+	}
 	// MembersColumns holds the columns for the "members" table.
 	MembersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -821,6 +840,25 @@ var (
 		Columns:    SettingsColumns,
 		PrimaryKey: []*schema.Column{SettingsColumns[0]},
 	}
+	// SmsTemplatesColumns holds the columns for the "sms_templates" table.
+	SmsTemplatesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString, Size: 100},
+		{Name: "code", Type: field.TypeString, Unique: true, Size: 100},
+		{Name: "sign_name", Type: field.TypeString, Nullable: true, Size: 50},
+		{Name: "provider_template_id", Type: field.TypeString, Nullable: true, Size: 100},
+		{Name: "content", Type: field.TypeString, Size: 500},
+		{Name: "enabled", Type: field.TypeBool, Default: true},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Size: 255},
+	}
+	// SmsTemplatesTable holds the schema information for the "sms_templates" table.
+	SmsTemplatesTable = &schema.Table{
+		Name:       "sms_templates",
+		Columns:    SmsTemplatesColumns,
+		PrimaryKey: []*schema.Column{SmsTemplatesColumns[0]},
+	}
 	// StorageStrategiesColumns holds the columns for the "storage_strategies" table.
 	StorageStrategiesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -1063,6 +1101,7 @@ var (
 		FilesTable,
 		FriendCircleRecordsTable,
 		LicensesTable,
+		MailTemplatesTable,
 		MembersTable,
 		MemberLevelsTable,
 		MenusTable,
@@ -1080,6 +1119,7 @@ var (
 		RolesTable,
 		ScheduleJobsTable,
 		SettingsTable,
+		SmsTemplatesTable,
 		StorageStrategiesTable,
 		TagsTable,
 		ThemesTable,

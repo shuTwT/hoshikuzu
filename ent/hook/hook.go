@@ -213,6 +213,18 @@ func (f LicenseFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, err
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.LicenseMutation", m)
 }
 
+// The MailTemplateFunc type is an adapter to allow the use of ordinary
+// function as MailTemplate mutator.
+type MailTemplateFunc func(context.Context, *ent.MailTemplateMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f MailTemplateFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.MailTemplateMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.MailTemplateMutation", m)
+}
+
 // The MemberFunc type is an adapter to allow the use of ordinary
 // function as Member mutator.
 type MemberFunc func(context.Context, *ent.MemberMutation) (ent.Value, error)
@@ -415,6 +427,18 @@ func (f SettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, err
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SettingMutation", m)
+}
+
+// The SmsTemplateFunc type is an adapter to allow the use of ordinary
+// function as SmsTemplate mutator.
+type SmsTemplateFunc func(context.Context, *ent.SmsTemplateMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f SmsTemplateFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SmsTemplateMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SmsTemplateMutation", m)
 }
 
 // The StorageStrategyFunc type is an adapter to allow the use of ordinary

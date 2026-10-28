@@ -32,6 +32,8 @@ const defaultEmailForm = {
 const emailForm = ref({ ...defaultEmailForm })
 
 const notificationLoading = ref(false)
+const testMailLoading = ref(false)
+const testMailTo = ref('')
 
 // 保存通知设置（通知与邮件配置分两组保存，保持 email 组数据兼容）
 const saveNotificationSettings = async () => {
@@ -58,6 +60,23 @@ const onSearch = async () => {
   ])
   notificationForm.value = Object.assign({}, defaultNotifyForm, notifyRes.data)
   emailForm.value = Object.assign({}, defaultEmailForm, emailRes.data)
+}
+
+// 发送测试邮件，验证 SMTP 配置是否正确
+const sendTestMail = async () => {
+  if (!testMailTo.value) {
+    message.warning('请输入收件人邮箱')
+    return
+  }
+  testMailLoading.value = true
+  try {
+    await useApi(apiClient.api.v1MailTestCreate, { to: testMailTo.value })
+    message.success('测试邮件发送成功')
+  } catch {
+    message.error('测试邮件发送失败，请检查 SMTP 配置')
+  } finally {
+    testMailLoading.value = false
+  }
 }
 
 onMounted(() => {
@@ -111,6 +130,19 @@ onMounted(() => {
     <n-form-item>
       <n-button type="primary" @click="saveNotificationSettings" :loading="notificationLoading">
         保存通知设置
+      </n-button>
+      <n-input
+        v-model:value="testMailTo"
+        placeholder="收件人邮箱"
+        style="width: 240px; margin-left: 12px"
+      />
+      <n-button
+        @click="sendTestMail"
+        :loading="testMailLoading"
+        :disabled="!notificationForm.enableEmailNotification"
+        style="margin-left: 12px"
+      >
+        发送测试邮件
       </n-button>
     </n-form-item>
   </n-form>

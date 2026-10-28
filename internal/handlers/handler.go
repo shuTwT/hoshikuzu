@@ -17,9 +17,12 @@ import (
 	tag_handler "github.com/shuTwT/hoshikuzu/internal/handlers/content/tag"
 	file_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/file"
 	license_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/license"
+	mail_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/mail"
+	mailtemplate_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/mailtemplate"
 	migration_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/migration"
 	plugin_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/plugin"
 	schedulejob_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/schedulejob"
+	smstemplate_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/smstemplate"
 	storagestrategy "github.com/shuTwT/hoshikuzu/internal/handlers/infra/storagestrategy"
 	theme_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/theme"
 	visit_handler "github.com/shuTwT/hoshikuzu/internal/handlers/infra/visit"
@@ -59,6 +62,8 @@ type HandlerMap struct {
 	FlinkGroupHandler       *flinkgroup_handler.FlinkGroupHandler
 	FriendCircleHandler     *friendcircle_handler.FriendCircleHandler
 	InitializeHandler       *initialize_handler.InitializeHandler
+	MailHandler             *mail_handler.MailHandler
+	MailTemplateHandler     *mailtemplate_handler.MailTemplateHandler
 	MemberHandler           *member_handler.MemberHandler
 	MemberLevelHandler      *memberlevel_handler.MemberLevelHandler
 	MenuHandler             *menu_handler.MenuHandler
@@ -72,6 +77,7 @@ type HandlerMap struct {
 	RouteHandler            *route_handler.RouteHandler
 	ScheduleJobHandler      *schedulejob_handler.ScheduleJobHandler
 	SettingHandler          *setting_handler.SettingHandler
+	SmsTemplateHandler      *smstemplate_handler.SmsTemplateHandler
 	TagHandler              *tag_handler.TagHandler
 	ThemeHandler            *theme_handler.ThemeHandler
 	UserHandler             *user_handler.UserHandler
@@ -99,6 +105,8 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 	flinkGroupHandler := flinkgroup_handler.NewFlinkGroupHandler(db, serviceMap.FlinkService)
 	friendCircleHandler := friendcircle_handler.NewFriendCircleHandler(serviceMap.FriendCircleService)
 	initializeHandler := initialize_handler.NewInitializeHandler(db, serviceMap.UserService, serviceMap.SettingService)
+	mailHandler := mail_handler.NewMailHandler(serviceMap.MailService)
+	mailTemplateHandler := mailtemplate_handler.NewMailTemplateHandler(serviceMap.MailTemplateService)
 	menuHandler := menu_handler.NewMenuHandler(serviceMap.MenuService)
 	payOrderHandler := payorder_handler.NewPayOrderHandler(db, serviceMap.PayOrderService)
 	postHandler := post_handler.NewPostHandler(serviceMap.PostService)
@@ -106,6 +114,7 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 	roleHandler := role_handler.NewRoleHandler(serviceMap.RoleService)
 	routeHandler := route_handler.NewRouteHandler()
 	settingHandler := setting_handler.NewSettingHandler(serviceMap.SettingService)
+	smsTemplateHandler := smstemplate_handler.NewSmsTemplateHandler(serviceMap.SmsTemplateService)
 	tagHandler := tag_handler.NewTagHandler(serviceMap.TagService)
 	userHandler := user_handler.NewUserHandler(serviceMap.UserService, serviceMap.RoleService)
 	essayHandler := essay_handler.NewEssayHandler(serviceMap.EssayService)
@@ -156,6 +165,8 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 		FriendCircleHandler:     friendCircleHandler,
 		InitializeHandler:       initializeHandler,
 		LicenseHandler:          licenseHandler,
+		MailHandler:             mailHandler,
+		MailTemplateHandler:     mailTemplateHandler,
 		MemberHandler:           memberHandler,
 		MemberLevelHandler:      memberLevelHandler,
 		MenuHandler:             menuHandler,
@@ -169,6 +180,7 @@ func InitHandler(serviceMap pkg.ServiceMap, db *ent.Client) HandlerMap {
 		RouteHandler:            routeHandler,
 		ScheduleJobHandler:      scheduleJobHandler,
 		SettingHandler:          settingHandler,
+		SmsTemplateHandler:      smsTemplateHandler,
 		TagHandler:              tagHandler,
 		UserHandler:             userHandler,
 		EssayHandler:            essayHandler,

@@ -424,6 +424,39 @@ definitions:
         description: UpdatedAt holds the value of the "updated_at" field.
         type: string
     type: object
+  ent.MailTemplate:
+    properties:
+      code:
+        description: 模板编码
+        type: string
+      content:
+        description: 邮件正文，支持 {变量} 占位符与 HTML
+        type: string
+      content_type:
+        description: 内容类型：html / text
+        type: string
+      created_at:
+        description: CreatedAt holds the value of the "created_at" field.
+        type: string
+      enabled:
+        description: 是否启用
+        type: boolean
+      id:
+        description: ID of the ent.
+        type: integer
+      name:
+        description: 模板名称
+        type: string
+      remark:
+        description: 备注
+        type: string
+      subject:
+        description: 邮件主题，支持 {变量} 占位符
+        type: string
+      updated_at:
+        description: UpdatedAt holds the value of the "updated_at" field.
+        type: string
+    type: object
   ent.Member:
     properties:
       active:
@@ -872,6 +905,39 @@ definitions:
         items:
           $ref: '#/definitions/ent.User'
         type: array
+    type: object
+  ent.SmsTemplate:
+    properties:
+      code:
+        description: 模板编码
+        type: string
+      content:
+        description: 模板内容，支持 {变量} 占位符
+        type: string
+      created_at:
+        description: CreatedAt holds the value of the "created_at" field.
+        type: string
+      enabled:
+        description: 是否启用
+        type: boolean
+      id:
+        description: ID of the ent.
+        type: integer
+      name:
+        description: 模板名称
+        type: string
+      provider_template_id:
+        description: 服务商模板ID
+        type: string
+      remark:
+        description: 备注
+        type: string
+      sign_name:
+        description: 短信签名
+        type: string
+      updated_at:
+        description: UpdatedAt holds the value of the "updated_at" field.
+        type: string
     type: object
   ent.StorageStrategy:
     properties:
@@ -2029,6 +2095,45 @@ definitions:
     - email
     - password
     type: object
+  model.MailTemplateCreateReq:
+    properties:
+      code:
+        type: string
+      content:
+        type: string
+      content_type:
+        type: string
+      enabled:
+        type: boolean
+      name:
+        type: string
+      remark:
+        type: string
+      subject:
+        type: string
+    required:
+    - code
+    - content
+    - name
+    - subject
+    type: object
+  model.MailTemplateUpdateReq:
+    properties:
+      code:
+        type: string
+      content:
+        type: string
+      content_type:
+        type: string
+      enabled:
+        type: boolean
+      name:
+        type: string
+      remark:
+        type: string
+      subject:
+        type: string
+    type: object
   model.MemberCreateReq:
     properties:
       expire_time:
@@ -2303,6 +2408,15 @@ definitions:
       total:
         type: integer
     type: object
+  model.PageResult-ent_MailTemplate:
+    properties:
+      records:
+        items:
+          $ref: '#/definitions/ent.MailTemplate'
+        type: array
+      total:
+        type: integer
+    type: object
   model.PageResult-ent_Menu:
     properties:
       records:
@@ -2335,6 +2449,15 @@ definitions:
       records:
         items:
           $ref: '#/definitions/ent.Role'
+        type: array
+      total:
+        type: integer
+    type: object
+  model.PageResult-ent_SmsTemplate:
+    properties:
+      records:
+        items:
+          $ref: '#/definitions/ent.SmsTemplate'
         type: array
       total:
         type: integer
@@ -3503,6 +3626,20 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.SendTestMailReq:
+    properties:
+      content:
+        description: 正文（可选）
+        type: string
+      subject:
+        description: 主题（可选）
+        type: string
+      to:
+        description: 收件人邮箱
+        type: string
+    required:
+    - to
+    type: object
   model.SettingField:
     properties:
       default: {}
@@ -3555,6 +3692,44 @@ definitions:
         type: integer
       totalWordCount:
         type: integer
+    type: object
+  model.SmsTemplateCreateReq:
+    properties:
+      code:
+        type: string
+      content:
+        type: string
+      enabled:
+        type: boolean
+      name:
+        type: string
+      provider_template_id:
+        type: string
+      remark:
+        type: string
+      sign_name:
+        type: string
+    required:
+    - code
+    - content
+    - name
+    type: object
+  model.SmsTemplateUpdateReq:
+    properties:
+      code:
+        type: string
+      content:
+        type: string
+      enabled:
+        type: boolean
+      name:
+        type: string
+      provider_template_id:
+        type: string
+      remark:
+        type: string
+      sign_name:
+        type: string
     type: object
   model.StorageStrategyCreateReq:
     properties:
@@ -7254,6 +7429,238 @@ paths:
       summary: 验证授权
       tags:
       - 公开接口/授权
+  /api/v1/mail-template/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建新的邮件模板，模板编码全局唯一
+      parameters:
+      - description: 邮件模板信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.MailTemplateCreateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/ent.MailTemplate'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 创建邮件模板
+      tags:
+      - 后台管理接口/邮件模板
+  /api/v1/mail-template/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定ID的邮件模板
+      parameters:
+      - description: 邮件模板ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.HttpSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 删除邮件模板
+      tags:
+      - 后台管理接口/邮件模板
+  /api/v1/mail-template/page:
+    get:
+      consumes:
+      - application/json
+      description: 分页查询邮件模板列表，支持按模板名称、模板编码模糊搜索
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      - description: 模板名称（模糊匹配）
+        in: query
+        name: name
+        type: string
+      - description: 模板编码（模糊匹配）
+        in: query
+        name: code
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.PageResult-ent_MailTemplate'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 分页查询邮件模板
+      tags:
+      - 后台管理接口/邮件模板
+  /api/v1/mail-template/query/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 查询指定ID的邮件模板详情
+      parameters:
+      - description: 邮件模板ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/ent.MailTemplate'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 查询邮件模板
+      tags:
+      - 后台管理接口/邮件模板
+  /api/v1/mail-template/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: 更新指定ID的邮件模板信息
+      parameters:
+      - description: 邮件模板ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 邮件模板信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.MailTemplateUpdateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/ent.MailTemplate'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 更新邮件模板
+      tags:
+      - 后台管理接口/邮件模板
+  /api/v1/mail/test:
+    post:
+      consumes:
+      - application/json
+      description: 使用当前保存的 SMTP 配置发送一封测试邮件，用于验证邮件服务配置是否正确
+      parameters:
+      - description: 测试邮件请求
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/model.SendTestMailReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 发送测试邮件
+      tags:
+      - 后台管理接口/邮件
   /api/v1/member-level/create:
     post:
       consumes:
@@ -11274,6 +11681,203 @@ paths:
       summary: 保存系统设置
       tags:
       - 后台管理接口/设置
+  /api/v1/sms-template/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建新的短信模板，模板编码全局唯一
+      parameters:
+      - description: 短信模板信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.SmsTemplateCreateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/ent.SmsTemplate'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 创建短信模板
+      tags:
+      - 后台管理接口/短信模板
+  /api/v1/sms-template/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定ID的短信模板
+      parameters:
+      - description: 短信模板ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.HttpSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 删除短信模板
+      tags:
+      - 后台管理接口/短信模板
+  /api/v1/sms-template/page:
+    get:
+      consumes:
+      - application/json
+      description: 分页查询短信模板列表，支持按模板名称、模板编码模糊搜索
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: size
+        type: integer
+      - description: 模板名称（模糊匹配）
+        in: query
+        name: name
+        type: string
+      - description: 模板编码（模糊匹配）
+        in: query
+        name: code
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.PageResult-ent_SmsTemplate'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 分页查询短信模板
+      tags:
+      - 后台管理接口/短信模板
+  /api/v1/sms-template/query/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 查询指定ID的短信模板详情
+      parameters:
+      - description: 短信模板ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/ent.SmsTemplate'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 查询短信模板
+      tags:
+      - 后台管理接口/短信模板
+  /api/v1/sms-template/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: 更新指定ID的短信模板信息
+      parameters:
+      - description: 短信模板ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 短信模板信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.SmsTemplateUpdateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.HttpSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/ent.SmsTemplate'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.HttpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HttpError'
+      summary: 更新短信模板
+      tags:
+      - 后台管理接口/短信模板
   /api/v1/storage-strategy/create:
     post:
       consumes:

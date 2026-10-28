@@ -25,10 +25,13 @@ import (
 	tag_service "github.com/shuTwT/hoshikuzu/internal/services/content/tag"
 	file_service "github.com/shuTwT/hoshikuzu/internal/services/infra/file"
 	license_service "github.com/shuTwT/hoshikuzu/internal/services/infra/license"
+	mail_service "github.com/shuTwT/hoshikuzu/internal/services/infra/mail"
+	mailtemplate_service "github.com/shuTwT/hoshikuzu/internal/services/infra/mailtemplate"
 	migration_service "github.com/shuTwT/hoshikuzu/internal/services/infra/migration"
 	permission_service "github.com/shuTwT/hoshikuzu/internal/services/infra/permission"
 	plugin_service "github.com/shuTwT/hoshikuzu/internal/services/infra/plugin"
 	schedulejob_service "github.com/shuTwT/hoshikuzu/internal/services/infra/schedulejob"
+	smstemplate_service "github.com/shuTwT/hoshikuzu/internal/services/infra/smstemplate"
 	storagestrategy_service "github.com/shuTwT/hoshikuzu/internal/services/infra/storagestrategy"
 	theme_service "github.com/shuTwT/hoshikuzu/internal/services/infra/theme"
 	visit_service "github.com/shuTwT/hoshikuzu/internal/services/infra/visit"
@@ -124,6 +127,8 @@ type ServiceMap struct {
 	FlinkApplicationService flinkapplication_service.FlinkApplicationService
 	LicenseService          license_service.LicenseService
 	FriendCircleService     friend_circle_service.FriendCircleService
+	MailService             mail_service.MailService
+	MailTemplateService     mailtemplate_service.MailTemplateService
 	MenuService             menu_service.MenuService
 	MemberLevelService      memberlevel_service.MemberLevelService
 	MemberService           member_service.MemberService
@@ -137,6 +142,7 @@ type ServiceMap struct {
 	RoleService             role_service.RoleService
 	ScheduleJobService      schedulejob_service.ScheduleJobService
 	SettingService          setting_service.SettingService
+	SmsTemplateService      smstemplate_service.SmsTemplateService
 	StorageStrategyService  storagestrategy_service.StorageStrategyService
 	TagService              tag_service.TagService
 	ThemeService            theme_service.ThemeService
@@ -159,9 +165,11 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 	flinkApplicationService := flinkapplication_service.NewFlinkApplicationServiceImpl(db)
 	friendCircleService := friend_circle_service.NewFriendCircleServiceImpl(db)
 	menuService := menu_service.NewMenuServiceImpl(db)
+	settingService := setting_service.NewSettingServiceImpl(db)
+	mailService := mail_service.NewMailServiceImpl(settingService)
+	mailTemplateService := mailtemplate_service.NewMailTemplateServiceImpl(db)
 	memberLevelService := memberlevel_service.NewMemberLevelServiceImpl(db)
 	memberService := member_service.NewMemberServiceImpl(db)
-	settingService := setting_service.NewSettingServiceImpl(db)
 	payOderService := payorder_service.NewPayOrderServiceImpl(db, settingService)
 	permissionService := permission_service.NewPermissionServiceImpl(db)
 	pluginManager := plugin_infra.NewPluginManager(db)
@@ -180,6 +188,7 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 	couponService := coupon_service.NewCouponServiceImpl(db)
 	couponUsageService := couponusage_service.NewCouponUsageServiceImpl(db)
 	storageStrategyService := storagestrategy_service.NewStorageStrategyServiceImpl(db)
+	smsTemplateService := smstemplate_service.NewSmsTemplateServiceImpl(db)
 	themeService := theme_service.NewThemeServiceImpl(db, settingService)
 	tagService := tag_service.NewTagServiceImpl(db)
 	userService := user_service.NewUserServiceImpl(db)
@@ -207,6 +216,8 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 		FlinkApplicationService: flinkApplicationService,
 		FriendCircleService:     friendCircleService,
 		LicenseService:          licenseService,
+		MailService:             mailService,
+		MailTemplateService:     mailTemplateService,
 		MenuService:             menuService,
 		MemberLevelService:      memberLevelService,
 		MemberService:           memberService,
@@ -220,6 +231,7 @@ func InitializeServices(assetsRes embed.FS, db *ent.Client, scheduleManager *man
 		RoleService:             roleService,
 		ScheduleJobService:      scheduleJobService,
 		SettingService:          settingService,
+		SmsTemplateService:      smsTemplateService,
 		StorageStrategyService:  storageStrategyService,
 		TagService:              tagService,
 		ThemeService:            themeService,

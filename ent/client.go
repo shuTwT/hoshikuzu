@@ -32,6 +32,7 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/flinkgroup"
 	"github.com/shuTwT/hoshikuzu/ent/friendcirclerecord"
 	"github.com/shuTwT/hoshikuzu/ent/license"
+	"github.com/shuTwT/hoshikuzu/ent/mailtemplate"
 	"github.com/shuTwT/hoshikuzu/ent/member"
 	"github.com/shuTwT/hoshikuzu/ent/memberlevel"
 	"github.com/shuTwT/hoshikuzu/ent/menu"
@@ -49,6 +50,7 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/role"
 	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
 	"github.com/shuTwT/hoshikuzu/ent/setting"
+	"github.com/shuTwT/hoshikuzu/ent/smstemplate"
 	"github.com/shuTwT/hoshikuzu/ent/storagestrategy"
 	"github.com/shuTwT/hoshikuzu/ent/tag"
 	"github.com/shuTwT/hoshikuzu/ent/theme"
@@ -97,6 +99,8 @@ type Client struct {
 	FriendCircleRecord *FriendCircleRecordClient
 	// License is the client for interacting with the License builders.
 	License *LicenseClient
+	// MailTemplate is the client for interacting with the MailTemplate builders.
+	MailTemplate *MailTemplateClient
 	// Member is the client for interacting with the Member builders.
 	Member *MemberClient
 	// MemberLevel is the client for interacting with the MemberLevel builders.
@@ -131,6 +135,8 @@ type Client struct {
 	ScheduleJob *ScheduleJobClient
 	// Setting is the client for interacting with the Setting builders.
 	Setting *SettingClient
+	// SmsTemplate is the client for interacting with the SmsTemplate builders.
+	SmsTemplate *SmsTemplateClient
 	// StorageStrategy is the client for interacting with the StorageStrategy builders.
 	StorageStrategy *StorageStrategyClient
 	// Tag is the client for interacting with the Tag builders.
@@ -173,6 +179,7 @@ func (c *Client) init() {
 	c.File = NewFileClient(c.config)
 	c.FriendCircleRecord = NewFriendCircleRecordClient(c.config)
 	c.License = NewLicenseClient(c.config)
+	c.MailTemplate = NewMailTemplateClient(c.config)
 	c.Member = NewMemberClient(c.config)
 	c.MemberLevel = NewMemberLevelClient(c.config)
 	c.Menu = NewMenuClient(c.config)
@@ -190,6 +197,7 @@ func (c *Client) init() {
 	c.Role = NewRoleClient(c.config)
 	c.ScheduleJob = NewScheduleJobClient(c.config)
 	c.Setting = NewSettingClient(c.config)
+	c.SmsTemplate = NewSmsTemplateClient(c.config)
 	c.StorageStrategy = NewStorageStrategyClient(c.config)
 	c.Tag = NewTagClient(c.config)
 	c.Theme = NewThemeClient(c.config)
@@ -306,6 +314,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		File:                NewFileClient(cfg),
 		FriendCircleRecord:  NewFriendCircleRecordClient(cfg),
 		License:             NewLicenseClient(cfg),
+		MailTemplate:        NewMailTemplateClient(cfg),
 		Member:              NewMemberClient(cfg),
 		MemberLevel:         NewMemberLevelClient(cfg),
 		Menu:                NewMenuClient(cfg),
@@ -323,6 +332,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Role:                NewRoleClient(cfg),
 		ScheduleJob:         NewScheduleJobClient(cfg),
 		Setting:             NewSettingClient(cfg),
+		SmsTemplate:         NewSmsTemplateClient(cfg),
 		StorageStrategy:     NewStorageStrategyClient(cfg),
 		Tag:                 NewTagClient(cfg),
 		Theme:               NewThemeClient(cfg),
@@ -366,6 +376,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		File:                NewFileClient(cfg),
 		FriendCircleRecord:  NewFriendCircleRecordClient(cfg),
 		License:             NewLicenseClient(cfg),
+		MailTemplate:        NewMailTemplateClient(cfg),
 		Member:              NewMemberClient(cfg),
 		MemberLevel:         NewMemberLevelClient(cfg),
 		Menu:                NewMenuClient(cfg),
@@ -383,6 +394,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Role:                NewRoleClient(cfg),
 		ScheduleJob:         NewScheduleJobClient(cfg),
 		Setting:             NewSettingClient(cfg),
+		SmsTemplate:         NewSmsTemplateClient(cfg),
 		StorageStrategy:     NewStorageStrategyClient(cfg),
 		Tag:                 NewTagClient(cfg),
 		Theme:               NewThemeClient(cfg),
@@ -422,11 +434,11 @@ func (c *Client) Use(hooks ...Hook) {
 		c.AIChatMessage, c.AIChatSession, c.AIModel, c.AIProvider, c.Album,
 		c.AlbumPhoto, c.Category, c.Comment, c.Coupon, c.CouponUsage, c.Essay, c.FLink,
 		c.FLinkApplication, c.FLinkGroup, c.File, c.FriendCircleRecord, c.License,
-		c.Member, c.MemberLevel, c.Menu, c.Notification, c.Oauth2AccessToken,
-		c.Oauth2Code, c.Oauth2RefreshToken, c.PayOrder, c.PersonalAccessToken,
-		c.Plugin, c.Post, c.PostPurchase, c.Product, c.RefreshToken, c.Role,
-		c.ScheduleJob, c.Setting, c.StorageStrategy, c.Tag, c.Theme, c.User,
-		c.VisitLog, c.Wallet, c.WebHook,
+		c.MailTemplate, c.Member, c.MemberLevel, c.Menu, c.Notification,
+		c.Oauth2AccessToken, c.Oauth2Code, c.Oauth2RefreshToken, c.PayOrder,
+		c.PersonalAccessToken, c.Plugin, c.Post, c.PostPurchase, c.Product,
+		c.RefreshToken, c.Role, c.ScheduleJob, c.Setting, c.SmsTemplate,
+		c.StorageStrategy, c.Tag, c.Theme, c.User, c.VisitLog, c.Wallet, c.WebHook,
 	} {
 		n.Use(hooks...)
 	}
@@ -439,11 +451,11 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.AIChatMessage, c.AIChatSession, c.AIModel, c.AIProvider, c.Album,
 		c.AlbumPhoto, c.Category, c.Comment, c.Coupon, c.CouponUsage, c.Essay, c.FLink,
 		c.FLinkApplication, c.FLinkGroup, c.File, c.FriendCircleRecord, c.License,
-		c.Member, c.MemberLevel, c.Menu, c.Notification, c.Oauth2AccessToken,
-		c.Oauth2Code, c.Oauth2RefreshToken, c.PayOrder, c.PersonalAccessToken,
-		c.Plugin, c.Post, c.PostPurchase, c.Product, c.RefreshToken, c.Role,
-		c.ScheduleJob, c.Setting, c.StorageStrategy, c.Tag, c.Theme, c.User,
-		c.VisitLog, c.Wallet, c.WebHook,
+		c.MailTemplate, c.Member, c.MemberLevel, c.Menu, c.Notification,
+		c.Oauth2AccessToken, c.Oauth2Code, c.Oauth2RefreshToken, c.PayOrder,
+		c.PersonalAccessToken, c.Plugin, c.Post, c.PostPurchase, c.Product,
+		c.RefreshToken, c.Role, c.ScheduleJob, c.Setting, c.SmsTemplate,
+		c.StorageStrategy, c.Tag, c.Theme, c.User, c.VisitLog, c.Wallet, c.WebHook,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -486,6 +498,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.FriendCircleRecord.mutate(ctx, m)
 	case *LicenseMutation:
 		return c.License.mutate(ctx, m)
+	case *MailTemplateMutation:
+		return c.MailTemplate.mutate(ctx, m)
 	case *MemberMutation:
 		return c.Member.mutate(ctx, m)
 	case *MemberLevelMutation:
@@ -520,6 +534,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.ScheduleJob.mutate(ctx, m)
 	case *SettingMutation:
 		return c.Setting.mutate(ctx, m)
+	case *SmsTemplateMutation:
+		return c.SmsTemplate.mutate(ctx, m)
 	case *StorageStrategyMutation:
 		return c.StorageStrategy.mutate(ctx, m)
 	case *TagMutation:
@@ -2960,6 +2976,139 @@ func (c *LicenseClient) mutate(ctx context.Context, m *LicenseMutation) (Value, 
 	}
 }
 
+// MailTemplateClient is a client for the MailTemplate schema.
+type MailTemplateClient struct {
+	config
+}
+
+// NewMailTemplateClient returns a client for the MailTemplate from the given config.
+func NewMailTemplateClient(c config) *MailTemplateClient {
+	return &MailTemplateClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `mailtemplate.Hooks(f(g(h())))`.
+func (c *MailTemplateClient) Use(hooks ...Hook) {
+	c.hooks.MailTemplate = append(c.hooks.MailTemplate, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `mailtemplate.Intercept(f(g(h())))`.
+func (c *MailTemplateClient) Intercept(interceptors ...Interceptor) {
+	c.inters.MailTemplate = append(c.inters.MailTemplate, interceptors...)
+}
+
+// Create returns a builder for creating a MailTemplate entity.
+func (c *MailTemplateClient) Create() *MailTemplateCreate {
+	mutation := newMailTemplateMutation(c.config, OpCreate)
+	return &MailTemplateCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of MailTemplate entities.
+func (c *MailTemplateClient) CreateBulk(builders ...*MailTemplateCreate) *MailTemplateCreateBulk {
+	return &MailTemplateCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *MailTemplateClient) MapCreateBulk(slice any, setFunc func(*MailTemplateCreate, int)) *MailTemplateCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &MailTemplateCreateBulk{err: fmt.Errorf("calling to MailTemplateClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*MailTemplateCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &MailTemplateCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for MailTemplate.
+func (c *MailTemplateClient) Update() *MailTemplateUpdate {
+	mutation := newMailTemplateMutation(c.config, OpUpdate)
+	return &MailTemplateUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *MailTemplateClient) UpdateOne(_m *MailTemplate) *MailTemplateUpdateOne {
+	mutation := newMailTemplateMutation(c.config, OpUpdateOne, withMailTemplate(_m))
+	return &MailTemplateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *MailTemplateClient) UpdateOneID(id int) *MailTemplateUpdateOne {
+	mutation := newMailTemplateMutation(c.config, OpUpdateOne, withMailTemplateID(id))
+	return &MailTemplateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for MailTemplate.
+func (c *MailTemplateClient) Delete() *MailTemplateDelete {
+	mutation := newMailTemplateMutation(c.config, OpDelete)
+	return &MailTemplateDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *MailTemplateClient) DeleteOne(_m *MailTemplate) *MailTemplateDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *MailTemplateClient) DeleteOneID(id int) *MailTemplateDeleteOne {
+	builder := c.Delete().Where(mailtemplate.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &MailTemplateDeleteOne{builder}
+}
+
+// Query returns a query builder for MailTemplate.
+func (c *MailTemplateClient) Query() *MailTemplateQuery {
+	return &MailTemplateQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeMailTemplate},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a MailTemplate entity by its id.
+func (c *MailTemplateClient) Get(ctx context.Context, id int) (*MailTemplate, error) {
+	return c.Query().Where(mailtemplate.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *MailTemplateClient) GetX(ctx context.Context, id int) *MailTemplate {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *MailTemplateClient) Hooks() []Hook {
+	return c.hooks.MailTemplate
+}
+
+// Interceptors returns the client interceptors.
+func (c *MailTemplateClient) Interceptors() []Interceptor {
+	return c.inters.MailTemplate
+}
+
+func (c *MailTemplateClient) mutate(ctx context.Context, m *MailTemplateMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&MailTemplateCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&MailTemplateUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&MailTemplateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&MailTemplateDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown MailTemplate mutation op: %q", m.Op())
+	}
+}
+
 // MemberClient is a client for the Member schema.
 type MemberClient struct {
 	config
@@ -5397,6 +5546,139 @@ func (c *SettingClient) mutate(ctx context.Context, m *SettingMutation) (Value, 
 	}
 }
 
+// SmsTemplateClient is a client for the SmsTemplate schema.
+type SmsTemplateClient struct {
+	config
+}
+
+// NewSmsTemplateClient returns a client for the SmsTemplate from the given config.
+func NewSmsTemplateClient(c config) *SmsTemplateClient {
+	return &SmsTemplateClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `smstemplate.Hooks(f(g(h())))`.
+func (c *SmsTemplateClient) Use(hooks ...Hook) {
+	c.hooks.SmsTemplate = append(c.hooks.SmsTemplate, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `smstemplate.Intercept(f(g(h())))`.
+func (c *SmsTemplateClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SmsTemplate = append(c.inters.SmsTemplate, interceptors...)
+}
+
+// Create returns a builder for creating a SmsTemplate entity.
+func (c *SmsTemplateClient) Create() *SmsTemplateCreate {
+	mutation := newSmsTemplateMutation(c.config, OpCreate)
+	return &SmsTemplateCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of SmsTemplate entities.
+func (c *SmsTemplateClient) CreateBulk(builders ...*SmsTemplateCreate) *SmsTemplateCreateBulk {
+	return &SmsTemplateCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SmsTemplateClient) MapCreateBulk(slice any, setFunc func(*SmsTemplateCreate, int)) *SmsTemplateCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SmsTemplateCreateBulk{err: fmt.Errorf("calling to SmsTemplateClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SmsTemplateCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SmsTemplateCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for SmsTemplate.
+func (c *SmsTemplateClient) Update() *SmsTemplateUpdate {
+	mutation := newSmsTemplateMutation(c.config, OpUpdate)
+	return &SmsTemplateUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SmsTemplateClient) UpdateOne(_m *SmsTemplate) *SmsTemplateUpdateOne {
+	mutation := newSmsTemplateMutation(c.config, OpUpdateOne, withSmsTemplate(_m))
+	return &SmsTemplateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SmsTemplateClient) UpdateOneID(id int) *SmsTemplateUpdateOne {
+	mutation := newSmsTemplateMutation(c.config, OpUpdateOne, withSmsTemplateID(id))
+	return &SmsTemplateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for SmsTemplate.
+func (c *SmsTemplateClient) Delete() *SmsTemplateDelete {
+	mutation := newSmsTemplateMutation(c.config, OpDelete)
+	return &SmsTemplateDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SmsTemplateClient) DeleteOne(_m *SmsTemplate) *SmsTemplateDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SmsTemplateClient) DeleteOneID(id int) *SmsTemplateDeleteOne {
+	builder := c.Delete().Where(smstemplate.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SmsTemplateDeleteOne{builder}
+}
+
+// Query returns a query builder for SmsTemplate.
+func (c *SmsTemplateClient) Query() *SmsTemplateQuery {
+	return &SmsTemplateQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSmsTemplate},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a SmsTemplate entity by its id.
+func (c *SmsTemplateClient) Get(ctx context.Context, id int) (*SmsTemplate, error) {
+	return c.Query().Where(smstemplate.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SmsTemplateClient) GetX(ctx context.Context, id int) *SmsTemplate {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *SmsTemplateClient) Hooks() []Hook {
+	return c.hooks.SmsTemplate
+}
+
+// Interceptors returns the client interceptors.
+func (c *SmsTemplateClient) Interceptors() []Interceptor {
+	return c.inters.SmsTemplate
+}
+
+func (c *SmsTemplateClient) mutate(ctx context.Context, m *SmsTemplateMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SmsTemplateCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SmsTemplateUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SmsTemplateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SmsTemplateDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown SmsTemplate mutation op: %q", m.Op())
+	}
+}
+
 // StorageStrategyClient is a client for the StorageStrategy schema.
 type StorageStrategyClient struct {
 	config
@@ -6445,19 +6727,19 @@ type (
 	hooks struct {
 		AIChatMessage, AIChatSession, AIModel, AIProvider, Album, AlbumPhoto, Category,
 		Comment, Coupon, CouponUsage, Essay, FLink, FLinkApplication, FLinkGroup, File,
-		FriendCircleRecord, License, Member, MemberLevel, Menu, Notification,
-		Oauth2AccessToken, Oauth2Code, Oauth2RefreshToken, PayOrder,
+		FriendCircleRecord, License, MailTemplate, Member, MemberLevel, Menu,
+		Notification, Oauth2AccessToken, Oauth2Code, Oauth2RefreshToken, PayOrder,
 		PersonalAccessToken, Plugin, Post, PostPurchase, Product, RefreshToken, Role,
-		ScheduleJob, Setting, StorageStrategy, Tag, Theme, User, VisitLog, Wallet,
-		WebHook []ent.Hook
+		ScheduleJob, Setting, SmsTemplate, StorageStrategy, Tag, Theme, User, VisitLog,
+		Wallet, WebHook []ent.Hook
 	}
 	inters struct {
 		AIChatMessage, AIChatSession, AIModel, AIProvider, Album, AlbumPhoto, Category,
 		Comment, Coupon, CouponUsage, Essay, FLink, FLinkApplication, FLinkGroup, File,
-		FriendCircleRecord, License, Member, MemberLevel, Menu, Notification,
-		Oauth2AccessToken, Oauth2Code, Oauth2RefreshToken, PayOrder,
+		FriendCircleRecord, License, MailTemplate, Member, MemberLevel, Menu,
+		Notification, Oauth2AccessToken, Oauth2Code, Oauth2RefreshToken, PayOrder,
 		PersonalAccessToken, Plugin, Post, PostPurchase, Product, RefreshToken, Role,
-		ScheduleJob, Setting, StorageStrategy, Tag, Theme, User, VisitLog, Wallet,
-		WebHook []ent.Interceptor
+		ScheduleJob, Setting, SmsTemplate, StorageStrategy, Tag, Theme, User, VisitLog,
+		Wallet, WebHook []ent.Interceptor
 	}
 )

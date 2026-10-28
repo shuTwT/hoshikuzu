@@ -22,6 +22,7 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/flinkgroup"
 	"github.com/shuTwT/hoshikuzu/ent/friendcirclerecord"
 	"github.com/shuTwT/hoshikuzu/ent/license"
+	"github.com/shuTwT/hoshikuzu/ent/mailtemplate"
 	"github.com/shuTwT/hoshikuzu/ent/member"
 	"github.com/shuTwT/hoshikuzu/ent/memberlevel"
 	"github.com/shuTwT/hoshikuzu/ent/menu"
@@ -40,6 +41,7 @@ import (
 	"github.com/shuTwT/hoshikuzu/ent/schedulejob"
 	"github.com/shuTwT/hoshikuzu/ent/schema"
 	"github.com/shuTwT/hoshikuzu/ent/setting"
+	"github.com/shuTwT/hoshikuzu/ent/smstemplate"
 	"github.com/shuTwT/hoshikuzu/ent/storagestrategy"
 	"github.com/shuTwT/hoshikuzu/ent/tag"
 	"github.com/shuTwT/hoshikuzu/ent/theme"
@@ -830,6 +832,107 @@ func init() {
 	licenseDescStatus := licenseFields[4].Descriptor()
 	// license.DefaultStatus holds the default value on creation for the status field.
 	license.DefaultStatus = licenseDescStatus.Default.(int)
+	mailtemplateMixin := schema.MailTemplate{}.Mixin()
+	mailtemplateMixinFields0 := mailtemplateMixin[0].Fields()
+	_ = mailtemplateMixinFields0
+	mailtemplateFields := schema.MailTemplate{}.Fields()
+	_ = mailtemplateFields
+	// mailtemplateDescCreatedAt is the schema descriptor for created_at field.
+	mailtemplateDescCreatedAt := mailtemplateMixinFields0[1].Descriptor()
+	// mailtemplate.DefaultCreatedAt holds the default value on creation for the created_at field.
+	mailtemplate.DefaultCreatedAt = mailtemplateDescCreatedAt.Default.(func() time.Time)
+	// mailtemplateDescUpdatedAt is the schema descriptor for updated_at field.
+	mailtemplateDescUpdatedAt := mailtemplateMixinFields0[2].Descriptor()
+	// mailtemplate.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	mailtemplate.DefaultUpdatedAt = mailtemplateDescUpdatedAt.Default.(func() time.Time)
+	// mailtemplate.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	mailtemplate.UpdateDefaultUpdatedAt = mailtemplateDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// mailtemplateDescName is the schema descriptor for name field.
+	mailtemplateDescName := mailtemplateFields[0].Descriptor()
+	// mailtemplate.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	mailtemplate.NameValidator = func() func(string) error {
+		validators := mailtemplateDescName.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(name string) error {
+			for _, fn := range fns {
+				if err := fn(name); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// mailtemplateDescCode is the schema descriptor for code field.
+	mailtemplateDescCode := mailtemplateFields[1].Descriptor()
+	// mailtemplate.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	mailtemplate.CodeValidator = func() func(string) error {
+		validators := mailtemplateDescCode.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(code string) error {
+			for _, fn := range fns {
+				if err := fn(code); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// mailtemplateDescSubject is the schema descriptor for subject field.
+	mailtemplateDescSubject := mailtemplateFields[2].Descriptor()
+	// mailtemplate.SubjectValidator is a validator for the "subject" field. It is called by the builders before save.
+	mailtemplate.SubjectValidator = func() func(string) error {
+		validators := mailtemplateDescSubject.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(subject string) error {
+			for _, fn := range fns {
+				if err := fn(subject); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// mailtemplateDescContent is the schema descriptor for content field.
+	mailtemplateDescContent := mailtemplateFields[3].Descriptor()
+	// mailtemplate.ContentValidator is a validator for the "content" field. It is called by the builders before save.
+	mailtemplate.ContentValidator = func() func(string) error {
+		validators := mailtemplateDescContent.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(content string) error {
+			for _, fn := range fns {
+				if err := fn(content); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// mailtemplateDescContentType is the schema descriptor for content_type field.
+	mailtemplateDescContentType := mailtemplateFields[4].Descriptor()
+	// mailtemplate.DefaultContentType holds the default value on creation for the content_type field.
+	mailtemplate.DefaultContentType = mailtemplateDescContentType.Default.(string)
+	// mailtemplate.ContentTypeValidator is a validator for the "content_type" field. It is called by the builders before save.
+	mailtemplate.ContentTypeValidator = mailtemplateDescContentType.Validators[0].(func(string) error)
+	// mailtemplateDescEnabled is the schema descriptor for enabled field.
+	mailtemplateDescEnabled := mailtemplateFields[5].Descriptor()
+	// mailtemplate.DefaultEnabled holds the default value on creation for the enabled field.
+	mailtemplate.DefaultEnabled = mailtemplateDescEnabled.Default.(bool)
+	// mailtemplateDescRemark is the schema descriptor for remark field.
+	mailtemplateDescRemark := mailtemplateFields[6].Descriptor()
+	// mailtemplate.RemarkValidator is a validator for the "remark" field. It is called by the builders before save.
+	mailtemplate.RemarkValidator = mailtemplateDescRemark.Validators[0].(func(string) error)
 	memberMixin := schema.Member{}.Mixin()
 	memberMixinFields0 := memberMixin[0].Fields()
 	_ = memberMixinFields0
@@ -1825,6 +1928,91 @@ func init() {
 	settingDescComment := settingFields[2].Descriptor()
 	// setting.CommentValidator is a validator for the "comment" field. It is called by the builders before save.
 	setting.CommentValidator = settingDescComment.Validators[0].(func(string) error)
+	smstemplateMixin := schema.SmsTemplate{}.Mixin()
+	smstemplateMixinFields0 := smstemplateMixin[0].Fields()
+	_ = smstemplateMixinFields0
+	smstemplateFields := schema.SmsTemplate{}.Fields()
+	_ = smstemplateFields
+	// smstemplateDescCreatedAt is the schema descriptor for created_at field.
+	smstemplateDescCreatedAt := smstemplateMixinFields0[1].Descriptor()
+	// smstemplate.DefaultCreatedAt holds the default value on creation for the created_at field.
+	smstemplate.DefaultCreatedAt = smstemplateDescCreatedAt.Default.(func() time.Time)
+	// smstemplateDescUpdatedAt is the schema descriptor for updated_at field.
+	smstemplateDescUpdatedAt := smstemplateMixinFields0[2].Descriptor()
+	// smstemplate.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	smstemplate.DefaultUpdatedAt = smstemplateDescUpdatedAt.Default.(func() time.Time)
+	// smstemplate.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	smstemplate.UpdateDefaultUpdatedAt = smstemplateDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// smstemplateDescName is the schema descriptor for name field.
+	smstemplateDescName := smstemplateFields[0].Descriptor()
+	// smstemplate.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	smstemplate.NameValidator = func() func(string) error {
+		validators := smstemplateDescName.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(name string) error {
+			for _, fn := range fns {
+				if err := fn(name); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// smstemplateDescCode is the schema descriptor for code field.
+	smstemplateDescCode := smstemplateFields[1].Descriptor()
+	// smstemplate.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	smstemplate.CodeValidator = func() func(string) error {
+		validators := smstemplateDescCode.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(code string) error {
+			for _, fn := range fns {
+				if err := fn(code); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// smstemplateDescSignName is the schema descriptor for sign_name field.
+	smstemplateDescSignName := smstemplateFields[2].Descriptor()
+	// smstemplate.SignNameValidator is a validator for the "sign_name" field. It is called by the builders before save.
+	smstemplate.SignNameValidator = smstemplateDescSignName.Validators[0].(func(string) error)
+	// smstemplateDescProviderTemplateID is the schema descriptor for provider_template_id field.
+	smstemplateDescProviderTemplateID := smstemplateFields[3].Descriptor()
+	// smstemplate.ProviderTemplateIDValidator is a validator for the "provider_template_id" field. It is called by the builders before save.
+	smstemplate.ProviderTemplateIDValidator = smstemplateDescProviderTemplateID.Validators[0].(func(string) error)
+	// smstemplateDescContent is the schema descriptor for content field.
+	smstemplateDescContent := smstemplateFields[4].Descriptor()
+	// smstemplate.ContentValidator is a validator for the "content" field. It is called by the builders before save.
+	smstemplate.ContentValidator = func() func(string) error {
+		validators := smstemplateDescContent.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(content string) error {
+			for _, fn := range fns {
+				if err := fn(content); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// smstemplateDescEnabled is the schema descriptor for enabled field.
+	smstemplateDescEnabled := smstemplateFields[5].Descriptor()
+	// smstemplate.DefaultEnabled holds the default value on creation for the enabled field.
+	smstemplate.DefaultEnabled = smstemplateDescEnabled.Default.(bool)
+	// smstemplateDescRemark is the schema descriptor for remark field.
+	smstemplateDescRemark := smstemplateFields[6].Descriptor()
+	// smstemplate.RemarkValidator is a validator for the "remark" field. It is called by the builders before save.
+	smstemplate.RemarkValidator = smstemplateDescRemark.Validators[0].(func(string) error)
 	storagestrategyMixin := schema.StorageStrategy{}.Mixin()
 	storagestrategyMixinFields0 := storagestrategyMixin[0].Fields()
 	_ = storagestrategyMixinFields0

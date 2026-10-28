@@ -178,6 +178,26 @@ func initContentRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
 
 // 注册基础设施路由
 func initInfraRouter(router fiber.Router, handlerMap handlers.HandlerMap) {
+	mailApi := router.Group("/mail")
+	{
+		mailApi.Post("/test", handlerMap.MailHandler.SendTestMail)
+	}
+	mailTemplateApi := router.Group("/mail-template")
+	{
+		mailTemplateApi.Get("/page", handlerMap.MailTemplateHandler.QueryMailTemplatePage)
+		mailTemplateApi.Get("/query/:id", handlerMap.MailTemplateHandler.QueryMailTemplate)
+		mailTemplateApi.Post("/create", handlerMap.MailTemplateHandler.CreateMailTemplate)
+		mailTemplateApi.Put("/update/:id", handlerMap.MailTemplateHandler.UpdateMailTemplate)
+		mailTemplateApi.Delete("/delete/:id", handlerMap.MailTemplateHandler.DeleteMailTemplate)
+	}
+	smsTemplateApi := router.Group("/sms-template")
+	{
+		smsTemplateApi.Get("/page", handlerMap.SmsTemplateHandler.QuerySmsTemplatePage)
+		smsTemplateApi.Get("/query/:id", handlerMap.SmsTemplateHandler.QuerySmsTemplate)
+		smsTemplateApi.Post("/create", handlerMap.SmsTemplateHandler.CreateSmsTemplate)
+		smsTemplateApi.Put("/update/:id", handlerMap.SmsTemplateHandler.UpdateSmsTemplate)
+		smsTemplateApi.Delete("/delete/:id", handlerMap.SmsTemplateHandler.DeleteSmsTemplate)
+	}
 	storageStrategyApi := router.Group("/storage-strategy")
 	{
 		storageStrategyApi.Get("/page", handlerMap.StorageStrategyHandler.ListStorageStrategyPage)

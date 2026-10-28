@@ -23,6 +23,26 @@ export default [
                 },
             },
             {
+                path: '/infra/sms-template',
+                name: 'SmsTemplateManagement',
+                component: () => import('@/views/infra/sms-template/index.vue'),
+                meta: {
+                    title: '短信模板',
+                    showLink: true,
+                    roles: ['admin', 'common'],
+                },
+            },
+            {
+                path: '/infra/mail-template',
+                name: 'MailTemplateManagement',
+                component: () => import('@/views/infra/mail-template/index.vue'),
+                meta: {
+                    title: '邮件模板',
+                    showLink: true,
+                    roles: ['admin', 'common'],
+                },
+            },
+            {
                 path: '/infra/storage-strategy',
                 name: 'StorageStrategyManagement',
                 component: () => import('@/views/infra/storage-strategy/index.vue'),
