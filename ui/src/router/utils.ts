@@ -6,6 +6,7 @@ import { apiClient, useApi } from "@/api";
 import { useStorageLocal } from "@/utils/utils";
 import { userKey, type DataInfo } from "@/utils/auth";
 import { buildHierarchyTree } from "@/utils/tree";
+import { loadPluginRoutes } from "@/plugins/pluginLoader";
 
 const modulesRoutes = import.meta.glob("/src/views/**/*.{vue,tsx}");
 
@@ -171,8 +172,11 @@ function addPathMatch() {
 
 function initRouter():Promise<Router>{
   return new Promise(resolve=>{
-    useApi(apiClient.api.v1RoutesList).then(({data})=>{
-      handleAsyncRoutes(cloneDeep(data))
+    Promise.all([
+      useApi(apiClient.api.v1RoutesList),
+      loadPluginRoutes(),
+    ]).then(([{data}, pluginRoutes])=>{
+      handleAsyncRoutes(cloneDeep(data).concat(pluginRoutes as any))
       resolve(router)
     })
   })
